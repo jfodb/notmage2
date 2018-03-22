@@ -41,9 +41,9 @@ return array (
       'default' =>
       array (
         'host' => 'mysql',
-        'dbname' => 'devdhporg',
-        'username' => 'devdhporg',
-        'password' => 'devdhporg',
+        'dbname' => 'magento',
+        'username' => 'magento_user',
+        'password' => 'magento',
         'model' => 'mysql4',
         'engine' => 'innodb',
         'initStatements' => 'SET NAMES utf8;',
