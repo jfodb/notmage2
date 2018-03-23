@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "be3a79832311e13f9e53fce3561d6ec8",
+    "content-hash": "159e11db6eef89b456bce9f3a58369ba",
     "packages": [
         {
             "name": "braintree/braintree_php",
@@ -557,6 +557,34 @@
                 }
             ],
             "description": "dotmailer integration for magento 2"
+        },
+        {
+            "name": "experius/module-donationproduct",
+            "version": "1.0.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/experius/module-donationproduct/experius-module-donationproduct-1.0.5.0.zip",
+                "reference": null,
+                "shasum": "6e0e08cac4a5e5b4a5ca2731b6585122bba01f42"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Experius\\DonationProduct\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Derrick Heesbeen",
+                    "email": "derrick@experius.nl"
+                }
+            ]
         },
         {
             "name": "justinrainbow/json-schema",
