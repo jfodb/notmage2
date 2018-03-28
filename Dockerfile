@@ -17,7 +17,6 @@ RUN apt-add-repository -y ppa:ondrej/php \
        apt-get install -qqy --force-yes --no-install-recommends \
                     php7.0-cli \
                     php7.0-common \
-                    php7.0-xdebug \
                     php7.0-fpm \
                     php7.0-mbstring \
                     php7.0-mysql \

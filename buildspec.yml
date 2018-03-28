@@ -26,12 +26,11 @@ phases:
     #commands:
       # - command
       # - command
-#artifacts:
-  #files:
-    # - location
-    # - location
-  #discard-paths: yes
-  #base-directory: location
+artifacts:
+  files:
+     - '**/*'
+  discard-paths: no
+  base-directory: mage2donations/build
 #cache:
   #paths:
     # - paths
