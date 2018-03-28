@@ -30,7 +30,7 @@ artifacts:
   files:
      - '**/*'
   discard-paths: no
-  base-directory: mage2donations/build
+  base-directory: mage2donations
 #cache:
   #paths:
     # - paths
