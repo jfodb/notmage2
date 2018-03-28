@@ -29,8 +29,7 @@ phases:
 artifacts:
   files:
      - '**/*'
-  discard-paths: no
-  base-directory: mage2donations
+  discard-paths: yes
 #cache:
   #paths:
     # - paths
