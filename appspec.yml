@@ -43,6 +43,10 @@ files:
     destination: /usr/share/nginx/html/magento/vendor
   - source: /index.php
     destination: /usr/share/nginx/html/magento/
+  - source: /composer.json
+    destination: /usr/share/nginx/html/magento/
+  - source: /composer.lock
+    destination: /usr/share/nginx/html/magento/
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files
