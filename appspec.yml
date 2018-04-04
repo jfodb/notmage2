@@ -47,6 +47,8 @@ files:
     destination: /usr/share/nginx/html/magento/
   - source: /composer.lock
     destination: /usr/share/nginx/html/magento/
+  - source: /auth.json
+    destination: /usr/share/nginx/html/magento/
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files
