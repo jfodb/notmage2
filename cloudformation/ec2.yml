@@ -94,6 +94,7 @@ Resources:
             yum:
               nginx: []
               java-1.6.0-openjdk-devel: []
+              amazon-efs-utils: []
               git: []
               php71: []
               php71-fpm: []
@@ -340,3 +341,17 @@ Resources:
           Value: !Ref rAutoScalingGroupWeb
       ComparisonOperator: LessThanThreshold
       MetricName: WebServerCpuLowUtilization
+  rElaticacheRedisReplicationGroup:
+    Type: "AWS::ElastiCache::ReplicationGroup"
+    Properties:
+      ReplicationGroupDescription: "Magento 2 Redis for session and cache"
+      AutoMinorVersionUpgrade: "true"
+      AutomaticFailoverEnabled: "false"
+      Engine: "redis"
+      EngineVersion: 3.2.10
+      NumCacheClusters: 2
+      CacheSubnetGroupName: pci-subnet
+      CacheNodeType: "cache.t2.medium"
+      SecurityGroupIds:
+        - sg-f3a1c487
+        - sg-a0a47dd4
