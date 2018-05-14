@@ -1,5 +1,5 @@
 <?php
-namespace ODBM\ODBM\Controller\Cause;
+namespace ODBM\Donation\Controller\Donate;
 
 use Magento\Framework\App\Action\Context;
 
@@ -18,28 +18,38 @@ class Cause extends \Magento\Framework\App\Action\Action
 	public function execute() {
 		$motivation = $this->getRequest()->getParam('motivation');
 
-		$product_url = $this->get_product_by_motivation( $motivation );
+		$product_url = $this->get_product_url_by_motivation( $motivation );
 
-		// Redirect to login URL
-		/** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+		// Create redirect to product url
 		$resultRedirect = $this->resultRedirectFactory->create();
 		$resultRedirect->setUrl( $product_url );
 
 		return $resultRedirect;
 	}
 
-	protected function get_default_product() {
+	protected function get_default_sku() {
 		// Get the product to return if no sku is set
+		return 'default_donate';
 	}
 
-	protected function get_product_by_motivation( $motivation_code ) {
+	protected function get_product_url_by_motivation( $motivation_code = false ) {
 		$product_url = false;
 
+		if ( !$motivation_code ) {
+			// Get default motivation code
+			$motivation_code = $this->get_default_sku();
+		}
+
 		if ( $motivation_code ) {
-			$_product = $this->_productRepository->get( $sku );
+			// Get product from catalog
+			$_product = $this->_productRepository->get( $motivation_code );
 
 			if ( $_product ) {
 				$product_url = $_product->getProductUrl();
+			} else {
+				// If product doesn't exist, we want to call this
+				// function again to get the default product url
+				$product_url = get_product_url_by_motivation();
 			}
 		}
 
