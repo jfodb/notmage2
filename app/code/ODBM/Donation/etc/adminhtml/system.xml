@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="odbmdonations" translate="label" sortOrder="10">
+            <label> ODBM Donations</label>
+        </tab>
+        <section id="odbmdonations" translate="label" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Donation Settings</label>
+            <tab>odbmdonations</tab>
+            <resource>ODBM_Donation::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="default_donate" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Default Donation Product</label>
+                    <comment>Enter the SKU of the default donation product</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
