@@ -42,11 +42,18 @@ class Cause extends \Magento\Framework\App\Action\Action
 
 		if ( $motivation_code ) {
 			// Get product from catalog
-			$_product = $this->_productRepository->get( $motivation_code );
+			// No product with that sku throughts exception
+			try {
+				$_product = $this->_productRepository->get( $motivation_code );
 
-			if ( $_product ) {
-				$product_url = $_product->getProductUrl();
-			} else {
+				if ( $_product ) {
+					$product_url = $_product->getProductUrl();
+				} else {
+					// If product doesn't exist, we want to call this
+					// function again to get the default product url
+					$product_url = get_product_url_by_motivation();
+				}
+			} catch( \Exception $e ) {
 				// If product doesn't exist, we want to call this
 				// function again to get the default product url
 				$product_url = get_product_url_by_motivation();
