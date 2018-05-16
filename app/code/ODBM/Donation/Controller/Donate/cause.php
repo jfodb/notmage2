@@ -43,7 +43,6 @@ class Cause extends \Magento\Framework\App\Action\Action
 			// support for multiple default options, as
 			// comma-separated list
 			if ( !empty( $sku_arr = explode( ',', $sku ) ) ) {
-				var_dump($sku);
 				// Note: not using array_rand()
 				$sku = trim( $sku_arr[mt_rand(0, count( $sku_arr ) - 1)] );
 			}
