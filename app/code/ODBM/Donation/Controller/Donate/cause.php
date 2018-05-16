@@ -6,7 +6,7 @@ use Magento\Framework\App\Action\Context;
 class Cause extends \Magento\Framework\App\Action\Action
 {
 	protected $_productRepository;
-//	protected $_scopeConfig;
+	protected $_scopeConfig;
 
 	public function __construct(
 		Context $context,
