@@ -4,7 +4,7 @@ web:
   - 80:80
   - 10004:9000
   volumes:
-  - .:/magento
+  - .:/magento:delegated
   links:
   - mysql
   - redis
@@ -20,7 +20,7 @@ mysql:
       MYSQL_USER: magento_user
       MYSQL_PASSWORD: magento
   volumes:
-  - ./docker/sql:/docker-entrypoint-initdb.d
+  - ./docker/sql:/docker-entrypoint-initdb.d:delegated
 
 redis:
   image: redis
