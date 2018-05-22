@@ -23,7 +23,11 @@ class Cause extends \Magento\Framework\App\Action\Action
 	public function execute() {
 		$motivation = $this->getRequest()->getParam('motivation');
 
-		$product_url = $this->get_product_url_by_motivation( $motivation );
+		$product_url = $this->get_product_url_by_motivation( $motivation, empty($motivation) );
+
+		if ( !empty($motivation) ) {
+			$product_url .= "?motivation=$motivation";
+		}
 
 		// Create redirect to product url
 		$resultRedirect = $this->resultRedirectFactory->create();
@@ -54,7 +58,7 @@ class Cause extends \Magento\Framework\App\Action\Action
 		return $sku;
 	}
 
-	protected function get_product_url_by_motivation( $motivation_code = false ) {
+	protected function get_product_url_by_motivation( $motivation_code = false,  $add_query_string = false ) {
 		$product_url = false;
 		$used_default = false;
 
@@ -72,12 +76,16 @@ class Cause extends \Magento\Framework\App\Action\Action
 				$_product = $this->_productRepository->get( $motivation_code );
 
 				if ( $_product ) {
-					$product_url = $_product->getProductUrl() . '?motivation=' . $motivation_code;
+					$product_url = $_product->getProductUrl();
+
+					if ( $add_query_string ) {
+						$product_url .= "?motivation=$motivation_code";
+					}
 				} else {
 					// If product doesn't exist, we want to call this
 					// function again to get the default product url
 					if ( !$used_default ) {
-						$product_url = $this->get_product_url_by_motivation() . '?motivation=' . $motivation_code;
+						$product_url = $this->get_product_url_by_motivation();
 					} else {
 						throw new \Exception( 'Default sku ({$motivation_code}) is not a product!' );
 					}
@@ -86,7 +94,7 @@ class Cause extends \Magento\Framework\App\Action\Action
 				// If product doesn't exist, we want to call this
 				// function again to get the default product url
 				if ( !$used_default ) {
-					$product_url = $this->get_product_url_by_motivation() . '?motivation=' . $motivation_code;
+					$product_url = $this->get_product_url_by_motivation();
 				} else {
 					throw new \Exception( "Default sku ({$motivation_code}) is not a product!" );
 				}
