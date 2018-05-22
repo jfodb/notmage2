@@ -72,12 +72,12 @@ class Cause extends \Magento\Framework\App\Action\Action
 				$_product = $this->_productRepository->get( $motivation_code );
 
 				if ( $_product ) {
-					$product_url = $_product->getProductUrl();
+					$product_url = $_product->getProductUrl() . '?motivation=' . $motivation_code;
 				} else {
 					// If product doesn't exist, we want to call this
 					// function again to get the default product url
 					if ( !$used_default ) {
-						$product_url = $this->get_product_url_by_motivation();
+						$product_url = $this->get_product_url_by_motivation() . '?motivation=' . $motivation_code;
 					} else {
 						throw new \Exception( 'Default sku ({$motivation_code}) is not a product!' );
 					}
@@ -86,7 +86,7 @@ class Cause extends \Magento\Framework\App\Action\Action
 				// If product doesn't exist, we want to call this
 				// function again to get the default product url
 				if ( !$used_default ) {
-					$product_url = $this->get_product_url_by_motivation();
+					$product_url = $this->get_product_url_by_motivation() . '?motivation=' . $motivation_code;
 				} else {
 					throw new \Exception( "Default sku ({$motivation_code}) is not a product!" );
 				}
