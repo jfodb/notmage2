@@ -7,17 +7,21 @@ class Cause extends \Magento\Framework\App\Action\Action
 {
 	protected $_productRepository;
 	protected $_scopeConfig;
+	protected $_productCollectionFactory;
 
 	public function __construct(
 		Context $context,
 		\Magento\Catalog\Model\ProductRepository $productRepository,
-		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+		array $data = []
 	) {
 
 		$this->_productRepository = $productRepository;
 		$this->_scopeConfig = $scopeConfig;
+		$this->_productCollectionFactory = $productCollectionFactory;
 
-		parent::__construct( $context );
+		parent::__construct( $context, $data );
 	}
 
 	public function execute() {
@@ -42,14 +46,28 @@ class Cause extends \Magento\Framework\App\Action\Action
 
 		// Get sku from configuration
 		try {
-			$sku = $this->_scopeConfig->getValue('odbmdonations/general/default_donate', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			// die('what');
+			$collection = $this->_productCollectionFactory->create();
+
+			$collection->addAttributeToSelect('sku');
+			$collection->setPageSize(3); // fetching only 3 products
+			$collection->addAttributeToFilter('in_cause_pool', 1);
+
+			$products = $collection->getData();
+
+			if ( !empty($products) ) {
+				$sku = trim( $products[mt_rand(0, count( $products ) - 1)]['sku'] );
+			} else {
+				$sku = $this->_scopeConfig->getValue('odbmdonations/general/default_donate', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 			// support for multiple default options, as
 			// comma-separated list
-			if ( !empty( $sku_arr = explode( ',', $sku ) ) ) {
+				if ( !empty( $sku_arr = explode( ',', $sku ) ) ) {
 				// Note: not using array_rand()
-				$sku = trim( $sku_arr[mt_rand(0, count( $sku_arr ) - 1)] );
+					$sku = trim( $sku_arr[mt_rand(0, count( $sku_arr ) - 1)] );
+				}
 			}
+
 		} catch ( \Exception $e ) {
 			echo( $e->getMessage() );
 			die('Exception in Cause::get_default_sku()');
