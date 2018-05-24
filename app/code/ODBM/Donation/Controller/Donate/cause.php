@@ -46,7 +46,6 @@ class Cause extends \Magento\Framework\App\Action\Action
 
 		// Get sku from configuration
 		try {
-			// die('what');
 			$collection = $this->_productCollectionFactory->create();
 
 			$collection->addAttributeToSelect('sku');
