@@ -22,7 +22,7 @@ phases:
   build:
     commands:
        - composer install
-       - magento setup:upgrade
+       - php /magento/bin/magento setup:upgrade
   #post_build:
     #commands:
       # - command
