@@ -27,8 +27,7 @@ phases:
     commands:
        - ls
        - echo "Updating magento schema"
-       - php /var/www/html/magento/bin/magento setup:upgrade
-       - php /magento/bin/magento setup:upgrade
+       - php ./bin/magento setup:upgrade
 artifacts:
   files:
      - '**/*'
