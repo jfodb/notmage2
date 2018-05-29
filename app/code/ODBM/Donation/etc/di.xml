@@ -3,4 +3,6 @@
     <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
         <plugin name="add_quote_additional_options" type="ODBM\Donation\Plugin\ToOrderItem" sortOrder="1" />
     </type>
+
+    <preference for="ODBM\Donation\Api\OdbDonationInterface" type="ODBM\Donation\Model\OdbDonation" />
 </config>

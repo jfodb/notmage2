@@ -13,15 +13,14 @@ class Cause extends \Magento\Framework\App\Action\Action
 		Context $context,
 		\Magento\Catalog\Model\ProductRepository $productRepository,
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-		array $data = []
+		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
 	) {
 
 		$this->_productRepository = $productRepository;
 		$this->_scopeConfig = $scopeConfig;
 		$this->_productCollectionFactory = $productCollectionFactory;
 
-		parent::__construct( $context, $data );
+		parent::__construct( $context );
 	}
 
 	public function execute() {
@@ -48,8 +47,7 @@ class Cause extends \Magento\Framework\App\Action\Action
 		try {
 			$collection = $this->_productCollectionFactory->create();
 
-			$collection->addAttributeToSelect('sku');
-			$collection->setPageSize(3); // fetching only 3 products
+			$collection->addAttributeToSelect('*');
 			$collection->addAttributeToFilter('in_cause_pool', 1);
 
 			$products = $collection->getData();
