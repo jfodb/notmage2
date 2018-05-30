@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-add-repository -y ppa:ondrej/php \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
-       apt-get install -qqy --force-yes --no-install-recommends \
+       apt-get install -qqy --assume-yes --no-install-recommends \
                     php7.0-cli \
                     php7.0-common \
                     php7.0-fpm \
@@ -30,13 +30,16 @@ RUN apt-add-repository -y ppa:ondrej/php \
                     php7.0-bcmath \
                     php7.0-iconv \
                     php7.0-redis \
-										php7.0-soap \
+                    php7.0-soap \
                     nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
-		&& export PATH=$PATH:/magento/bin
+    && export PATH=$PATH:/magento/bin \
+	&& curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+	&& apt-get install -y nodejs \
+	&& npm install -g grunt-cli
 
 COPY ./docker/nginx.conf /etc/nginx/sites-available/default
 

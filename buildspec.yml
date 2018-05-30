@@ -22,10 +22,12 @@ phases:
   build:
     commands:
        - composer install
-  #post_build:
-    #commands:
-      # - command
-      # - command
+
+  # post_build:
+  #   commands:
+  #      - ls
+  #      - echo "Updating magento schema"
+  #      - php ./bin/magento setup:upgrade
 artifacts:
   files:
      - '**/*'
