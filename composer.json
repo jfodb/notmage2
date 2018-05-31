@@ -10,7 +10,8 @@
     "require": {
         "magento/product-community-edition": "2.2.3",
         "composer/composer": "@alpha",
-        "experius/module-donationproduct": "~1.0.0"
+        "experius/module-donationproduct": "~1.0.0",
+        "mageplaza/module-smtp": "^1.1"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.2.0",
