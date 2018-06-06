@@ -13,12 +13,21 @@
                         <div class="field choice admin__field admin__field-option">
                             <input type="radio" class="radio admin__control-radio"
                                    name="amount_fixed"
+                                   id="donation_option_<?= $itemCount ?>"
                                    value="<?php echo $fixedAmount; ?>"
                                    <?php echo ($itemCount === 1)? "checked" : "" ?>
                             >
-                            <label class="label admin__field-label" for="options_4_2"><span><?php echo $viewFixedAmount; ?></span></label>
+                            <label class="label admin__field-label" for="donation_option_<?= $itemCount ?>"><span><?php echo $viewFixedAmount; ?></span></label>
                         </div>
                     <?php endforeach; ?>
+                    <div class="field choice admin__field admin__field-option">
+                        <input type="checkbox" class="radio admin__control-radio"
+                               name="_recurring"
+                               id="_recurring"
+                               value="true"
+                        >
+                        <label class="label admin__field-label" for="_recurring"><span><?= __("Make donation recurring?") ?></span></label>
+                    </div>
                 </div>
             </div>
             <input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
