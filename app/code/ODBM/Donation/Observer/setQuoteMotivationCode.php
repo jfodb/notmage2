@@ -15,13 +15,15 @@ class setQuoteMotivationCode implements ObserverInterface
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Catalog\Model\Product $product,
         \Magento\Framework\ObjectManagerInterface $interface,
-        \Magento\Quote\Model\Quote\Item $quote
+        \Magento\Quote\Model\Quote\Item $quote,
+		\Magento\Framework\App\RequestInterface $request
     ) {
         $this->_objectManager = $objectManager;
         $this->cart = $cart;
         $this->product = $product;
         $this->objectManager = $interface;
         $this->quote = $quote;
+		$this->_request = $request;
     }
 
     /**
@@ -33,12 +35,10 @@ class setQuoteMotivationCode implements ObserverInterface
         $product = $observer->getProduct();
         $quoteItem = $observer->getQuoteItem();
 
-        $_motivation_code;
+        $_motivation_code = $product->getSku();
 
-        if ( !empty( $_REQUEST['_motivation_code'] ) ) {
-            $_motivation_code = $_REQUEST['_motivation_code'];
-        } else {
-            $_motivation_code = $product->getSku();
+        if ( !empty( $this->_request->getParam('_motivation_code') ) ) {
+            $_motivation_code = $this->_request->getParam('_motivation_code');
         }
 
         $quoteItem->setCustomAttribute('_motivation_code', $_motivation_code);

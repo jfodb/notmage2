@@ -6,5 +6,9 @@
 		<observer
 			name="product_point_quote"
 			instance="ODBM\Donation\Observer\setQuoteMotivationCode"/>
-		</event>
-	</config>
+		<observer
+			name="product_recurring_quote"
+			instance="ODBM\Donation\Observer\setQuoteRecurring"/>
+	</event>
+
+</config>
