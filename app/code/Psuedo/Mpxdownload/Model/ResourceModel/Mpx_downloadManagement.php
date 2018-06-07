@@ -14,8 +14,8 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\ResourceModel\Db\A
 		\Magento\Framework\Model\ResourceModel\Db\Context $context
 	)
 	{
-		if(empty($GLOBALS['CANIHASDATABASENOW']))
-			$GLOBALS['CANIHASDATABASENOW'] = $context;
+		//if(empty($GLOBALS['CANIHASDATABASENOW']))
+		//	$GLOBALS['CANIHASDATABASENOW'] = $context;
 		parent::__construct($context);
 	}
 
