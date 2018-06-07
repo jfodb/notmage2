@@ -5,4 +5,13 @@
     </type>
 
     <preference for="ODBM\Donation\Api\OdbDonationInterface" type="ODBM\Donation\Model\OdbDonation" />
+    <!-- Admin theme. Start -->
+    <type name="Magento\Theme\Model\View\Design">
+        <arguments>
+            <argument name="themes" xsi:type="array">
+                <item name="adminhtml" xsi:type="string">Odbm/default</item> <!-- Example: "Magento/backend" -->
+            </argument>
+        </arguments>
+    </type>
+    <!-- Admin theme. End -->
 </config>
