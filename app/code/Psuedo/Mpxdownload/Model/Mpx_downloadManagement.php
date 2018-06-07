@@ -51,6 +51,16 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
 	{
 		$this->_init(\Psuedo\Mpxdownload\Model\ResourceModel\Mpx_downloadManagement::class);
 	}
+
+	protected function _init($resourceModel)
+	{
+		
+		$this->_setResourceModel($resourceModel);
+		//yeah, well actually need to keep the resource for this class M2 core developers
+		$this->_resource = $this->_getResource();
+		$this->_idFieldName = $this->_getResource()->getIdFieldName();
+		
+	}
 	
 
 	protected function getConnection()
@@ -67,7 +77,7 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
 			
 		} 
 		if (empty($this->connection)) {
-			$this->connection = $this->_resource->getConnection('core_write');
+			$this->connection = $this->_resource->getContext()->getResources()->getConnection('core_write');
 		}
 		return $this->connection;
 	}
@@ -82,9 +92,8 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
     	
     	    	
     	$conn = $this->getConnection();  //must run before we get this->_resource loaded
-	    $this->mpxhelper->set_source($this->_resource, $conn, $this->productModel);
-	    /*$helper = new \Psuedo\Mpxdownload\Helper\Mpxpull($this->_resource, 
-		$conn, $this->_configs, $this->_logger); */
+	    $this->mpxhelper->set_source($this->_resource->getContext()->getResources(), $conn, $this->productModel);
+	    
 	    
 	    $this->mpxhelper->api_login_command();
 	    
