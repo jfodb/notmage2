@@ -6,130 +6,46 @@
 				<trustedips>12.51.91.4,12.51.91.5,70.39.176.28,70.39.231.100,108.171.131.1*,10.183.251.2,172.17.0.1</trustedips>
 				<timezone>06:00:00</timezone><!-- as offset -->
 				<motivation_code>
-					<dhponline.ca>INTDHP</dhponline.ca>
-					<magento.beta.rbc.org>JobSecurity</magento.beta.rbc.org>
-					<beta.dhponline.ca>INTDHP</beta.dhponline.ca>
-					<dhponline.ca>INTDHP</dhponline.ca>
-					<beta.discoveryhousepublishers.org>INTDHP</beta.discoveryhousepublishers.org>
-					<dod.org>INTDOD</dod.org>
-					<beta.dod.org>INTDOD</beta.dod.org>
-					<dhp.org>INTDHP</dhp.org>
-					<cugn.org>INTCCU</cugn.org>
-					<dhespanol.org>INTSPN</dhespanol.org>
-					<store.ourdailybread.org>INTODB</store.ourdailybread.org>
-					<betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
-					<beta.dhp.org>INTDHP</beta.dhp.org>
-					<beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
-					<magento.rbc.org>INTEST</magento.rbc.org>
+					<!-- example 
+					<dhponline.ca>INTDHP</dhponline.ca> 
+					-->
+					<magento.beta.rbc.org>INTEST</magento.beta.rbc.org>
 				</motivation_code>
 				<company>
+					<!-- example:
 					<dhponline.ca>DHPC</dhponline.ca>
-					<magento.beta.rbc.org>DHPU</magento.beta.rbc.org>
-					<beta.dhponline.ca>DHPC</beta.dhponline.ca>
-					<dhponline.ca>DHPC</dhponline.ca>
-					<beta.discoveryhousepublishers.org>DHPU</beta.discoveryhousepublishers.org>
-					<magento.rbc.org>DHPC</magento.rbc.org>
-					<dhp.org>DHPU</dhp.org>
-					<beta.dod.org>DHPU</beta.dod.org>
-					<dod.org>DHPU</dod.org>
-					<helpformylife.org>DHPU</helpformylife.org>
-					<cugn.org>DHPU</cugn.org>
-					<dhespanol.org>DHPU</dhespanol.org>
-					<store.ourdailybread.org>RBCU</store.ourdailybread.org>
-					<betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
-					<beta.dhp.org>DHPU</beta.dhp.org>
-					<beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
+					-->
+					<magento.beta.rbc.org>DHPT</magento.beta.rbc.org>
 				</company>
 				<jobtype>
+					<!-- example: 
 					<dhponline.ca>DhpStore</dhponline.ca>
+					-->
 					<magento.beta.rbc.org>DhpStore</magento.beta.rbc.org>
-					<beta.dhponline.ca>DhpStore</beta.dhponline.ca>
-					<dhponline.ca>DhpStore</dhponline.ca>
-					<beta.discoveryhousepublishers.org>DhpStore</beta.discoveryhousepublishers.org>
-					<magento.rbc.org>DhpStore</magento.rbc.org>
-					<dhp.org>DhpStore</dhp.org>
-					<dhponline.ca>DhpStore</dhponline.ca>
-					<dod.org>DodStore</dod.org>
-					<beta.dod.org>DodStore</beta.dod.org>
-					<helpformylife.org>HfmlStore</helpformylife.org>
-					<cugn.org>CcStore</cugn.org>
-					<dhespanol.org>SpnStore</dhespanol.org>
-					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
-					<store.ourdailybread.org>PilotStore</store.ourdailybread.org>
-					<betastore.ourdailybread.org>PilotStore</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
-					<beta.dhp.org>DhpStore</beta.dhp.org>
-					<beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
 				</jobtype>
 				<store_id>
+					<!-- example>
 					<dhponline.ca>2</dhponline.ca>
+					-->
 					<magento.beta.rbc.org>1</magento.beta.rbc.org>
-					<magento.rbc.org>1</magento.rbc.org>
-					<beta.discoveryhousepublishers.org>1</beta.discoveryhousepublishers.org>
-					<dhponline.ca>2</dhponline.ca>
-					<beta.dhponline.ca>2</beta.dhponline.ca>
-					<dhp.org>4</dhp.org>
-					<beta.dhp.org>4</beta.dhp.org>
-					<beta.dod.org>2</beta.dod.org>
-					<dod.org>3</dod.org>
-					<cugn.org>6</cugn.org>
-					<dhespanol.org>9</dhespanol.org>
-					<store.ourdailybread.org>8</store.ourdailybread.org>
-					<betastore.ourdailybread.org>8</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
-					<beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
 				</store_id>
 				<domain>
 					<dhpstore>
+						<!-- example: 
 						<dhpc>dhponline.ca</dhpc>
-						<dhpu>dhp.org</dhpu>
-						<dhpt>magento.rbc.org</dhpt>
+						-->
+						<dhpt>magento.beta.rbc.org</dhpt>
 					</dhpstore>
-					<hfmlstore>
-						<dhpu>helpformylife.org</dhpu>
-					</hfmlstore>
-					<dodstore>
-						<dhpu>dod.org</dhpu>
-					</dodstore>
+					<!-- example:  
 					<ccstore>
 						<dhpu>cugn.org</dhpu>
 					</ccstore>
-					<spnstore>
-						<dhpu>dhespanol.org</dhpu>
-					</spnstore>
-					<pilotstore>
-						<rbcu>store.ourdailybread.org</rbcu>
-					</pilotstore>
-					<odbstore>
-						<rbcu>store.ourdailybread.org</rbcu>
-					</odbstore>
+					-->
 				</domain>
-				<beta>
+				<beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
 					<dhpstore>
-						<dhpc>beta.dhponline.ca</dhpc>
-						<dhpu>beta.dhp.org</dhpu>
-						<dhpt>magento.rbc.org</dhpt>
+						<dhpt>magento.beta.rbc.org</dhpt>
 					</dhpstore>
-					<hfmlstore>
-						<dhpu>beta.helpformylife.org</dhpu>
-					</hfmlstore>
-					<dodstore>
-						<dhpu>beta.dod.org</dhpu>
-					</dodstore>
-					<ccstore>
-						<dhpu>beta.store.christianuniversity.org</dhpu>
-					</ccstore>
-					<spnstore>
-						<dhpu>dhespanol.org</dhpu>
-					</spnstore>
-					<pilotstore>
-						<rbcu>betastore.ourdailybread.org</rbcu>
-					</pilotstore>
-					<odbstore>
-						<rbcu>betastore.ourdailybread.org</rbcu>
-					</odbstore>
 				</beta>
 			</runtime>
 		</psuedo_mpxdownload>
