@@ -58,14 +58,13 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
 				
 		if(empty($this->_resource)) {
 
-			$this->_resource = \Magento\Framework\App\ObjectManager::getInstance()->get($this->_resourceName);
-			/*
+			
 			if(!empty($GLOBALS['CANIHASDATABASENOW'])) {
 				$this->_resource = $GLOBALS['CANIHASDATABASENOW']->getResources();
 			}
 			else
 				die('No database access is granted to me by Magento');
-			*/
+			
 		} 
 		if (empty($this->connection)) {
 			$this->connection = $this->_resource->getConnection('core_write');
@@ -81,9 +80,7 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
     	while(ob_get_level())
 		    ob_end_clean();
     	
-    	//the old fashioned way so we can control the constructor or it won't pass these values to it.
-    	//include dirname(__DIR__).'/Helper/Mpxpull.php';
-    	
+    	    	
     	$conn = $this->getConnection();  //must run before we get this->_resource loaded
 	    $this->mpxhelper->set_source($this->_resource, $conn, $this->productModel);
 	    /*$helper = new \Psuedo\Mpxdownload\Helper\Mpxpull($this->_resource, 
