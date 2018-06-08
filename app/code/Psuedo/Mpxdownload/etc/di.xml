@@ -3,8 +3,8 @@
 	<preference for="Psuedo\Mpxdownload\Api\Mpx_downloadManagementInterface" type="Psuedo\Mpxdownload\Model\Mpx_downloadManagement"/>
 	<type name="Psuedo\Mpxdownload\Model\Mpx_downloadManagement">
 		<arguments>
-			<argument name="object" xsi:type="object">Psuedo\Mpxdownload\Helper\Data</argument>
-			<argument name="object" xsi:type="object">Magento\Catalog\Model\Product</argument>
+			<argument name="mpxdata" xsi:type="object">Psuedo\Mpxdownload\Helper\Data</argument>
+			<argument name="productModel" xsi:type="object">Magento\Catalog\Model\Product</argument>
 		</arguments>
 	</type>
 
