@@ -27,7 +27,7 @@ require_once __dir__.'/ResourceModel/Mpx_downloadManagement.php';
 
 class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel 
 {
-	protected $_resource, $_configs, $_logger, $connection, $_moduleManager, $mpxhelper, $productModel;
+	protected  $connection, $mpxhelper, $productModel;
 
 	public function __construct(
 		\Magento\Framework\Model\Context $context,
@@ -37,33 +37,47 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
 		\Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
 		\Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
 		array $data = []
-	) {
-		//$this->_resource = $resource;
-		//$this->_logger = $context->getLogger();
-		//$this->_configs = $context->getScopeConfig();  //if the scopeconfigs are supposed to be found readily under $this->scopeConfig then why is it NULL when I read it and why can't my IDE see it??
-		//$this->_moduleManager = $context->getModuleManager();
-		//$this->_configs = $context->getAppState()-> configScope;
-		
-		//$this->object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+	)
+	{
+
 		$this->productModel = $productModel;
-		
+
 		$this->mpxhelper = $mpxdata;
-		
+
+		parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+	}
+	
+	protected function _construct()
+	{
 		$this->_init(\Psuedo\Mpxdownload\Model\ResourceModel\Mpx_downloadManagement::class);
 	}
 
-	protected function getConnection()
+	protected function _init($resourceModel)
 	{
 		
+		$this->_setResourceModel($resourceModel);
+		//yeah, well actually need to keep the resource for this class M2 core developers
+		$this->_resource = $this->_getResource();
+		$this->_idFieldName = $this->_getResource()->getIdFieldName();
+		
+	}
+	
+
+	protected function getConnection()
+	{
+				
 		if(empty($this->_resource)) {
+
+			
 			if(!empty($GLOBALS['CANIHASDATABASENOW'])) {
 				$this->_resource = $GLOBALS['CANIHASDATABASENOW']->getResources();
 			}
 			else
 				die('No database access is granted to me by Magento');
+			
 		} 
-		if (!$this->connection) {
-			$this->connection = $this->_resource->getConnection('core_write');
+		if (empty($this->connection)) {
+			$this->connection = $this->_resource->getContext()->getResources()->getConnection('core_write');
 		}
 		return $this->connection;
 	}
@@ -76,13 +90,10 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
     	while(ob_get_level())
 		    ob_end_clean();
     	
-    	//the old fashioned way so we can control the constructor or it won't pass these values to it.
-    	//include dirname(__DIR__).'/Helper/Mpxpull.php';
-    	
+    	    	
     	$conn = $this->getConnection();  //must run before we get this->_resource loaded
-	    $this->mpxhelper->set_source($this->_resource, $conn, $this->productModel);
-	    /*$helper = new \Psuedo\Mpxdownload\Helper\Mpxpull($this->_resource, 
-		$conn, $this->_configs, $this->_logger); */
+	    $this->mpxhelper->set_source($this->_resource->getContext()->getResources(), $conn, $this->productModel);
+	    
 	    
 	    $this->mpxhelper->api_login_command();
 	    

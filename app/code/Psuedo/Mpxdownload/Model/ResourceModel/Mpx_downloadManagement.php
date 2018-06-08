@@ -9,14 +9,22 @@
 namespace Psuedo\Mpxdownload\Model\ResourceModel;
 
 class Mpx_downloadManagement extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb {
-
+	protected $mycontext;
+	
 	public function __construct(
 		\Magento\Framework\Model\ResourceModel\Db\Context $context
 	)
 	{
-		if(empty($GLOBALS['CANIHASDATABASENOW']))
-			$GLOBALS['CANIHASDATABASENOW'] = $context;
+		//if(empty($GLOBALS['CANIHASDATABASENOW']))
+		//	$GLOBALS['CANIHASDATABASENOW'] = $context;
+		$this->mycontext = $context;
+		
 		parent::__construct($context);
+	}
+	
+	public function getContext()
+	{
+		return $this->mycontext;
 	}
 
 	protected function _construct()
