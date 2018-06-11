@@ -9,19 +9,19 @@
 					<!-- example 
 					<dhponline.ca>INTDHP</dhponline.ca> 
 					-->
-					<magento.beta.rbc.org>INTEST</magento.beta.rbc.org>
+					<magento.beta.rbc.org>INT</magento.beta.rbc.org>
 				</motivation_code>
 				<company>
 					<!-- example:
 					<dhponline.ca>DHPC</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>DHPT</magento.beta.rbc.org>
+					<magento.beta.rbc.org>RBCU</magento.beta.rbc.org>
 				</company>
 				<jobtype>
 					<!-- example: 
 					<dhponline.ca>DhpStore</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>DhpStore</magento.beta.rbc.org>
+					<magento.beta.rbc.org>ODBDonations</magento.beta.rbc.org>
 				</jobtype>
 				<store_id>
 					<!-- example>
@@ -46,6 +46,9 @@
 					<dhpstore>
 						<dhpt>magento.beta.rbc.org</dhpt>
 					</dhpstore>
+					<odbdonations>
+						<rbcu>magento.beta.rbc.org</rbcu>
+					</odbdonations>
 				</beta>
 			</runtime>
 		</psuedo_mpxdownload>
