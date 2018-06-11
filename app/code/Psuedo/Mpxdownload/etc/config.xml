@@ -36,6 +36,9 @@
 						-->
 						<dhpt>magento.beta.rbc.org</dhpt>
 					</dhpstore>
+					<odbdonations>
+						<rbcu>magento.beta.rbc.org</rbcu>
+					</odbdonations>
 					<!-- example:  
 					<ccstore>
 						<dhpu>cugn.org</dhpu>
