@@ -3,25 +3,25 @@
 	<default>
 		<psuedo_mpxdownload><!-- anything goes here -->
 			<runtime><!-- anything goes here -->
-				<trustedips>12.51.91.4,12.51.91.5,70.39.176.28,70.39.231.100,108.171.131.1*,10.183.251.2,172.17.0.1</trustedips>
+				<trustedips>12.51.91.4,12.51.91.5,70.39.176.28,67.59.39.1*,108.171.131.1*,10.183.251.2,172.17.0.1</trustedips>
 				<timezone>06:00:00</timezone><!-- as offset -->
 				<motivation_code>
 					<!-- example 
 					<dhponline.ca>INTDHP</dhponline.ca> 
 					-->
-					<magento.beta.rbc.org>INTEST</magento.beta.rbc.org>
+					<magento.beta.rbc.org>INT</magento.beta.rbc.org>
 				</motivation_code>
 				<company>
 					<!-- example:
 					<dhponline.ca>DHPC</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>DHPT</magento.beta.rbc.org>
+					<magento.beta.rbc.org>RBCU</magento.beta.rbc.org>
 				</company>
 				<jobtype>
 					<!-- example: 
 					<dhponline.ca>DhpStore</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>DhpStore</magento.beta.rbc.org>
+					<magento.beta.rbc.org>ODBDonations</magento.beta.rbc.org>
 				</jobtype>
 				<store_id>
 					<!-- example>
@@ -36,6 +36,9 @@
 						-->
 						<dhpt>magento.beta.rbc.org</dhpt>
 					</dhpstore>
+					<odbdonations>
+						<rbcu>magento.beta.rbc.org</rbcu>
+					</odbdonations>
 					<!-- example:  
 					<ccstore>
 						<dhpu>cugn.org</dhpu>
@@ -46,6 +49,9 @@
 					<dhpstore>
 						<dhpt>magento.beta.rbc.org</dhpt>
 					</dhpstore>
+					<odbdonations>
+						<rbcu>magento.beta.rbc.org</rbcu>
+					</odbdonations>
 				</beta>
 			</runtime>
 		</psuedo_mpxdownload>
