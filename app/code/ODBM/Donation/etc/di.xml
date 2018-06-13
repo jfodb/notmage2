@@ -3,6 +3,9 @@
     <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
         <plugin name="add_quote_additional_options" type="ODBM\Donation\Plugin\ToOrderItem" sortOrder="1" />
     </type>
+    <type name="Magento\Paypal\Helper\Shortcut\Validator">
+        <plugin name="allow_paypal_express_donation" type="ODBM\Donation\Plugin\Validator" sortOrder="1" disabled="false" />
+    </type>
 
     <preference for="ODBM\Donation\Api\OdbDonationInterface" type="ODBM\Donation\Model\OdbDonation" />
     <!-- Admin theme. Start -->
