@@ -1,9 +1,6 @@
 require(['jquery', 'jquery/ui'], function($) {
 	 	$('.overlay').appendTo('body');
 
-	 		// Remove default nav toggle
-	 		$('.page-header .nav-toggle').removeAttr('data-action');
-
 	 		$('.nav-toggle').click( function(e) {
 				$('html').removeClass('nav-before-open nav-open');
 				$('.page-header .panel.wrapper, .overlay').toggleClass('active');

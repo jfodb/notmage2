@@ -3,8 +3,8 @@
 		<referenceBlock name="logo">
 			<arguments>
 				<argument name="logo_file" xsi:type="string">images/odb_logo.svg</argument>
-				<argument name="logo_img_width" xsi:type="number">198</argument>
-				<argument name="logo_img_height" xsi:type="number">30</argument>
+				<argument name="logo_img_width" xsi:type="number">184</argument>
+				<argument name="logo_img_height" xsi:type="number">32</argument>
 			</arguments>
 
 		</referenceBlock>
@@ -81,9 +81,9 @@
 		</referenceContainer>
 
 		<!-- Override default navigation sections -->
-
 		<referenceBlock name="navigation.sections" remove="true"/>
 		<referenceBlock name="minicart" remove="true"/>
 		<referenceBlock name="top.search" remove="true"/>
+		<referenceBlock name="breadcrumbs" remove="true" />
 	</body>
 </page>
