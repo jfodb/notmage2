@@ -59,39 +59,19 @@ class Validator
 		$this->_session = $session;
 	}
 
-	public function afterIsPriceOrSetAvailable(\Magento\Paypal\Helper\Shortcut\Validator $subject, $isInCatalog)
+	public function afterIsPriceOrSetAvailable(\Magento\Paypal\Helper\Shortcut\Validator $subject, $result)
 	{
-		if ($isInCatalog) {
-			// Show PayPal shortcut on a product view page only if product has nonzero price
-			/** @var $currentProduct \Magento\Catalog\Model\Product */
+		if ($result) {
 			$currentProduct = $this->_registry->registry('current_product');
-
 			if ($currentProduct !== null) {
-				$productPrice = (double)$currentProduct->getFinalPrice();
-				$typeInstance = $currentProduct->getTypeInstance();
-				if (empty($productPrice)
-					&& !$this->_productTypeConfig->isProductSet($currentProduct->getTypeId())
-					&& !$typeInstance->canConfigure($currentProduct)
-					&& !$currentProduct->getTypeId() === "donation"
-				) {
-					return  false;
+				if ($currentProduct->getTypeId() === "donation") {
+					return true;
+				} else {
+					return $result;
 				}
 			}
 		}
 		return true;
 	}
-
-//	public function afterIsContextAvailable(\Magento\Paypal\Helper\Shortcut\Validator $subject, $paymentCode, $isInCatalog)
-//	{
-//		$items = $this->_session->getQuote()->getAllItems();
-//		foreach ($items as $item) {
-//			$options = $item->getOptions();
-//			$infoBuyRequest = json_decode($options[1]->getValue());
-//			if (isset($infoBuyRequest->_recurring) && $infoBuyRequest->_recurring == true) {
-//				return false;
-//			}
-//		}
-//
-//	}
 
 }
