@@ -5,4 +5,8 @@
     </type>
 
     <preference for="ODBM\Donation\Api\OdbDonationInterface" type="ODBM\Donation\Model\OdbDonation" />
+
+		<preference
+		    for="Magento\Paypal\Model\Api\Nvp"
+		    type="ODBM\Donation\Paypal\Model\Api\Nvp" />
 </config>
