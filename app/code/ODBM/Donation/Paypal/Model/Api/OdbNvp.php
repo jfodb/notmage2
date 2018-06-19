@@ -248,24 +248,49 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	/**
 	* Get referer that was set in the quote
 	*
-	* NOTE: This is only designed to handle one product in the cart,
-	*       as seen by how it breaks the foreach.
 	*
 	* @todo   Validate URL, ensure data is how ODB automation expects it.
 	* @return string  $this->referer  Refererer field in quote.
 	*/
 	protected function getItemReferer() {
 		if ( empty($this->referer) ) {
-			foreach( $this->cart->getItems() as $item ) {
-				$buyRequest = $item->getBuyRequest();
-				$options = $item->getBuyRequest()->_data;
-
-				$this->referer = $options['_referer'] ?? '';
-				break;
-			}
+			$this->referer = $this->getOption( '_referer' );
 		}
 
 		return $this->referer;
+	}
+
+
+	/**
+	* Get quote option by key.
+	*
+	* If no option supplied, return all options
+	*
+	* NOTE: This is only designed to handle one product in the cart,
+	*       as seen by how it returns in the foreach.
+	*
+	* @param   string          $option         Optional. Key of option to return.
+	* @return  string|boolean  $option_value   Value of option. If no cart items found, then false.
+	*                                          If option is empty, empty string returned
+	*/
+	protected function getOption( $option = '' ) {
+		if ( $items = $this->cart->getItems() ) {
+			foreach( $items as $item ) {
+				$buyRequest = $item->getBuyRequest();
+
+				if ( $buyRequest && is_object( $buyRequest ) ) {
+					$options = $item->getBuyRequest()->_data;
+
+					if ( empty($option) ) {
+						return $options;
+					} else {
+						return $options[ $option ] ?? '';
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -280,24 +305,12 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 
 	/**
 	* Check if item is listed as recurring from quote
-  *
-	* NOTE: This is only designed to handle one product in the cart,
-	*       as seen by how it breaks the foreach.
 	*
 	* @return boolean $is_recurring  Whether order in cart is set to be recurring.
 	*/
 	protected function isItemRecurring() {
 		if ( is_null( $this->is_recurring ) ) {
-			$this->is_recurring = false;
-
-			foreach( $this->cart->getItems() as $item ) {
-				$options = $item->getBuyRequest()->_data;
-
-				if ( !empty($options['_recurring']) ) {
-					$this->is_recurring = true;
-					break;
-				}
-			}
+			$this->is_recurring = !empty( $this->getOption( '_recurring' ) );
 		}
 
 		return $this->is_recurring;
