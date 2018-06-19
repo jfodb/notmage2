@@ -31,6 +31,8 @@
                 </div>
             </div>
             <input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
+            <input type="hidden" name="_referer" value="<?php echo $_SERVER['HTTP_REFERER'] ?? ''; ?>" />
+
         </div>
         <div class="field">
             <label class="label">
