@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
-        <plugin name="add_quote_additional_options" type="ODBM\Donation\Plugin\ToOrderItem" sortOrder="1" />
-    </type>
-
-    <preference for="ODBM\Donation\Api\OdbDonationInterface" type="ODBM\Donation\Model\OdbDonation" />
+		<type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+				<plugin name="add_quote_additional_options" type="ODBM\Donation\Plugin\ToOrderItem" sortOrder="1" />
+		</type>
 
 		<preference
-		    for="Magento\Paypal\Model\Api\Nvp"
-		    type="ODBM\Donation\Paypal\Model\Api\OdbNvp" />
+			for="ODBM\Donation\Api\OdbDonationInterface"
+			type="ODBM\Donation\Model\OdbDonation"
+		/>
+
+		<preference
+			for="Magento\Paypal\Model\Api\Nvp"
+			type="ODBM\Donation\Paypal\Model\Api\OdbNvp"
+		/>
 </config>
