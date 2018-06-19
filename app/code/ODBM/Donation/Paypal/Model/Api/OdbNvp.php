@@ -255,9 +255,14 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	protected function getItemReferer() {
 		if ( empty($this->referer) ) {
 			foreach( $this->_cart->getItems() as $item ) {
-				$options = $item->getBuyRequest()->_data;
+				$buyRequest = $item->getBuyRequest();
 
-				$this->referer = $options['_referer'] ?? '';
+				if ( !empty($buyRequest) && is_object( $buyRequest ) ) {
+					$options = $item->getBuyRequest()->_data;
+
+					$this->referer = $options['_referer'] ?? '';
+				}
+
 				break;
 			}
 		}
