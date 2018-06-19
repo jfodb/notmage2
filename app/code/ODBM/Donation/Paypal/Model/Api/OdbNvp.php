@@ -180,7 +180,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	];
 
 	protected $custom;
-	protected $_cart;
+	protected $cart;
 	protected $referer;
 	protected $is_recurring;
 
@@ -211,6 +211,8 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		array $data = []
 	) {
 		parent::__construct($customerAddress, $logger, $customLogger, $localeResolver, $regionFactory, $countryFactory, $processableExceptionFactory,  $frameworkExceptionFactory, $curlFactory, $data);
+
+		$this->cart = $cart;
 
 		// Initalize properties
 		$this->resetValues();
@@ -254,15 +256,11 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	*/
 	protected function getItemReferer() {
 		if ( empty($this->referer) ) {
-			foreach( $this->_cart->getItems() as $item ) {
+			foreach( $this->cart->getItems() as $item ) {
 				$buyRequest = $item->getBuyRequest();
+				$options = $item->getBuyRequest()->_data;
 
-				if ( !empty($buyRequest) && is_object( $buyRequest ) ) {
-					$options = $item->getBuyRequest()->_data;
-
-					$this->referer = $options['_referer'] ?? '';
-				}
-
+				$this->referer = $options['_referer'] ?? '';
 				break;
 			}
 		}
@@ -292,7 +290,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		if ( is_null( $this->is_recurring ) ) {
 			$this->is_recurring = false;
 
-			foreach( $this->_cart->getItems() as $item ) {
+			foreach( $this->cart->getItems() as $item ) {
 				$options = $item->getBuyRequest()->_data;
 
 				if ( !empty($options['_recurring']) ) {
