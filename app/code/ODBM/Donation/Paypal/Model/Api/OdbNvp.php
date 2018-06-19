@@ -224,7 +224,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	protected function setCustomData() {
 		$referer = $this->getItemReferer();
 
-		$paypal_ministry = $_GET['ministry'] ?? 'odb';
+		$paypal_ministry = $this->getMinistry();
 		$recurring_type = $this->isItemRecurring() ? 'monthly' : 'onetime';
 
 		$custom_field = "~Donations||~|{$recurring_type}|{$referer}|{$paypal_ministry}";
@@ -260,6 +260,18 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		return $this->referer;
 	}
 
+	/**
+	* Get ministry that this is associated with
+	*
+	* @return string  $this->ministry  Ministry name.
+	*/
+	protected function getMinistry() {
+		if ( empty($this->ministry) ) {
+			$this->ministry = $this->getOption( '_ministry' ) ?? 'odb';
+		}
+
+		return $this->ministry;
+	}
 
 	/**
 	* Get quote option by key.
