@@ -12,42 +12,34 @@ use Magento\Payment\Model\Cart;
 use Magento\Payment\Model\Method\Logger;
 
 /**
- * NVP API wrappers model
- * @TODO: move some parts to abstract, don't hesitate to throw exceptions on api calls
+ * ODB's implementation of Nvp
+ *
+ * Extends Paypal model to allow for adding custom data
  *
  * @method string getToken()
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Nvp extends \Magento\Paypal\Model\Api\Nvp
+class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 {
 	/**
 	 * Paypal methods definition
 	 */
 	const DO_DIRECT_PAYMENT = 'DoDirectPayment';
-
 	const DO_CAPTURE = 'DoCapture';
-
 	const DO_AUTHORIZATION = 'DoAuthorization';
-
 	const DO_VOID = 'DoVoid';
-
 	const REFUND_TRANSACTION = 'RefundTransaction';
-
 	const SET_EXPRESS_CHECKOUT = 'SetExpressCheckout';
-
 	const GET_EXPRESS_CHECKOUT_DETAILS = 'GetExpressCheckoutDetails';
-
 	const DO_EXPRESS_CHECKOUT_PAYMENT = 'DoExpressCheckoutPayment';
-
 	const CALLBACK_RESPONSE = 'CallbackResponse';
 
 	/**
 	 * Paypal ManagePendingTransactionStatus actions
 	 */
 	const PENDING_TRANSACTION_ACCEPT = 'Accept';
-
 	const PENDING_TRANSACTION_DENY = 'Deny';
 
 	/**
@@ -189,6 +181,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 
 	protected $custom;
 	protected $_cart;
+	protected $referer;
+	protected $is_recurring;
 
 	/**
 	 * @param \Magento\Customer\Helper\Address $customerAddress
@@ -218,13 +212,12 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 	) {
 		parent::__construct($customerAddress, $logger, $customLogger, $localeResolver, $regionFactory, $countryFactory, $processableExceptionFactory,  $frameworkExceptionFactory, $curlFactory, $data);
 
-		$this->_cart = $cart;
-
-		$this->setCustomData();
+		// Initalize properties
+		$this->resetValues();
 	}
 
 	/**
-	* Set custom data so odb internal automation can properly process
+	* Set custom data to pass to automation
 	*/
 	protected function setCustomData() {
 		$referer = $this->getItemReferer();
@@ -238,29 +231,73 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 	}
 
 	/**
+	* Get custom data pass to automation
+	*
+	* @return string  $this->custom  Custom field to pass on.
+	*/
+	protected function getCustomData() {
+		if ( empty($this->custom) ) {
+			$this->setCustomData();
+		}
+
+		return $this->custom;
+	}
+
+	/**
 	* Get referer that was set in the quote
+	*
+	* NOTE: This is only designed to handle one product in the cart,
+	*       as seen by how it breaks the foreach.
+	*
+	* @todo   Validate URL, ensure data is how ODB automation expects it.
+	* @return string  $this->referer  Refererer field in quote.
 	*/
 	protected function getItemReferer() {
-		foreach( $this->_cart->getItems() as $item ) {
-			$options = $item->getBuyRequest()->_data;
+		if ( empty($this->referer) ) {
+			foreach( $this->_cart->getItems() as $item ) {
+				$options = $item->getBuyRequest()->_data;
 
-			return $options['_referer'] ?? '';
+				$this->referer = $options['_referer'] ?? '';
+				break;
+			}
 		}
+
+		return $this->referer;
+	}
+
+	/**
+	* Reset properties, so they have to be called again if express checkout
+	* is called more than once, to ensure that we have the best data
+	*/
+	protected function resetValues() {
+		$this->referer = '';
+		$this->is_recurring = NULL;
+		$this->custom = '';
 	}
 
 	/**
 	* Check if item is listed as recurring from quote
+  *
+	* NOTE: This is only designed to handle one product in the cart,
+	*       as seen by how it breaks the foreach.
+	*
+	* @return boolean $is_recurring  Whether order in cart is set to be recurring.
 	*/
 	protected function isItemRecurring() {
-		foreach( $this->_cart->getItems() as $item ) {
-			$options = $item->getBuyRequest()->_data;
+		if ( is_null( $this->is_recurring ) ) {
+			$this->is_recurring = false;
 
-			if ( !empty($options['_recurring']) ) {
-				return true;
+			foreach( $this->_cart->getItems() as $item ) {
+				$options = $item->getBuyRequest()->_data;
+
+				if ( !empty($options['_recurring']) ) {
+					$this->is_recurring = true;
+					break;
+				}
 			}
 		}
 
-		return false;
+		return $this->is_recurring;
 	}
 
 	/**
@@ -271,8 +308,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 	 * @return void
 	 * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
 	 */
-	public function callSetExpressCheckout()
-	{
+	public function callSetExpressCheckout() {
 		$this->_prepareExpressCheckoutCallRequest($this->_setExpressCheckoutRequest);
 		$request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
 		$this->_exportLineItems($request);
@@ -293,9 +329,11 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
 			$this->_exportShippingOptions($request);
 		}
 
-		$request['CUSTOM'] = $this->custom;
+		$request['CUSTOM'] = $this->getCustomData();
 
 		$response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
 		$this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
+
+		$this->resetValues();
 	}
 }
