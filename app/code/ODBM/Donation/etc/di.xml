@@ -6,6 +6,9 @@
     <type name="Magento\Paypal\Helper\Shortcut\Validator">
         <plugin name="allow_paypal_express_donation" type="ODBM\Donation\Plugin\Validator" sortOrder="1" disabled="false" />
     </type>
+    <type name="Experius\DonationProduct\Helper\Data">
+        <plugin name="override_default_fixed_amounts" type="ODBM\Donation\Plugin\Donation" sortOrder="1" />
+    </type>
 
 	<preference
 		for="Magento\Paypal\Model\Api\Nvp"
