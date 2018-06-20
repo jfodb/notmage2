@@ -73,4 +73,17 @@ require(['jquery', 'jquery/ui'], function($) {
 			$('.submenu-arrow').removeClass('icon-chevron_right');
 			$('.submenu-arrow').addClass('icon-chevron_left');
 		}
+
+		$('.radio--button').click(function(){
+			if ($(this).children('input').is(':checked')) {
+				$(this).addClass('checked');
+				$('.actions.hidden').removeClass('hidden');
+			}
+			if ($(this).children('input').attr('id') === "_recurring-yes") {
+				$('.paypal').addClass('hidden');
+			} else {
+                $('.paypal').removeClass('hidden');
+			}
+			$(this).siblings('.radio--button').removeClass('checked');
+		});
 	});

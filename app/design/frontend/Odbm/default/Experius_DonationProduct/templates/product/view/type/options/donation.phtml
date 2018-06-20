@@ -2,6 +2,7 @@
 
 <div class="product-options-wrapper" id="product-options-wrapper">
     <div class="fieldset">
+        <?php if (!empty($block->getFixedAmounts())) : ?>
         <div class="field">
             <label class="label">
                 <span><?php echo __('Choose an amount to donate'); ?></span>
@@ -20,27 +21,41 @@
                             <label class="label admin__field-label" for="donation_option_<?= $itemCount ?>"><span><?php echo $viewFixedAmount; ?></span></label>
                         </div>
                     <?php endforeach; ?>
-                    <div class="field choice admin__field admin__field-option">
-                        <input type="checkbox" class="radio admin__control-radio"
-                               name="_recurring"
-                               id="_recurring"
-                               value="true"
-                        >
-                        <label class="label admin__field-label" for="_recurring"><span><?= __("Make donation recurring?") ?></span></label>
-                    </div>
+
                 </div>
             </div>
+
             <input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
             <input type="hidden" name="_referer" value="<?php echo $_SERVER['HTTP_REFERER'] ?? ''; ?>" />
 
         </div>
+        <?php endif; ?>
         <div class="field">
-            <label class="label">
-                <span><?php echo __('Choose your own Amount %1 (minimum %2)', $block->getCurrencySymbol(), $block->getMinimalDonationAmount()); ?></span>
-            </label>
+<!--            <label class="label">-->
+<!--                <span>--><?php //echo __('Choose your own Amount %1 (minimum %2)', $block->getCurrencySymbol(), $block->getMinimalDonationAmount()); ?><!--</span>-->
+<!--            </label>-->
             <div class="control">
                 <input name="amount" id="amount" title="amount" placeholder="<?php echo $block->getCurrencySymbol(); ?>" class="input-text validate-number" type="text" data-validate="{required:false, 'validate-number': true}" value="">
             </div>
         </div>
+        <div class="radio--button">
+
+            <input type="radio" class="radio admin__control-radio"
+                   name="_recurring"
+                   id="_recurring-yes"
+                   value="true"
+            >
+            <label class="label admin__field-label" for="_recurring-yes"><span><?= __("Give Monthly") ?></span></label>
+        </div>
+        <div class="radio--button">
+            <input type="radio" class="radio admin__control-radio"
+                   name="_recurring"
+                   id="_recurring-no"
+                   value="false"
+            >
+            <label class="label admin__field-label" for="_recurring-no"><span><?= __("Give Once") ?></span></label>
+        </div>
+        <input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
+
     </div>
 </div>

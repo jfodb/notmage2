@@ -170,6 +170,60 @@ a[data-context="subscribe"] {
 	background-color: #fff;
 }
 
+input#amount {
+	max-width: 293px;
+	height: 45px;
+	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+	border-radius: 2px;
+}
+
+input#amount::placeholder {
+	color: @odb-blue;
+}
+
+.radio--button input[type="radio"] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	margin: 0;
+
+}
+
+.radio--button {
+	border: 1px solid @odb-blue;
+	background-color: #fff;
+	text-align: center;
+	color: @odb-blue;
+	font-family: 'PT Sans', sans-serif;
+	font-size: 20px;
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 10px 2px;
+	width: 143px;
+	height: 45px;
+	box-shadow: inset 0 1px 4px 0 rgba(0,0,0,0.20);
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.radio--button label {
+	cursor: pointer;
+}
+
+.radio--button:focus-within, .radio--button.checked, .radio--button:hover {
+	background-color: @odb-blue;
+	color: #fff;
+	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.20);
+}
+
+.page-product-donation .box-tocart {
+	margin: auto;
+}
+
+.hidden {
+	display: none !important;
+}
+
 @media (max-width: 767px) {
 	.desktop-only {
 		display: none !important;
