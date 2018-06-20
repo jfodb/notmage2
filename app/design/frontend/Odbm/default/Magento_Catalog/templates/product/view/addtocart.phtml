@@ -11,7 +11,7 @@
 <?php $_product = $block->getProduct(); ?>
 <?php
 if ($_product->getTypeId() === "donation") {
-    $buttonTitle = __('Donate');
+    $buttonTitle = __('Credit Card');
 } else {
 	$buttonTitle = __('Add to Cart');
 }
@@ -35,7 +35,7 @@ if ($_product->getTypeId() === "donation") {
 					</div>
 				</div>
 			<?php endif; ?>
-			<div class="actions">
+			<div class="actions hidden">
 				<button type="submit"
 						title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
 						class="action primary tocart"

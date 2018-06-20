@@ -46,7 +46,8 @@ module.exports = {
         name: 'Odbm/default',
         locale: 'en_US',
         files: [
-            'css/source/_theme'
+            'css/source/_theme',
+            'css/styles'
         ],
         dsl: 'less'
     },
