@@ -248,7 +248,6 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	/**
 	* Get referer that was set in the quote
 	*
-	*
 	* @todo   Validate URL, ensure data is how ODB automation expects it.
 	* @return string  $this->referer  Refererer field in quote.
 	*/
@@ -324,7 +323,8 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	*/
 	protected function isItemRecurring() {
 		if ( is_null( $this->is_recurring ) ) {
-			$this->is_recurring = !empty( $this->getOption( '_recurring' ) );
+			$is_recurring = $this->getOption( '_recurring' );
+			$this->is_recurring = !empty( $is_recurring ) && ($is_recurring !== 'false');
 		}
 
 		return $this->is_recurring;
