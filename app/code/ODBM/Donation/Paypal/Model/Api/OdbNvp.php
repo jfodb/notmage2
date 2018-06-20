@@ -113,7 +113,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 
 		// shipping rate
 		'SHIPPINGOPTIONNAME' => 'shipping_rate_code',
-		'NOSHIPPING' => 'suppress_shipping',
+		'NOSHIPPING' => '2',// 'suppress_shipping',
 
 		// paypal direct credit card information
 		'CREDITCARDTYPE' => 'credit_card_type',
@@ -227,7 +227,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		$paypal_ministry = $this->getMinistry();
 		$recurring_type = $this->isItemRecurring() ? 'monthly' : 'onetime';
 
-		$custom_field = "~Donations||~|{$recurring_type}|{$referer}|{$paypal_ministry}";
+		$custom_field = "~Donations||~{$recurring_type}|{$referer}|{$paypal_ministry}";
 
 		$this->custom = $custom_field;
 	}
@@ -267,7 +267,9 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	*/
 	protected function getMinistry() {
 		if ( empty($this->ministry) ) {
-			$this->ministry = $this->getOption( '_ministry' ) ?? 'odb';
+			$ministry = $this->getOption( '_ministry' );
+
+			$this->ministry = !empty($ministry) ? $ministry : 'odb';
 		}
 
 		return $this->ministry;
@@ -350,6 +352,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 			// doesn't support more than 10 shipping options
 			$request['CALLBACK'] = $this->getShippingOptionsCallbackUrl();
 			$request['CALLBACKTIMEOUT'] = 6;
+
 			// max value
 			$request['MAXAMT'] = $request['AMT'] + 999.00;
 
@@ -358,6 +361,8 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		}
 
 		$request['CUSTOM'] = $this->getCustomData();
+		$request['NOSHIPPING'] = 2;
+		// $request['ADDROVERRIDE'] = 0; // Use this to allow user to override address with Paypal address
 
 		$response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
 		$this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
