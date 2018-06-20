@@ -184,6 +184,7 @@ input#amount::placeholder {
 .radio--button input[type="radio"] {
 	-webkit-appearance: none;
 	-moz-appearance: none;
+	margin: 0;
 
 }
 
@@ -202,10 +203,10 @@ input#amount::placeholder {
 	height: 45px;
 	box-shadow: inset 0 1px 4px 0 rgba(0,0,0,0.20);
 	border-radius: 2px;
-	cursor: hand;
+	cursor: pointer;
 }
 
-.radio--button:focus-within, .radio--button.checked {
+.radio--button:focus-within, .radio--button.checked, .radio--button:hover {
 	background-color: @odb-blue;
 	color: #fff;
 	border: none;
