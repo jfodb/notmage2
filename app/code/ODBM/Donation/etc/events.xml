@@ -12,7 +12,7 @@
 	</event>
 
 	<event name="controller_action_predispatch_checkout_cart_add">
-     <observer name="restrict_sales_model_cart_add_before" instance="ODBM\Donation\Observer\ValidateCart" />
-  </event>
+		<observer name="restrict_sales_model_cart_add_before" instance="ODBM\Donation\Observer\ValidateCart" />
+	</event>
 
 </config>
