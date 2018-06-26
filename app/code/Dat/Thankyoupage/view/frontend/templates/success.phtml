@@ -9,7 +9,7 @@ $is_recurring = $block->isOrderRecurring();
 			<?php if ($_order->getCustomerIsGuest()) :?>
 				<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
 			<?php  else: ?>
-				<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!!', sprintf('%s', $_order->getCustomerFirstName())) ?>
+				<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getCustomerFirstName())) ?>
 			<?php endif; // is guest ?>
 		<?php else: ?>
 
