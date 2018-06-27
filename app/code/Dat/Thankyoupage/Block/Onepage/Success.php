@@ -49,8 +49,9 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
 
 			$is_recurring = !empty( $is_recurring ) && ($is_recurring !== 'false');
 
-			if ( $is_recurring )
+			if ( $is_recurring ) {
 				break;
+			}
 		}
 
 		return $is_recurring;
