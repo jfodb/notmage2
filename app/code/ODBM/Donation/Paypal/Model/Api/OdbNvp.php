@@ -36,6 +36,8 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	const DO_EXPRESS_CHECKOUT_PAYMENT = 'DoExpressCheckoutPayment';
 	const CALLBACK_RESPONSE = 'CallbackResponse';
 
+	const DONATION_TYPE = 'ODBDonations';
+
 	/**
 	 * Paypal ManagePendingTransactionStatus actions
 	 */
@@ -227,7 +229,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		$paypal_ministry = $this->getMinistry();
 		$recurring_type = $this->isItemRecurring() ? 'monthly' : 'onetime';
 
-		$custom_field = "~Donations||~{$recurring_type}|{$referer}|{$paypal_ministry}";
+		$custom_field = '~' . self::DONATION_TYPE . "||~{$recurring_type}|{$referer}|{$paypal_ministry}";
 
 		$this->custom = $custom_field;
 	}
