@@ -229,7 +229,13 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		$paypal_ministry = $this->getMinistry();
 		$recurring_type = $this->isItemRecurring() ? 'monthly' : 'onetime';
 
-		$custom_field = '~' . self::DONATION_TYPE . "||~{$recurring_type}|{$referer}|{$paypal_ministry}";
+		$order_number = $this->cart->getQuote()->getReservedOrderId();
+
+		if ( $this->isItemDonation() ) {
+			$custom_field = '~' . self::DONATION_TYPE . "||{$order_number}~{$recurring_type}|{$referer}|{$paypal_ministry}";
+		} else {
+			$custom_field = "~Donation||~{$recurring_type}|{$referer}|{$paypal_ministry}";
+		}
 
 		$this->custom = $custom_field;
 	}
@@ -323,13 +329,37 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	*
 	* @return boolean $is_recurring  Whether order in cart is set to be recurring.
 	*/
-	protected function isItemRecurring() {
+	public function isItemRecurring() {
 		if ( is_null( $this->is_recurring ) ) {
 			$is_recurring = $this->getOption( '_recurring' );
 			$this->is_recurring = !empty( $is_recurring ) && ($is_recurring !== 'false');
 		}
 
 		return $this->is_recurring;
+	}
+
+	/**
+	* Check to see if cart contains a donation.
+	*
+	* If any items is a donation, returns true.
+	*
+	* @return boolean $is_donation
+	*/
+	public function isItemDonation() {
+		$is_donation = false;
+
+		foreach ( $this->cart->getQuote()->getItemsCollection() as $item ) {
+			if ( $item->getParentItemId() ) {
+				continue;
+			}
+
+			if ( $item->getProduct()->getTypeId() == 'donation' ) {
+				$is_donation = true;
+				break;
+			}
+		}
+
+		return $is_donation;
 	}
 
 	/**
