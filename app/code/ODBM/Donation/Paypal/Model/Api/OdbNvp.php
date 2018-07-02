@@ -338,15 +338,22 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		return $this->is_recurring;
 	}
 
+	/**
+	* Check to see if cart contains a donation.
+	*
+	* If any items is a donation, returns true.
+	*
+	* @return boolean $is_donation
+	*/
 	public function isItemDonation() {
 		$is_donation = false;
 
-		foreach ($this->cart->getQuote()->getItemsCollection() as $item) {
-			if ($item->getParentItemId()) {
+		foreach ( $this->cart->getQuote()->getItemsCollection() as $item ) {
+			if ( $item->getParentItemId() ) {
 				continue;
 			}
 
-			if ($item->getProduct()->getTypeId() == 'donation') {
+			if ( $item->getProduct()->getTypeId() == 'donation' ) {
 				$is_donation = true;
 				break;
 			}
