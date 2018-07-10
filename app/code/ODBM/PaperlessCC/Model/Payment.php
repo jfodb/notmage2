@@ -95,7 +95,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 			$requestData = [
 				'amount' => array(
 					'value' => $amount,
-					'currency' => $order->getCurrencyCode(), // Default to USD
+					'currency' => 'USD' // $order->getCurrencyCode(), // Default to USD
 				),
 				'source' => array(
 					'card' => array(
@@ -129,11 +129,11 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 			$request->setUri( $this->getEndpoint('authorize') );
 			$request->setMethod(\Zend\Http\Request::METHOD_POST);
 
+			$request->setContent(json_encode($requestData));
+
 			$response = $this->_client->send($request);
 
-			if ( is_string($response) ) {
-				$response = json_decode($response, true);
-			}
+			$response = json_decode($response->getContent());
 
 			$payment
 			->setTransactionId($response['referenceId'])
@@ -169,11 +169,13 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 
 		$exp_month = sprintf('%02d',$payment->getCcExpMonth());
 
+		$response = false;
+
 		try {
 			$requestData = array(
 				'amount' => array(
 					'value' => $amount,
-					'currency' => $order->getCurrencyCode(),
+					'currency' => 'USD' // $order->getCurrencyCode(),
 				),
 				'source' => array(
 					'card' => array(
@@ -208,11 +210,11 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 			$request->setUri( $this->getEndpoint('capture') );
 			$request->setMethod(\Zend\Http\Request::METHOD_POST);
 
+			$request->setContent(json_encode($requestData));
+
 			$response = $this->_client->send($request);
 
-			if ( is_string($response) ) {
-				$response = json_decode($response);
-			}
+			$response = json_decode($response->getContent());
 
 			$payment
 			->setTransactionId($response->referenceId)
@@ -220,8 +222,9 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 
 		} catch (\Exception $e) {
 			$this->debugData(['request' => $requestData, 'exception' => $e->getMessage()]);
-			$this->_logger->error(__('Payment capturing error.'));
-			throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.'));
+
+			$this->_logger->error(__('Payment capturing error.' . $e->getMessage() . print_r( $response, true ) ) );
+			throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.' . $e->getMessage() . print_r( $response, true )));
 		}
 
 		return $this;
@@ -230,12 +233,17 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 	private function getApiKey() {
 		return '926fde32e9cf47c7862c7e0a5409'; // $this->_apiKey;
 	}
+
 	private function getHeaders() {
-		return [
+		$httpHeaders = new \Zend\Http\Headers();
+
+		$httpHeaders->addHeaders([
 			'Content-Type' => 'application/json',
 			'TerminalKey'  => $this->getApiKey(),
 			'TestFlag'     => 'true' // remove when done testing
-		];
+		]);
+
+		return $httpHeaders;
 	}
 
 	private function getEndpoint( $type = '' ) {
@@ -258,7 +266,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 			$requestData = array(
 				'amount' => array(
 					'value' => $amount,
-					'currency' => $order->getCurrencyCode(),
+					'currency' => 'USD' // $order->getCurrencyCode(),
 				),
 				'source' => array(
 					'approvalNumber' => $payment->getCcApproval()
@@ -276,11 +284,11 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 		$request->setUri( $this->getEndpoint('refund') );
 		$request->setMethod(\Zend\Http\Request::METHOD_POST);
 
+		$request->setContent(json_encode($requestData));
+
 		$response = $this->_client->send($request);
 
-		if ( is_string($response) ) {
-			$response = json_decode($response);
-		}
+		$response = json_decode($response->getContent());
 
 		$payment
 		->setTransactionId($transactionId . '-' . \Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND)

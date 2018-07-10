@@ -67,7 +67,7 @@ define(
             },
 
             hasVerification: function() {
-                return window.checkoutConfig.payment.odbm_paperlesscc.hasVerification;
+                return true;// window.checkoutConfig.payment.odbm_paperlesscc.hasVerification;
             },
 
             isActive: function() {

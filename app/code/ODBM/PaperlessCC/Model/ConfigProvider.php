@@ -29,7 +29,7 @@ final class ConfigProvider implements ConfigProviderInterface
 			'availableTypes' => $this->ccConfig->getCcAvailableTypes(),
 			'months' => $this->ccConfig->getCcMonths(),
 			'years' => $this->ccConfig->getCcYears(),
-			'hasVerification' => $this->ccConfig->hasVerification(),
+			'hasVerification' => true //$this->ccConfig->hasVerification(),
 		);
 		return $output;
 	}
