@@ -22,17 +22,47 @@ define(
                 template: 'ODBM_PaperlessCC/payment/paperless-form'
             },
 
+
             getCode: function() {
                 return 'odbm_paperlesscc';
             },
 
-            getCcMonthsValues: function() {
-                return [{month: '01', value: '01'}, {month: '02', value: '02'}, {month: '08', value: '08'}];
+            getCcAvailableTypes: function() {
+                return window.checkoutConfig.payment.odbm_paperlesscc.availableTypes;
             },
 
-            getCcYearsValues: function() {
-                return [{ year: '2018', value: '2018' }]
+            getCcMonths: function() {
+                return window.checkoutConfig.payment.odbm_paperlesscc.months;
             },
+
+            getCcYears: function() {
+                return window.checkoutConfig.payment.odbm_paperlesscc.years;
+            },
+
+            getCcAvailableTypesValues: function() {
+                return _.map(this.getCcAvailableTypes(), function(value, key) {
+                    return {
+                        'value': key,
+                        'type': value
+                    }
+                });
+            },
+            getCcMonthsValues: function() {
+                return _.map(this.getCcMonths(), function(value, key) {
+                    return {
+                        'value': key,
+                        'month': value
+                    }
+                });
+            },
+            getCcYearsValues: function() {
+                return _.map(this.getCcYears(), function(value, key) {
+                    return {
+                        'value': key,
+                        'year': value
+                    }
+                });
+            }
 
             isActive: function() {
                 return true;
@@ -41,6 +71,15 @@ define(
             validate: function() {
                 var $form = $('#' + this.getCode() + '-form');
                 return $form.validation() && $form.validation('isValid');
+            },
+
+            getTransactionResults: function() {
+                return _.map(window.checkoutConfig.payment.paperlesscc.transactionResults, function(value, key) {
+                    return {
+                        'value': key,
+                        'transaction_result': value
+                    }
+                });
             }
         });
     }
