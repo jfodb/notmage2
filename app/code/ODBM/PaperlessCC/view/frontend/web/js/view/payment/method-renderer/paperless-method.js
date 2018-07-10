@@ -47,6 +47,7 @@ define(
                     }
                 });
             },
+
             getCcMonthsValues: function() {
                 return _.map(this.getCcMonths(), function(value, key) {
                     return {
@@ -55,6 +56,7 @@ define(
                     }
                 });
             },
+
             getCcYearsValues: function() {
                 return _.map(this.getCcYears(), function(value, key) {
                     return {
@@ -62,7 +64,11 @@ define(
                         'year': value
                     }
                 });
-            }
+            },
+
+            hasVerification: function() {
+                return window.checkoutConfig.payment.odbm_paperlesscc.hasVerification;
+            },
 
             isActive: function() {
                 return true;
@@ -73,14 +79,6 @@ define(
                 return $form.validation() && $form.validation('isValid');
             },
 
-            getTransactionResults: function() {
-                return _.map(window.checkoutConfig.payment.paperlesscc.transactionResults, function(value, key) {
-                    return {
-                        'value': key,
-                        'transaction_result': value
-                    }
-                });
-            }
         });
     }
 );

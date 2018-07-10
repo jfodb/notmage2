@@ -6,18 +6,15 @@
 namespace ODBM\PaperlessCC\Model;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
-use Magento\Framework\View\Asset\Source;
 /**
  * Class ConfigProvider
  */
 final class ConfigProvider implements ConfigProviderInterface
 {
 	public function __construct(
-		\Magento\Payment\Model\CcConfig $ccConfig,
-		Source $assetSource
+		\Magento\Payment\Model\CcConfig $ccConfig
 	) {
 		$this->ccConfig = $ccConfig;
-		$this->assetSource = $assetSource;
 	}
 
 	const CODE = 'odbm_paperlesscc';
@@ -32,7 +29,7 @@ final class ConfigProvider implements ConfigProviderInterface
 			'availableTypes' => $this->ccConfig->getCcAvailableTypes(),
 			'months' => $this->ccConfig->getCcMonths(),
 			'years' => $this->ccConfig->getCcYears(),
-			'test' => '1234'
+			'hasVerification' => $this->ccConfig->hasVerification(),
 		);
 		return $output;
 	}
