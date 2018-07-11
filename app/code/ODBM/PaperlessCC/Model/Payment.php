@@ -13,6 +13,7 @@ namespace ODBM\PaperlessCC\Model;
 class Payment extends \Magento\Payment\Model\Method\Cc
 {
 	const CODE = 'odbm_paperlesscc';
+	const API_BASE_URL = 'https://api.paperlesstrans.com/transactions/';
 
 	protected $_code = self::CODE;
 
@@ -72,7 +73,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 	}
 
 	/**
-	 * Payment authoization
+	 * Payment authorization
 	 *
 	 * @param \Magento\Payment\Model\InfoInterface $payment
 	 * @param float $amount
@@ -81,65 +82,22 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 	 */
 	public function authorize(\Magento\Payment\Model\InfoInterface $payment, $amount)
 	{
-		//throw new \Magento\Framework\Validator\Exception(__('Inside Stripe, throwing donuts :]'));
-
-		/** @var \Magento\Sales\Model\Order $order */
-		$order = $payment->getOrder();
-
-		/** @var \Magento\Sales\Model\Order\Address $billing */
-		$billing = $order->getBillingAddress();
-
-		$exp_month = sprintf('%02d',$payment->getCcExpMonth());
+		$response = false;
 
 		try {
-			$requestData = [
-				'amount' => array(
-					'value' => $amount,
-					'currency' => 'USD' // $order->getCurrencyCode(), // Default to USD
-				),
-				'source' => array(
-					'card' => array(
-						"accountNumber" => $payment->getCcNumber(),
-						"expiration" => "{$exp_month}/{$payment->getCcExpYear()}",
-						"nameOnAccount" => $billing->getName(),
-						"securityCode" => $payment->getCcCid(),
-				), // card information,
-					'billingAddress' => array(
-						'street' => $billing->getStreetLine(1),
-						'city'   => $billing->getCity(),
-						'state'  => $billing->getRegionCode(),
-						'postal' => $billing->getPostcode(),
-						'country' => $billing->getCountryId(),
-						// To get full localized country name, use this instead:
-						// 'address_country'   => $this->_countryFactory->create()->loadByCode($billing->getCountryId())->getName(),
-					)
-				),
-				'identification' => $order->getIncrementId(),
-				'email' => $order->getCustomerEmail(),
-				'metadata' => array(
-					array(
-						'Description' => sprintf('#%s, %s', $order->getIncrementId(), $order->getCustomerEmail())
-					)
-				)
-			];
+			$response = $this->callPaperlessApi('authorize', $payment, $amount);
 
-			// Make call to paperless
-			$request = new \Zend\Http\Request();
-			$request->setHeaders( $this->getHeaders() );
-			$request->setUri( $this->getEndpoint('authorize') );
-			$request->setMethod(\Zend\Http\Request::METHOD_POST);
+			// Status is 200 OK
+			if ( $response['success'] ) {
+				$response = $response['data'];
 
-			$request->setContent(json_encode($requestData));
-
-			$response = $this->_client->send($request);
-
-			$response = json_decode($response->getContent());
-
-			$payment
-			->setTransactionId($response['referenceId'])
-			->setCcApproval($response['authorization']['approvalNumber'])
-			->setIsTransactionClosed(0);
-
+				$payment
+				->setTransactionId($response['referenceId'])
+				->setCcApproval($response['authorization']['approvalNumber'])
+				->setIsTransactionClosed(0);
+			} else {
+				throw new \Magento\Framework\Validator\Exception(__( 'Error calling Paperless API (authorize).' ));
+			}
 		} catch (\Exception $e) {
 			$this->debugData(['request' => $requestData, 'exception' => $e->getMessage()]);
 			$this->_logger->error(__('Payment authorization error.'));
@@ -159,95 +117,30 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 	 */
 	public function capture(\Magento\Payment\Model\InfoInterface $payment, $amount)
 	{
-		//throw new \Magento\Framework\Validator\Exception(__('Inside Stripe, throwing donuts :]'));
-
-		/** @var \Magento\Sales\Model\Order $order */
-		$order = $payment->getOrder();
-
-		/** @var \Magento\Sales\Model\Order\Address $billing */
-		$billing = $order->getBillingAddress();
-
-		$exp_month = sprintf('%02d',$payment->getCcExpMonth());
-
 		$response = false;
 
 		try {
-			$requestData = array(
-				'amount' => array(
-					'value' => $amount,
-					'currency' => 'USD' // $order->getCurrencyCode(),
-				),
-				'source' => array(
-					'card' => array(
-						"accountNumber" => $payment->getCcNumber(),
-						"expiration" => "{$exp_month}/{$payment->getCcExpYear()}",
-						"nameOnAccount" => $billing->getName(),
-						"securityCode" => $payment->getCcCid(),
-				), // card information,
-					'billingAddress' => array(
-						'street' => $billing->getStreetLine(1),
-						'city'   => $billing->getCity(),
-						'state'  => $billing->getRegionCode(),
-						'postal' => $billing->getPostcode(),
-						'country' => $billing->getCountryId(),
-						// To get full localized country name, use this instead:
-						// 'address_country'   => $this->_countryFactory->create()->loadByCode($billing->getCountryId())->getName(),
-					),
-					'approvalNumber' => $payment->getCcApproval(),
-				),
-				'identification' => $order->getIncrementId(),
-				'email' => $order->getCustomerEmail(),
-				'metadata' => array(
-					array(
-						'Description' => sprintf('#%s, %s', $order->getIncrementId(), $order->getCustomerEmail())
-					)
-				)
-			);
+			$response = $this->callPaperlessApi('capture', $payment, $amount);
 
-			// Make call to paperless
-			$request = new \Zend\Http\Request();
-			$request->setHeaders( $this->getHeaders() );
-			$request->setUri( $this->getEndpoint('capture') );
-			$request->setMethod(\Zend\Http\Request::METHOD_POST);
+			// Status is 200 OK
+			if ( $response['success'] ) {
+				$response = $response['data'];
 
-			$request->setContent(json_encode($requestData));
-
-			$response = $this->_client->send($request);
-
-			$response = json_decode($response->getContent());
-
-			$payment
-			->setTransactionId($response->referenceId)
-			->setIsTransactionClosed(0);
+				$payment
+				->setTransactionId($response['referenceId'])
+				->setIsTransactionClosed(0);
+			} else {
+				throw new \Magento\Framework\Validator\Exception(__( 'Error calling Paperless API (capture).' . $response['response'] ));
+			}
 
 		} catch (\Exception $e) {
-			$this->debugData(['request' => $requestData, 'exception' => $e->getMessage()]);
+			$this->debugData(['exception' => $e->getMessage()]);
 
 			$this->_logger->error(__('Payment capturing error.' . $e->getMessage() . print_r( $response, true ) ) );
-			throw new \Magento\Framework\Validator\Exception(__('Payment capturing error.' . $e->getMessage() . print_r( $response, true )));
+			throw new \Magento\Framework\Validator\Exception(__( 'Payment capturing error.' ));
 		}
 
 		return $this;
-	}
-
-	private function getApiKey() {
-		return '926fde32e9cf47c7862c7e0a5409'; // $this->_apiKey;
-	}
-
-	private function getHeaders() {
-		$httpHeaders = new \Zend\Http\Headers();
-
-		$httpHeaders->addHeaders([
-			'Content-Type' => 'application/json',
-			'TerminalKey'  => $this->getApiKey(),
-			'TestFlag'     => 'true' // remove when done testing
-		]);
-
-		return $httpHeaders;
-	}
-
-	private function getEndpoint( $type = '' ) {
-		return "https://api.paperlesstrans.com/transactions/{$type}";
 	}
 
 	/**
@@ -262,41 +155,205 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 	{
 		$transactionId = $payment->getParentTransactionId();
 
+		$response = $this->callPaperlessApi('refund', $payment, $amount);
+
+		// Status is 200 OK
+		if ( $response['success'] ) {
+			$payment
+			->setTransactionId($transactionId . '-' . \Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND)
+			->setParentTransactionId($transactionId)
+			->setIsTransactionClosed(1)
+			->setShouldCloseParentTransaction(1);
+		} else {
+			// Throw error
+			throw new \Magento\Framework\Validator\Exception(__( 'Error calling Paperless API (refund).' ));
+		}
+
+		return $this;
+	}
+
+	/**
+	* Call Paperless's REST API based on payment type
+	*
+	* @param  string $request_type   Payment type (authorize, capture, or refund)
+	* @param  \Magento\Payment\Model\InfoInterface $payment
+	* @param  float  $amount         Amount that payment is for.
+	*
+  *
+	* @link https://api.paperlesstrans.com/ Documentation and test client.
+	* @todo Return error message from API
+	*
+	* @return array $response Associative array with JSON reponse.
+	*/
+	protected function callPaperlessApi( $request_type, $payment, $amount ) {
+		// Get body to send
+		$requestData = $this->buildRequestData($request_type, $payment, $amount);
+		$request = $this->buildRequestObject($request_type, $requestData);
+
+		// Send out, get response
+		/** @var \Zend\Http\Response **/
+		$response = $this->_client->send($request);
+
+		if ( $response->isOk() ) {
+			$data = json_decode($response->getContent(), true);
+			$success = true;
+		} else {
+			$success = false;
+			$data = $response->toString();
+		}
+
+		return compact( 'success', 'data' );
+	}
+
+	/**
+	* Build out body to send to API
+	*
+	* @param  string $request_type   Payment type (authorize, capture, or refund)
+	* @param  \Magento\Payment\Model\InfoInterface $payment
+	* @param  float  $amount         Amount that payment is for.
+	*
+	* @return array  $requestData
+	*/
+	protected function buildRequestData( $request_type, $payment, $amount ) {
 		try {
 			$requestData = array(
 				'amount' => array(
 					'value' => $amount,
-					'currency' => 'USD' // $order->getCurrencyCode(),
+					'currency' => 'USD' // $payment->getCurrencyCode()
 				),
-				'source' => array(
-					'approvalNumber' => $payment->getCcApproval()
-				)
+				'source' => array()
 			);
-		} catch (\Exception $e) {
-			$this->debugData(['transaction_id' => $transactionId, 'exception' => $e->getMessage()]);
-			$this->_logger->error(__('Payment refunding error.'));
-			throw new \Magento\Framework\Validator\Exception(__('Payment refunding error.'));
+
+			if ( $request_type === 'authorize' || $request_type === 'capture' ) {
+				/** @var \Magento\Sales\Model\Order $order */
+				$order = $payment->getOrder();
+
+				/** @var \Magento\Sales\Model\Order\Address $billing */
+				$billing = $order->getBillingAddress();
+
+				// Format data
+				$requestData['source']['card'] = $this->getCardInformation($payment, $billing->getName());
+				$requestData['source']['billingAddress'] = $this->getBillingInformation($billing);
+
+				$requestData['identification'] = $order->getIncrementId();
+				$requestData['email'] = $order->getCustomerEmail();
+
+				$requestData['metadata'] = array(
+					array(
+						'Description' => sprintf('#%s, %s', $order->getIncrementId(), $order->getCustomerEmail())
+					)
+				);
+			}
+
+			if ( $request_type === 'refund' || $request_type === 'capture' ) {
+				$requestData['source']['approvalNumber'] = $payment->getCcApproval();
+			}
+		} catch(\Exception $e) {
+			$this->debugData(['exception' => $e->getMessage()]);
+			$this->_logger->error(__('Error building request data for ' . $request_type . ': ' . $e->getMessage()));
+			throw new \Magento\Framework\Validator\Exception(__('Error building request data for ' . $request_type ));
 		}
 
+		return $requestData;
+	}
+
+	/**
+	* Build request with body and headers
+	*
+	* @return \Zend\Http\Request request
+	*/
+	protected function buildRequestObject( $request_type, $body ) {
 		// Make call to paperless
 		$request = new \Zend\Http\Request();
+
 		$request->setHeaders( $this->getHeaders() );
-		$request->setUri( $this->getEndpoint('refund') );
+		$request->setUri( $this->getEndpoint( $request_type ) );
+
 		$request->setMethod(\Zend\Http\Request::METHOD_POST);
 
-		$request->setContent(json_encode($requestData));
+		if ( !is_string($body) ) {
+			$body = json_encode($body);
+		}
 
-		$response = $this->_client->send($request);
+		$request->setContent($body);
 
-		$response = json_decode($response->getContent());
+		return $request;
+	}
 
-		$payment
-		->setTransactionId($transactionId . '-' . \Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND)
-		->setParentTransactionId($transactionId)
-		->setIsTransactionClosed(1)
-		->setShouldCloseParentTransaction(1);
+	/**
+	* Format Biling address information for calling API
+	*
+	* @param  \Magento\Sales\Model\Order\Address $billing
+	*
+	* @return array $billingInformation Formatted data.
+	*/
+	public function getBillingInformation( $billing ) {
+		return array(
+			'street' => $billing->getStreetLine(1),
+			'city'   => $billing->getCity(),
+			'state'  => $billing->getRegionCode(),
+			'postal' => $billing->getPostcode(),
+			'country' => $billing->getCountryId()
+		);
+	}
 
-		return $this;
+	/**
+	* Format Card information for calling API
+	*
+	* @param  \Magento\Payment\Model\InfoInterface $payment
+	* @param  string $nameOnAccount Optional. If not provided, name is retrieved from billing address
+	*
+	* @return array $cardInformation Formatted data.
+	*/
+	public function getCardInformation( $payment, $nameOnAccount = '' ) {
+		if ( empty($nameOnAccount) ) {
+			$order = $payment->getOrder();
+			$billing = $order->getBillingAddress();
+			$nameOnAccount = $billing->getName();
+		}
+
+		$exp_month = sprintf('%02d',$payment->getCcExpMonth());
+
+		return  array(
+			"accountNumber" => $payment->getCcNumber(),
+			"expiration" => "{$exp_month}/{$payment->getCcExpYear()}",
+			"nameOnAccount" => $nameOnAccount,
+			"securityCode" => $payment->getCcCid(),
+		);
+	}
+
+	/**
+	* Get Paperless API key from Config
+	*/
+	private function getApiKey() {
+		return $this->_apiKey;
+	}
+
+	/**
+	* Get Request headers for calling Paperless API
+	*
+	* @return \Zend\Http\Headers $httpHeaders
+	*/
+	private function getHeaders() {
+		$httpHeaders = new \Zend\Http\Headers();
+
+		$httpHeaders->addHeaders([
+			'Content-Type' => 'application/json',
+			'TerminalKey'  => $this->getApiKey(),
+			'TestFlag'     => 'true' // remove when done testing
+		]);
+
+		return $httpHeaders;
+	}
+
+	/**
+	* Get Paperless's REST API endpoint based on payment type
+	*
+	* @param  string  $type      Payment type (authorize, capture, or refund)
+	* @return string  $endpoint  Url of API endpoint to call.
+	*/
+	private function getEndpoint( $type = '' ) {
+		return self::API_BASE_URL . $type;
 	}
 
 	/**
@@ -327,11 +384,7 @@ class Payment extends \Magento\Payment\Model\Method\Cc
 	 * @param string $currencyCode
 	 * @return bool
 	 */
-	public function canUseForCurrency($currencyCode)
-	{
-		if (!in_array($currencyCode, $this->_supportedCurrencyCodes)) {
-			return false;
-		}
-		return true;
+	public function canUseForCurrency($currencyCode) {
+		return in_array($currencyCode, $this->_supportedCurrencyCodes);
 	}
 }
