@@ -61,11 +61,19 @@ class CaptureRequest extends PaperlessRequest
 			$civ = $payment->getCcCid();
 			if(empty($civ))
 				$civ = $payment->getCcSecureVerify();
+
+			$expmonth = $payment->getCcExpMonth();
+			if( strlen($payment->getCcExpMonth()) === 1)
+				$expmonth = sprintf('%2$d', $expmonth);
+
+			$expyear = $payment->getCcExpYear();
+			if( strlen($payment->getCcExpYear()) === 2)
+				$expyear = '20'.$expyear;
 			
 			$additional['source'] = [
 				'card' => [
 					'accountNumber' => $payment->getCcNumber(),
-					'expiration' => $payment->getCcExpMonth() . $payment->getCcExpYear(),
+					'expiration' => $expmonth . '/' . $expyear,
 					'nameOnAccount' => $cardname,
 					'securityCode' => $civ,
 					'billingAddress'=> [

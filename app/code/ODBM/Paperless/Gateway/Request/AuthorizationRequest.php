@@ -47,23 +47,34 @@ class AuthorizationRequest extends PaperlessRequest
 			]
 		];
 		
-		$cardname = $payment->getCcOwner();
-		if(empty($cardname))
-			$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-		$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
-		if(empty($civ))
-			$civ = $payment->getCcSecureVerify();
-		
 		
 		
 		if($this->is_tokenized()){
 			$addition['source'] = ['profileNumber' => $payment->getUserCardToken()];  //how do we get the user card token?
 			$addition['metadata'] = $this->customfields;
 		} else {
+
+			$cardname = $payment->getCcOwner();
+			if(empty($cardname))
+				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+			$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
+			if(empty($civ))
+				$civ = $payment->getCcSecureVerify();
+			
+
+			$expmonth = $payment->getCcExpMonth();
+			if( strlen($payment->getCcExpMonth()) === 1)
+				$expmonth = sprintf('%2$d', $expmonth);
+
+			$expyear = $payment->getCcExpYear();
+			if( strlen($payment->getCcExpYear()) === 2)
+				$expyear = '20'.$expyear;
+			
+			
 			$addition['source'] = [
 				'card' => [
 					'accountNumber' => $payment->getCcNumber(),
-					'expiration' => $payment->getCcExpMonth() . $payment->getCcExpYear(),
+					'expiration' => $expmonth . '/' . $expyear,
 					'nameOnAccount' => $cardname,
 					'securityCode' => $civ,
 					'billingAddress'=> [
