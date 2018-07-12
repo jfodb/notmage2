@@ -42,11 +42,11 @@ class PaperlessRequest implements BuilderInterface
 		
 
 		if($mode == 'Production') {
-			$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
+			//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
 			$key = $this->config->getValue('terminalkey', $order->getStoreId());
 			$test = 'False';
 		} else {
-			$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
+			//$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
 			$key = $this->config->getValue('test_TerminalID', $order->getStoreId());
 			$test = 'True';
 		}
@@ -73,7 +73,6 @@ class PaperlessRequest implements BuilderInterface
 		return
 		[   "req" => array(
 				'Token' => array(
-					'TerminalID' => $terminal,
 					'TerminalKey' => $key
 				), 
 

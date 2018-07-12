@@ -30,8 +30,25 @@ class TransferFactory implements TransferFactoryInterface
 	 */
 	public function create(array $request)
 	{
+		$request_details = $request['req'];
+		unset($request['req']);
+		
+		$domain = /*from configs*/ 'https://api.paperlesstrans.com';
+		$url = $domain . $request_details['uri'];
+		
+		$headrs = [
+			'Content-Type' => 'application/json',
+			'TerminalKey'  => $request_details['Token']['TerminalKey']
+		];
+		
+		if($request_details['TestMode']) {
+			$headrs['TestFlag'] = 'true';
+		}
+		
+		
 		return $this->transferBuilder
-			->setBody($request)
+			->setUri($url)
+			->setBody( json_encode($request) )
 			->setMethod('POST')
 			->setHeaders(
 				[
