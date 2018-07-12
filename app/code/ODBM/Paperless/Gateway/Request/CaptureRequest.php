@@ -8,20 +8,10 @@ use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
-class CaptureRequest implements BuilderInterface
+class CaptureRequest extends PaperlessRequest
 {
-	/**
-	 * @var ConfigInterface
-	 */
-	private $config;
-	/**
-	 * @param ConfigInterface $config
-	 */
-	public function __construct(
-		ConfigInterface $config
-	) {
-		$this->config = $config;
-	}
+	
+	
 	/**
 	 * Builds ENV request
 	 *
@@ -35,6 +25,11 @@ class CaptureRequest implements BuilderInterface
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
+
+		$base_req = parent::build($buildSubject);
+		$base_req['req']['uri'] = '/transactions/capture';
+		
+		
 		/** @var PaymentDataObjectInterface $paymentDO */
 		$paymentDO = $buildSubject['payment'];
 		$order = $paymentDO->getOrder();
@@ -42,13 +37,49 @@ class CaptureRequest implements BuilderInterface
 		if (!$payment instanceof OrderPaymentInterface) {
 			throw new \LogicException('Order payment should be provided.');
 		}
-		return [
-			'TXN_TYPE' => 'S',
-			'TXN_ID' => $payment->getLastTransId(),
-			'MERCHANT_KEY' => $this->config->getValue(
-				'merchant_gateway_key',
-				$order->getStoreId()
-			)
+
+		$additional = [
+			'amount' => [
+				'currency' => $order->getStoreCurrencyCode(),
+				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? should I find a $buildSubject['amount'] ??
+			]
 		];
+		
+		if($payment->getBaseAmountAuthorized() && !empty($payment->getCcApproval())){
+			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
+		} else
+		if ($this->is_tokenized()) {
+			$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
+			$additional['metadata'] = $this->customfields;
+		} else {
+
+			$address = $order->getBillingAddress();
+			
+			$cardname = $payment->getCcOwner();
+			if(empty($cardname))
+				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+			$civ = $payment->getCcCid();
+			if(empty($civ))
+				$civ = $payment->getCcSecureVerify();
+			
+			$additional['source'] = [
+				'card' => [
+					'accountNumber' => $payment->getCcNumber(),
+					'expiration' => $payment->getCcExpMonth() . $payment->getCcExpYear(),
+					'nameOnAccount' => $cardname,
+					'securityCode' => $civ,
+					'billingAddress'=> [
+						'street' => $address->getStreet(),
+				        'city' => $address->getCity(),
+				        'state' => $address->getRegionCode(),
+				        'postal' => $address->getPostcode(),
+				        'country' => $address->getCountryId()
+					]
+				]
+			];
+			$additional['metadata'] = $this->customfields;
+		} 
+		
+		return array_merge($base_req, $additional);
 	}
 }

@@ -4,23 +4,17 @@
  * See COPYING.txt for license details.
  */
 namespace ODBM\Paperless\Gateway\Request;
+
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-class AuthorizationRequest implements BuilderInterface
+
+class AuthorizationRequest extends PaperlessRequest
 {
 	/**
 	 * @var ConfigInterface
 	 */
-	private $config;
-	/**
-	 * @param ConfigInterface $config
-	 */
-	public function __construct(
-		ConfigInterface $config
-	) {
-		$this->config = $config;
-	}
+	
 	/**
 	 * Builds ENV request
 	 *
@@ -29,25 +23,63 @@ class AuthorizationRequest implements BuilderInterface
 	 */
 	public function build(array $buildSubject)
 	{
+
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
-		/** @var PaymentDataObjectInterface $payment */
+		
+		$base_req = parent::build($buildSubject);
+		$base_req['req']['uri'] = '/transactions/authorize';
+
+
 		$payment = $buildSubject['payment'];
 		$order = $payment->getOrder();
-		$address = $order->getShippingAddress();
-		return [
-			'TXN_TYPE' => 'A',
-			'INVOICE' => $order->getOrderIncrementId(),
-			'AMOUNT' => $order->getGrandTotalAmount(),
-			'CURRENCY' => $order->getCurrencyCode(),
-			'EMAIL' => $address->getEmail(),
-			'MERCHANT_KEY' => $this->config->getValue(
-				'merchant_gateway_key',
-				$order->getStoreId()
-			)
+		$address = $order->getBillingAddress();
+		
+
+
+		$addition = [
+			'amount' => [
+				'currency' => $order->getStoreCurrencyCode(),
+				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? is there a $buildSubject['amount'] ?
+			]
 		];
+		
+		$cardname = $payment->getCcOwner();
+		if(empty($cardname))
+			$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+		$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
+		if(empty($civ))
+			$civ = $payment->getCcSecureVerify();
+		
+		
+		
+		if($this->is_tokenized()){
+			$addition['source'] = ['profileNumber' => $payment->getUserCardToken()];  //how do we get the user card token?
+			$addition['metadata'] = $this->customfields;
+		} else {
+			$addition['source'] = [
+				'card' => [
+					'accountNumber' => $payment->getCcNumber(),
+					'expiration' => $payment->getCcExpMonth() . $payment->getCcExpYear(),
+					'nameOnAccount' => $cardname,
+					'securityCode' => $civ,
+					'billingAddress'=> [
+						'street' => $address->getStreet(),
+						'city' => $address->getCity(),
+						'state' => $address->getRegionCode(),
+						'postal' => $address->getPostcode(),
+						'country' => $address->getCountryId()
+					]
+				]
+			];
+			$addition['metadata'] = $this->customfields;
+		}
+		
+		/** @var PaymentDataObjectInterface $payment */
+		
+		return array_merge($base_req, $addition);
 	}
 }
