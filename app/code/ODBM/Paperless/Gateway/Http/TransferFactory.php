@@ -50,13 +50,7 @@ class TransferFactory implements TransferFactoryInterface
 			->setUri($url)
 			->setBody( json_encode($request) )
 			->setMethod('POST')
-			->setHeaders(
-				[
-					'force_result' => isset($request[MockDataRequest::FORCE_RESULT])
-						? $request[MockDataRequest::FORCE_RESULT]
-						: null
-				]
-			)
+			->setHeaders($headrs )
 			->build();
 	}
 }
