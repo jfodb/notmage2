@@ -10,8 +10,8 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
 class CaptureRequest extends PaperlessRequest
 {
-	
-	
+
+
 	/**
 	 * Builds ENV request
 	 *
@@ -28,8 +28,8 @@ class CaptureRequest extends PaperlessRequest
 
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/transactions/capture';
-		
-		
+
+
 		/** @var PaymentDataObjectInterface $paymentDO */
 		$paymentDO = $buildSubject['payment'];
 		$order = $paymentDO->getOrder();
@@ -44,7 +44,7 @@ class CaptureRequest extends PaperlessRequest
 				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? should I find a $buildSubject['amount'] ??
 			]
 		];
-		
+
 		if($payment->getBaseAmountAuthorized() && !empty($payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else
@@ -54,7 +54,7 @@ class CaptureRequest extends PaperlessRequest
 		} else {
 
 			$address = $order->getBillingAddress();
-			
+
 			$cardname = $payment->getCcOwner();
 			if(empty($cardname))
 				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
@@ -69,7 +69,7 @@ class CaptureRequest extends PaperlessRequest
 			$expyear = $payment->getCcExpYear();
 			if( strlen($payment->getCcExpYear()) === 2)
 				$expyear = '20'.$expyear;
-			
+
 			$additional['source'] = [
 				'card' => [
 					'accountNumber' => $payment->getCcNumber(),
@@ -86,8 +86,8 @@ class CaptureRequest extends PaperlessRequest
 				]
 			];
 			$additional['metadata'] = $this->customfields;
-		} 
-		
+		}
+
 		return array_merge($base_req, $additional);
 	}
 }

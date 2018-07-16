@@ -16,8 +16,8 @@ define(
         'use strict';
         rendererList.push(
             {
-                type: 'paperless',
-                component: 'ODBM_Paperless/js/view/payment/method-renderer/sample_gateway'
+                type: 'odbm_paperless',
+                component: 'ODBM_Paperless/js/view/payment/method-renderer/paperless-method'
             }
         );
         /** Add view logic here if needed */

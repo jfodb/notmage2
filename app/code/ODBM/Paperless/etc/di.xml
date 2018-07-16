@@ -11,7 +11,7 @@
     <virtualType name="PaperlessFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
             <argument name="code" xsi:type="const">ODBM\Paperless\Model\Ui\ConfigProvider::CODE</argument>
-            <argument name="formBlockType" xsi:type="string">ODBM\Paperless\Block\Form</argument>
+            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
             <argument name="infoBlockType" xsi:type="string">ODBM\Paperless\Block\Info</argument>
             <argument name="valueHandlerPool" xsi:type="object">PaperlessValueHandlerPool</argument>
             <argument name="commandPool" xsi:type="object">PaperlessCommandPool</argument>

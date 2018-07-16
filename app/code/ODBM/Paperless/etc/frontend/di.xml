@@ -9,14 +9,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="paperless_config_provider" xsi:type="object">ODBM\Paperless\Model\Ui\ConfigProvider</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="ODBM\Paperless\Block\Info">
-        <arguments>
-            <argument name="data" xsi:type="array">
-                <item xsi:type="string" name="is_secure_mode">1</item>
+                <item name="odbm_paperless_config_provider" xsi:type="object">ODBM\Paperless\Model\Ui\ConfigProvider</item>
             </argument>
         </arguments>
     </type>

@@ -4,14 +4,21 @@
  * See COPYING.txt for license details.
  */
 namespace ODBM\Paperless\Model\Ui;
+
 use Magento\Checkout\Model\ConfigProviderInterface;
-use ODBM\Paperless\Gateway\Http\Client\ClientMock;
 /**
  * Class ConfigProvider
  */
 final class ConfigProvider implements ConfigProviderInterface
 {
-	const CODE = 'paperless';
+	public function __construct(
+		\Magento\Payment\Model\CcConfig $ccConfig
+	) {
+		$this->ccConfig = $ccConfig;
+	}
+
+	const CODE = 'odbm_paperless';
+
 	/**
 	 * Retrieve assoc array of checkout configuration
 	 *
@@ -19,15 +26,12 @@ final class ConfigProvider implements ConfigProviderInterface
 	 */
 	public function getConfig()
 	{
-		return [
-			'payment' => [
-				self::CODE => [
-					'transactionResults' => [
-						ClientMock::SUCCESS => __('Success'),
-						ClientMock::FAILURE => __('Fraud')
-					]
-				]
-			]
-		];
+		$output['payment'][self::CODE] = array(
+			'availableTypes' => $this->ccConfig->getCcAvailableTypes(),
+			'months' => $this->ccConfig->getCcMonths(),
+			'years' => $this->ccConfig->getCcYears(),
+			'hasVerification' => $this->ccConfig->hasVerification(),
+		);
+		return $output;
 	}
 }
