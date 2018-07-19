@@ -14,8 +14,6 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 
 class ProfileRequest extends PaperlessRequest
 {
-	
-
 	/**
 	 * Builds ENV request
 	 *
@@ -34,13 +32,9 @@ class ProfileRequest extends PaperlessRequest
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/profiles/create';
 
-
 		$payment = $buildSubject['payment'];
 		$order = $payment->getOrder();
 		$address = $order->getBillingAddress();
-
-
-		
 
 		$cardname = $payment->getCcOwner();
 		if(empty($cardname))
@@ -57,8 +51,8 @@ class ProfileRequest extends PaperlessRequest
 		$expyear = $payment->getCcExpYear();
 		if( strlen($payment->getCcExpYear()) === 2)
 			$expyear = '20'.$expyear;
-		
-		
+
+
 		$addition['source'] = [
 			'card' => [
 				'accountNumber' => $payment->getCcNumber(),
@@ -75,7 +69,7 @@ class ProfileRequest extends PaperlessRequest
 			],
 			'email' => $address->getEmail()
 		];
-		
+
 
 		/** @var PaymentDataObjectInterface $payment */
 

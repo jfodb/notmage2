@@ -24,68 +24,76 @@ class CaptureRequest extends PaperlessRequest
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
-		}
+	}
 
-		$base_req = parent::build($buildSubject);
-		$base_req['req']['uri'] = '/transactions/capture';
+	$base_req = parent::build($buildSubject);
+	$base_req['req']['uri'] = '/transactions/capture';
 
+	/** @var PaymentDataObjectInterface $paymentDO */
+	$paymentDO = $buildSubject['payment'];
+	$order = $paymentDO->getOrder();
+	$payment = $paymentDO->getPayment();
 
-		/** @var PaymentDataObjectInterface $paymentDO */
-		$paymentDO = $buildSubject['payment'];
-		$order = $paymentDO->getOrder();
-		$payment = $paymentDO->getPayment();
-		if (!$payment instanceof OrderPaymentInterface) {
-			throw new \LogicException('Order payment should be provided.');
-		}
+	if (!$payment instanceof OrderPaymentInterface) {
+		throw new \LogicException('Order payment should be provided.');
+	}
 
-		$additional = [
-			'amount' => [
-				'currency' => $order->getStoreCurrencyCode(),
+	$additional = [
+		'amount' => [
+			'currency' => $order->getStoreCurrencyCode(),
 				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? should I find a $buildSubject['amount'] ??
 			]
 		];
 
 		if($payment->getBaseAmountAuthorized() && !empty($payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
-		} else
-		if ($this->is_tokenized()) {
-			$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
-			$additional['metadata'] = $this->customfields;
 		} else {
+			if ($this->is_tokenized()) {
+				$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
+				$additional['metadata'] = $this->customfields;
+			} elseif($this->is_recurring($payment)){
+				$base_req['_recurring'] = true;
 
-			$address = $order->getBillingAddress();
+				$profile_information = $this->getProfileInformation($buildSubject);
+				$profileNumber = $profile_information['profile']['profileNumber'];
 
-			$cardname = $payment->getCcOwner();
-			if(empty($cardname))
-				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-			$civ = $payment->getCcCid();
-			if(empty($civ))
-				$civ = $payment->getCcSecureVerify();
+				$additional['source'] = ['profileNumber' => $profileNumber];
+				$additional['metadata'] = $this->customfields;
+			} else {
+				$address = $order->getBillingAddress();
 
-			$expmonth = $payment->getCcExpMonth();
-			if( strlen($payment->getCcExpMonth()) === 1)
-				$expmonth = sprintf('%2$d', $expmonth);
+				$cardname = $payment->getCcOwner();
+				if(empty($cardname))
+					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+				$civ = $payment->getCcCid();
+				if(empty($civ))
+					$civ = $payment->getCcSecureVerify();
 
-			$expyear = $payment->getCcExpYear();
-			if( strlen($payment->getCcExpYear()) === 2)
-				$expyear = '20'.$expyear;
+				$expmonth = $payment->getCcExpMonth();
+				if( strlen($payment->getCcExpMonth()) === 1)
+					$expmonth = sprintf('%2$d', $expmonth);
 
-			$additional['source'] = [
-				'card' => [
-					'accountNumber' => $payment->getCcNumber(),
-					'expiration' => $expmonth . '/' . $expyear,
-					'nameOnAccount' => $cardname,
-					'securityCode' => $civ,
-					'billingAddress'=> [
-						'street' => $address->getStreet(),
-				        'city' => $address->getCity(),
-				        'state' => $address->getRegionCode(),
-				        'postal' => $address->getPostcode(),
-				        'country' => $address->getCountryId()
+				$expyear = $payment->getCcExpYear();
+				if( strlen($payment->getCcExpYear()) === 2)
+					$expyear = '20'.$expyear;
+
+				$additional['source'] = [
+					'card' => [
+						'accountNumber' => $payment->getCcNumber(),
+						'expiration' => $expmonth . '/' . $expyear,
+						'nameOnAccount' => $cardname,
+						'securityCode' => $civ,
+						'billingAddress'=> [
+							'street' => $address->getStreet(),
+							'city' => $address->getCity(),
+							'state' => $address->getRegionCode(),
+							'postal' => $address->getPostcode(),
+							'country' => $address->getCountryId()
+						]
 					]
-				]
-			];
-			$additional['metadata'] = $this->customfields;
+				];
+				$additional['metadata'] = $this->customfields;
+			}
 		}
 
 		return array_merge($base_req, $additional);

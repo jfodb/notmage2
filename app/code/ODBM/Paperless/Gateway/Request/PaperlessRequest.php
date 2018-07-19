@@ -25,21 +25,48 @@ class PaperlessRequest implements BuilderInterface
 	) {
 		$this->config = $config;
 	}
-	
+
 	public function is_tokenized() {
 		//$user_data->payment->token;
-		
+
 		return false;
 	}
+
+	public function is_recurring($payment) {
+		if (!isset($payment) || !$payment instanceof PaymentDataObjectInterface) {
+			throw new \InvalidArgumentException('Payment data object should be provided');
+		}
+
+		$order = $payment->getOrder();
+
+		$items = $order->getAllItems();
+		$order_item = $items[0];
+
+		$is_recurring = false;
+
+		foreach ( $items as $order_item ) {
+			// Get stored product info
+			$product_options = $order_item->getProductOptionByCode('info_buyRequest');
+			$is_recurring = $product_options['_recurring'] ?? false;
+
+			$is_recurring = !empty( $is_recurring ) && ($is_recurring !== 'false');
+
+			if ( $is_recurring ) {
+				break;
+			}
+		}
+
+		return $is_recurring;
+	}
+
 
 	public function build(array $buildSubject)
 	{
 		$payment = $buildSubject['payment'];
 		$order = $payment->getOrder();
 		$this->customfields = array();
-		
+
 		$mode = $this->config->getValue('payment_mode', $order->getStoreId());
-		
 
 		if($mode == 'Production') {
 			//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
@@ -51,33 +78,39 @@ class PaperlessRequest implements BuilderInterface
 			$test = 'True';
 		}
 
-		
+
 		$d = $_SERVER['HTTP_HOST'];
 		$auto_type = Mage::getStoreConfig("mpx/jobtype/$d");
 		$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
-		
+
 		if(!empty($auto_type))
 			$this->customfields[] = [1=>$auto_type];
-		
+
 		if(!empty($order->getCustomerId)){
 			$this->customfields[] = [2=>$order->getCustomerId];
 		} else if(Mage::getSingleton('customer/session')->isLoggedIn()){
 			$this->customfields[] = [2=>
 				Mage::getSingleton('customer/session')->getCustomer()->getId()];
-		}
-		
-		$this->customfields[] = [4=>$order->getIncrementId()];
+			}
 
-		
-		
-		return
-		[   "req" => array(
+			$this->customfields[] = [4=>$order->getIncrementId()];
+
+			$fields =  [ "req" => array(
 				'Token' => array(
 					'TerminalKey' => $key
-				), 
+				),
 
-			'TestMode' => $test,
+				'TestMode' => $test,
 			)
 		];
+
+		return $fields;
+	}
+
+	public function getProfileInformation( $buildSubject ) {
+		/**
+		* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
+		*/
+		 throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 	}
 }

@@ -14,7 +14,7 @@ class AuthorizationRequest extends PaperlessRequest
 	/**
 	 * @var ConfigInterface
 	 */
-	
+
 	/**
 	 * Builds ENV request
 	 *
@@ -29,16 +29,13 @@ class AuthorizationRequest extends PaperlessRequest
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
-		
+
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/transactions/authorize';
-
 
 		$payment = $buildSubject['payment'];
 		$order = $payment->getOrder();
 		$address = $order->getBillingAddress();
-		
-
 
 		$addition = [
 			'amount' => [
@@ -46,12 +43,15 @@ class AuthorizationRequest extends PaperlessRequest
 				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? is there a $buildSubject['amount'] ?
 			]
 		];
-		
-		
-		
+
 		if($this->is_tokenized()){
 			$addition['source'] = ['profileNumber' => $payment->getUserCardToken()];  //how do we get the user card token?
 			$addition['metadata'] = $this->customfields;
+		} elseif($this->is_recurring($payment)){
+			$base_req['_recurring'] = true;
+
+			$profile_information = $this->getProfileInformation($buildSubject);
+			$profile_information['profile']['profileNumber'];
 		} else {
 
 			$cardname = $payment->getCcOwner();
@@ -60,7 +60,6 @@ class AuthorizationRequest extends PaperlessRequest
 			$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
 			if(empty($civ))
 				$civ = $payment->getCcSecureVerify();
-			
 
 			$expmonth = $payment->getCcExpMonth();
 			if( strlen($payment->getCcExpMonth()) === 1)
@@ -69,8 +68,7 @@ class AuthorizationRequest extends PaperlessRequest
 			$expyear = $payment->getCcExpYear();
 			if( strlen($payment->getCcExpYear()) === 2)
 				$expyear = '20'.$expyear;
-			
-			
+
 			$addition['source'] = [
 				'card' => [
 					'accountNumber' => $payment->getCcNumber(),
@@ -88,9 +86,9 @@ class AuthorizationRequest extends PaperlessRequest
 			];
 			$addition['metadata'] = $this->customfields;
 		}
-		
+
 		/** @var PaymentDataObjectInterface $payment */
-		
+
 		return array_merge($base_req, $addition);
 	}
 }
