@@ -9,7 +9,7 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 use ODBM\Paperless\Gateway\Http\Client\ClientMock;
 class ResponseCodeValidator extends AbstractValidator
 {
-	const RESULT_CODE = 'RESULT_CODE';
+	const RESULT_CODE = 'isApproved';
 	/**
 	 * Performs validation of result code
 	 *
@@ -18,10 +18,14 @@ class ResponseCodeValidator extends AbstractValidator
 	 */
 	public function validate(array $validationSubject)
 	{
-		if (!isset($validationSubject['response']) || !is_array($validationSubject['response'])) {
-			throw new \InvalidArgumentException('Response does not exist');
+		if (!isset($validationSubject['response']) || !(is_array($validationSubject['response']) || is_string($validationSubject['response']))) {
+			throw new \InvalidArgumentException('Response does not exist as expected object type');
 		}
-		$response = $validationSubject['response'];
+		if(is_string($validationSubject['response']))
+			$response = json_decode($validationSubject['response'],true);
+		else
+			$response = $validationSubject['response'];
+		
 		if ($this->isSuccessfulTransaction($response)) {
 			return $this->createResult(
 				true,

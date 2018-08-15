@@ -15,15 +15,22 @@ use Magento\Payment\Gateway\Request\BuilderInterface;
 class PaperlessRequest implements BuilderInterface
 {
 
-	protected $config;
+	//protected $config;
 	protected $customfields = array();
+	protected $_encryptor;
+	protected $_subjectReader;
+	
 	/**
 	 * @param ConfigInterface $config
 	 */
 	public function __construct(
-		ConfigInterface $config
+		\Magento\Framework\App\Config\ScopeConfigInterface $config,
+		\Magento\Framework\Encryption\EncryptorInterface $encryptor,
+		\Magento\Customer\Model\Session $customerSession
 	) {
 		$this->config = $config;
+		$this->_encryptor = $encryptor;
+		
 	}
 
 	public function is_tokenized() {
@@ -32,11 +39,12 @@ class PaperlessRequest implements BuilderInterface
 		return false;
 	}
 
-	public function is_recurring($payment) {
-		if (!isset($payment) || !$payment instanceof PaymentDataObjectInterface) {
+	public function is_recurring($paymentDO) {
+		if (!isset($paymentDO) || !$paymentDO instanceof PaymentDataObjectInterface) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
 
+		$payment = $paymentDO->getPayment();
 		$order = $payment->getOrder();
 
 		$items = $order->getAllItems();
@@ -62,47 +70,66 @@ class PaperlessRequest implements BuilderInterface
 
 	public function build(array $buildSubject)
 	{
-		$payment = $buildSubject['payment'];
+		$payment = /*(\Magento\Payment\Gateway\Data\PaymentDataObject::class)*/ $buildSubject['payment'];
+		
 		$order = $payment->getOrder();
 		$this->customfields = array();
+		
+		
+		$storid = $order->getStoreId();
+		
+		
+		$merchant_gateway_key_enc = $this->config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		
+		$merchant_gateway_key = $this->_encryptor->decrypt($merchant_gateway_key_enc);
+		
+		
+		
+		$mode = $this->config->getValue('payment/odbm_paperless/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-		$mode = $this->config->getValue('payment_mode', $order->getStoreId());
-
-		if($mode == 'Production') {
+		if(!empty($mode) && $mode == 'Production') {
 			//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
-			$key = $this->config->getValue('terminalkey', $order->getStoreId());
 			$test = 'False';
 		} else {
 			//$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
-			$key = $this->config->getValue('test_TerminalID', $order->getStoreId());
 			$test = 'True';
 		}
 
 
 		$d = $_SERVER['HTTP_HOST'];
-		$auto_type = Mage::getStoreConfig("mpx/jobtype/$d");
-		$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
+		
+		//$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
+		$tmp = 'psuedo_mpxdownload/runtime/motivation_code/jobtype/'.$d;
+		$auto_type = $this->config->getValue('psuedo_mpxdownload/runtime/jobtype/'.$d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		if(empty($auto_type))
+			$auto_type = $this->config->getValue($tmp = 'psuedo_mpxdownload/runtime/jobtype/store_'.$storid, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
 
 		if(!empty($auto_type))
 			$this->customfields[] = [1=>$auto_type];
 
-		if(!empty($order->getCustomerId)){
-			$this->customfields[] = [2=>$order->getCustomerId];
-		} else if(Mage::getSingleton('customer/session')->isLoggedIn()){
-			$this->customfields[] = [2=>
-				Mage::getSingleton('customer/session')->getCustomer()->getId()];
+		if(!empty($order->getCustomerId())){
+			$this->customfields[] = [2 => $order->getCustomerId];
+		} else {
+			$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+			$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+			if($customerSession->isLoggedIn()) {
+				// customer login action
+				$this->customfields[] = [2 => $customerSession->getCustomer()->getId()];
 			}
+			
+			
+		}
 
-			$this->customfields[] = [4=>$order->getIncrementId()];
+		$this->customfields[] = [4=>$order->getOrderIncrementId()];
 
-			$fields =  [ "req" => array(
-				'Token' => array(
-					'TerminalKey' => $key
-				),
+		$fields =  [ "req" => array(
+			'Token' => array(
+				'TerminalKey' => $merchant_gateway_key
+			),
 
-				'TestMode' => $test,
-			)
-		];
+			'TestMode' => $test,
+		)];
 
 		return $fields;
 	}

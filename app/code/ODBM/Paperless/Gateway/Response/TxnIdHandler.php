@@ -8,7 +8,8 @@ use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Response\HandlerInterface;
 class TxnIdHandler implements HandlerInterface
 {
-	const TXN_ID = 'TXN_ID';
+	const TXN_ID = 'referenceId';
+	const APRV_ID = 'approvalNumber';
 	/**
 	 * Handles transaction id
 	 *
@@ -28,6 +29,28 @@ class TxnIdHandler implements HandlerInterface
 		$payment = $paymentDO->getPayment();
 		/** @var $payment \Magento\Sales\Model\Order\Payment */
 		$payment->setTransactionId($response[self::TXN_ID]);
+		if(!empty($response['authorization'])) {
+			$payment->setCcApproval($response['authorization'][APRV_ID]);
+			/*$payment->setAmountAuthorized($response['authorization']['amount']['value']);
+			if(!empty($response['authorization']['accountType']) && $response['authorization']['accountType'] == 'CC' && preg_match('/([A-Z])+ xxxx([0-9]+)/', $response['authorization']['accountDescription'], $tags)){
+				if(empty($payment->getCcType()))
+					$payment->setCcType($tags[1]);
+				if(empty($payment->getCcLast4()))
+					$payment->setCcLast4(substr($tags[2], 4));
+				
+			}*/
+		} else if(!empty($response['transaction'])) {
+			$payment->setCcApproval($response['transaction'][APRV_ID]);
+			/*$payment->setAmountPaid($response['transaction']['amount']['value']);
+			if(!empty($response['transaction']['accountType']) && $response['transaction']['accountType'] == 'CC' && preg_match('/([A-Z])+ xxxx([0-9]+)/', $response['transaction']['accountDescription'], $tags)){
+				if(empty($payment->getCcType()))
+					$payment->setCcType($tags[1]);
+				if(empty($payment->getCcLast4()))
+					$payment->setCcLast4(substr($tags[2], 4));
+			}*/
+		}
+		else if(!empty($response['profile']))
+			$payment->setCcApproval($response['profile']['profileNumber']);
 		$payment->setIsTransactionClosed(false);
 	}
 }

@@ -29,6 +29,8 @@ class CaptureRequest extends PaperlessRequest
 	$base_req = parent::build($buildSubject);
 	$base_req['req']['uri'] = '/transactions/capture';
 
+	$payment_action = $this->config->getValue('payment/odbm_paperless/payment_action',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
 	/** @var PaymentDataObjectInterface $paymentDO */
 	$paymentDO = $buildSubject['payment'];
 	$order = $paymentDO->getOrder();
@@ -37,21 +39,34 @@ class CaptureRequest extends PaperlessRequest
 	if (!$payment instanceof OrderPaymentInterface) {
 		throw new \LogicException('Order payment should be provided.');
 	}
+	
+	if(empty($_POST) && empty($payment->getCcNumberEnc())){
+		ob_start();
+		$STDIN = fopen('php://input', 'r');
+		while($f = fgets($STDIN)){
+			echo $f;
+		}
+		$in = ob_get_clean(); /**/
+		
+		if(strlen($in) > 5 && $in[0] == '{'){
+			$stdin = json_decode($in, true);
+		}
+	}
 
 	$additional = [
 		'amount' => [
-			'currency' => $order->getStoreCurrencyCode(),
-				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? should I find a $buildSubject['amount'] ??
+			'currency' => 'USD', //$order->getOrderCurrencyCode(),
+				'value' => $buildSubject['amount']  //is this the correct field? should I find a $buildSubject['amount'] ??
 			]
 		];
 
-		if($payment->getBaseAmountAuthorized() && !empty($payment->getCcApproval())){
+		if(!empty($payment->getBaseAmountAuthorized()) && !empty($payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
 			if ($this->is_tokenized()) {
 				$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
 				$additional['metadata'] = $this->customfields;
-			} elseif($this->is_recurring($payment)){
+			} else if($this->is_recurring($paymentDO)){
 				$base_req['_recurring'] = true;
 
 				$profile_information = $this->getProfileInformation($buildSubject);

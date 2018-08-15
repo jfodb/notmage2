@@ -26,7 +26,7 @@
     </virtualType>
 
     <!-- Logger, initialized with PaperlessConfig -->
-    <virtualType name="PaperlessLogger" type="Magento\Payment\Model\Method\Logger">
+    <virtualType name="PaperlessLogger" type="Psr\Log\LoggerInterface">
         <arguments>
             <argument name="config" xsi:type="object">PaperlessConfig</argument>
         </arguments>
@@ -45,6 +45,7 @@
                 <item name="authorize" xsi:type="string">PaperlessAuthorizeCommand</item>
                 <item name="capture" xsi:type="string">PaperlessCaptureCommand</item>
                 <item name="void" xsi:type="string">PaperlessVoidCommand</item>
+                <item name="profile" xsi:type="string">PaperlessProfileCommand</item>
             </argument>
         </arguments>
     </virtualType>
@@ -109,6 +110,33 @@
             <argument name="config" xsi:type="object">PaperlessConfig</argument>
         </arguments>
     </type>
+
+
+    <!-- Profile command -->
+    <virtualType name="PaperlessProfileCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">PaperlessProfileRequest</argument>
+            <argument name="handler" xsi:type="object">PaperlessResponseHandlerComposite</argument>
+            <argument name="transferFactory" xsi:type="object">ODBM\Paperless\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\ClientMock</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Profile Request -->
+    <virtualType name="PaperlessProfileRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="transaction" xsi:type="string">ODBM\Paperless\Gateway\Request\ProfileRequest</item>
+                <item name="mockData" xsi:type="string">ODBM\Paperless\Gateway\Request\MockDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Paperless\Gateway\Request\ProfileRequest">
+        <arguments>
+            <argument name="config" xsi:type="object">PaperlessConfig</argument>
+        </arguments>
+    </type>
+    
 
     <!-- Response handlers -->
     <virtualType name="PaperlessResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">
