@@ -40,18 +40,7 @@ class CaptureRequest extends PaperlessRequest
 		throw new \LogicException('Order payment should be provided.');
 	}
 	
-	if(empty($_POST) && empty($payment->getCcNumberEnc())){
-		ob_start();
-		$STDIN = fopen('php://input', 'r');
-		while($f = fgets($STDIN)){
-			echo $f;
-		}
-		$in = ob_get_clean(); /**/
-		
-		if(strlen($in) > 5 && $in[0] == '{'){
-			$stdin = json_decode($in, true);
-		}
-	}
+	
 
 	$additional = [
 		'amount' => [
@@ -80,13 +69,13 @@ class CaptureRequest extends PaperlessRequest
 				$cardname = $payment->getCcOwner();
 				if(empty($cardname))
 					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-				$civ = $payment->getCcCid();
+				$civ = $this->_encryptor->decrypt( $payment->getCcCid() );
 				if(empty($civ))
 					$civ = $payment->getCcSecureVerify();
 
 				$expmonth = $payment->getCcExpMonth();
 				if( strlen($payment->getCcExpMonth()) === 1)
-					$expmonth = sprintf('%2$d', $expmonth);
+					$expmonth = sprintf('%\'.02d', $expmonth);
 
 				$expyear = $payment->getCcExpYear();
 				if( strlen($payment->getCcExpYear()) === 2)
@@ -94,12 +83,12 @@ class CaptureRequest extends PaperlessRequest
 
 				$additional['source'] = [
 					'card' => [
-						'accountNumber' => $payment->getCcNumber(),
+						'accountNumber' => $this->_encryptor->decrypt( $payment->getCcNumberEnc() ) ,
 						'expiration' => $expmonth . '/' . $expyear,
 						'nameOnAccount' => $cardname,
 						'securityCode' => $civ,
 						'billingAddress'=> [
-							'street' => $address->getStreet(),
+							'street' => $address->getStreetLine1(),
 							'city' => $address->getCity(),
 							'state' => $address->getRegionCode(),
 							'postal' => $address->getPostcode(),

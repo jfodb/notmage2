@@ -19,6 +19,8 @@ class PaperlessRequest implements BuilderInterface
 	protected $customfields = array();
 	protected $_encryptor;
 	protected $_subjectReader;
+	protected $_rawsource;
+	protected $_internalpost;
 	
 	/**
 	 * @param ConfigInterface $config
@@ -30,6 +32,8 @@ class PaperlessRequest implements BuilderInterface
 	) {
 		$this->config = $config;
 		$this->_encryptor = $encryptor;
+		
+		
 		
 	}
 
@@ -73,10 +77,63 @@ class PaperlessRequest implements BuilderInterface
 		$payment = /*(\Magento\Payment\Gateway\Data\PaymentDataObject::class)*/ $buildSubject['payment'];
 		
 		$order = $payment->getOrder();
+		$payment = $payment->getPayment();
 		$this->customfields = array();
-		
-		
 		$storid = $order->getStoreId();
+
+
+
+		//yeah, we're not getting the data
+		if(empty($_POST) && empty($payment->getCcNumberEnc())){
+			ob_start();
+			$STDIN = fopen('php://input', 'r');
+			while($f = fgets($STDIN)){
+				echo $f;
+			}
+			$this->_rawsource = ob_get_clean(); /**/
+			fclose($STDIN);
+
+			if(strlen($this->_rawsource) > 5 && $this->_rawsource[0] == '{'){
+				$this->_internalpost = json_decode($this->_rawsource, true);
+			}
+			
+			if(!empty($this->_internalpost)){
+				if(!empty($this->_internalpost['paymentMethod']) && !empty($this->_internalpost['paymentMethod']['additional_data'])) {
+					if(!empty($this->_internalpost['paymentMethod']['additional_data']['cc_number'])) {
+						$payment->setCcLast4(substr($this->_internalpost['paymentMethod']['additional_data']['cc_number'], -4));
+						$payment->setCcNumberEnc(
+							$this->_encryptor->encrypt(	$this->_internalpost['paymentMethod']['additional_data']['cc_number'] )
+						);
+						unset($this->_internalpost['paymentMethod']['additional_data']['cc_number']);
+					}
+
+					if(!empty($this->_internalpost['paymentMethod']['additional_data']['cc_cid'])) {
+						$payment->setCcCid( $this->_encryptor->encrypt($this->_internalpost['paymentMethod']['additional_data']['cc_cid']));
+						unset($this->_internalpost['paymentMethod']['additional_data']['cc_cid']);
+					}
+
+					if(!empty($this->_internalpost['paymentMethod']['additional_data']['cc_type'])) {
+						$payment->setCcType($this->_internalpost['paymentMethod']['additional_data']['cc_type']);
+						unset($this->_internalpost['paymentMethod']['additional_data']['cc_type']);
+					}
+
+					if(!empty($this->_internalpost['paymentMethod']['additional_data']['cc_exp_year'])) {
+						$payment->setCcExpYear($this->_internalpost['paymentMethod']['additional_data']['cc_exp_year']);
+						unset($this->_internalpost['paymentMethod']['additional_data']['cc_exp_year']);
+					}
+
+					if(!empty($this->_internalpost['paymentMethod']['additional_data']['cc_exp_month'])) {
+						$payment->setCcExpMonth($this->_internalpost['paymentMethod']['additional_data']['cc_exp_month']);
+						unset($this->_internalpost['paymentMethod']['additional_data']['cc_exp_month']);
+					}
+				}
+				if(!empty($this->_internalpost['billingAddress']))
+				if(!empty($this->_internalpost['billingAddress']['firstname']) && !empty($this->_internalpost['billingAddress']['lastname']))
+					$payment->setCcOwner($this->_internalpost['billingAddress']['firstname'] . ' ' . $this->_internalpost['billingAddress']['lastname']);
+				
+				unset($this->_rawsource);
+			}
+		}
 		
 		
 		$merchant_gateway_key_enc = $this->config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
