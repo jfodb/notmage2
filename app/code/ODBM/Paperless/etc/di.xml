@@ -37,6 +37,7 @@
             <argument name="logger" xsi:type="object">PaperlessLogger</argument>
         </arguments>
     </type>
+    
 
     <!-- Commands infrastructure -->
     <virtualType name="PaperlessCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
@@ -56,7 +57,7 @@
             <argument name="requestBuilder" xsi:type="object">PaperlessAuthorizationRequest</argument>
             <argument name="handler" xsi:type="object">PaperlessResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">ODBM\Paperless\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\ClientMock</argument>
+            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\TransactClient</argument>
         </arguments>
     </virtualType>
 
@@ -82,7 +83,7 @@
             <argument name="handler" xsi:type="object">ODBM\Paperless\Gateway\Response\TxnIdHandler</argument>
             <argument name="transferFactory" xsi:type="object">ODBM\Paperless\Gateway\Http\TransferFactory</argument>
             <argument name="validator" xsi:type="object">ODBM\Paperless\Gateway\Validator\ResponseCodeValidator</argument>
-            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\ClientMock</argument>
+            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\TransactClient</argument>
         </arguments>
     </virtualType>
 
@@ -100,7 +101,7 @@
             <argument name="handler" xsi:type="object">ODBM\Paperless\Gateway\Response\TxnIdHandler</argument>
             <argument name="transferFactory" xsi:type="object">ODBM\Paperless\Gateway\Http\TransferFactory</argument>
             <argument name="validator" xsi:type="object">ODBM\Paperless\Gateway\Validator\ResponseCodeValidator</argument>
-            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\ClientMock</argument>
+            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\TransactClient</argument>
         </arguments>
     </virtualType>
 
@@ -118,7 +119,7 @@
             <argument name="requestBuilder" xsi:type="object">PaperlessProfileRequest</argument>
             <argument name="handler" xsi:type="object">PaperlessResponseHandlerComposite</argument>
             <argument name="transferFactory" xsi:type="object">ODBM\Paperless\Gateway\Http\TransferFactory</argument>
-            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\ClientMock</argument>
+            <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\TransactClient</argument>
         </arguments>
     </virtualType>
 
