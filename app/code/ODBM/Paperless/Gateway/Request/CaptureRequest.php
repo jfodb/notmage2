@@ -39,8 +39,6 @@ class CaptureRequest extends PaperlessRequest
 	if (!$payment instanceof OrderPaymentInterface) {
 		throw new \LogicException('Order payment should be provided.');
 	}
-	
-	
 
 	$additional = [
 		'amount' => [
@@ -49,7 +47,7 @@ class CaptureRequest extends PaperlessRequest
 			]
 		];
 
-		if(!empty($payment->getBaseAmountAuthorized()) && !empty($payment->getCcApproval())){
+		if(!empty((string)$payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
 			if ($this->is_tokenized()) {

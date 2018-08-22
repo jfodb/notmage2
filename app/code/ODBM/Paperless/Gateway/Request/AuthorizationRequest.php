@@ -23,7 +23,6 @@ class AuthorizationRequest extends PaperlessRequest
 	 */
 	public function build(array $buildSubject)
 	{
-
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
