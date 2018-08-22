@@ -33,21 +33,23 @@ class AuthorizationRequest extends PaperlessRequest
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/transactions/authorize';
 
-		$payment = $buildSubject['payment'];
-		$order = $payment->getOrder();
+		/** @var PaymentDataObjectInterface $paymentDO */
+		$paymentDO = $buildSubject['payment'];
+		$order = $paymentDO->getOrder();
+		$payment = $paymentDO->getPayment();
 		$address = $order->getBillingAddress();
 
 		$addition = [
 			'amount' => [
-				'currency' => $order->getStoreCurrencyCode(),
-				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? is there a $buildSubject['amount'] ?
+				'currency' => 'USD',
+				'value' => $buildSubject['amount']  //is this the correct field? is there a $buildSubject['amount'] ?
 			]
 		];
 
 		if($this->is_tokenized()){
 			$addition['source'] = ['profileNumber' => $payment->getUserCardToken()];  //how do we get the user card token?
 			$addition['metadata'] = $this->customfields;
-		} elseif($this->is_recurring($payment)){
+		} elseif($this->is_recurring($paymentDO)){
 			$base_req['_recurring'] = true;
 
 			$profile_information = $this->getProfileInformation($buildSubject);
@@ -55,19 +57,21 @@ class AuthorizationRequest extends PaperlessRequest
 		} else {
 
 			$cardname = $payment->getCcOwner();
-			if(empty($cardname))
+			if(empty($cardname)) {
 				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+			}
+
 			$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
-			if(empty($civ))
+			if(empty($civ)) {
 				$civ = $payment->getCcSecureVerify();
+			}
 
 			$expmonth = $payment->getCcExpMonth();
-			if( strlen($payment->getCcExpMonth()) === 1)
-				$expmonth = sprintf('%2$d', $expmonth);
-
 			$expyear = $payment->getCcExpYear();
-			if( strlen($payment->getCcExpYear()) === 2)
-				$expyear = '20'.$expyear;
+
+			if(strlen($expmonth) === 2) {
+				$expmonth = sprintf('%\'.02d', $expmonth);
+			}
 
 			$addition['source'] = [
 				'card' => [
@@ -76,7 +80,7 @@ class AuthorizationRequest extends PaperlessRequest
 					'nameOnAccount' => $cardname,
 					'securityCode' => $civ,
 					'billingAddress'=> [
-						'street' => $address->getStreet(),
+						'street' => $address->getStreetLine1(),
 						'city' => $address->getCity(),
 						'state' => $address->getRegionCode(),
 						'postal' => $address->getPostcode(),
