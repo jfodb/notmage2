@@ -46,6 +46,7 @@ class AuthorizationRequest extends PaperlessRequest
 		];
 
 		if($this->is_tokenized()){
+			//insert Vault access here
 			$addition['source'] = ['profileNumber' => $payment->getUserCardToken()];  //how do we get the user card token?
 			$addition['metadata'] = $this->customfields;
 		} elseif($this->is_recurring($paymentDO)){
@@ -54,16 +55,18 @@ class AuthorizationRequest extends PaperlessRequest
 			$profile_information = $this->getProfileInformation($buildSubject);
 			$profile_information['profile']['profileNumber'];
 		} else {
-
+			
 			$cardname = $payment->getCcOwner();
-			if(empty($cardname)) {
+			if(empty($cardname))
 				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-			}
-
-			$civ = $this->_encryptor->decrypt( $payment->getCcCid() );
-
+			
+			
+			$civ =  $payment->getCcCid() ;  //this is deprecated, how do we get it??
 			if(empty($civ))
-				$civ = $payment->getCcSecureVerify();
+				$civ =  $payment->getCcSecureVerify() ;
+			if(!empty($civ) && strlen($civ) > 4)
+				$civ = $this->_encryptor->decrypt( $civ );
+			
 
 			$expmonth = $payment->getCcExpMonth();
 			$expyear = $payment->getCcExpYear();
@@ -71,10 +74,12 @@ class AuthorizationRequest extends PaperlessRequest
 			if(strlen($expmonth) === 2) {
 				$expmonth = sprintf('%\'.02d', $expmonth);
 			}
+			if( strlen($payment->getCcExpYear()) === 2)
+				$expyear = '20'.$expyear;
 
 			$addition['source'] = [
 				'card' => [
-					'accountNumber' => $payment->getCcNumber(),
+					'accountNumber' => $this->_encryptor->decrypt( $payment->getCcNumberEnc() ) ,
 					'expiration' => $expmonth . '/' . $expyear,
 					'nameOnAccount' => $cardname,
 					'securityCode' => $civ,
@@ -90,7 +95,8 @@ class AuthorizationRequest extends PaperlessRequest
 			$addition['metadata'] = $this->customfields;
 		}
 
-		/** @var PaymentDataObjectInterface $payment */
+		if($payment)
+			$payment->setCcNumberEnc('');
 
 		return array_merge($base_req, $addition);
 	}

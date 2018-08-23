@@ -176,6 +176,7 @@ class PaperlessRequest implements BuilderInterface
 			} else {
 				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 				$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+
 				if($customerSession->isLoggedIn()) {
 				// customer login action
 					$this->customfields[] = [

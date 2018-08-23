@@ -39,7 +39,7 @@ class VoidRequest extends PaperlessRequest
 
 		$additional = [
 			'amount' => [
-				'currency' => $order->getStoreCurrencyCode(),
+				'currency' => 'USD',
 				'value' => $buildSubject['amount']
 			],
 			'source' => ['approvalNumber' => $payment->getCcApproval()]
