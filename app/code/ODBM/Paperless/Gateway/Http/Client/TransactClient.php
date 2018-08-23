@@ -54,6 +54,8 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			else
 				$result = json_decode($resbody, true);
 			
+			$result['httpcode'] = $response->getStatus();
+			
 		} catch (\Zend_Http_Client_Exception $e) {
 			throw new \Magento\Payment\Gateway\Http\ClientException(
 				__($e->getMessage())
