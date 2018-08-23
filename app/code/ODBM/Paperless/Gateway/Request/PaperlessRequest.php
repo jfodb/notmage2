@@ -21,7 +21,7 @@ class PaperlessRequest implements BuilderInterface
 	protected $_subjectReader;
 	protected $_rawsource;
 	protected $_internalpost;
-	
+
 	/**
 	 * @param ConfigInterface $config
 	 */
@@ -32,9 +32,9 @@ class PaperlessRequest implements BuilderInterface
 	) {
 		$this->config = $config;
 		$this->_encryptor = $encryptor;
-		
-		
-		
+
+
+
 	}
 
 	public function is_tokenized() {
@@ -75,7 +75,7 @@ class PaperlessRequest implements BuilderInterface
 	public function build(array $buildSubject)
 	{
 		$payment = /*(\Magento\Payment\Gateway\Data\PaymentDataObject::class)*/ $buildSubject['payment'];
-		
+
 		$order = $payment->getOrder();
 		$payment = $payment->getPayment();
 		$this->customfields = array();
@@ -96,7 +96,7 @@ class PaperlessRequest implements BuilderInterface
 			if(strlen($this->_rawsource) > 5 && $this->_rawsource[0] == '{'){
 				$this->_internalpost = json_decode($this->_rawsource, true);
 			}
-			
+
 			if(!empty($this->_internalpost)){
 				if(!empty($this->_internalpost['paymentMethod']) && !empty($this->_internalpost['paymentMethod']['additional_data'])) {
 					if(!empty($this->_internalpost['paymentMethod']['additional_data']['cc_number'])) {
@@ -128,73 +128,83 @@ class PaperlessRequest implements BuilderInterface
 					}
 				}
 				if(!empty($this->_internalpost['billingAddress']))
-				if(!empty($this->_internalpost['billingAddress']['firstname']) && !empty($this->_internalpost['billingAddress']['lastname']))
-					$payment->setCcOwner($this->_internalpost['billingAddress']['firstname'] . ' ' . $this->_internalpost['billingAddress']['lastname']);
-				
-				unset($this->_rawsource);
-			}
-		}
-		
-		
-		$merchant_gateway_key_enc = $this->config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-		
-		$merchant_gateway_key = $this->_encryptor->decrypt($merchant_gateway_key_enc);
-		
-		
-		
-		$mode = $this->config->getValue('payment/odbm_paperless/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+					if(!empty($this->_internalpost['billingAddress']['firstname']) && !empty($this->_internalpost['billingAddress']['lastname']))
+						$payment->setCcOwner($this->_internalpost['billingAddress']['firstname'] . ' ' . $this->_internalpost['billingAddress']['lastname']);
 
-		if(!empty($mode) && $mode == 'Production') {
+					unset($this->_rawsource);
+				}
+			}
+
+
+			$merchant_gateway_key_enc = $this->config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+			$merchant_gateway_key = $this->_encryptor->decrypt($merchant_gateway_key_enc);
+
+
+
+			$mode = $this->config->getValue('payment/odbm_paperless/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+			if(!empty($mode) && $mode == 'Production') {
 			//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
-			$test = 'False';
-		} else {
+				$test = 'False';
+			} else {
 			//$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
-			$test = 'True';
-		}
-
-
-		$d = $_SERVER['HTTP_HOST'];
-		
-		//$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
-		$tmp = 'psuedo_mpxdownload/runtime/motivation_code/jobtype/'.$d;
-		$auto_type = $this->config->getValue('psuedo_mpxdownload/runtime/jobtype/'.$d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-		if(empty($auto_type))
-			$auto_type = $this->config->getValue($tmp = 'psuedo_mpxdownload/runtime/jobtype/store_'.$storid, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-
-
-		if(!empty($auto_type))
-			$this->customfields[] = [1=>$auto_type];
-
-		if(!empty($order->getCustomerId())){
-			$this->customfields[] = [2 => $order->getCustomerId];
-		} else {
-			$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-			$customerSession = $objectManager->get('Magento\Customer\Model\Session');
-			if($customerSession->isLoggedIn()) {
-				// customer login action
-				$this->customfields[] = [2 => $customerSession->getCustomer()->getId()];
+				$test = 'True';
 			}
-			
-			
+
+
+			$d = $_SERVER['HTTP_HOST'];
+
+		//$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
+			$tmp = 'psuedo_mpxdownload/runtime/motivation_code/jobtype/'.$d;
+			$auto_type = $this->config->getValue('psuedo_mpxdownload/runtime/jobtype/'.$d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			if(empty($auto_type))
+				$auto_type = $this->config->getValue($tmp = 'psuedo_mpxdownload/runtime/jobtype/store_'.$storid, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+			if(!empty($auto_type)) {
+				$this->customfields[] = [
+					'key' => 1,
+					'value' => $auto_type
+				];
+			}
+
+			if(!empty($order->getCustomerId())){
+				$this->customfields[] = [
+					'key' => 2,
+					'value' => $order->getCustomerId()
+				];
+			} else {
+				$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+				$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+				if($customerSession->isLoggedIn()) {
+				// customer login action
+					$this->customfields[] = [
+						'key' => 2,
+						'value' => $customerSession->getCustomer()->getId()
+					];
+				}
+			}
+
+			$this->customfields[] = [
+				'key' => 4,
+				'value' => $order->getOrderIncrementId()
+			];
+
+			$fields =  [ "req" => array(
+				'Token' => array(
+					'TerminalKey' => $merchant_gateway_key
+				),
+
+				'TestMode' => $test,
+			)];
+
+			return $fields;
 		}
 
-		$this->customfields[] = [4=>$order->getOrderIncrementId()];
-
-		$fields =  [ "req" => array(
-			'Token' => array(
-				'TerminalKey' => $merchant_gateway_key
-			),
-
-			'TestMode' => $test,
-		)];
-
-		return $fields;
-	}
-
-	public function getProfileInformation( $buildSubject ) {
+		public function getProfileInformation( $buildSubject ) {
 		/**
 		* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
 		*/
-		 throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
+		throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 	}
 }
