@@ -58,9 +58,9 @@ class TxnIdHandler implements HandlerInterface
 			}*/
 		}
 		else if(!empty($response['profile'])) {
-
 			$payment->setCcApproval($response['profile'][self::PROAPPRV_ID]);
 		}
+
 		$payment->setIsTransactionClosed(false);
 	}
 }

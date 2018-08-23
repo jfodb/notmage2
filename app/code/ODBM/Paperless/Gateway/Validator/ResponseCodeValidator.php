@@ -25,7 +25,8 @@ class ResponseCodeValidator extends AbstractValidator
 			$response = json_decode($validationSubject['response'],true);
 		else
 			$response = $validationSubject['response'];
-		
+
+
 		if ($this->isSuccessfulTransaction($response)) {
 			return $this->createResult(
 				true,
@@ -44,7 +45,16 @@ class ResponseCodeValidator extends AbstractValidator
 	 */
 	private function isSuccessfulTransaction(array $response)
 	{
-		return isset($response[self::RESULT_CODE])
-			&& $response[self::RESULT_CODE] !== ClientMock::FAILURE;
+
+		if ( !empty($response[self::RESULT_CODE]) && $response[self::RESULT_CODE] !== ClientMock::FAILURE) {
+			return true;
+		}
+
+		// Authorizations dont have isApprovved, check for approval number in transaction.
+		if ( !empty($response['transaction']['approvalNumber']) && $response['transaction']['approvalNumber'] !== ClientMock::FAILURE) {
+			return true;
+		}
+
+		return  false;
 	}
 }

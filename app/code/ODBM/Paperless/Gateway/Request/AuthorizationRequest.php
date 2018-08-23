@@ -60,10 +60,10 @@ class AuthorizationRequest extends PaperlessRequest
 				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
 			}
 
-			$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
-			if(empty($civ)) {
+			$civ = $this->_encryptor->decrypt( $payment->getCcCid() );
+
+			if(empty($civ))
 				$civ = $payment->getCcSecureVerify();
-			}
 
 			$expmonth = $payment->getCcExpMonth();
 			$expyear = $payment->getCcExpYear();
