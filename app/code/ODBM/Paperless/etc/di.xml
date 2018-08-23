@@ -37,7 +37,7 @@
             <argument name="logger" xsi:type="object">PaperlessLogger</argument>
         </arguments>
     </type>
-    
+
 
     <!-- Commands infrastructure -->
     <virtualType name="PaperlessCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
@@ -56,7 +56,7 @@
     <virtualType name="PaperlessAuthorizeCommand" type="Magento\Payment\Gateway\Command\GatewayCommand">
         <arguments>
             <argument name="requestBuilder" xsi:type="object">PaperlessAuthorizationRequest</argument>
-            <argument name="handler" xsi:type="object">PaperlessResponseHandlerComposite</argument>
+            <argument name="handler" xsi:type="object">ODBM\Paperless\Gateway\Response\TxnIdHandler</argument>
             <argument name="transferFactory" xsi:type="object">ODBM\Paperless\Gateway\Http\TransferFactory</argument>
             <argument name="client" xsi:type="object">ODBM\Paperless\Gateway\Http\Client\TransactClient</argument>
         </arguments>
@@ -149,7 +149,7 @@
             <argument name="config" xsi:type="object">PaperlessConfig</argument>
         </arguments>
     </type>
-    
+
 
     <!-- Response handlers -->
     <virtualType name="PaperlessResponseHandlerComposite" type="Magento\Payment\Gateway\Response\HandlerChain">

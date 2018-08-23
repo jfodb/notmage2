@@ -26,7 +26,8 @@ class ResponseCodeValidator extends AbstractValidator
 			$response = json_decode($validationSubject['response'],true);
 		else
 			$response = $validationSubject['response'];
-		
+
+
 		if ($this->isSuccessfulTransaction($response)) {
 			return $this->createResult(
 				true,
@@ -45,7 +46,11 @@ class ResponseCodeValidator extends AbstractValidator
 	 */
 	private function isSuccessfulTransaction(array $response)
 	{
-		//for refund
+		if(!empty($response['httpcode']))
+			if($response['httpcode'] != 200)
+				return false;
+
+		//for refund and authorizations
 		if(isset($response['transaction']) && !empty($response['transaction']['approvalNumber']))
 			return true;
 		

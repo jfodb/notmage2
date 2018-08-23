@@ -27,19 +27,16 @@ class TxnIdHandler implements HandlerInterface
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
 
-
 		if(is_string($response))
 			$response = json_decode($response,true);
-		
-		
-		
+
 		/** @var PaymentDataObjectInterface $paymentDO */
 		$paymentDO = $handlingSubject['payment'];
 		$payment = $paymentDO->getPayment();
 		/** @var $payment \Magento\Sales\Model\Order\Payment */
 		$payment->setTransactionId($response[self::TXN_ID]);
 		if(!empty($response['authorization'])) {
-			$payment->setCcApproval($response['authorization'][self::APRV_ID]);
+			$payment->setCcApproval($response['authorization'][self::AUTHAPRV_ID]);
 			if($payment->getCcCid() && strlen($payment->getCcCid()) > 2)
 				$payment->setCcCidStatus(1);
 			/*$payment->setAmountAuthorized($response['authorization']['amount']['value']);
@@ -48,7 +45,7 @@ class TxnIdHandler implements HandlerInterface
 					$payment->setCcType($tags[1]);
 				if(empty($payment->getCcLast4()))
 					$payment->setCcLast4(substr($tags[2], 4));
-				
+
 			}*/
 		} else if(!empty($response['transaction'])) {
 			if(isset($response['transaction']['amount']) && $response['transaction']['amount'] < 0){
@@ -68,8 +65,10 @@ class TxnIdHandler implements HandlerInterface
 				}*/
 			}
 		}
-		else if(!empty($response['profile']))
+		else if(!empty($response['profile'])) {
 			$payment->setCcApproval($response['profile'][self::PROAPPRV_ID]);
+		}
+
 		$payment->setIsTransactionClosed(false);
 	}
 }
