@@ -166,7 +166,7 @@ class PaperlessRequest implements BuilderInterface
 			$this->customfields[] = [1=>$auto_type];
 
 		if(!empty($order->getCustomerId())){
-			$this->customfields[] = [2 => $order->getCustomerId];
+			$this->customfields[] = [2 => $order->getCustomerId()];
 		} else {
 			$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 			$customerSession = $objectManager->get('Magento\Customer\Model\Session');
