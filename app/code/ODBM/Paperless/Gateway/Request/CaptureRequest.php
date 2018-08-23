@@ -53,6 +53,7 @@ class CaptureRequest extends PaperlessRequest
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
 			if ($this->is_tokenized()) {
+				//insert vault access here
 				$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
 				$additional['metadata'] = $this->customfields;
 			} else if($this->is_recurring($paymentDO)){
@@ -69,9 +70,12 @@ class CaptureRequest extends PaperlessRequest
 				$cardname = $payment->getCcOwner();
 				if(empty($cardname))
 					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-				$civ = $this->_encryptor->decrypt( $payment->getCcCid() );
+				
+				$civ = $payment->getCcCid();
 				if(empty($civ))
 					$civ = $payment->getCcSecureVerify();
+				if(!empty($civ) && strlen($civ) > 4)
+					$civ = $this->_encryptor->decrypt( $civ );
 
 				$expmonth = $payment->getCcExpMonth();
 				if( strlen($payment->getCcExpMonth()) === 1)
@@ -99,6 +103,9 @@ class CaptureRequest extends PaperlessRequest
 				$additional['metadata'] = $this->customfields;
 			}
 		}
+		
+		if($payment)
+			$payment->setCcNumberEnc('');
 
 		return array_merge($base_req, $additional);
 	}

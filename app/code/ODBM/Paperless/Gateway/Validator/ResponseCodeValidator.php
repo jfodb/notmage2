@@ -10,6 +10,7 @@ use ODBM\Paperless\Gateway\Http\Client\ClientMock;
 class ResponseCodeValidator extends AbstractValidator
 {
 	const RESULT_CODE = 'isApproved';
+	const RESULT_GOOD = true;
 	/**
 	 * Performs validation of result code
 	 *
@@ -44,7 +45,12 @@ class ResponseCodeValidator extends AbstractValidator
 	 */
 	private function isSuccessfulTransaction(array $response)
 	{
+		//for refund
+		if(isset($response['transaction']) && !empty($response['transaction']['approvalNumber']))
+			return true;
+		
+		
 		return isset($response[self::RESULT_CODE])
-			&& $response[self::RESULT_CODE] !== ClientMock::FAILURE;
+			&& $response[self::RESULT_CODE] === self::RESULT_GOOD;
 	}
 }
