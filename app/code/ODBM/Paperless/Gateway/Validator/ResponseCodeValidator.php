@@ -9,7 +9,8 @@ use Magento\Payment\Gateway\Validator\ResultInterface;
 use ODBM\Paperless\Gateway\Http\Client\ClientMock;
 class ResponseCodeValidator extends AbstractValidator
 {
-	const RESULT_CODE = 'RESULT_CODE';
+	const RESULT_CODE = 'isApproved';
+	const RESULT_GOOD = true;
 	/**
 	 * Performs validation of result code
 	 *
@@ -18,10 +19,15 @@ class ResponseCodeValidator extends AbstractValidator
 	 */
 	public function validate(array $validationSubject)
 	{
-		if (!isset($validationSubject['response']) || !is_array($validationSubject['response'])) {
-			throw new \InvalidArgumentException('Response does not exist');
+		if (!isset($validationSubject['response']) || !(is_array($validationSubject['response']) || is_string($validationSubject['response']))) {
+			throw new \InvalidArgumentException('Response does not exist as expected object type');
 		}
-		$response = $validationSubject['response'];
+		if(is_string($validationSubject['response']))
+			$response = json_decode($validationSubject['response'],true);
+		else
+			$response = $validationSubject['response'];
+
+
 		if ($this->isSuccessfulTransaction($response)) {
 			return $this->createResult(
 				true,
@@ -40,7 +46,16 @@ class ResponseCodeValidator extends AbstractValidator
 	 */
 	private function isSuccessfulTransaction(array $response)
 	{
+		if(!empty($response['httpcode']))
+			if($response['httpcode'] != 200)
+				return false;
+
+		//for refund and authorizations
+		if(isset($response['transaction']) && !empty($response['transaction']['approvalNumber']))
+			return true;
+		
+		
 		return isset($response[self::RESULT_CODE])
-			&& $response[self::RESULT_CODE] !== ClientMock::FAILURE;
+			&& $response[self::RESULT_CODE] === self::RESULT_GOOD;
 	}
 }

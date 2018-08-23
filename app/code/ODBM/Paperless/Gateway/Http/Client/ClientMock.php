@@ -38,6 +38,7 @@ class ClientMock implements ClientInterface
 	 */
 	public function placeRequest(TransferInterface $transferObject)
 	{
+
 		$response = $this->generateResponseForCode(
 			$this->getResultCode(
 				$transferObject

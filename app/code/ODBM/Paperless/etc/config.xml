@@ -3,7 +3,7 @@
         <payment>
             <odbm_paperless>
                 <model>PaperlessFacade</model>
-                <title>Credit Card (Paperless)</title>
+                <title>Credit Card ODBM</title>
                 <payment_action>authorize_capture</payment_action>
                 <active>0</active>
                 <is_gateway>1</is_gateway>

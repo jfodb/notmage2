@@ -14,7 +14,7 @@ class AuthorizationRequest extends PaperlessRequest
 	/**
 	 * @var ConfigInterface
 	 */
-	
+
 	/**
 	 * Builds ENV request
 	 *
@@ -23,62 +23,68 @@ class AuthorizationRequest extends PaperlessRequest
 	 */
 	public function build(array $buildSubject)
 	{
-
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
-		
+
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/transactions/authorize';
 
-
-		$payment = $buildSubject['payment'];
-		$order = $payment->getOrder();
+		/** @var PaymentDataObjectInterface $paymentDO */
+		$paymentDO = $buildSubject['payment'];
+		$order = $paymentDO->getOrder();
+		$payment = $paymentDO->getPayment();
 		$address = $order->getBillingAddress();
-		
-
 
 		$addition = [
 			'amount' => [
-				'currency' => $order->getStoreCurrencyCode(),
-				'value' => $payment->getBaseAmountAuthorized()  //is this the correct field? is there a $buildSubject['amount'] ?
+				'currency' => 'USD',
+				'value' => $buildSubject['amount']  //is this the correct field? is there a $buildSubject['amount'] ?
 			]
 		];
-		
-		
-		
+
 		if($this->is_tokenized()){
+			//insert Vault access here
 			$addition['source'] = ['profileNumber' => $payment->getUserCardToken()];  //how do we get the user card token?
 			$addition['metadata'] = $this->customfields;
-		} else {
+		} elseif($this->is_recurring($paymentDO)){
+			$base_req['_recurring'] = true;
 
+			$profile_information = $this->getProfileInformation($buildSubject);
+			$profile_information['profile']['profileNumber'];
+		} else {
+			
 			$cardname = $payment->getCcOwner();
 			if(empty($cardname))
 				$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-			$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
+			
+			
+			$civ =  $payment->getCcCid() ;  //this is deprecated, how do we get it??
 			if(empty($civ))
-				$civ = $payment->getCcSecureVerify();
+				$civ =  $payment->getCcSecureVerify() ;
+			if(!empty($civ) && strlen($civ) > 4)
+				$civ = $this->_encryptor->decrypt( $civ );
 			
 
 			$expmonth = $payment->getCcExpMonth();
-			if( strlen($payment->getCcExpMonth()) === 1)
-				$expmonth = sprintf('%2$d', $expmonth);
-
 			$expyear = $payment->getCcExpYear();
+
+			if(strlen($expmonth) === 2) {
+				$expmonth = sprintf('%\'.02d', $expmonth);
+			}
 			if( strlen($payment->getCcExpYear()) === 2)
 				$expyear = '20'.$expyear;
-			
-			
+
 			$addition['source'] = [
 				'card' => [
-					'accountNumber' => $payment->getCcNumber(),
+					'accountNumber' => $this->_encryptor->decrypt( $payment->getCcNumberEnc() ) ,
 					'expiration' => $expmonth . '/' . $expyear,
 					'nameOnAccount' => $cardname,
 					'securityCode' => $civ,
 					'billingAddress'=> [
-						'street' => $address->getStreet(),
+						'street' => $address->getStreetLine1(),
 						'city' => $address->getCity(),
 						'state' => $address->getRegionCode(),
 						'postal' => $address->getPostcode(),
@@ -88,9 +94,10 @@ class AuthorizationRequest extends PaperlessRequest
 			];
 			$addition['metadata'] = $this->customfields;
 		}
-		
-		/** @var PaymentDataObjectInterface $payment */
-		
+
+		if($payment)
+			$payment->setCcNumberEnc('');
+
 		return array_merge($base_req, $addition);
 	}
 }
