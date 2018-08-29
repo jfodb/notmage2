@@ -554,11 +554,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				else
 					$OrderRow["SourceAccountNumber"] = $order['customer_id'];
 
-				//if (!string.IsNullOrEmpty(order.AffiliateID))
-				//    OrderRow.Add(, order.AffiliateID);
-				//else if (!string.IsNullOrEmpty(_Motivation))
-				//    OrderRow.Add("MotivationCode", _Motivation);
-				$OrderRow["MotivationCode"] = $this->motivation;
+				
 
 				//check for affiliates
 				if($affilTableExists) {
@@ -945,6 +941,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$li = array();
 
 					$li["ProductCode"] = $lineitem['sku'];
+					$this->motivation = $lineitem['sku'];
 
 					$li["Quantity"] = $quant;
 					$li["Price"] = round($lineitem['base_original_price'], 2);
@@ -1060,6 +1057,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if($OrderRow["OrderDiscountAmount"] > 0.00) {
 					$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
 				}
+
+				
+				$OrderRow["MotivationCode"] = $this->motivation;
 
 
 				$Mem_rows[] = $OrderRow;
