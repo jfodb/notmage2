@@ -6,40 +6,43 @@
 				<trustedips>12.51.91.4,12.51.91.5,70.39.176.28,67.59.39.1*,108.171.131.1*,10.183.251.2,172.17.0.1</trustedips>
 				<timezone>06:00:00</timezone><!-- as offset -->
 				<motivation_code>
-					<!-- example 
-					<dhponline.ca>INTDHP</dhponline.ca> 
+					<!-- example
+					<dhponline.ca>INTDHP</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>INT</magento.beta.rbc.org>
+					<dev.mage2.org>INT</dev.mage2.org>
+					<store_1>INT</store_1>
 				</motivation_code>
 				<company>
 					<!-- example:
 					<dhponline.ca>DHPC</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>RBCU</magento.beta.rbc.org>
+					<dev.mage2.org>RBCU</dev.mage2.org>
 				</company>
 				<jobtype>
-					<!-- example: 
+					<!-- example:
 					<dhponline.ca>DhpStore</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>ODBDonations</magento.beta.rbc.org>
+					<dev.mage2.org>ODBDonations</dev.mage2.org>
+					<beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
+					<store_1>ODBDonations</store_1>
 				</jobtype>
 				<store_id>
 					<!-- example>
 					<dhponline.ca>2</dhponline.ca>
 					-->
-					<magento.beta.rbc.org>1</magento.beta.rbc.org>
+					<dev.mage2.org>1</dev.mage2.org>
 				</store_id>
 				<domain>
 					<dhpstore>
-						<!-- example: 
+						<!-- example:
 						<dhpc>dhponline.ca</dhpc>
 						-->
-						<dhpt>magento.beta.rbc.org</dhpt>
+						<dhpt>dev.mage2.org</dhpt>
 					</dhpstore>
 					<odbdonations>
-						<rbcu>magento.beta.rbc.org</rbcu>
+						<rbcu>dev.mage2.org</rbcu>
 					</odbdonations>
-					<!-- example:  
+					<!-- example:
 					<ccstore>
 						<dhpu>cugn.org</dhpu>
 					</ccstore>
@@ -47,10 +50,10 @@
 				</domain>
 				<beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
 					<dhpstore>
-						<dhpt>magento.beta.rbc.org</dhpt>
+						<dhpt>dev.mage2.org</dhpt>
 					</dhpstore>
 					<odbdonations>
-						<rbcu>magento.beta.rbc.org</rbcu>
+						<rbcu>dev.mage2.org</rbcu>
 					</odbdonations>
 				</beta>
 			</runtime>
