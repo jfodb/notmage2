@@ -15,19 +15,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	protected $ip, $err, $err_message, $connection_good;
 	protected $productModel;
 	public $START_STATUS, $START_STATE, $PROCESS_STATUS, $PROCESS_STATE, $END_STATUS, $END_STATE;
-	
+
 	static $ENCODE_BYTE_MAP, $NIBBLE_GOOD_CHARS;
 
 
-	
+
 	public function set_source(\Magento\Framework\App\ResourceConnection $dbresource,
-	                      \Magento\Framework\DB\Adapter\Pdo\Mysql $dbconnection, 
+	                      \Magento\Framework\DB\Adapter\Pdo\Mysql $dbconnection,
 	                      \Magento\Catalog\Model\Product $productModel)
 	{
 		$this->db_resource = $dbresource;
 		$this->db = $dbconnection;
 		$this->productModel = $productModel;
-		
+
 
 		$this->connection_good = false;
 
@@ -589,9 +589,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				else
 					$OrderRow["ReceivedAmount"] = round($order['base_total_invoiced'], 2);
 
-				$OrderRow["GiftAmount"] = floatval("0.00");
-				$OrderRow["OrderAmount"] = round($order["base_subtotal"], 2);
+				$OrderRow["OrderAmount"] = floatval("0.00");
+
+				$OrderRow["GiftAmount"] = round($order["base_subtotal"], 2);
 				$OrderRow["ShippingAmount"] = round($order['base_shipping_amount'], 2);
+				$OrderRow["OrderTotalAmount"] = floatval("0.00");
+
 				$OrderRow["PrimaryTaxAmount"] = round($order['base_tax_amount'], 2);
 				$OrderRow["SecondaryTaxAmount"] = 0.00;
 
@@ -599,7 +602,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$order['base_discount_amount'] = abs($order['base_discount_amount']);
 				//$OrderRow["OrderDiscountAmount"] = round($order['base_discount_amount'], 2);
 
-				$OrderRow["OrderTotalAmount"] = round($order['base_grand_total'], 2);
 				//OrderRow.Add("SourceShipMethod", order.ShippingMethodDisplayName);
 				$shipmethod = $order['shipping_method'];
 				if(empty($shipmethod)){
@@ -626,7 +628,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				$sql = sprintf("SELECT * FROM `%s` WHERE `parent_id`=%d", $this->db_resource->getTableName('sales_order_payment'), $OrderNumber);
 				$tmp = $this->db->fetchAssoc($sql);
-				
+
 				$this->_logger->notice($OrderNumber);
 				$this->_logger->notice(print_r($tmp, true));
 				foreach($tmp as $idontcare=>$payment) break;
@@ -650,7 +652,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if(is_null($payment['base_amount_authorized'])) {
 						if(!empty($payment['base_amount_paid']))
 							$OrderRow["PaymentAmount"] = round($payment['base_amount_paid'], 2);
-						else 
+						else
 							$OrderRow["PaymentAmount"] = floatval("0.00");
 					}
 					else
@@ -1033,7 +1035,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					//if(empty($original)) {
 					//	$original = Mage ::getModel('catalog/product')->setStoreId($this->store)->load();
 					$original = $this->productModel->load($lineitem['product_id']);
-					
+
 
 					//fetch set product type if available
 					if($original->getResource()->getAttribute('productoffertype'))
