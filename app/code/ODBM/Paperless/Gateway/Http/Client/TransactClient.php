@@ -10,7 +10,7 @@ use Magento\Payment\Model\Method\Logger;
 
 class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 {
-	
+
 	protected $clientFactory;
 	protected $converter;
 
@@ -21,10 +21,10 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 	) {
 		$this->clientFactory = $clientFactory;
 		$this->converter = $converter;
-		
+
 		parent::__construct($clientFactory, $logger, $converter);
 	}
-	
+
 	public function placeRequest(TransferInterface $transferObject)
 	{
 		$log = [
@@ -39,7 +39,7 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 		$client->setMethod($transferObject->getMethod());
 
 		$client->setRawData($transferObject->getBody(), 'application/json');
-		
+
 		$client->setHeaders($transferObject->getHeaders());
 		$client->setUrlEncodeBody($transferObject->shouldEncode());
 		$client->setUri($transferObject->getUri());
@@ -48,21 +48,21 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			$response = $client->request();
 
 			$resbody = $response->getBody();
-			
+
 			if(is_array($resbody))
 				$result = $resbody;
 			else
 				$result = json_decode($resbody, true);
-			
+
 			$result['httpcode'] = $response->getStatus();
-			
+
 		} catch (\Zend_Http_Client_Exception $e) {
 			throw new \Magento\Payment\Gateway\Http\ClientException(
 				__($e->getMessage())
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
 			throw $e;
-		} 
+		}
 
 		return $result;
 	}
