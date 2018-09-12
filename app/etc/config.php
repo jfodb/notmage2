@@ -125,6 +125,8 @@ return array (
     'ODBM_Donation' => 1,
     'ODBM_Paperless' => 1,
     'Psuedo_Mpxdownload' => 1,
+    'Psuedo_Paperless' => 1,
+    'Psuedo_Silverpop' => 1,
     'Shopial_Facebook' => 1,
     'Temando_Shipping' => 1,
   ),
