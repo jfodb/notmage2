@@ -94,13 +94,14 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 	protected function ignoreAddressValidation()
 	{
 		$this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
-		if (!$this->_quote->getIsVirtual()) {
-			$this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
-			if (!$this->_config->getValue('requireBillingAddress')
-				&& !$this->_quote->getBillingAddress()->getEmail()
-			) {
-				$this->_quote->getBillingAddress()->setSameAsBilling(1);
-			}
+		
+		$this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
+		
+		if (!$this->_config->getValue('requireBillingAddress')
+			&& !$this->_quote->getBillingAddress()->getEmail()
+		) {
+			$this->_quote->getShippingAddress()->setSameAsBilling(1);
 		}
+		
 	}
 }
