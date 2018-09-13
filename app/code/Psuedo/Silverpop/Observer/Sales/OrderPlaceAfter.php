@@ -31,39 +31,46 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 	    
 	    $orderitems = $order->getAllItems();
 	    
+	    $itemSku = '';
 	    foreach ($orderitems as $item){
 		    $itemSku = $item->getSku();
 		    //$donationType = $item->getOptions('recurrence');
 	    }
 	    
 	    
+	    
+	    
 	    $vals = [
 		    
-		    'email' => $order->getCustomerEmail(),
+			'email' => $order->getCustomerEmail(),
 		    
 		    'Firstname' => $address->getFirstname(),
 			'Lastname' => $address->getLastname(),
 		    
-		    'Street' => $address->getStreetLine1(),
-		    'City' => $address->getCity(),
+			'Street' => $address->getStreetLine(1),
+			'City' => $address->getCity(),
 			'Zip' => $address->getRegionCode(),
 			'Country' => ($address->getCountryId() != 'US') ? $address->getCountryId() : 'USA',
 		    
-		    'Day_Phone' => $address->getTelephone(),
+			'Day_Phone' => $address->getTelephone(),
 		    
-		    'last4' => $payment->getCcLast4(),
-			'cardtype' => $payment->getCcType(),
+			'last4' => $payment->getCcLast4()?:'',
+			'cardtype' => $payment->getCcType()?:'',
 			'authcode' => $payment->getCcApproval(),
-		    'oneTimeDonor' => 'Yes',
-		    'GiftAmount' => $order->getGrandTotal(),
+			'oneTimeDonor' => 'Yes',
+			'GiftAmount' => $order->getGrandTotal(),
 		    
-		    'exit2018Journey' => 'Yes',
-		    'donorMotivationCode' => $itemSku
+			'donorMotivationCode' => $itemSku,
 			//when we can detect:
-		    //'monthlyDonor' => $order->getRecuring
+			//'monthlyDonor' => $order->getRecuring
+			'donation_last_gift_date' => date('m/d/Y'),
+			'donationsource' => 'magento'
+		    
 	    ];
 	    
+	    
 	    //reinterpret card type to public word
+	    if(!empty($vals['cardtype']))
 	    switch ($vals['cardtype']) {
 		    case 'MC': 
 		    	$vals['cardtype'] = 'Mastercard';
