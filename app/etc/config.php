@@ -123,7 +123,6 @@ return array (
     'Mageplaza_Core' => 1,
     'Mageplaza_Smtp' => 1,
     'ODBM_Donation' => 1,
-    'ODBM_Paperless' => 1,
     'Psuedo_Mpxdownload' => 1,
     'Psuedo_Paperless' => 1,
     'Psuedo_Silverpop' => 1,
