@@ -24,13 +24,13 @@
 
 					</div>
 				</div>
+			</div>
+		<?php endif; ?>
 
+		<div class="field">
 				<input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
 				<input type="hidden" name="_referer" value="<?php echo $_SERVER['HTTP_REFERER'] ?? ''; ?>" />
 				<input type="hidden" name="_ministry" value="<?php echo $_REQUEST['ministry'] ?? '';?>" />
-			</div>
-		<?php endif; ?>
-		<div class="field">
 			<!--            <label class="label">-->
 				<!--                <span>--><?php //echo __('Choose your own Amount %1 (minimum %2)', $block->getCurrencySymbol(), $block->getMinimalDonationAmount()); ?><!--</span>-->
 				<!--            </label>-->
@@ -60,29 +60,56 @@
 				// Temporary redirect to MOS for recurring
 				// Remove once recurring is ready to be handled through Magento
 				var checkRedirectToMOS = function(e) {
-					if ( document.getElementById('_recurring-yes').checked ) {
-						e.preventDefault();
 
-						let amount = document.getElementById('amount').value;
+					let amount = document.getElementById('amount').value;
 
-						if ( !amount ) {
-							// Check radio buttons
-							var radios = document.getElementsByName('amount_fixed');
+					if ( !amount ) {
+						// Check radio buttons
+						var radios = document.getElementsByName('amount_fixed');
 
-							for (var i = 0, length = radios.length; i < length; i++) {
-								if (radios[i].checked) {
-									amount = radios[i].value;
-									break;
-								}
+						for (var i = 0, length = radios.length; i < length; i++) {
+							if (radios[i].checked) {
+								amount = radios[i].value;
+								break;
 							}
 						}
+					}
 
-						var sku = document.getElementsByName('_motivation_code')[0].value;
+					var product = {
+						id: document.getElementsByName('_motivation_code')[0].value, // Sku or manually passed motivation code
+						name: 'Donation',
+						variant: 'one-time',
+						brand: 'Our Daily Bread Ministries'
+						price: amount,
+						quantity: product.qty
+					};
 
-						window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
+					if ( document.getElementById('_recurring-yes').checked ) {
 
+						product.variant = 'monthly';
+						gaAddtoCartHandler(product);
+
+						window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + product.id + '&amount=' + product.price +'&donation-options=monthly';
+
+						e.preventDefault();
 						return false;
 					}
+				};
+
+				// Called when a product is added to a shopping cart.
+				function gaAddtoCartHandler(product) {
+				  ga('ec:addProduct', {
+				    'id': product.id,
+				    'name': product.name,
+				    'category': product.category,
+				    'brand': product.brand,
+				    'variant': product.variant,
+				    'price': product.price,
+				    'quantity': 1
+				  });
+
+				  ga('ec:setAction', 'add');
+				  ga('send', 'event', product.id, 'Add To Cart Clicked', product.variant);     // Send data using an event.
 				}
 
 				document.addEventListener('DOMContentLoaded', function() {
