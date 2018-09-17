@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+		<section id="receipts" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+			<label>Receipts</label>
+			<tab>sales</tab>
+			<resource>Psuedo_Silverpop::config_psuedo_silverpop</resource>
+			<group id="silverpop" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>silverpop</label>
+				<field id="server_uri" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>server_uri</label>
+					<comment/>
+				</field>
+				<field id="template_name" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>template_name</label>
+					<comment/>
+				</field>
+				<field id="signature" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>signature</label>
+					<comment/>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>
