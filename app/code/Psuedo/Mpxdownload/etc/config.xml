@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<psuedo_mpxdownload><!-- anything goes here -->
+			<runtime><!-- anything goes here -->
+				<trustedips>12.51.91.4,12.51.91.5,70.39.176.28,67.59.39.1*,108.171.131.1*,10.183.251.2,172.17.0.1</trustedips>
+				<timezone>06:00:00</timezone><!-- as offset -->
+				<motivation_code>
+					<!-- example
+					<dhponline.ca>INTDHP</dhponline.ca>
+					-->
+					<dev.mage2.org>INT</dev.mage2.org>
+					<store_1>INT</store_1>
+				</motivation_code>
+				<company>
+					<!-- example:
+					<dhponline.ca>DHPC</dhponline.ca>
+					-->
+					<dev.mage2.org>RBCU</dev.mage2.org>
+				</company>
+				<jobtype>
+					<!-- example:
+					<dhponline.ca>DhpStore</dhponline.ca>
+					-->
+					<dev.mage2.org>ODBDonations</dev.mage2.org>
+					<beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
+					<store_1>ODBDonations</store_1>
+				</jobtype>
+				<store_id>
+					<!-- example>
+					<dhponline.ca>2</dhponline.ca>
+					-->
+					<dev.mage2.org>1</dev.mage2.org>
+				</store_id>
+				<domain>
+					<dhpstore>
+						<!-- example:
+						<dhpc>dhponline.ca</dhpc>
+						-->
+						<dhpt>dev.mage2.org</dhpt>
+					</dhpstore>
+					<odbdonations>
+						<rbcu>dev.mage2.org</rbcu>
+					</odbdonations>
+					<!-- example:
+					<ccstore>
+						<dhpu>cugn.org</dhpu>
+					</ccstore>
+					-->
+				</domain>
+				<beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
+					<dhpstore>
+						<dhpt>dev.mage2.org</dhpt>
+					</dhpstore>
+					<odbdonations>
+						<rbcu>dev.mage2.org</rbcu>
+					</odbdonations>
+				</beta>
+			</runtime>
+		</psuedo_mpxdownload>
+	</default>
+</config>
