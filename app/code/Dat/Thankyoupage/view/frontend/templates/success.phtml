@@ -89,4 +89,17 @@ $is_recurring = $block->isOrderRecurring();
 			<p><em>President</em>, Our Daily Bread Ministries</p>
 		</div>
 	</div>
+	
+	<?php 
+		if(!empty($block->hasGaData())){
+			echo $block->getGaForm();
+		} 
+	?>
+	
+	<script>
+		
+        
+    domReady('sendCheckoutGA');
+    
+	</script>
 </div>

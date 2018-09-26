@@ -26,11 +26,12 @@
 				</div>
 			</div>
 		<?php endif; ?>
-
 		<div class="field">
-				<input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
-				<input type="hidden" name="_referer" value="<?php echo $_SERVER['HTTP_REFERER'] ?? ''; ?>" />
-				<input type="hidden" name="_ministry" value="<?php echo $_REQUEST['ministry'] ?? '';?>" />
+
+			<input type="hidden" name="_motivation_code" value="<?php echo $_REQUEST['motivation'] ?? ''; ?>" />
+			<input type="hidden" name="_referer" value="<?php echo $_SERVER['HTTP_REFERER'] ?? ''; ?>" />
+			<input type="hidden" name="_ministry" value="<?php echo $_REQUEST['ministry'] ?? '';?>" />
+
 			<!--            <label class="label">-->
 				<!--                <span>--><?php //echo __('Choose your own Amount %1 (minimum %2)', $block->getCurrencySymbol(), $block->getMinimalDonationAmount()); ?><!--</span>-->
 				<!--            </label>-->
@@ -75,42 +76,15 @@
 						}
 					}
 
-					var product = {
-						id: document.getElementsByName('_motivation_code')[0].value, // Sku or manually passed motivation code
-						name: 'Donation',
-						variant: 'one-time',
-						brand: 'Our Daily Bread Ministries'
-						price: amount,
-						quantity: product.qty
-					};
+					var sku = document.getElementsByName('_motivation_code')[0].value;
 
 					if ( document.getElementById('_recurring-yes').checked ) {
-
-						product.variant = 'monthly';
-						gaAddtoCartHandler(product);
-
-						window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + product.id + '&amount=' + product.price +'&donation-options=monthly';
+						window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
 
 						e.preventDefault();
 						return false;
 					}
 				};
-
-				// Called when a product is added to a shopping cart.
-				function gaAddtoCartHandler(product) {
-				  ga('ec:addProduct', {
-				    'id': product.id,
-				    'name': product.name,
-				    'category': product.category,
-				    'brand': product.brand,
-				    'variant': product.variant,
-				    'price': product.price,
-				    'quantity': 1
-				  });
-
-				  ga('ec:setAction', 'add');
-				  ga('send', 'event', product.id, 'Add To Cart Clicked', product.variant);     // Send data using an event.
-				}
 
 				document.addEventListener('DOMContentLoaded', function() {
 					var sku = document.getElementById('product_addtocart_form').dataset.productSku;
