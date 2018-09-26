@@ -44,7 +44,7 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 		    
 			'email' => $order->getCustomerEmail(),
 		    
-		    'Firstname' => $address->getFirstname(),
+			'Firstname' => $address->getFirstname(),
 			'Lastname' => $address->getLastname(),
 		    
 			'Street' => $address->getStreetLine(1),
@@ -57,6 +57,7 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 			'last4' => $payment->getCcLast4()?:'',
 			'cardtype' => $payment->getCcType()?:'',
 			'authcode' => $payment->getCcApproval(),
+			'donation_last_cc_expdate' => sprintf('%02d',$payment->getCcExpMonth()).'/'.substr($payment->getCcExpYear(), -2),
 			'oneTimeDonor' => 'Yes',
 			'GiftAmount' => $order->getGrandTotal(),
 		    
