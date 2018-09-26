@@ -1,0 +1,22 @@
+{
+    "name": "psuedo/module-silverpop",
+    "description": "copy email actions to 100% available api server",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "email": "peter.postma@odb.org",
+            "name": "Peter Postma"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Psuedo\\Silverpop\\": ""
+        }
+    }
+}
