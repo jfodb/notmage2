@@ -1,4 +1,4 @@
-require(['jquery', 'jquery/ui'], function($) {
+require(['jquery', 'jquery/ui', 'domready!'], function($) {
 	 	$('.overlay').appendTo('body');
 
 	 		$('.nav-toggle').click( function(e) {
