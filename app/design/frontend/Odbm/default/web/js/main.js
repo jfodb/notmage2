@@ -1,4 +1,4 @@
-require(['jquery', 'jquery/ui', 'domready!'], function($) {
+require(['jquery', 'jquery/ui'], function($) {
 	 	$('.overlay').appendTo('body');
 
 	 		$('.nav-toggle').click( function(e) {
@@ -88,7 +88,7 @@ require(['jquery', 'jquery/ui', 'domready!'], function($) {
 		});
 
 
-		var sendCheckoutGA = function() {
+		function sendCheckoutGA() {
 			if (document.getElementById('gadata')) {
 				var gacat = jQuery('#gacat').val();
 				var gaact = jQuery('#gaact').val();
@@ -105,5 +105,5 @@ require(['jquery', 'jquery/ui', 'domready!'], function($) {
 				alert('sending the GA '+gacat + ", " + gaact + ", " + galab + ", " + gaval);
 			} else
 				alert('not sending the ga');
-		};
+		}
 	});

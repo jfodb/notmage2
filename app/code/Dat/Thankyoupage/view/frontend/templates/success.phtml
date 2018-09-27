@@ -97,9 +97,12 @@ $is_recurring = $block->isOrderRecurring();
 	?>
 	
 	<script>
-		
-        
-    domReady('sendCheckoutGA');
+
+    require(['domReady'], function (domReady) {
+        domReady(function () {
+            domReady('sendCheckoutGA');
+        }
+    }
     
 	</script>
 </div>
