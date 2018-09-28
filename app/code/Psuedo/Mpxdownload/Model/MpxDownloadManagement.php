@@ -23,9 +23,9 @@ namespace Psuedo\Mpxdownload\Model;
 
 use Psuedo\Mpxdownload\Helper\Data;
 
-require_once __dir__.'/ResourceModel/Mpx_downloadManagement.php';
+// require_once __dir__.'/ResourceModel/Mpx_downloadManagement.php';
 
-class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel 
+class MpxDownloadManagement extends \Magento\Framework\Model\AbstractModel 
 {
 	protected  $connection, $mpxhelper, $productModel;
 
@@ -49,7 +49,7 @@ class Mpx_downloadManagement extends \Magento\Framework\Model\AbstractModel
 	
 	protected function _construct()
 	{
-		$this->_init(\Psuedo\Mpxdownload\Model\ResourceModel\Mpx_downloadManagement::class);
+		$this->_init(\Psuedo\Mpxdownload\Model\ResourceModel\MpxDownloadManagement::class);
 	}
 
 	protected function _init($resourceModel)
