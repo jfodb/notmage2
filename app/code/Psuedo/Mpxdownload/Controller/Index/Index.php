@@ -22,7 +22,7 @@
 
 namespace Psuedo\Mpxdownload\Controller\Index;
 
-require_once (dirname(dirname(__DIR__)).'/Model/Mpx_downloadManagement.php' );
+//require_once (dirname(dirname(__DIR__)).'/Model/Mpx_downloadManagement.php' );
 
 class Index extends \Magento\Framework\App\Action\Action
 {
@@ -39,7 +39,7 @@ class Index extends \Magento\Framework\App\Action\Action
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-	    \Psuedo\Mpxdownload\Model\Mpx_downloadManagement $manager
+	    \Psuedo\Mpxdownload\Model\MpxDownloadManagement $manager
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->manager = $manager;

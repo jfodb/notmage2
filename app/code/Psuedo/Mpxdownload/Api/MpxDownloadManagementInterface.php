@@ -21,7 +21,7 @@
 
 namespace Psuedo\Mpxdownload\Api;
 
-interface Mpx_downloadManagementInterface
+interface MpxDownloadManagementInterface
 {
 
 
