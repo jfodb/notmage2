@@ -7,7 +7,7 @@
  */
 
 
-namespace Psuedo\Mpxdownload\Model\ResourceModel\Mpx_downloadManagement;
+namespace Psuedo\Mpxdownload\Model\ResourceModel\MpxDownloadManagement;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
@@ -18,6 +18,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 	 */
 	public function _construct()
 	{
-		$this->_init('Psuedo\Mpxdownload\Model\Contact', 'Psuedo\Mpxdownload\Model\ResourceModel\Mpx_downloadManagement');
+		$this->_init('Psuedo\Mpxdownload\Model\Contact', 'Psuedo\Mpxdownload\Model\ResourceModel\MpxDownloadManagement');
 	}
 }
