@@ -92,6 +92,12 @@ require(['jquery', 'jquery/ui'], function($) {
 	});
 
 //make globally available
+function trySendCheckoutGA() {
+	if(ga) {
+		sendCheckoutGA();
+	} else 
+		setTimeout(trySendCheckoutGA, 200);
+}
 function sendCheckoutGA() {
     if (document.getElementById('gadata')) {
         var gacat = jQuery('#gacat').val();
