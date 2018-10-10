@@ -1,25 +1,23 @@
 <?php
-
 namespace ODBM\Donation\Block\Checkout;
-use Magento\Checkout\Model\Session;
 
 class BackgroundImage extends \Magento\Framework\View\Element\Template
 {
 	protected $_session;
 	protected $_productRepositoryFactory;
-	protected $_blockFactory;
 
 	public function __construct(
 		\Magento\Framework\View\Element\Template\Context $context,
-		Session $session,
+		\Magento\Checkout\Model\Session $session,
 		\Magento\Framework\View\Element\BlockFactory $blockFactory,
-		 \Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory
+		\Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory,
+		\Magento\Catalog\Helper\Image $imageHelper
 	)
 	{
 		parent::__construct($context);
 		$this->_session = $session;
 		$this->_productRepositoryFactory = $productRepositoryFactory;
-		$this->_blockFactory = $blockFactory;
+		$this->_imageHelper = $imageHelper;
 	}
 
 	public function getBackgroundImage() {
@@ -31,10 +29,7 @@ class BackgroundImage extends \Magento\Framework\View\Element\Template
 		$product = $this->_productRepositoryFactory->create()->getById($item->getProductId());
 		$image = $product->getData('image');
 
-		$objectManager  = \Magento\Framework\App\ObjectManager::getInstance();
-		$helperImport   = $objectManager->get('\Magento\Catalog\Helper\Image');
-
-    $imageUrl = $helperImport
+    $imageUrl = $this->_imageHelper
 			->init($product, 'product_page_image_large')
 			->setImageFile($product->getFile())
 			->getUrl();
