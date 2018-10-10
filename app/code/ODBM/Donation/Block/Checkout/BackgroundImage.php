@@ -29,7 +29,7 @@ class BackgroundImage extends \Magento\Framework\View\Element\Template
 		$product = $this->_productRepositoryFactory->create()->getById($item->getProductId());
 		$image = $product->getData('image');
 
-    $imageUrl = $this->_imageHelper
+		$imageUrl = $this->_imageHelper
 			->init($product, 'product_page_image_large')
 			->setImageFile($product->getFile())
 			->getUrl();
