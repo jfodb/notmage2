@@ -93,9 +93,10 @@ require(['jquery', 'jquery/ui'], function($) {
 
 //make globally available
 function trySendCheckoutGA() {
-	if(ga) {
+	if(typeof ga == 'function') {
 		sendCheckoutGA();
 	} else 
+		//the time is not right, wait to strike
 		setTimeout(trySendCheckoutGA, 200);
 }
 function sendCheckoutGA() {
