@@ -48,6 +48,7 @@ header .header.content {
 main {
 	padding-top: @odb-header-height;
 }
+
 .nav-up {
 	top: -@odb-header-height;
 }
@@ -226,6 +227,7 @@ input#amount::placeholder {
 	display: none !important;
 }
 
+
 @media (max-width: 767px) {
 	.desktop-only {
 		display: none !important;
@@ -256,8 +258,29 @@ input#amount::placeholder {
 		font-size: 16px;
 	}
 }
+.authentication-wrapper {
+	display: none;
+}
 
 @media (min-width: 768px) {
+	/** Checkout Styles **/
+	.checkout-index-index main {
+		margin: 0;
+		padding-left: 30px;
+		padding-right: 30px;
+		background-size: cover;
+		max-width: 100%;
+	}
+	#checkout {
+		background-color: white;
+		max-width: 640px;
+		margin: auto;
+		margin-top: 35px;
+		padding: 15px;
+	}
+	.checkout-index-index main {
+		min-height: 1168px;
+	}
 	.header-tagline {
 		padding-left: 16px;
 		border-top: 0;
