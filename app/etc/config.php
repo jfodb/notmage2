@@ -1,11 +1,10 @@
 <?php
 return array (
-  'modules' => 
+  'modules' =>
   array (
     'Magento_Store' => 1,
     'Magento_Directory' => 1,
     'Magento_Theme' => 1,
-    'MagePal_GoogleTagManager' => 1,
     'Magento_Eav' => 1,
     'Magento_AdvancedPricingImportExport' => 1,
     'Magento_Config' => 1,
@@ -129,6 +128,5 @@ return array (
     'Psuedo_Silverpop' => 1,
     'Shopial_Facebook' => 1,
     'Temando_Shipping' => 1,
-    'Yireo_GoogleTagManager2' => 1,
   ),
 );
