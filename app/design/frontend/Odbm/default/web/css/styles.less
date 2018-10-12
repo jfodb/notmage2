@@ -6,6 +6,8 @@
 @odb-header-height: 80px;
 @odb-desktop-header-height: 67px;
 @odb-nav-width: 200px;
+@odb-card-logo-width:41px;
+@odb-card-logo-height: 28px;
 
 .header-logo {
 	height: 50px;
@@ -226,6 +228,32 @@ input#amount::placeholder {
 .hidden {
 	display: none !important;
 }
+
+/*card logo stacking*/
+.credit-card-types {
+	position: relative;
+}
+.credit-card-types li {
+	position: absolute;
+	right: 35px;
+	top: 22px;
+	z-index: 0;
+}
+.credit-card-types li img {
+	width:@odb-card-logo-width;
+	height: @odb-card-logo-height;
+}
+.credit-card-types li:last-child {
+	z-index: 2;
+	background-color: white;
+	width: @odb-card-logo-width;
+	height: @odb-card-logo-height;
+	opacity: 1;
+}
+.credit-card-types li._active {
+	z-index: 4;
+}
+
 
 
 @media (max-width: 767px) {
