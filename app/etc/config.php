@@ -1,6 +1,6 @@
 <?php
 return array (
-  'modules' => 
+  'modules' =>
   array (
     'Magento_Store' => 1,
     'Magento_Directory' => 1,
@@ -123,8 +123,8 @@ return array (
     'Mageplaza_Core' => 1,
     'Mageplaza_Smtp' => 1,
     'ODBM_Donation' => 1,
-    'Psuedo_Mpxdownload' => 1,
     'ODBM_Paperless' => 1,
+    'Psuedo_Mpxdownload' => 1,
     'Psuedo_Silverpop' => 1,
     'Shopial_Facebook' => 1,
     'Temando_Shipping' => 1,

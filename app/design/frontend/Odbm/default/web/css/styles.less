@@ -1,5 +1,6 @@
 // Color theme
 @odb-blue: #69AAE6;
+@odb-dark-blue: #164F83;
 @odb-yellow: #fab432;
 @odb-gray: #878787;
 @odb-blue-gray: #EBF0F5;
@@ -48,7 +49,6 @@ header .header.content {
 main {
 	padding-top: @odb-header-height;
 }
-
 .nav-up {
 	top: -@odb-header-height;
 }
@@ -215,6 +215,7 @@ input#amount::placeholder {
 
 .radio--button:focus-within, .radio--button.checked, .radio--button:hover {
 	background-color: @odb-blue;
+	background-image: linear-gradient(@odb-blue,@odb-dark-blue);
 	color: #fff;
 	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.20);
 }
@@ -227,6 +228,38 @@ input#amount::placeholder {
 	display: none !important;
 }
 
+#product-addtocart-button span, #product-addtocart-button img {
+    vertical-align: middle;
+}
+
+.dntpmtoptbx {
+	padding: 0px 61px 50px 61px; background-color: rgba(255,255,255,.8);
+	color: @odb-gray;
+}
+
+.dntpmtoptbx p {
+	color: @odb-dark-blue; padding-bottom: 4px;
+}
+
+.action.primary {
+	background-color: rgba(255,255,255,0);
+    color: @odb-dark-blue;
+    border: solid 1px @odb-blue;
+}
+.action.primary:hover {
+    background-color: #cccccc;
+	color: @odb-dark-blue;
+	border: solid 1px @odb-blue;
+}
+
+.paypal input[type="image"]{
+	padding: 15px 30px;
+	border: solid 1px @odb-blue;
+}
+
+.paypal input[type="image"]:hover {
+background-color: #cccccc;
+}
 
 @media (max-width: 767px) {
 	.desktop-only {
