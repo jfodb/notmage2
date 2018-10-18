@@ -113,7 +113,6 @@ function sendCheckoutGA() {
             eventLabel: galab,
             eventValue: gaval
         });
-        alert('sending the GA '+gacat + ", " + gaact + ", " + galab + ", " + gaval);
-    } else
-        alert('not sending the ga');
+        
+    } 
 }
