@@ -31,12 +31,23 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 		$total = $order->getGrandTotal();
 		
 		$this->_coreSession->setGaCat('Donations');  //intensionally wrong to be easily found, remove 's' after testing
+
+
+		$items = $order->getAllItems();
+		$product_options = $items[0]->getProductOptionByCode('info_buyRequest');
+		$is_recurring = $product_options['_recurring'] ?? false;
+		$is_ministry = $product_options['_ministry'] ?? false;
 		
-		$this->_coreSession->setGaAct('OneTime');
-		//if(recurring)
-			//$this->_coreSession->setGaAct('Monthly');
 		
-		if(!empty($_REQUEST['_ministry']))
+		if($is_recurring)
+			$this->_coreSession->setGaAct('Monthly');
+		else
+			$this->_coreSession->setGaAct('OneTime');
+		
+		
+		if($is_ministry)
+			$this->_coreSession->setGaLab($is_ministry);
+		else if(!empty($_REQUEST['_ministry']))
 			$this->_coreSession->setGaLab($_REQUEST['_ministry']);
 		else if(!empty($this->_coreSession->getMinistry()))
 			$this->_coreSession->setGaLab($this->_coreSession->getMinistry());
