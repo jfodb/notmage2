@@ -232,14 +232,14 @@ function (
             ) {
                 setBillingAddressAction(globalMessageList);
 
-              	showCcDetails();
+              	this.showCcDetails();
             }
         },
 
         showCcDetails: function () {
         	// TODO: refactor to use code instead of hard-coded
-        	document.getElementById('odbm_paperless-form').classList.add('visisble');
-        }
+        	document.getElementById('odbm_paperless-form').classList.add('visible');
+        },
 
         /**
          * Get code

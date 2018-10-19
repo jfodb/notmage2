@@ -150,6 +150,15 @@ a[data-context="subscribe"] {
 	left: auto;
 	top: 20px;
 }
+.visible {
+	display: block!important;
+}
+#odbm_paperless-form {
+	display: none;
+}
+button.action.primary.checkout.disabled {
+	display: none;
+}
 .page-header .nav-toggle:before {
 	font-size: 26px;
 }
@@ -243,11 +252,11 @@ input#amount::placeholder {
 
 .action.primary {
 	background-color: rgba(255,255,255,0);
-    color: @odb-dark-blue;
-    border: solid 1px @odb-blue;
+	color: @odb-dark-blue;
+	border: solid 1px @odb-blue;
 }
 .action.primary:hover {
-    background-color: #cccccc;
+	background-color: #cccccc;
 	color: @odb-dark-blue;
 	border: solid 1px @odb-blue;
 }
