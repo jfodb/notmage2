@@ -41,7 +41,6 @@ if ($_product->getTypeId() === "donation") {
 				title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
 				class="action primary tocart"
 				id="product-addtocart-button">
-
 				<?php if ($buttonTitle == 'Credit Card'): ?>
 					<img class="btnicon" style="vertical-align: middle; padding-bottom: 4px;" src="<?php echo $this->getViewFileUrl('images/ccicon.png'); ?>" />
 					<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
