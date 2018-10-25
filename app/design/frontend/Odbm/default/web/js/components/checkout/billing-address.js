@@ -57,7 +57,11 @@ function (
 
     return Component.extend({
         defaults: {
-            template: 'Magento_Checkout/billing-address'
+            template: 'Magento_Checkout/billing-address',
+            exports: {
+                // TODO, make this more dynamic
+                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
+            }
         },
         currentBillingAddress: quote.billingAddress,
         addressOptions: addressOptions,
@@ -68,6 +72,9 @@ function (
          */
         initialize: function () {
             this._super();
+
+       //     this.exports.isAddressFormVisible = 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
+
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();
             }, this);
@@ -101,6 +108,7 @@ function (
                 } else {
                     this.saveInAddressBook(1);
                 }
+
                 this.isAddressDetailsVisible(true);
             }, this);
 
@@ -231,14 +239,7 @@ function (
                 !window.checkoutConfig.displayBillingOnPaymentMethod
             ) {
                 setBillingAddressAction(globalMessageList);
-
-              	this.showCcDetails();
             }
-        },
-
-        showCcDetails: function () {
-        	// TODO: refactor to use code instead of hard-coded
-        	document.getElementById('odbm_paperless-form').classList.add('visible');
         },
 
         /**
