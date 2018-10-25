@@ -12,7 +12,6 @@
 <?php
 if ($_product->getTypeId() === "donation") {
     $buttonTitle = __('Credit Card');
-    
 } else {
 	$buttonTitle = __('Add to Cart');
 }
@@ -26,51 +25,51 @@ if ($_product->getTypeId() === "donation") {
 					<label class="label" for="qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></label>
 					<div class="control">
 						<input type="number"
-							   name="qty"
-							   id="qty"
-							   value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
-							   title="<?= /* @escapeNotVerified */ __('Qty') ?>"
-							   class="input-text qty"
-							   data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+						name="qty"
+						id="qty"
+						value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
+						title="<?= /* @escapeNotVerified */ __('Qty') ?>"
+						class="input-text qty"
+						data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
 						/>
 					</div>
 				</div>
 			<?php endif; ?>
 			<div class="actions hidden dntpmtoptbx">
-<p>Give your one-time gift by</p>
+				<p>Give your one-time gift by</p>
 				<button type="submit"
-						title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
-						class="action primary tocart"
-						id="product-addtocart-button">
-<?php if ($buttonTitle == 'Credit Card'): ?>
-<img class="btnicon" style="vertical-align: middle; padding-bottom: 4px;" src="<?php echo $this->getViewFileUrl('images/ccicon.png'); ?>" />
-<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
-                    <?php else : ?>
-<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
-                    <?php endif; ?>
+				title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
+				class="action primary tocart"
+				id="product-addtocart-button">
+				<?php if ($buttonTitle == 'Credit Card'): ?>
+					<img class="btnicon" style="vertical-align: middle; padding-bottom: 4px;" src="<?php echo $this->getViewFileUrl('images/ccicon.png'); ?>" />
+					<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+				<?php else : ?>
+					<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+				<?php endif; ?>
 
-				</button>
-				<?= $block->getChildHtml('', true) ?>
-			</div>
+			</button>
+			<?= $block->getChildHtml('', true) ?>
 		</div>
 	</div>
+</div>
 <?php endif; ?>
 <?php if ($block->isRedirectToCartEnabled()) : ?>
 	<script type="text/x-magento-init">
-    {
-        "#product_addtocart_form": {
-            "Magento_Catalog/product/view/validation": {
-                "radioCheckboxClosest": ".nested"
-            }
-        }
-    }
+		{
+			"#product_addtocart_form": {
+			"Magento_Catalog/product/view/validation": {
+			"radioCheckboxClosest": ".nested"
+		}
+	}
+}
 </script>
 <?php else : ?>
 	<script type="text/x-magento-init">
-    {
-        "#product_addtocart_form": {
-            "Magento_Catalog/js/validate-product": {}
-        }
-    }
+		{
+			"#product_addtocart_form": {
+			"Magento_Catalog/js/validate-product": {}
+		}
+	}
 </script>
 <?php endif; ?>

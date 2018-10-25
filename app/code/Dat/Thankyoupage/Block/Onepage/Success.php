@@ -56,4 +56,33 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
 
 		return $is_recurring;
 	}
+	
+	public function hasGaData() {
+		if(
+			$this->_session->getGaAct() &&
+			$this->_session->getGaLab() &&
+			$this->_session->getGaVal()
+		)
+			return true;
+		else
+			return false;
+	}
+	
+	public function getGaForm() {
+
+		
+		$cat = $this->_session->getGaCat();
+		$act = $this->_session->getGaAct();
+		$label = $this->_session->getGaLab();
+		$value = $this->_session->getGaVal();
+		
+		$this->_session->unsGaCat();
+		$this->_session->unsGaAct();
+		$this->_session->unsGaLab();
+		$this->_session->unsGaVal();
+
+		
+		return sprintf('<form id="gadata"><input type="hidden" name="gacat" id="gacat" value="%s" /><input type="hidden" name="gaact" id="gaact" value="%s" /><input type="hidden" name="galab" id="galab" value="%s" /><input type="hidden" name="gaval" id="gaval" value="%s" /> </form>', $cat, $act, $label, $value);
+		
+	}
 }

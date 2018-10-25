@@ -1,8 +1,6 @@
 // Color theme
-
-//@odb-blue: #69AAE6;
 @odb-blue: #69AAE6;
-@odb-dkblue: #164F83;
+@odb-dark-blue: #164F83;
 @odb-yellow: #fab432;
 @odb-gray: #878787;
 @odb-blue-gray: #EBF0F5;
@@ -152,6 +150,19 @@ a[data-context="subscribe"] {
 	left: auto;
 	top: 20px;
 }
+.visible {
+	display: block!important;
+}
+/*
+ Messaging should be removed from xml block, but in case other
+ dependencies affect that, hide from user
+ */
+.page.messages {
+	display: none;
+}
+button.action.primary.checkout.disabled {
+	display: none;
+}
 .page-header .nav-toggle:before {
 	font-size: 26px;
 }
@@ -212,12 +223,12 @@ input#amount::placeholder {
 }
 
 .radio--button label {
-	cursor: pointer;      
+	cursor: pointer;
 }
 
 .radio--button:focus-within, .radio--button.checked, .radio--button:hover {
 	background-color: @odb-blue;
-	background-image: linear-gradient(@odb-blue,@odb-dkblue);
+	background-image: linear-gradient(@odb-blue,@odb-dark-blue);
 	color: #fff;
 	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.20);
 	border: none;
@@ -242,17 +253,17 @@ input#amount::placeholder {
 }
 
 .dntpmtoptbx p {
-	color: @odb-dkblue; padding-bottom: 4px;
+	color: @odb-dark-blue; padding-bottom: 4px;
 }
 
 .action.primary {
 	background-color: rgba(255,255,255,0);
-    color: @odb-dkblue;
-    border: solid 1px @odb-blue;
+	color: @odb-dark-blue;
+	border: solid 1px @odb-blue;
 }
-.action.primary:hover {
-    background-color: #cccccc;
-	color: @odb-dkblue;
+.action.primary:hover, .action.primary:active {
+	background-color: #cccccc;
+	color: @odb-dark-blue;
 	border: solid 1px @odb-blue;
 }
 
@@ -262,7 +273,7 @@ input#amount::placeholder {
 }
 
 .paypal input[type="image"]:hover {
-background-color: #cccccc;
+	background-color: #cccccc;
 }
 .control._with-tooltip {
 	max-width: 250px;
@@ -313,7 +324,7 @@ h2.paymentdetails {
 }
 
 .checkout-index-index .payment-method-billing-address .field._required:nth-child(2) {
-border-left: solid 1px #999999;	
+border-left: solid 1px #999999;
 }
 
 .checkout-index-index .payment-method-billing-address .street .field, .checkout-index-index #payment_form_odbm_paperless .field.number  {
@@ -339,9 +350,9 @@ input.cvv, input.ccno {
 .checkout-index-index .payment-method-billing-address .field input {
 	background-color: transparent; border: none;
 }
-.checkout-index-index .payment-method-billing-address .field input::placeholder, .checkout-index-index #payment_form_odbm_paperless .field input::placeholder { 
+.checkout-index-index .payment-method-billing-address .field input::placeholder, .checkout-index-index #payment_form_odbm_paperless .field input::placeholder {
     color: #555555 !important;
-    opacity: 1; 
+    opacity: 1;
 }
 
 .checkout-index-index .payment-method-billing-address .field input:-ms-input-placeholder { /* Internet Explorer 10-11 */
@@ -397,23 +408,23 @@ input.cvv, input.ccno {
 
 
 @media (max-width: 767px) {
-	
+
 	.checkout-index-index .payment-method-content .field._required:nth-child(2) {
-border-left: none;	
+border-left: none;
 }
 	.checkout-payment-method .billing-address-form {
 		margin-bottom: 20px;
-	}	
+	}
 .checkout-index-index .payment-method-billing-address .field, .checkout-index-index .payment-method-content .field._required{
 	width: 100%; max-width: 100%;
-}	
+}
 	.checkout-index-index .payment-method-billing-address .field {
 		width: 100%; max-width: 100%;
 	}
-	
+
 	.checkout-index-index .payment-method-billing-address .street .field {
 		width: 100%; max-width: 100%;
-	}	
+	}
 	.desktop-only {
 		display: none !important;
 	}
@@ -443,8 +454,30 @@ border-left: none;
 		font-size: 16px;
 	}
 }
+.authentication-wrapper {
+	display: none;
+}
 
 @media (min-width: 768px) {
+	/** Checkout Styles **/
+	.checkout-index-index main {
+		margin: 0;
+		padding-left: 30px;
+		padding-right: 30px;
+		background-size: cover;
+		max-width: 100%;
+	}
+	#checkout {
+		background-color: white;
+		max-width: 640px;
+		margin: auto;
+		margin-top: 35px;
+		padding: 15px;
+		box-sizing: border-box;
+	}
+	.checkout-index-index main {
+		min-height: 1168px;
+	}
 	.header-tagline {
 		padding-left: 16px;
 		border-top: 0;
@@ -455,7 +488,7 @@ border-left: none;
 		padding-top: 3px;
 		width: auto;
 	}
-	
+
 	.checkout-payment-method .payment-method-content .fieldset > .field {
 		margin: 10px 0px 0px 0px;
 	}
@@ -486,12 +519,12 @@ border-left: none;
 	.checkout-payment-method .payment-method-content .fieldset > .field.type .control {
 		margin-left: 0px;
 	}
-	
+
 	.fieldset > .field:not(.choice) > .control {
 		width: 100%;
 	}
-	
-	
+
+
 }
 
 

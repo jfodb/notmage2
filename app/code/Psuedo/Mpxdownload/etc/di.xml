@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-	<preference for="Psuedo\Mpxdownload\Api\Mpx_downloadManagementInterface" type="Psuedo\Mpxdownload\Model\Mpx_downloadManagement"/>
-	<type name="Psuedo\Mpxdownload\Model\Mpx_downloadManagement">
+	<preference for="Psuedo\Mpxdownload\Api\MpxDownloadManagementInterface" type="Psuedo\Mpxdownload\Model\MpxDownloadManagement"/>
+	<type name="Psuedo\Mpxdownload\Model\MpxDownloadManagement">
 		<arguments>
 			<argument name="mpxdata" xsi:type="object">Psuedo\Mpxdownload\Helper\Data</argument>
 			<argument name="productModel" xsi:type="object">Magento\Catalog\Model\Product</argument>
