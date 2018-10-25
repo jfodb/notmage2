@@ -12,6 +12,7 @@
 <?php
 if ($_product->getTypeId() === "donation") {
     $buttonTitle = __('Credit Card');
+    
 } else {
 	$buttonTitle = __('Add to Cart');
 }
@@ -35,12 +36,19 @@ if ($_product->getTypeId() === "donation") {
 					</div>
 				</div>
 			<?php endif; ?>
-			<div class="actions hidden">
+			<div class="actions hidden dntpmtoptbx">
+<p>Give your one-time gift by</p>
 				<button type="submit"
 						title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
 						class="action primary tocart"
 						id="product-addtocart-button">
-					<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+<?php if ($buttonTitle == 'Credit Card'): ?>
+<img class="btnicon" style="vertical-align: middle; padding-bottom: 4px;" src="<?php echo $this->getViewFileUrl('images/ccicon.png'); ?>" />
+<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                    <?php else : ?>
+<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                    <?php endif; ?>
+
 				</button>
 				<?= $block->getChildHtml('', true) ?>
 			</div>
