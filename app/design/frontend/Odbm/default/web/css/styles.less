@@ -289,36 +289,37 @@ h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
 h2.paymentdetails {
 	padding-top: 30px;
 }
-.opc-block-summary {
+.opc-block-summary, .opc-estimated-wrapper {
 	display: none;
 }
-
 .checkout-index-index .opc-wrapper {
-	float: none; margin-left: auto; margin-right: auto;
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 45px;
 }
 .checkout-index-index .page-main {
 	background-size: cover;
 	background-repeat: no-repeat;
 	max-width: none;
 }
-
 .checkout-index-index #checkoutSteps {
-	background-color: rgba(255,255,255,.8);
-    padding: 20px;
+	background-color: #fff;
+  padding: 20px;
 	max-width: 430px;
 	margin-left: auto;
 	margin-right: auto;
 	min-width: 370px;
 }
-
 .checkout-index-index .payment-method-billing-address .fieldset label.label, .checkout-index-index #payment_form_odbm_paperless label, .checkout-index-index .payment-method-content .fieldset legend.label, .checkout-index-index #payment_form_odbm_paperless .field.type  {
 	display: none;
 }
 .checkout-index-index .payment-method-billing-address .field._required{
 	float: left; width: 190px; border-bottom: solid 1px #999999;
 }
-
-
+.checkout-payment-method .ccard .number .input-text {
+	width: 100%;
+}
 .checkout-index-index .payment-method-billing-address .field, .checkout-index-index #payment_form_odbm_paperless .field{
 	float: left; width: 190px; border-bottom: solid 1px #999999;
 }
@@ -327,16 +328,41 @@ h2.paymentdetails {
 border-left: solid 1px #999999;
 }
 
-.checkout-index-index .payment-method-billing-address .street .field, .checkout-index-index #payment_form_odbm_paperless .field.number  {
-	width: 380px; max-width: 100%;
+.checkout-index-index .payment-method-billing-address .street .field, 
+.checkout-index-index #payment_form_odbm_paperless .field.number,
+.checkout-index-index #customer-email-fieldset .field
+{
+	width: 380px; 
+	max-width: 100%;
+	margin: 0;
 }
-.checkout-index-index #payment_form_odbm_paperless .field.date {width: 310px; max-width: 100%;
+fieldset#customer-email-fieldset > .field:not(.choice) > .control {
+	max-width: 100%!important;
+}
+.payment-group .step-title {
+	display: none;
+}
+.checkout-index-index #customer-email-fieldset .field input {
+	width: 100%;
+	border: 0;
+	border-bottom: solid 1px #999999;
+}
+.checkout-index-index #customer-email-fieldset .field input::placeholder {
+	color: #555555;
+}
+.checkout-index-index #payment_form_odbm_paperless .field.date {
+	width: 310px; 
+	max-width: 100%;
 }
 
-.checkout-payment-method .actions-toolbar .primary {
+.checkout-payment-method .actions-toolbar div.primary {
 	padding-top: 20px;
 }
 .checkout-index-index #payment_form_odbm_paperless .field.month, .checkout-index-index #payment_form_odbm_paperless .field.year {border-bottom: none;}
+
+.opc-progress-bar {
+	display: none;
+}
 
 input.cvv, input.ccno {
 	border: none;  background-color: transparent;
@@ -380,6 +406,7 @@ input.cvv, input.ccno {
     5px 5px,
     1px 1.5em;
   background-repeat: no-repeat;
+  -webkit-appearance: none;
 }
 
 .checkout-index-index .payment-method-content select.select:focus {

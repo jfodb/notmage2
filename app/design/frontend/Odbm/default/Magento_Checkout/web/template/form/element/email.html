@@ -9,14 +9,12 @@
 <!-- ko foreach: getRegion('before-login-form') -->
 <!-- ko template: getTemplate() --><!-- /ko -->
 <!-- /ko -->
-<form class="form form-login" data-role="email-with-possible-login"
+<form class="form form-login email-details" data-role="email-with-possible-login"
       data-bind="submit:login"
       method="post">
+      <h2 class="paymentdetails"> Billing Details </h2>
     <fieldset id="customer-email-fieldset" class="fieldset" data-bind="blockLoader: isLoading">
         <div class="field required">
-            <label class="label" for="customer-email">
-                <span data-bind="i18n: 'Email Address'"></span>
-            </label>
             <div class="control _with-tooltip">
                 <input class="input-text"
                        type="email"
@@ -24,6 +22,7 @@
                             textInput: email,
                             hasFocus: emailFocused"
                        name="username"
+                       placeholder="Email*"
                        data-validate="{required:true, 'validate-email':true}"
                        id="customer-email" />
             </div>
