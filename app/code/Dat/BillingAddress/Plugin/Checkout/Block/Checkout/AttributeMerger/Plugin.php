@@ -88,12 +88,17 @@ class Plugin
           $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']
           ['children']['billingAddress']['children']['billing-address-fieldset']['children']['street']['children'][1]['label'] = __('Address 2');
           
+          $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']
+          ['children']['billingAddress']['children']['billing-address-fieldset']['children']['postcode']['label'] = __('Zip'); 
+
           $elements = $this->getAddressAttributes();
           $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']
           ['children']['billingAddress']['children']['billing-address'] = $this->getCustomBillingAddressComponent($elements); 
         } else {
           $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['street']['children'][0]['label'] = __('Address');
-          $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['street']['children'][1]['label'] = __('Address 2');  
+          $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['street']['children'][1]['label'] = __('Address 2'); 
+
+          $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['postcode']['label'] = __('Zip');  
         }
         
         return $jsLayoutResult;
