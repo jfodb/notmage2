@@ -1,6 +1,6 @@
 <?php
 \Magento\Framework\Component\ComponentRegistrar::register(
   \Magento\Framework\Component\ComponentRegistrar::MODULE,
-  'Dat_ShippingAddress',
+  'Dat_BillingAddress',
   __DIR__
 );

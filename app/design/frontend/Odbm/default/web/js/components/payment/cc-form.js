@@ -193,10 +193,7 @@ define([
          * @returns {String}
          */
         getCvvImageHtml: function () {
-            return '<img src="' + this.getCvvImageUrl() +
-                '" alt="' + $t('Card Verification Number Visual Reference') +
-                '" title="' + $t('Card Verification Number Visual Reference') +
-                '" />';
+            return '<a href="https://www.cvvnumber.com/cvv.html" target="_blank" style="font-size:11px">What is my CVV code?</a>';
         },
 
         /**
