@@ -88,14 +88,14 @@ require(['jquery', 'jquery/ui'], function($) {
 		});
 
 
-		
+
 	});
 
 //make globally available
 function trySendCheckoutGA() {
 	if(typeof ga == 'function') {
 		sendCheckoutGA();
-	} else 
+	} else
 		//the time is not right, wait to strike
 		setTimeout(trySendCheckoutGA, 200);
 }
@@ -113,6 +113,5 @@ function sendCheckoutGA() {
             eventLabel: galab,
             eventValue: gaval
         });
-        
-    } 
+    }
 }

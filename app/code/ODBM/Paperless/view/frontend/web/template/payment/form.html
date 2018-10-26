@@ -14,11 +14,11 @@
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
-        </div>
 
+        </div>
         <form class="form" data-bind="attr: {'id': getCode() + '-form'}">
             <!-- ko template: 'Magento_Payment/payment/cc-form' --><!-- /ko -->
-        </form>
+		</form>
 
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->

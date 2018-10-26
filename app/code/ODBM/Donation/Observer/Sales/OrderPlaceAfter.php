@@ -12,8 +12,8 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 {
 	protected $_config;
 	protected $_coreSession;
-	
-	
+
+
 	public function __construct(
 		\Magento\Framework\App\Config\ScopeConfigInterface $config,
 		\Magento\Framework\Session\SessionManagerInterface $coreSession
@@ -29,22 +29,20 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 	{
 		$order = $observer->getData('order');
 		$total = $order->getGrandTotal();
-		
-		$this->_coreSession->setGaCat('Donations');  //intensionally wrong to be easily found, remove 's' after testing
 
+		$this->_coreSession->setGaCat('Donations');  //intensionally wrong to be easily found, remove 's' after testing
 
 		$items = $order->getAllItems();
 		$product_options = $items[0]->getProductOptionByCode('info_buyRequest');
 		$is_recurring = $product_options['_recurring'] ?? false;
 		$is_ministry = $product_options['_ministry'] ?? false;
-		
-		
+
+
 		if($is_recurring)
 			$this->_coreSession->setGaAct('Monthly');
 		else
 			$this->_coreSession->setGaAct('OneTime');
-		
-		
+
 		if($is_ministry)
 			$this->_coreSession->setGaLab($is_ministry);
 		else if(!empty($_REQUEST['_ministry']))
@@ -54,7 +52,7 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 		else
 			$this->_coreSession->setGaLab('ODBM'); //for now
 		$this->_coreSession->setGaVal(intval($total));
-		
+
 		//ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue]);
 	}
 }

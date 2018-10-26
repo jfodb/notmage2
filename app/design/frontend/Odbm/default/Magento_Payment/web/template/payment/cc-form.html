@@ -6,8 +6,10 @@
 -->
 
 <fieldset data-bind="fadeVisible: isVisible(), attr: {class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_' + getCode()}">
+    <h2 class="paymentdetails"><!-- ko i18n: 'Payment Details'--><!-- /ko --></h2>
+
     <!-- ko if: (isShowLegend())-->
-    <legend class="legend testing">
+    <legend class="legend">
         <span><!-- ko i18n: 'Credit Card Information'--><!-- /ko --></span>
     </legend><br />
     <!-- /ko -->
@@ -44,10 +46,11 @@
             <span><!-- ko i18n: 'Credit Card Number'--><!-- /ko --></span>
         </label>
         <div class="control">
-            <input type="number" name="payment[cc_number]" class="input-text" value=""
+            <input type="number" name="payment[cc_number]" class="input-text ccno" value=""
                    data-bind="attr: {
                                     autocomplete: off,
                                     id: getCode() + '_cc_number',
+							  		                placeholder: $t('Card Number'),
                                     title: $t('Credit Card Number'),
                                     'data-container': getCode() + '-cc-number',
                                     'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
@@ -105,6 +108,7 @@
                    name="payment[cc_cid]"
                    value=""
                    data-bind="attr: {id: getCode() + '_cc_cid',
+							          placeholder: $t('CVV'),
                         title: $t('Card Verification Number'),
                         'data-container': getCode() + '-cc-cvv',
                         'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
