@@ -297,9 +297,6 @@ input#amount::placeholder {
 .paypal input[type="image"]:hover {
 	background-color: #cccccc;
 }
-.control._with-tooltip {
-	max-width: 250px;
-}
 h2.paymentdetails.billing-details {
 	padding-top: 0;
 }
@@ -313,8 +310,38 @@ h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
 h2.paymentdetails {
 	padding-top: 30px;
 }
-.opc-block-summary, .opc-estimated-wrapper {
-	display: none;
+.opc-block-summary {
+    background: #fff;
+    padding: 8px 20px;
+}
+.cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
+	padding: 0!important;
+    width: 66.6%;
+}
+.checkout-payment-method .ccard .month .select {
+	width: 100%;
+}
+.opc-block-summary td.amount .price {
+	color: @odb-dark-blue;
+	font-size: 24px;
+    font-weight: bold;
+}
+.opc-block-summary td.amount .price .sign{
+	color: @odb-blue;
+    font-weight: normal;
+}
+.opc-block-summary, 
+#payment {
+	border-radius: 3px;
+}
+.opc-block-summary td.description {
+	padding: 0;
+    font-size: 20px;
+    text-align: right;
+    border-left: 1px solid #69AAE6 !important;
+    color: #69AAE6;
+    font-weight: bold;
+    padding-top: 4px;
 }
 .checkout-index-index .opc-wrapper {
 	float: none;
@@ -328,12 +355,11 @@ h2.paymentdetails {
 	max-width: none;
 }
 .checkout-index-index #checkoutSteps {
-	background-color: #fff;
-  	padding: 20px;
-	max-width: 430px;
+	padding: 20px;
+	max-width: 640px;
 	margin-left: auto;
 	margin-right: auto;
-	min-width: 370px;
+	width: 100%;
 }
 .payment-method-content>form>fieldset.ccard {
 	position: relative;
@@ -354,6 +380,14 @@ h2.paymentdetails {
 .checkout-index-index .payment-method-content .fieldset legend.label {
 	display: none;
 }
+.checkout-payment-method .payment-method-content {
+	padding-left: 0;
+}
+#payment {
+	padding: 20px;
+	background-color: #fff;
+	box-sizing: border-box;
+}
 #co-payment-form .fieldset>br {
 	display: none;
 }
@@ -362,21 +396,22 @@ h2.paymentdetails {
 }
 .checkout-index-index .payment-method-billing-address .field._required {
 	float: left; 
-	width: 190px; 
+	width: 50%; 
 }
 .checkout-index-index .payment-method-billing-address .field._required[name*=".city"],
 .checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] {
 	float: none;
-	width: 381px;
+	width: 100%;
 	height: 0;
 }
 .checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] select.select {
 	border-right: 0;
 }
 .checkout-payment-method .ccard .year .select {
-	width: 85px;
-	margin-left: -5px;
-	padding-left: 10px;
+    width: calc(100% + 5px);
+    margin-left: -5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .checkout-index-index .payment-method-billing-address .field._required > input,
 .checkout-index-index .payment-method-billing-address .field._required > select,
@@ -389,9 +424,12 @@ h2.paymentdetails {
 .checkout-payment-method .ccard .number .input-text {
 	width: 100%;
 }
-.checkout-index-index .payment-method-billing-address .field, .checkout-index-index #payment_form_odbm_paperless .field {
+.checkout-index-index #payment_form_odbm_paperless .field.number {
+	width: 100%!important;
+}
+.checkout-index-index #payment_form_odbm_paperless .field {
 	float: left;
-	width: 190px;
+	width: 50%;
 }
 .checkout-index-index .payment-method-billing-address .field._required:nth-child(2) {
 	border-left: solid 1px @odb-gray-secondary;
@@ -400,7 +438,7 @@ h2.paymentdetails {
 .checkout-index-index #payment_form_odbm_paperless .field.number,
 .checkout-index-index #customer-email-fieldset .field
 {
-	width: 380px; 
+	width: 100%; 
 	max-width: 100%;
 	margin: auto;
 }
@@ -419,11 +457,14 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	color: @odb-gray-secondary;
 }
 .checkout-index-index #payment_form_odbm_paperless .field.date {
-	width: 225px; 
+	width: 50%; 
 	max-width: 100%;
 }
+.checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field {
+	width: 50%!important;
+}
 .checkout-payment-method .actions-toolbar div.primary {
-	padding-top: 20px;
+	padding-top: 50px;
 }
 .checkout-index-index #payment_form_odbm_paperless .field.month, .checkout-index-index #payment_form_odbm_paperless .field.year {
 	border-bottom: none;
@@ -435,6 +476,10 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	position: absolute;
 	top: 0;
 	right: 0;
+	padding: 0;
+}
+.cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
+	text-align: left;
 }
 .payment-method-billing-address button.action.action-edit-address::after {
     content: '\e801';
@@ -463,10 +508,10 @@ input.cvv, input.ccno {
 	border: none;  background-color: transparent;
 }
 .checkout-index-index #payment_form_odbm_paperless .field.cvv {
-	width: 176px;
+	width: 50%;
 }
-.checkout-index-index #payment_form_odbm_paperless .field.cvv .field-tooltip {
-	right: 20px;
+.checkout-payment-method .ccard > .field.cvv > .control {
+	position: static;
 }
 .checkout-index-index .payment-method-billing-address .field.street {
 	border-bottom: none;
@@ -519,10 +564,17 @@ input.cvv, input.ccno {
 }
 .checkout-payment-method .ccard .cvv .input-text,
 .checkout-payment-method .ccard > .field.cvv > .control {
-    width: 100%;
+	width: 100%;
+	padding-right: 0;
 }
 
 @media (max-width: 767px) {
+	.checkout-payment-method .payment-methods {
+		margin: 0;
+	}
+	.checkout-payment-method .payment-method-content {
+		padding: 0;
+	}
 	.checkout-index-index .payment-method-content .field._required:nth-child(2) {
 		border-left: none;
 	}
