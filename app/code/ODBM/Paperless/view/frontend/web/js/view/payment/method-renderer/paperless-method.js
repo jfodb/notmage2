@@ -18,6 +18,9 @@ define(
                 template: 'ODBM_Paperless/payment/form'
             },
 
+            isChecked: function() {
+                return this.getCode();
+            },
 
             getCode: function() {
                 return 'odbm_paperless';

@@ -338,14 +338,24 @@ h2.paymentdetails {
 .checkout-index-index .payment-method-billing-address .fieldset label.label, .checkout-index-index #payment_form_odbm_paperless label, .checkout-index-index .payment-method-content .fieldset legend.label, .checkout-index-index #payment_form_odbm_paperless .field.type  {
 	display: none;
 }
+#co-payment-form .fieldset>br {
+	display: none;
+}
+.opc-wrapper .form-login, .opc-wrapper .form-shipping-address {
+	margin: 0;
+}
 .checkout-index-index .payment-method-billing-address .field._required {
 	float: left; 
 	width: 190px; 
 }
-.checkout-index-index .payment-method-billing-address .field._required[name*=".city"]  {
+.checkout-index-index .payment-method-billing-address .field._required[name*=".city"],
+.checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] {
 	float: none;
 	width: 381px;
 	height: 0;
+}
+.checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] select.select {
+	border-right: 0;
 }
 .checkout-payment-method .ccard .year .select {
 	width: 85px;
