@@ -335,7 +335,23 @@ h2.paymentdetails {
 	margin-right: auto;
 	min-width: 370px;
 }
-.checkout-index-index .payment-method-billing-address .fieldset label.label, .checkout-index-index #payment_form_odbm_paperless label, .checkout-index-index .payment-method-content .fieldset legend.label, .checkout-index-index #payment_form_odbm_paperless .field.type  {
+.payment-method-content>form>fieldset.ccard {
+	position: relative;
+}
+.checkout-payment-method .credit-card-types .item {
+	display: none;
+}
+.checkout-payment-method .credit-card-types .item._active {
+	width: 40px;
+	position: absolute;
+	right: 22px;
+	z-index: 1;
+	bottom: 29px;
+	display: block;
+}
+.checkout-index-index .payment-method-billing-address .fieldset label.label, 
+.checkout-index-index #payment_form_odbm_paperless label, 
+.checkout-index-index .payment-method-content .fieldset legend.label {
 	display: none;
 }
 #co-payment-form .fieldset>br {
@@ -430,7 +446,9 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	font-size: 20px;
     font-family: 'PT Sans', sans-serif;
     padding: 0;
-    line-height: 26px;
+	line-height: 26px;
+	margin-top: 15px;
+	bottom: 33px;
 }
 button.action {
     background: none;
@@ -494,9 +512,6 @@ input.cvv, input.ccno {
   outline: 0;
 }
 .field-select-billing {
-	display: none;
-}
-.checkout-payment-method .credit-card-types {
 	display: none;
 }
 .authentication-wrapper {
