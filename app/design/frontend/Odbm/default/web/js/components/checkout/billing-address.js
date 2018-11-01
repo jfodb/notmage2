@@ -37,8 +37,7 @@ function (
 ) {
     'use strict';
 
-    var lastSelectedBillingAddress = null,
-        newAddressOption = {
+    newAddressOption = {
             /**
              * Get new address label
              * @returns {String}
@@ -61,6 +60,7 @@ function (
             exports: {
                 // TODO, make this more dynamic
                 isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
+                lastSelectedBillingAddress: false
             }
         },
         currentBillingAddress: quote.billingAddress,
@@ -137,7 +137,7 @@ function (
                 this.updateAddresses();
                 this.isAddressDetailsVisible(true);
             } else {
-                lastSelectedBillingAddress = quote.billingAddress();
+                this.lastSelectedBillingAddress(quote.billingAddress() || false);
                 quote.billingAddress(null);
                 this.isAddressDetailsVisible(false);
             }
@@ -185,7 +185,7 @@ function (
          * Edit address action
          */
         editAddress: function () {
-            lastSelectedBillingAddress = quote.billingAddress();
+            this.lastSelectedBillingAddress(quote.billingAddress() || false);
             quote.billingAddress(null);
             this.isAddressDetailsVisible(false);
         },
@@ -211,8 +211,8 @@ function (
          * Restore billing address
          */
         restoreBillingAddress: function () {
-            if (lastSelectedBillingAddress != null) {
-                selectBillingAddress(lastSelectedBillingAddress);
+            if (this.lastSelectedBillingAddress != null || !this.lastSelectedBillingAddress) {
+                selectBillingAddress(this.lastSelectedBillingAddress);
             }
         },
 

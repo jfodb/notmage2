@@ -24,28 +24,6 @@ define([
         },
 
         /**
-         * @param {*} price
-         * @return {*|String}
-         */
-        getFormattedPrice: function (price) {
-            console.log(quote.getPriceFormat());
-            let priceFormat = quote.getPriceFormat();
-
-            // Remove sign from pattern so we can inject it with html
-            let sign = priceFormat.pattern.substr(0, priceFormat.pattern.indexOf('%s')); 
-            priceFormat.pattern = "%s";
-
-            if ( price % 1 != 0 ) {
-                price = price;
-            } else {
-                // Convert to 2 decimal
-                price = price.toFixed(2);
-            }
-
-            return '<span class="sign"> ' + sign + ' </span>' +  price.replace(/\d(?=(\d{3})+\.)/g, '$&,'); ///, priceUtils.formatPrice(price, quote.getPriceFormat());
-        },
-
-        /**
          * @return {*}
          */
         isDisplayed: function () {
@@ -63,13 +41,6 @@ define([
             }
 
             return quote['grand_total'];
-        },
-
-        /**
-         * @return {*|String}
-         */
-        getValue: function () {
-            return this.getFormattedPrice(this.getPureValue());
         }
     });
 });
