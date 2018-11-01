@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="9px" viewBox="0 0 16 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/expand arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M5.83704377,3.98422579 L11.6344155,10.5584453 C11.707472,10.6412914 11.699536,10.7676755 11.6166899,10.840732 L10.7166529,11.6344155 C10.6338067,11.707472 10.5074227,11.699536 10.4343661,11.6166899 L3.81388589,4.10906528 C3.74682678,4.03302026 3.74728042,3.91882638 3.81494157,3.84331654 L10.4374013,-3.54734847 C10.5111137,-3.62961155 10.6375568,-3.63654322 10.7198199,-3.56283078 L11.6135228,-2.76202173 C11.6957859,-2.68830929 11.7027176,-2.56186615 11.6290051,-2.47960307 L5.83704377,3.98422579 Z" id="path-1"></path>
+    </defs>
+    <g id="Donate-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="3.2_desktop-logged-in_no-saved-default-address-" transform="translate(-581.000000, -467.000000)">
+            <g id="box" transform="translate(297.000000, 180.000000)">
+                <g id="Group-3" transform="translate(30.000000, 105.000000)">
+                    <g id="icon/expand-arrow" transform="translate(262.500000, 186.500000) rotate(-360.000000) translate(-262.500000, -186.500000) translate(254.500000, 181.500000)">
+                        <g id="Color/dark-gray" transform="translate(0.000000, 0.918182)">
+                            <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                            </mask>
+                            <use id="Mask" fill="#A9A9A9" fill-rule="nonzero" transform="translate(7.731497, 4.035199) scale(-1, 1) rotate(-90.000000) translate(-7.731497, -4.035199) " xlink:href="#path-1"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

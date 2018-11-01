@@ -9,8 +9,13 @@
 @odb-desktop-header-height: 67px;
 @odb-nav-width: 200px;
 @odb-font: 'PT Sans', sans-serif;
+@error-red: #D24627;
 
-body {
+body,
+button, .cart.table-wrapper .actions-toolbar>.action, .action-gift,
+.action.primary,
+select,
+input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"] {
 	font-family: @odb-font;
 }
 .header-logo {
@@ -110,8 +115,9 @@ nav.navigation ul {
 .header.panel nav.navigation ul > li.active {
 	background: @odb-blue-gray;
 }
+
 .header.panel nav.navigation ul > li > a {
-	font-family: 'PT Sans', sans-serif;
+	font-family: @odb-font;
 	text-transform: uppercase;
 	font-size: 16px;
 	color: @odb-gray;
@@ -209,7 +215,7 @@ input#amount::placeholder {
 	background-color: #fff;
 	text-align: center;
 	color: @odb-blue;
-	font-family: 'PT Sans', sans-serif;
+	font-family: @odb-font;
 	font-size: 20px;
 	display: inline-flex;
 	flex-direction: column;
@@ -224,7 +230,7 @@ input#amount::placeholder {
 .radio--button label {
 	cursor: pointer;
 }
-.radio--button:focus-within, 
+.radio--button:focus-within,
 .radio--button.checked, .radio--button:hover {
 	background-color: @odb-blue;
 	background-image: linear-gradient(@odb-blue,@odb-dark-blue);
@@ -242,7 +248,7 @@ input#amount::placeholder {
 .opc-wrapper .actions-toolbar > .primary .action.primary {
 	width: 271px;
 	height: 50px;
-	font-size: 28px!important;
+	font-size: 20px!important;
     background-color: @odb-blue;
     background-image: linear-gradient(@odb-blue,@odb-dark-blue);
     color: #fff;
@@ -305,17 +311,29 @@ h2.paymentdetails.billing-details {
 }
 h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
 	color: #004A97;
-    font-weight: bold;
+    font-weight: normal;
     text-align: center;
     font-size: 24px;
     margin-top: 10px;
 }
+.field-tooltip .field-tooltip-action:before {
+	color: @odb-gray-secondary;
+}
 h2.paymentdetails {
 	padding-top: 30px;
+}
+.checkout-payment-method .ccard .fields .select {
+	padding-left: 10px;
+}
+.opc-wrapper .step-content {
+	margin-bottom: 0;
 }
 .opc-block-summary {
     background: #fff;
     padding: 8px 20px;
+}
+.checkout-payment-method .payment-method-content {
+	padding-bottom: 5px;
 }
 .cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
 	padding: 0!important;
@@ -326,14 +344,14 @@ h2.paymentdetails {
 }
 .opc-block-summary td.amount .price {
 	color: @odb-dark-blue;
-	font-size: 24px;
+	font-size: 26px;
     font-weight: bold;
 }
 .opc-block-summary td.amount .price .sign{
 	color: @odb-blue;
     font-weight: normal;
 }
-.opc-block-summary, 
+.opc-block-summary,
 #payment {
 	border-radius: 3px;
 }
@@ -341,8 +359,8 @@ h2.paymentdetails {
 	padding: 0;
     font-size: 20px;
     text-align: right;
-    border-left: 1px solid #69AAE6 !important;
-    color: #69AAE6;
+    border-left: 1px solid @odb-dark-blue !important;
+    color: @odb-dark-blue;
     font-weight: bold;
     padding-top: 4px;
 }
@@ -376,11 +394,11 @@ h2.paymentdetails {
 	position: absolute;
 	right: 22px;
 	z-index: 1;
-	bottom: 29px;
+	top: 2px;
 	display: block;
 }
-.checkout-index-index .payment-method-billing-address .fieldset label.label, 
-.checkout-index-index #payment_form_odbm_paperless label, 
+.checkout-index-index .payment-method-billing-address .fieldset label.label,
+.checkout-index-index #payment_form_odbm_paperless label,
 .checkout-index-index .payment-method-content .fieldset legend.label {
 	display: none;
 }
@@ -399,8 +417,8 @@ h2.paymentdetails {
 	margin: 0;
 }
 .checkout-index-index .payment-method-billing-address .field._required {
-	float: left; 
-	width: 50%; 
+	float: left;
+	width: 50%;
 }
 .checkout-index-index .payment-method-billing-address .field._required[name*=".city"],
 .checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] {
@@ -421,9 +439,14 @@ h2.paymentdetails {
 .checkout-index-index .payment-method-billing-address .field._required > select,
 .checkout-index-index .payment-method-billing-address .field input,
 .checkout-index-index .payment-method-billing-address .field select,
-.checkout-index-index #payment_form_odbm_paperless .field input, 
+.checkout-index-index #payment_form_odbm_paperless .field input,
 .checkout-index-index #payment_form_odbm_paperless .field select {
 	border-bottom: solid 1px @odb-gray-secondary;
+	height: 40px;
+	font-size: 20px;
+}
+.checkout-index-index .payment-method-content select.select {
+	font-size: 20px
 }
 .checkout-payment-method .ccard .number .input-text {
 	width: 100%;
@@ -435,14 +458,29 @@ h2.paymentdetails {
 	float: left;
 	width: 50%;
 }
-.checkout-index-index .payment-method-billing-address .field._required:nth-child(2) {
+.checkout-index-index .payment-method-billing-address .field._required:nth-child(2) input {
 	border-left: solid 1px @odb-gray-secondary;
 }
-.checkout-index-index .payment-method-billing-address .street .field, 
+.checkout-index-index #payment_form_odbm_paperless .field.number {
+	position: relative;
+}
+div.mage-error[generated] {
+    color: @error-red;
+    font-size: 1.2rem;
+    font-size: 14px;
+    padding-bottom: 7px;
+}
+._error input, ._error select
+input.mage-error, select.mage-error {
+    -webkit-box-shadow: 0 0 6px @error-red !important;
+    box-shadow: 0 0 6px @error-red !important;
+    border: 0!important;
+}
+.checkout-index-index .payment-method-billing-address .street .field,
 .checkout-index-index #payment_form_odbm_paperless .field.number,
 .checkout-index-index #customer-email-fieldset .field
 {
-	width: 100%; 
+	width: 100%;
 	max-width: 100%;
 	margin: auto;
 }
@@ -461,7 +499,7 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	color: @odb-gray-secondary;
 }
 .checkout-index-index #payment_form_odbm_paperless .field.date {
-	width: 50%; 
+	width: 50%;
 	max-width: 100%;
 }
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field {
@@ -481,6 +519,14 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	top: 0;
 	right: 0;
 	padding: 0;
+	font-size: 18px;
+}
+.checkout-index-index .payment-method-content select.select {
+    content: '444';
+    background-image: url(./arrow-down.svg);
+    background-position: 96% 50%;
+    background-size: 18px 12px;
+    background-repeat: no-repeat;
 }
 .cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
 	text-align: left;
@@ -493,7 +539,7 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 }
 .checkout-payment-method .checkout-billing-address .billing-address-details {
 	font-size: 20px;
-    font-family: 'PT Sans', sans-serif;
+    font-family: @odb-font;
     padding: 0;
 	line-height: 26px;
 	margin-top: 15px;
@@ -521,7 +567,7 @@ input.cvv, input.ccno {
 	border-bottom: none;
 }
 .checkout-index-index .payment-method-billing-address .field input {
-	background-color: transparent; 
+	background-color: transparent;
 	border: none;
 	border-bottom: 1px solid @odb-gray-secondary;
 }
@@ -542,23 +588,6 @@ input.cvv, input.ccno {
 	border-right: 1px solid @odb-gray-secondary;
 	-webkit-appearance: none;
 	border-bottom: 1px solid @odb-gray-secondary;
-}
-.checkout-index-index .payment-method-content select.select:focus {
-  background-image:
-    linear-gradient(45deg, green 50%, transparent 50%),
-    linear-gradient(135deg, transparent 50%, green 50%),
-    linear-gradient(to right, #ccc, #ccc);
-  background-position:
-    calc(100% - 15px) 1em,
-    calc(100% - 20px) 1em,
-    calc(100% - 2.5em) 0.5em;
-  background-size:
-    5px 5px,
-    5px 5px,
-    1px 1.5em;
-  background-repeat: no-repeat;
-  border-color: green;
-  outline: 0;
 }
 .field-select-billing {
 	display: none;
