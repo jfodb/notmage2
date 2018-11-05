@@ -41,6 +41,13 @@ define([
             }
 
             return quote['grand_total'];
+        },
+
+        /**
+         * @return {*|String}
+         */
+        getValue: function () {
+            return this.getFormattedPrice(this.getPureValue());
         }
     });
 });
