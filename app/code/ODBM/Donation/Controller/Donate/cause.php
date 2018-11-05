@@ -8,17 +8,24 @@ class Cause extends \Magento\Framework\App\Action\Action
 	protected $_productRepository;
 	protected $_scopeConfig;
 	protected $_productCollectionFactory;
+	protected $productVisibility;
+	protected $productStatus;
 
 	public function __construct(
 		Context $context,
 		\Magento\Catalog\Model\ProductRepository $productRepository,
 		\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+		\Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+		\Magento\Catalog\Model\Product\Attribute\Source\Status $productStatus,
+		\Magento\Catalog\Model\Product\Visibility $productVisibility
 	) {
 
 		$this->_productRepository = $productRepository;
 		$this->_scopeConfig = $scopeConfig;
 		$this->_productCollectionFactory = $productCollectionFactory;
+
+		$this->productStatus = $productStatus;
+		$this->productVisibility = $productVisibility;
 
 		parent::__construct( $context );
 	}
@@ -49,6 +56,9 @@ class Cause extends \Magento\Framework\App\Action\Action
 
 			$collection->addAttributeToSelect('*');
 			$collection->addAttributeToFilter('in_cause_pool', 1);
+
+			$collection->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()]);
+			$collection->setVisibility($this->productVisibility->getVisibleInSiteIds());
 
 			$products = $collection->getData();
 
