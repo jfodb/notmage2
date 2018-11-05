@@ -13,10 +13,7 @@
                 data-bind="i18n: 'My billing and shipping address are the same'"></span></label>
     </div>
 
-    <div class="billing-adddress-details-wrapper" data-bind="visible: isAddressDetailsVisible()">
-        <!-- ko template: 'Magento_Checkout/billing-address/details' --><!-- /ko -->
-    </div>
-
+    <!-- ko template: 'Magento_Checkout/billing-address/details' --><!-- /ko -->
     <fieldset class="fieldset" data-bind="visible: !isAddressDetailsVisible()">
         <!-- ko template: 'Magento_Checkout/billing-address/list' --><!-- /ko -->
         <!-- ko template: 'Magento_Checkout/billing-address/form' --><!-- /ko -->
@@ -25,7 +22,7 @@
                 <button class="action primary action-update" type="button" data-bind="click: updateAddress">
                     <span data-bind="i18n: 'Next'"></span>
                 </button>
-                <button class="action action-cancel" type="button" data-bind="click: cancelAddressEdit">
+                <button class="action action-cancel" type="button" data-bind="click: cancelAddressEdit, fadeVisible: isCancelButtonVisible()">
                     <span data-bind="i18n: 'Cancel'"></span>
                 </button>
             </div>
