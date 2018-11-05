@@ -248,7 +248,7 @@ input#amount::placeholder {
 .opc-wrapper .actions-toolbar > .primary .action.primary {
 	width: 271px;
 	height: 50px;
-	font-size: 20px!important;
+	font-size: 28px!important;
     background-color: @odb-blue;
     background-image: linear-gradient(@odb-blue,@odb-dark-blue);
     color: #fff;
@@ -316,6 +316,9 @@ h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
     font-size: 24px;
     margin-top: 10px;
 }
+.field-tooltip {
+	top: 3px;
+}
 .field-tooltip .field-tooltip-action:before {
 	color: @odb-gray-secondary;
 }
@@ -353,16 +356,19 @@ h2.paymentdetails {
 }
 .opc-block-summary,
 #payment {
-	border-radius: 3px;
+	border-radius: 2px;
 }
 .opc-block-summary td.description {
 	padding: 0;
     font-size: 20px;
     text-align: right;
-    border-left: 1px solid @odb-dark-blue !important;
     color: @odb-dark-blue;
     font-weight: bold;
     padding-top: 4px;
+}
+.opc-block-summary td.description>div {
+	width: 100%;
+    border-left: 1px solid @odb-dark-blue !important;
 }
 .checkout-index-index .opc-wrapper {
 	float: none;
@@ -494,6 +500,7 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	width: 100%;
 	border: 0;
 	border-bottom: solid 1px @odb-gray-secondary;
+	font-size: 20px;
 }
 .checkout-index-index #customer-email-fieldset .field input::placeholder {
 	color: @odb-gray-secondary;
@@ -605,10 +612,78 @@ input.cvv, input.ccno {
 	.checkout-payment-method .payment-methods {
 		margin: 0;
 	}
+	.opc-wrapper .actions-toolbar > .primary .action.primary {
+		font-size: 24px!important;
+	}
+	.checkout-index-index #customer-email-fieldset .field input,
+	.checkout-index-index .payment-method-billing-address .field._required > input, 
+	.checkout-index-index .payment-method-billing-address .field._required > select, 
+	.checkout-index-index .payment-method-billing-address .field input, 
+	.checkout-index-index .payment-method-billing-address .field select, 
+	.checkout-index-index #payment_form_odbm_paperless .field input, 
+	.checkout-index-index #payment_form_odbm_paperless .field select,
+	.checkout-index-index .payment-method-content select.select {
+		font-size: 16px;
+	}
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".region_id"],
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".city"]{
+		width: 50%;
+		float: left;
+	}
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".region_id"]  {
+		border-left: 1px solid @odb-gray-secondary;
+	}
+	.opc-block-summary td.amount .price {
+		font-size: 24px;
+	}
+	.opc-block-summary {
+		border: 1px solid #9a9a9a;
+	}
+	.opc-block-summary td.description {
+		font-size: 18px;
+		padding-top: 5px;
+	}
+	h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
+		font-size: 20px;
+	}
+	.opc-wrapper .form-login {
+		padding-bottom: 0!important;
+	}
+	.opc-wrapper .actions-toolbar > .primary .action.primary {
+		width: 100%;
+	}
+	.checkout-payment-method .checkout-billing-address .billing-address-details {
+		margin-top: 0
+	}
+	.checkout-payment-method .actions-toolbar div.primary {
+		padding-top: 25px;
+	}
+	.checkout-index-index .payment-method-billing-address .field {
+		margin-bottom: 0;
+	}
+	#payment {
+		padding: 5px;
+	}
+	.checkout-index-index #checkoutSteps {
+		padding: 0;
+	}
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".city"], 
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] {
+		height: auto
+	}
+	.checkout-index-index .payment-method-billing-address .field._required {
+		float: none;
+	}
+	.opc-wrapper .form-login {
+		border: 0;
+	}
+	.checkout-index-index .payment-method-content select.select {
+		border-right: 0;
+	}
 	.checkout-payment-method .payment-method-content {
 		padding: 0;
 	}
-	.checkout-index-index .payment-method-content .field._required:nth-child(2) {
+	.checkout-index-index .payment-method-content .field._required:nth-child(2) input {
 		border-left: none;
 	}
 	.checkout-payment-method .billing-address-form {

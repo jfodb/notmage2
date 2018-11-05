@@ -37,7 +37,8 @@ function (
 ) {
     'use strict';
 
-    newAddressOption = {
+    var lastSelectedBillingAddress = null,
+        newAddressOption = {
             /**
              * Get new address label
              * @returns {String}
@@ -60,7 +61,6 @@ function (
             exports: {
                 // TODO, make this more dynamic
                 isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
-                lastSelectedBillingAddress: false
             }
         },
         currentBillingAddress: quote.billingAddress,
@@ -89,6 +89,7 @@ function (
                     selectedAddress: null,
                     isAddressDetailsVisible: quote.billingAddress() != null,
                     isAddressFormVisible: !customer.isLoggedIn() || addressOptions.length === 1,
+                    isCancelButtonVisible: false,
                     isAddressSameAsShipping: false,
                     saveInAddressBook: 1
                 });
@@ -137,9 +138,15 @@ function (
                 this.updateAddresses();
                 this.isAddressDetailsVisible(true);
             } else {
-                this.lastSelectedBillingAddress(quote.billingAddress() || false);
+                lastSelectedBillingAddress = quote.billingAddress();
                 quote.billingAddress(null);
                 this.isAddressDetailsVisible(false);
+
+                if ( lastSelectedBillingAddress != null ) {
+                    this.isCancelButtonVisible(true);
+                } else {
+                    this.isCancelButtonVisible(false);
+                }
             }
             checkoutData.setSelectedBillingAddress(null);
 
@@ -185,7 +192,14 @@ function (
          * Edit address action
          */
         editAddress: function () {
-            this.lastSelectedBillingAddress(quote.billingAddress() || false);
+            lastSelectedBillingAddress = quote.billingAddress();
+
+            if ( lastSelectedBillingAddress != null ) {
+                this.isCancelButtonVisible(true);
+            } else {
+                this.isCancelButtonVisible(false);
+            }
+
             quote.billingAddress(null);
             this.isAddressDetailsVisible(false);
         },
@@ -211,8 +225,9 @@ function (
          * Restore billing address
          */
         restoreBillingAddress: function () {
-            if (this.lastSelectedBillingAddress != null || !this.lastSelectedBillingAddress) {
-                selectBillingAddress(this.lastSelectedBillingAddress);
+            if (lastSelectedBillingAddress != null) {
+                selectBillingAddress(lastSelectedBillingAddress);
+                this.isCancelButtonVisible(true);
             }
         },
 
