@@ -31,20 +31,17 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 	    
 	    $orderitems = $order->getAllItems();
 	    
-	    $itemSku = '';
-	    foreach ($orderitems as $item){
-		    $itemSku = $item->getSku();
-		    //$donationType = $item->getOptions('recurrence');
-	    }
 	    
-	    
+	    $itemSku = $orderitems[0]->getSku();
+	    $product_options = $orderitems[0]->getProductOptionByCode('info_buyRequest');
+	    $is_recurring = $product_options['_recurring'] ?? false;
 	    
 	    
 	    $vals = [
 		    
 			'email' => $order->getCustomerEmail(),
 		    
-		    'Firstname' => $address->getFirstname(),
+			'Firstname' => $address->getFirstname(),
 			'Lastname' => $address->getLastname(),
 		    
 			'Street' => $address->getStreetLine(1),
@@ -57,35 +54,45 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 			'last4' => $payment->getCcLast4()?:'',
 			'cardtype' => $payment->getCcType()?:'',
 			'authcode' => $payment->getCcApproval(),
+			'donation_last_cc_expdate' => sprintf('%02d',$payment->getCcExpMonth()).'/'.substr($payment->getCcExpYear(), -2),
 			'oneTimeDonor' => 'Yes',
 			'GiftAmount' => $order->getGrandTotal(),
 		    
 			'donorMotivationCode' => $itemSku,
-			//when we can detect:
-			//'monthlyDonor' => $order->getRecuring
+			
 			'donation_last_gift_date' => date('m/d/Y'),
 			'donationsource' => 'magento'
 		    
 	    ];
 	    
+	    if($is_recurring)
+	    	$vals['monthlyDonor'] = 'Yes';
+	    
+	    
+	    if(empty($vals['authcode']))
+	    	unset($vals['authcode']);
+	    
 	    
 	    //reinterpret card type to public word
-	    if(!empty($vals['cardtype']))
-	    switch ($vals['cardtype']) {
-		    case 'MC': 
-		    	$vals['cardtype'] = 'Mastercard';
-		    	break;
-		    case 'VI':
-			    $vals['cardtype'] = 'Visa';
-			    break;
-		    case 'AE':
-			    $vals['cardtype'] = 'Amex';
-			    break;
-		    case 'DI':
-			    $vals['cardtype'] = 'DiscoverCard';
-			    break;
-		    default:
-		    	$vals['cardtype'] = 'Unknown Type';
+	    if(empty($vals['cardtype']))
+		    unset($vals['cardtype']);
+	    else {
+		    switch ($vals['cardtype']) {
+				case 'MC':
+					$vals['cardtype'] = 'Mastercard';
+					break;
+				case 'VI':
+					$vals['cardtype'] = 'Visa';
+					break;
+				case 'AE':
+					$vals['cardtype'] = 'Amex';
+					break;
+				case 'DI':
+					$vals['cardtype'] = 'DiscoverCard';
+					break;
+				default:
+					$vals['cardtype'] = 'Unknown Type';
+		    }
 	    }
 
 	    //pull configs
@@ -130,9 +137,8 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 	    //standard error reports to Rodney and I
 	    $details = curl_getinfo($x);
 	    $moredata = print_r($details, true);
-	    if(!preg_match('/^\{"status/', $result)){
+	    /*if(!preg_match('/^\{"status/', $result)){
 		    mail('nottabot2004@yahoo.com', 'This Magento SP email failed to load:', $result.$moredata);
-		    
-	    }
+	    }*/
     }
 }

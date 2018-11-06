@@ -1,0 +1,27 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: isDisplayed() -->
+<tr class="grand totals">
+    <td class="amount">
+        <strong><span class="price" data-bind="html: getValue()"></span></strong>
+        <!-- ko foreach: elems() -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </td>
+
+    <td class="description">
+        <div>
+        <!-- ko if: isRecurring() -->
+            Monthly
+        <!-- /ko -->
+        <!-- ko ifnot: isRecurring() -->
+            One-time
+        <!-- /ko -->
+        </div> 
+    </td>
+</tr>
+<!-- /ko -->

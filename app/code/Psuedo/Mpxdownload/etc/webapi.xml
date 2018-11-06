@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 	<route method="GET" url="/V1/psuedo-mpxdownload/mpx_download">
-		<service class="Psuedo\Mpxdownload\Api\Mpx_downloadManagementInterface" method="getMpx_download"/>
+		<service class="Psuedo\Mpxdownload\Api\MpxDownloadManagementInterface" method="getMpx_download"/>
 		<resources>
 			<resource ref="anonymous"/>
 		</resources>

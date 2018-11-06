@@ -15,4 +15,8 @@
 		<observer name="restrict_sales_model_cart_add_before" instance="ODBM\Donation\Observer\ValidateCart" />
 	</event>
 
+	<event name="sales_order_place_after">
+		<observer instance="ODBM\Donation\Observer\Sales\OrderPlaceAfter" name="odbm_donation_observer_sales_orderplaceafter"/>
+	</event>
+	
 </config>

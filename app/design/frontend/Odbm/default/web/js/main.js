@@ -86,4 +86,32 @@ require(['jquery', 'jquery/ui'], function($) {
 			}
 			$(this).siblings('.radio--button').removeClass('checked');
 		});
+
+
+
 	});
+
+//make globally available
+function trySendCheckoutGA() {
+	if(typeof ga == 'function') {
+		sendCheckoutGA();
+	} else
+		//the time is not right, wait to strike
+		setTimeout(trySendCheckoutGA, 200);
+}
+function sendCheckoutGA() {
+    if (document.getElementById('gadata')) {
+        var gacat = jQuery('#gacat').val();
+        var gaact = jQuery('#gaact').val();
+        var galab = jQuery('#gacat').val() + ' - ' + jQuery('#galab').val();
+        var gaval = jQuery('#gaval').val();
+
+        ga('send', {
+            hitType: 'event',
+            eventCategory: gacat,
+            eventAction: gaact,
+            eventLabel: galab,
+            eventValue: gaval
+        });
+    }
+}

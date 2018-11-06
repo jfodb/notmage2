@@ -234,7 +234,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	function api_check_connection()
 	{
-		if(!($_SERVER['SERVER_NAME'] == 'dev.mage2.org' || !empty($_SERVER['HTTPS']))){
+ 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' || $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTPS'])) ){
 			$this->api_return_error(412, 'Must be done through a secure socket.');
 			return false;
 		}
@@ -554,7 +554,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				else
 					$OrderRow["SourceAccountNumber"] = $order['customer_id'];
 
-				
+
 
 				//check for affiliates
 				if($affilTableExists) {
@@ -1058,7 +1058,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
 				}
 
-				
+
 				$OrderRow["MotivationCode"] = $this->motivation;
 
 

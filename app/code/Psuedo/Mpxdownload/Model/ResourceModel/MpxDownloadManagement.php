@@ -8,7 +8,7 @@
 
 namespace Psuedo\Mpxdownload\Model\ResourceModel;
 
-class Mpx_downloadManagement extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb {
+class MpxDownloadManagement extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb {
 	protected $mycontext;
 	
 	public function __construct(
