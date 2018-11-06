@@ -37,7 +37,12 @@ class OrderPlaceAfter implements \Magento\Framework\Event\ObserverInterface
 		$is_recurring = $product_options['_recurring'] ?? false;
 		$is_ministry = $product_options['_ministry'] ?? false;
 
-
+		//rectify
+		if($is_recurring == 'false')
+			$is_recurring = false;
+		if($is_ministry == 'false')
+			$is_ministry = false;
+		
 		if($is_recurring)
 			$this->_coreSession->setGaAct('Monthly');
 		else
