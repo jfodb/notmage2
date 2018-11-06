@@ -75,14 +75,31 @@ require(['jquery', 'jquery/ui'], function($) {
 		}
 
 		$('.radio--button').click(function(){
+			//no value set yet
+			if(! $('#amount').val()) {
+				$('#amount').focus();
+				return false;
+			}
+            
 			if ($(this).children('input').is(':checked')) {
 				$(this).addClass('checked');
 				$('.actions.hidden').removeClass('hidden');
 			}
 			if ($(this).children('input').attr('id') === "_recurring-yes") {
 				$('.paypal').addClass('hidden');
+				$('.dntpmtoptbx').addClass('recurring');
+
+				var sku = document.getElementsByName('_motivation_code')[0].value;
+
+				if ( document.getElementById('_recurring-yes').checked ) {
+					window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
+
+					e.preventDefault();
+					return false;
+				}
 			} else {
-                $('.paypal').removeClass('hidden');
+				$('.paypal').removeClass('hidden');
+				$('.dntpmtoptbx').removeClass('recurring');
 			}
 			$(this).siblings('.radio--button').removeClass('checked');
 		});

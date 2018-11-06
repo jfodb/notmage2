@@ -36,7 +36,7 @@ if ($_product->getTypeId() === "donation") {
 				</div>
 			<?php endif; ?>
 			<div class="actions hidden dntpmtoptbx">
-				<p>Give your one-time gift by</p>
+				<p>Give your <span id="gifttype"><span class="ot">one-time</span><span class="rc">recurring</span></span> gift by</p>
 				<button type="submit"
 				title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
 				class="action primary tocart"
