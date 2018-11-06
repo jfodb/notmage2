@@ -58,8 +58,6 @@
   enable: isActive($parents),
   value: creditCardNumber,
   valueUpdate: 'keyup' "
-  min="0"
-  max="9999"
   />
 </div>
 </div>
@@ -107,17 +105,20 @@
   </label>
   <div class="control _with-tooltip">
     <input type="number"
-    autocomplete="off"
-    class="input-text cvv"
-    name="payment[cc_cid]"
-    value=""
-    data-bind="attr: {id: getCode() + '_cc_cid',
-    placeholder: $t('CVV'),
-    title: $t('Card Verification Number'),
-    'data-container': getCode() + '-cc-cvv',
-    'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
-    enable: isActive($parents),
-    value: creditCardVerificationNumber" />
+      autocomplete="off"
+      class="input-text cvv"
+      name="payment[cc_cid]"
+      value=""
+      data-bind="attr: {id: getCode() + '_cc_cid',
+      placeholder: $t('CVV'),
+      title: $t('Card Verification Number'),
+      'data-container': getCode() + '-cc-cvv',
+      'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
+      enable: isActive($parents),
+      value: creditCardVerificationNumber" 
+      min="0"
+      max="9999"
+    />
     <div class="field-tooltip toggle">
       <span class="field-tooltip-action action-cvv"
       tabindex="0"

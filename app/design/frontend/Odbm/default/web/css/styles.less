@@ -1,5 +1,5 @@
 // Color theme
-@odb-blue: #69AAE6;
+@odb-blue: #4C99E1; 
 @odb-dark-blue: #164F83;
 @odb-yellow: #fab432;
 @odb-gray: #878787;
@@ -400,8 +400,8 @@ h2.paymentdetails {
 	position: absolute;
 	right: 22px;
 	z-index: 1;
-	top: 2px;
 	display: block;
+	bottom: 5px;
 }
 .checkout-index-index .payment-method-billing-address .fieldset label.label,
 .checkout-index-index #payment_form_odbm_paperless label,
@@ -530,7 +530,7 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 }
 .checkout-index-index .payment-method-content select.select {
     content: '444';
-    background-image: url(./arrow-down.svg);
+    background-image: url(../images/arrow-down.svg);
     background-position: 96% 50%;
     background-size: 18px 12px;
     background-repeat: no-repeat;
@@ -554,7 +554,7 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 }
 button.action {
     background: none;
-    color: @odb-yellow;
+    color: @odb-blue;
     text-transform: uppercase;
     border: 0;
 }
@@ -568,7 +568,7 @@ input.cvv, input.ccno {
 	width: 50%;
 }
 .checkout-payment-method .ccard > .field.cvv > .control {
-	position: static;
+	position: relative;
 }
 .checkout-index-index .payment-method-billing-address .field.street {
 	border-bottom: none;
@@ -578,15 +578,12 @@ input.cvv, input.ccno {
 	border: none;
 	border-bottom: 1px solid @odb-gray-secondary;
 }
-.checkout-index-index .payment-method-billing-address .field input::placeholder, .checkout-index-index #payment_form_odbm_paperless .field input::placeholder {
+.checkout-index-index .payment-method-billing-address .field input::placeholder,
+.checkout-index-index #payment_form_odbm_paperless .field input::placeholder,
+.checkout-index-index .payment-method-billing-address .field input:-ms-input-placeholder,
+.checkout-index-index .payment-method-billing-address .field input::-ms-input-placeholder {
     color: @odb-gray-secondary !important;
     opacity: 1;
-}
-.checkout-index-index .payment-method-billing-address .field input:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: @odb-gray-secondary !important;
-}
-.checkout-index-index .payment-method-billing-address .field input::-ms-input-placeholder { /* Microsoft Edge */
-    color: @odb-gray-secondary !important;
 }
 .checkout-index-index .payment-method-content select.select {
 	background-color: transparent;
@@ -629,6 +626,7 @@ input.cvv, input.ccno {
 	.checkout-index-index .payment-method-billing-address .field._required[name*=".city"]{
 		width: 50%;
 		float: left;
+		box-sizing: border-box;
 	}
 	.checkout-index-index .payment-method-billing-address .field._required[name*=".region_id"]  {
 		border-left: 1px solid @odb-gray-secondary;
@@ -651,9 +649,6 @@ input.cvv, input.ccno {
 	}
 	.opc-wrapper .actions-toolbar > .primary .action.primary {
 		width: 100%;
-	}
-	.checkout-payment-method .checkout-billing-address .billing-address-details {
-		margin-top: 0
 	}
 	.checkout-payment-method .actions-toolbar div.primary {
 		padding-top: 25px;
