@@ -76,12 +76,10 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		$('.radio--button').click(function(){
 			//no value set yet
-			if(! $('#amount').val()) {
-				$('#amount').valid();
+			if(! $('#amount').valid()) {
 				$('#amount').focus();
 				return false;
 			} else {
-				$('#amount').valid();
 				amount = $('#amount').val();
             }
 				
@@ -113,6 +111,16 @@ require(['jquery', 'jquery/ui'], function($) {
 
 
 	});
+
+
+
+function check4block() {
+    if((typeof(noadblock) == 'undefined') ) {
+        alert('Oops! It looks like you have an ad blocker on. Adblocker prevents submitting your donation. Please turn off the ad blocker and refresh to continue your checkout process.')
+    }
+}
+
+setTimeout(check4block, 2000);
 
 //make globally available
 function trySendCheckoutGA() {
