@@ -199,6 +199,7 @@ input#amount {
 	height: 45px;
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
 	border-radius: 2px;
+	font-size: 24px;
 }
 input#amount::placeholder {
 	color: @odb-blue;
@@ -238,6 +239,24 @@ input#amount::placeholder {
 	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.20);
 	border: none;
 	padding: 1px;
+}
+.checkout-index-index input[type="text"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="password"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="url"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="tel"]::-webkit-input-placeholder,
+.checkout-index-index input[type="search"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="number"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="datetime"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="email"]::-webkit-input-placeholder,
+.checkout-index-index input[type="text"]::placeholder, 
+.checkout-index-index input[type="password"]::placeholder, 
+.checkout-index-index input[type="url"]::placeholder, 
+.checkout-index-index input[type="tel"]::placeholder,
+.checkout-index-index input[type="search"]::placeholder, 
+.checkout-index-index input[type="number"]::placeholder, 
+.checkout-index-index input[type="datetime"]::placeholder, 
+.checkout-index-index input[type="email"]::placeholder {
+	color: @odb-gray-secondary;
 }
 .checkout-index-index .opc-wrapper form div.actions-toolbar {
 	margin: auto;
@@ -533,7 +552,9 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
     background-image: url(../images/arrow-down.svg);
     background-position: 96% 50%;
     background-size: 18px 12px;
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
+	-moz-appearance: none;
+	-webkit-appearance: none;
 }
 .cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
 	text-align: left;
@@ -591,6 +612,7 @@ input.cvv, input.ccno {
 	color: @odb-gray-secondary;
 	border-right: 1px solid @odb-gray-secondary;
 	-webkit-appearance: none;
+	-moz-appearance: none;
 	border-bottom: 1px solid @odb-gray-secondary;
 }
 .field-select-billing {
@@ -635,7 +657,7 @@ input.cvv, input.ccno {
 		float: left;
 		box-sizing: border-box;
 	}
-	.checkout-index-index .payment-method-billing-address .field._required[name*=".region_id"]  {
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".region_id"] select  {
 		border-left: 1px solid @odb-gray-secondary;
 	}
 	.opc-block-summary td.amount .price {
