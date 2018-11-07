@@ -198,16 +198,20 @@ class PaperlessRequest implements BuilderInterface
 				'value' => $order->getOrderIncrementId()
 			];
 			
+			
 			$fields =  [ "req" => array(
 				'Token' => array(
 					'TerminalKey' => $merchant_gateway_key
-				),
-				
-				'TestMode' => $test,
-				)];
-				
-				return $fields;
+				)
+			)];
+
+			// Only set test flag if it is being used
+			if ( $test == 'true' ) {
+				$fields['req']['TestFlag'] = $test;
 			}
+				
+			return $fields;
+		}
 			
 			public function getProfileInformation( $buildSubject ) {
 				/**
