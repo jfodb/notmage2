@@ -5,6 +5,11 @@ var config = {
 			"Magento_Payment/js/view/payment/cc-form": "js/components/payment/cc-form",
 			"Magento_Checkout/js/view/form/element/email": "js/components/checkout/email",
 			"Magento_Checkout/js/view/summary/grand-total": "js/components/checkout/summary/grand-total"
+			
 		}
-	}
+	},
+
+    deps: [
+        "js/ads"
+    ]
 };
