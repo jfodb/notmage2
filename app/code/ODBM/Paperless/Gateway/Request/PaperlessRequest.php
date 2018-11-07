@@ -154,10 +154,10 @@ class PaperlessRequest implements BuilderInterface
 		
 			if( !empty($debug) && $debug != '0' ) {
 				//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
-				$test = 'True';
+				$test = 'true';
 			} else {
 				//$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
-				$test = 'False';
+				$test = 'false';
 			}
 		
 			$d = $_SERVER['HTTP_HOST'];
