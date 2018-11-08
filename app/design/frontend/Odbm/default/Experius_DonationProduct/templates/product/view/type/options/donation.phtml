@@ -36,7 +36,7 @@
 				<!--                <span>--><?php //echo __('Choose your own Amount %1 (minimum %2)', $block->getCurrencySymbol(), $block->getMinimalDonationAmount()); ?><!--</span>-->
 				<!--            </label>-->
 				<div class="control">
-					<input name="amount" id="amount" title="amount" placeholder="<?php echo $block->getCurrencySymbol(); ?>" class="input-text validate-number" type="text" data-validate="{required:true, 'validate-number': true, 'number': true, 'data-msg-required':'Please enter an amount'}" value="">
+					<input name="amount" id="amount" title="amount" placeholder="<?php echo $block->getCurrencySymbol(); ?>" class="input-text validate-number" type="text" data-msg-required="Please enter an amount" data-msg-number="Amount must be a number only" data-msg-validate-number="Amount must be a number only" data-validate="{required:true, 'validate-number': true, 'number': true}" value="" tabindex="3">
 				</div>
 			</div>
 			<div class="radio--button">
@@ -46,7 +46,7 @@
 				id="_recurring-yes"
 				value="true"
 				>
-				<label class="label admin__field-label" for="_recurring-yes"><span><?= __("Give Monthly") ?></span></label>
+				<label class="label admin__field-label" for="_recurring-yes" tabindex="4"><span><?= __("Give Monthly") ?></span></label>
 			</div>
 			<div class="radio--button">
 				<input type="radio" class="radio admin__control-radio"
@@ -54,7 +54,7 @@
 				id="_recurring-no"
 				value="false"
 				>
-				<label class="label admin__field-label" for="_recurring-no"><span><?= __("Give Once") ?></span></label>
+				<label class="label admin__field-label" for="_recurring-no" tabindex="5"><span><?= __("Give Once") ?></span></label>
 			</div>
 
 			<script type="text/javascript">

@@ -198,26 +198,25 @@ class PaperlessRequest implements BuilderInterface
 				'value' => $order->getOrderIncrementId()
 			];
 			
-			
 			$fields =  [ "req" => array(
 				'Token' => array(
 					'TerminalKey' => $merchant_gateway_key
-				)
+				)				
 			)];
 
 			// Only set test flag if it is being used
 			if ( $test == 'true' ) {
-				$fields['req']['TestFlag'] = $test;
+				$fields['req']['TestMode'] = $test;
 			}
 				
 			return $fields;
 		}
 			
-			public function getProfileInformation( $buildSubject ) {
-				/**
-				* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
-				*/
-				throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
-			}
+		public function getProfileInformation( $buildSubject ) {
+			/**
+			* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
+			*/
+			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 		}
+	}
 		
