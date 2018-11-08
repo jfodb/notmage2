@@ -152,14 +152,6 @@ class PaperlessRequest implements BuilderInterface
 			
 			$debug = $this->config->getValue('payment/odbm_paperless/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		
-			if( !empty($debug) && $debug != '0' ) {
-				//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
-				$test = 'true';
-			} else {
-				//$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
-				$test = 'false';
-			}
-		
 			$d = $_SERVER['HTTP_HOST'];
 			
 			//$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
@@ -205,8 +197,8 @@ class PaperlessRequest implements BuilderInterface
 			)];
 
 			// Only set test flag if it is being used
-			if ( $test == 'true' ) {
-				$fields['req']['TestMode'] = $test;
+			if ( !empty($debug) && $debug != '0' ) {
+				$fields['req']['TestMode'] = true;
 			}
 				
 			return $fields;

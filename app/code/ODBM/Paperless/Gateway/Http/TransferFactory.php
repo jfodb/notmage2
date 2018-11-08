@@ -41,7 +41,7 @@ class TransferFactory implements TransferFactoryInterface
 			'TerminalKey'  => $request_details['Token']['TerminalKey']
 		];
 
-		if($request_details['TestMode']) {
+		if( !empty( $request_details['TestMode'] ) ) {
 			$headrs['TestFlag'] = 'true';
 		}
 
