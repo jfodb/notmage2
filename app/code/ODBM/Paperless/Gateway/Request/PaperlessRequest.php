@@ -201,19 +201,22 @@ class PaperlessRequest implements BuilderInterface
 			$fields =  [ "req" => array(
 				'Token' => array(
 					'TerminalKey' => $merchant_gateway_key
-				),
-				
-				'TestMode' => $test,
-				)];
-				
-				return $fields;
+				)				
+			)];
+
+			// Only set test flag if it is being used
+			if ( $test == 'true' ) {
+				$fields['req']['TestMode'] = $test;
 			}
-			
-			public function getProfileInformation( $buildSubject ) {
-				/**
-				* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
-				*/
-				throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
-			}
+				
+			return $fields;
 		}
+			
+		public function getProfileInformation( $buildSubject ) {
+			/**
+			* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
+			*/
+			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
+		}
+	}
 		
