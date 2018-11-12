@@ -10,6 +10,7 @@ var config = {
 	},
 
     deps: [
-        "js/ads"
+        "js/ads",
+        "js/blokr"
     ]
 };
