@@ -298,11 +298,54 @@ input#amount::placeholder {
     vertical-align: middle;
 }
 .dntpmtoptbx {
-	padding: 0px 61px 50px 61px; background-color: rgba(255,255,255,.8);
-	color: @odb-gray;
+	padding: 0px 61px 50px 61px; 
+	background-color: #fff;
+	color: #222;
 }
 .dntpmtoptbx p {
 	color: @odb-dark-blue; padding-bottom: 4px;
+}
+.product-info-main .box-tocart .action
+ {
+    width: 171px;
+    margin: 15px;
+    padding: 0px!important;
+    font-size: 20px!important;
+	height: 48px;
+	border-color: #d5d5d5;
+}
+.page-product-donation .box-tocart {
+	background: #FFFFFF;
+	box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
+	border-radius: 2px;
+	width: 100%;
+	max-width: 470px;
+	box-sizing: border-box;
+}
+.product-info-main .box-tocart .actions {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	-ms-flex: wrap;
+	padding: 15px;
+	padding-top: 0;
+	box-sizing: border-box;
+	justify-content: center;
+}
+.box-tocart > .fieldset > p {
+    text-align: center;
+    padding-top: 25px;
+    color: @odb-dark-blue;
+    font-size: 18px;
+}
+.paypal.checkout.before.paypal-logo {
+	border: solid 1px #d5d5d5;
+    padding: 9px 38px;
+    width: 171px;
+    box-sizing: border-box;
+    height: 48px!important;
+	margin: 15px;
+	border-radius: 2px;
 }
 .action.primary {
 	background-color: rgba(255,255,255,0);
@@ -311,19 +354,16 @@ input#amount::placeholder {
 	text-transform: none;
 }
 .action.primary:hover, .action.primary:active {
-	background-color: #cccccc;
+	background-color: #fff;
 	color: @odb-dark-blue;
-	border: solid 1px @odb-blue;
+}
+.paypal.before:before {
+    content: '';
+    display: none;
+	margin: 0;
 }
 .payment-option._collapsible.opc-payment-additional.discount-code {
 	display: none;
-}
-.paypal input[type="image"]{
-	padding: 15px 30px;
-	border: solid 1px @odb-blue;
-}
-.paypal input[type="image"]:hover {
-	background-color: #cccccc;
 }
 h2.paymentdetails.billing-details {
 	padding-top: 0;
@@ -627,14 +667,17 @@ input.cvv, input.ccno {
 	padding-right: 0;
 }
 
-.dntpmtoptbx p #gifttype span {display:none;}
-.dntpmtoptbx p #gifttype span.ot {display:inline;}
+.box-tocart p #gifttype span {display:none;}
+.box-tocart p #gifttype span.ot {display:inline;}
 
-.dntpmtoptbx.recurring p #gifttype span.ot {display:none;}
-.dntpmtoptbx.recurring p #gifttype span.rc {display:inline;}
+.box-tocart .recurring p #gifttype span.ot {display:none;}
+.box-tocart .recurring p #gifttype span.rc {display:inline;}
 
 
 @media (max-width: 767px) {
+	.product-info-main .box-tocart .actions .action.tocart {
+		width: 171px;
+	}
 	.checkout-payment-method .payment-methods {
 		margin: 0;
 	}
