@@ -88,6 +88,9 @@
 		<referenceBlock name="top.search" remove="true"/>
 		<referenceBlock name="breadcrumbs" remove="true" />
 
+		<!-- Remove Footer temporarily -->
+		<referenceContainer name="footer-container" remove="true"/>
+
 		<!-- Move Order Summary component to top of page -->
 		 <referenceBlock name="checkout.root">
                 <arguments>
