@@ -81,8 +81,13 @@ require(['jquery', 'jquery/ui'], function($) {
 				return false;
 			} else {
 				amount = $('#amount').val();
-            }
+			}
 				
+			//cleanup
+			tmpvar = filter_money_amount(amount);
+			if(tmpvar != amount)
+				$('#amount').val(tmpvar);
+			amount = tmpvar;
             
 			if ($(this).children('input').is(':checked')) {
 				$(this).addClass('checked');
@@ -138,4 +143,26 @@ function sendCheckoutGA() {
             eventValue: gaval
         });
     }
+}
+
+function filter_money_amount(amount) {
+	//straight outta MOS
+    num = String.trim(amount);
+
+    if( /^[0-9]+(\.[0-9][0-9])?$/.test(num)) {
+        return num;
+    }
+
+    num = num.replace(/[jkl;>\/]/, '.');
+    matches = /([0-9,\.]+)/.exec(num);
+
+    newnum = matches[1];
+    if(/,[0-9][0-9]$/.test(newnum)) {
+    	len = newnum.length;
+        newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
+    }
+    if(newnum.indexOf(',') > 0)
+        newnum = newnum.replace(',', '');
+
+    return newnum;
 }
