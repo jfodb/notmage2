@@ -81,8 +81,9 @@ require(['jquery', 'jquery/ui'], function($) {
 				return false;
 			} else {
 				amount = $('#amount').val();
-            }
-				
+			}
+			
+			$('.box-tocart').show();
             
 			if ($(this).children('input').is(':checked')) {
 				$(this).addClass('checked');
@@ -95,6 +96,8 @@ require(['jquery', 'jquery/ui'], function($) {
 				var sku = document.getElementsByName('_motivation_code')[0].value;
 
 				if ( document.getElementById('_recurring-yes').checked ) {
+					$('.box-tocart').hide();
+
 					window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
 
 					e.preventDefault();
