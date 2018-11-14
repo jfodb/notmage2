@@ -76,7 +76,7 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		$('.radio--button').click(function(){
 			//no value set yet
-			if(! $('#amount').valid()) {
+			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
 				$('#amount').focus();
 				return false;
 			} else {
