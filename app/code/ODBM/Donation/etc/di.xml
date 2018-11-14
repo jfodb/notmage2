@@ -15,8 +15,8 @@
 		type="ODBM\Donation\Paypal\Model\Api\OdbNvp"
 	/>
     <preference
-			for="ODBM\Donation\Api\OdbDonationInterface"
-			type="ODBM\Donation\Model\OdbDonation"
+        for="ODBM\Donation\Api\OdbDonationInterface"
+        type="ODBM\Donation\Model\OdbDonation"
 	/>
 	<!-- Always make Paypal save address -->
 	<preference for="Magento\Paypal\Model\Express\Checkout" type="ODBM\Donation\Model\Paypal\Express\Checkout" />
