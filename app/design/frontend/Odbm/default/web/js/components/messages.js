@@ -83,7 +83,7 @@ define([
                     // Scroll to top error
                     $('html, body').animate({
                         scrollTop: scrollTo
-                    }, 2000);
+                    }, 200);
 
                 } catch (error) {
                     // Do nothing
