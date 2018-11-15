@@ -71,9 +71,18 @@ define([
                 }, 15000);
 
                 try {
+                    var scrollTo = 0;
+
+                    // Get the location of top error message
+                    $(self.selector).each(function(index) {
+                        if ( scrollTo == 0 || ( $(this).offset().top < scrollTo ) ) {
+                            scrollTo = $(this).offset().top;
+                        }
+                    });
+
                     // Scroll to top error
                     $('html, body').animate({
-                        scrollTop: 0
+                        scrollTop: scrollTo
                     }, 2000);
 
                 } catch (error) {
