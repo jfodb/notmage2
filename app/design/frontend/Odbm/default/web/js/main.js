@@ -82,6 +82,12 @@ require(['jquery', 'jquery/ui'], function($) {
 			} else {
 				amount = $('#amount').val();
 			}
+				
+			//cleanup
+			tmpvar = filter_money_amount(amount);
+			if(tmpvar != amount)
+				$('#amount').val(tmpvar);
+			amount = tmpvar;
 			
 			$('.box-tocart').show();
             
@@ -116,13 +122,6 @@ require(['jquery', 'jquery/ui'], function($) {
 
 
 
-function check4block() {
-    if((typeof(noadblock) == 'undefined') ) {
-        alert('Oops! It looks like you have an ad blocker on. Adblocker prevents submitting your donation. Please turn off the ad blocker and refresh to continue your checkout process.')
-    }
-}
-
-setTimeout(check4block, 2000);
 
 //make globally available
 function trySendCheckoutGA() {
@@ -147,4 +146,26 @@ function sendCheckoutGA() {
             eventValue: gaval
         });
     }
+}
+
+function filter_money_amount(amount) {
+	//straight outta MOS
+    num = String.trim(amount);
+
+    if( /^[0-9]+(\.[0-9][0-9])?$/.test(num)) {
+        return num;
+    }
+
+    num = num.replace(/[jkl;>\/]/, '.');
+    matches = /([0-9,\.]+)/.exec(num);
+
+    newnum = matches[1];
+    if(/,[0-9][0-9]$/.test(newnum)) {
+    	len = newnum.length;
+        newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
+    }
+    if(newnum.indexOf(',') > 0)
+        newnum = newnum.replace(',', '');
+
+    return newnum;
 }
