@@ -74,6 +74,8 @@ define([
             if (self.validateEmail()) {
                 quote.guestEmail = self.email();
                 checkoutData.setValidatedEmailValue(self.email());
+            } else {
+
             }
             this.emailCheckTimeout = setTimeout(function () {
                 if (self.validateEmail()) {
@@ -124,6 +126,26 @@ define([
             }
         },
 
+        scrollToError: function() {
+            var loginFormSelector = 'form[data-role=email-with-possible-login]',
+            usernameSelector = loginFormSelector + ' input[name=username]';
+
+            // Scroll to validation result
+            var scrollTo = 0;
+
+            // Get the location of top error message
+            $(usernameSelector).each(function(index) {
+                if ( scrollTo == 0 || ( $(this).offset().top < scrollTo ) ) {
+                    scrollTo = $(this).offset().top - 90;
+                }
+            });
+ 
+            // Scroll to top error
+            $('html, body').animate({
+                scrollTop: scrollTo
+            }, 2000);       
+        },
+
         /**
          * Local email validation.
          *
@@ -144,7 +166,15 @@ define([
 
             validator = loginForm.validate();
 
-            return validator.check(usernameSelector);
+            var isValid = validator.check(usernameSelector) || false;
+
+            if ( !isValid ) {
+                $('#checkout button.action.action-update, #checkout button.action.checkout').click(this.scrollToError);
+            } else {
+                $('#checkout button.action.action-update, #checkout button.action.checkout').off('click',this.scrollToError);
+            }
+
+            return isValid;
         },
 
         /**
