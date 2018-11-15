@@ -150,7 +150,10 @@ function sendCheckoutGA() {
 
 function filter_money_amount(amount) {
 	//straight outta MOS
-    num = String.trim(amount);
+	if(typeof amount == 'string')
+		num = amount.trim();
+	else 
+    	num = amount.toString();
 
     if( /^[0-9]+(\.[0-9][0-9])?$/.test(num)) {
         return num;
