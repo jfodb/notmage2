@@ -1,4 +1,6 @@
 #!/bin/bash
+exec 2> /tmp/install.log
+
 if [ ! -d /usr/share/nginx/html/magento ]; then
     mkdir /usr/share/nginx/html/magento;
 fi
