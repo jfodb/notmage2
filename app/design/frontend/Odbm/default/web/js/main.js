@@ -81,6 +81,13 @@ require(['jquery', 'jquery/ui'], function($) {
 		}
 
 		$('.radio--button').click(function(){
+			//cleanup
+			tmpvar = filter_money_amount(amount);
+			if(tmpvar != amount)
+				$('#amount').val(tmpvar);
+			amount = tmpvar;
+			
+            
 			//no value set yet
 			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
 				$('#amount').focus();
@@ -88,12 +95,6 @@ require(['jquery', 'jquery/ui'], function($) {
 			} else {
 				amount = $('#amount').val();
 			}
-				
-			//cleanup
-			tmpvar = filter_money_amount(amount);
-			if(tmpvar != amount)
-				$('#amount').val(tmpvar);
-			amount = tmpvar;
 			
 			$('.box-tocart').show();
             
