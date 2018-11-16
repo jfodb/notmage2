@@ -67,6 +67,12 @@ require(['jquery', 'jquery/ui'], function($) {
 		    lastScrollTop = scrollTop;
 		}
 
+		//If donation is one time only, then show payment methods immediately
+		if($('.oneTimeOnly').length){
+			$('.box-tocart').show();
+			$('.dntpmtoptbx').removeClass('hidden');
+		}
+
 		function closeMenu() {
 			$('.page-header .panel.wrapper, .overlay, .submenu, .has-submenu').removeClass('active');
 			$('.overlay').removeClass('has-submenu');

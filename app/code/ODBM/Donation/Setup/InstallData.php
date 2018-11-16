@@ -43,7 +43,34 @@ class InstallData implements InstallDataInterface
 				'visible_on_front' => false,
 				'used_in_product_listing' => true,
 				'unique' => false,
-				'apply_to' => ''
+				'apply_to' => 'donation'
+			]	
+		);
+		//Add one-time-donation option to product
+		$eavSetup->addAttribute(
+			\Magento\Catalog\Model\Product::ENTITY,
+			'one-time-donation',
+			[
+				'type' => 'int',
+				'backend' => '',
+				'frontend' => '',
+				'label' => 'One time donation',
+				'input' => 'boolean',
+				'note'  => 'Should this product remove the monthly donation option?',
+				'class' => '',
+				'source' => '',
+				'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+				'visible' => true,
+				'required' => false,
+				'user_defined' => false,
+				'default' => '',
+				'searchable' => false,
+				'filterable' => false,
+				'comparable' => false,
+				'visible_on_front' => false,
+				'used_in_product_listing' => true,
+				'unique' => false,
+				'apply_to' => 'donation'
 			]
 		);
 	}
