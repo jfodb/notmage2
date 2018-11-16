@@ -76,6 +76,7 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		$('.radio--button').click(function(){
 			//cleanup
+			amount = $('#amount').val();
 			tmpvar = filter_money_amount(amount);
 			if(tmpvar != amount)
 				$('#amount').val(tmpvar);
@@ -86,9 +87,7 @@ require(['jquery', 'jquery/ui'], function($) {
 			if(! $('#amount').valid()) {
 				$('#amount').focus();
 				return false;
-			} else {
-				amount = $('#amount').val();
-			}
+			} 
 			
             
 			if ($(this).children('input').is(':checked')) {
