@@ -5,6 +5,7 @@
 @odb-gray: #878787;
 @odb-gray-secondary: #555;
 @odb-blue-gray: #EBF0F5;
+@placeholder-gray: #A2A2A2;
 @odb-header-height: 80px;
 @odb-desktop-header-height: 67px;
 @odb-nav-width: 200px;
@@ -194,14 +195,29 @@ button.action.primary.checkout.disabled, .opc-wrapper .actions-toolbar > .primar
 	box-sizing: border-box;
 	background-color: #fff;
 }
-input#amount {
+.control .restrain {
 	max-width: 293px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0;
+	position: relative;
+}
+.restrain .currency {
+	color: @odb-blue;
+	font-size: 25px;
+	position: absolute;
+	top: 10%;
+	left: 9px;
+}
+input#amount {
 	height: 45px;
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
 	border-radius: 2px;
+	padding-left: 30px;
+	font-size: 20px;
 }
 input#amount::placeholder {
-	color: @odb-blue;
+	color: @placeholder-gray;
 }
 .radio--button input[type="radio"] {
 	-webkit-appearance: none;
