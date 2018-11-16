@@ -5,6 +5,9 @@ else
     mount -t efs fs-1e74a656:/ /usr/share/nginx/html/magento/pub/media/
 fi
 
+cp /tmp/env.php /usr/share/nginx/html/magento/app/etc/env.php
+cp /tmp/magento.conf /usr/share/nginx/html/magento/magento.conf
+
 php /usr/share/nginx/html/magento/bin/magento setup:upgrade
 php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy
 
