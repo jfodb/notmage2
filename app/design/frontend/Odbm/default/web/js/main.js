@@ -82,6 +82,7 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		$('.radio--button').click(function(){
 			//cleanup
+			amount = $('#amount').val();
 			tmpvar = filter_money_amount(amount);
 			if(tmpvar != amount)
 				$('#amount').val(tmpvar);
@@ -92,9 +93,7 @@ require(['jquery', 'jquery/ui'], function($) {
 			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
 				$('#amount').focus();
 				return false;
-			} else {
-				amount = $('#amount').val();
-			}
+			} 
 			
 			$('.box-tocart').show();
             
