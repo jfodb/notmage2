@@ -36,9 +36,19 @@
 				<!--                <span>--><?php //echo __('Choose your own Amount %1 (minimum %2)', $block->getCurrencySymbol(), $block->getMinimalDonationAmount()); ?><!--</span>-->
 				<!--            </label>-->
 				<div class="control">
-					<input name="amount" id="amount" title="amount" placeholder="<?php echo $block->getCurrencySymbol(); ?>" class="input-text validate-number" type="text" data-msg-required="Please enter an amount" data-msg-number="Amount must be a number only" data-msg-validate-number="Amount must be a number only" data-validate="{required:true, 'validate-number': true, 'number': true}" value="" tabindex="3">
+					<div class="restrain">
+						<span class="currency"><?php echo $block->getCurrencySymbol(); ?></span>
+						<input name="amount" id="amount" title="amount" placeholder="<?php echo __('Amount'); ?>" class="input-text validate-number" type="text" data-msg-required="Please enter an amount" data-msg-number="Amount must be a number only" data-msg-validate-number="Amount must be a number only" data-validate="{required:true, 'validate-number': true, 'number': true}" value="" tabindex="3">
+					</div>
 				</div>
 			</div>
+			
+			<?php 
+			//If one time payment then hide the monthly payment button
+			$hideMonthly = $block->getProduct()->getData('one-time-donation');
+			if($hideMonthly!=1){
+				?>
+
 			<div class="radio--button">
 
 				<input type="radio" class="radio admin__control-radio"
@@ -56,6 +66,7 @@
 				>
 				<label class="label admin__field-label" for="_recurring-no" tabindex="5"><span><?= __("Give Once") ?></span></label>
 			</div>
+			<?php  } ?>
 
 			<script type="text/javascript">
 				// Temporary redirect to MOS for recurring

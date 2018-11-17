@@ -67,6 +67,12 @@ require(['jquery', 'jquery/ui'], function($) {
 		    lastScrollTop = scrollTop;
 		}
 
+		//If donation is one time only, then show payment methods immediately
+		if($('.oneTimeOnly').length){
+			$('.box-tocart').show();
+			$('.dntpmtoptbx').removeClass('hidden');
+		}
+
 		function closeMenu() {
 			$('.page-header .panel.wrapper, .overlay, .submenu, .has-submenu').removeClass('active');
 			$('.overlay').removeClass('has-submenu');
@@ -75,14 +81,21 @@ require(['jquery', 'jquery/ui'], function($) {
 		}
 
 		$('.radio--button').click(function(){
+			//cleanup
+			amount = $('#amount').val();
+			tmpvar = filter_money_amount(amount);
+			if(tmpvar != amount)
+				$('#amount').val(tmpvar);
+			amount = tmpvar;
+			
+            
 			//no value set yet
-			if(! $('#amount').valid()) {
+			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
 				$('#amount').focus();
 				return false;
-			} else {
-				amount = $('#amount').val();
-            }
-				
+			} 
+			
+			$('.box-tocart').show();
             
 			if ($(this).children('input').is(':checked')) {
 				$(this).addClass('checked');
@@ -95,6 +108,8 @@ require(['jquery', 'jquery/ui'], function($) {
 				var sku = document.getElementsByName('_motivation_code')[0].value;
 
 				if ( document.getElementById('_recurring-yes').checked ) {
+					$('.box-tocart').hide();
+
 					window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
 
 					e.preventDefault();
@@ -137,4 +152,29 @@ function sendCheckoutGA() {
             eventValue: gaval
         });
     }
+}
+
+function filter_money_amount(amount) {
+	//straight outta MOS
+	if(typeof amount == 'string')
+		num = amount.trim();
+	else 
+    	num = amount.toString();
+
+    if( /^[0-9]+(\.[0-9][0-9])?$/.test(num)) {
+        return num;
+    }
+
+    num = num.replace(/[jkl;>\/]/, '.');
+    matches = /([0-9,\.]+)/.exec(num);
+
+    newnum = matches[1];
+    if(/,[0-9][0-9]$/.test(newnum)) {
+    	len = newnum.length;
+        newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
+    }
+    if(newnum.indexOf(',') > 0)
+        newnum = newnum.replace(',', '');
+
+    return newnum;
 }

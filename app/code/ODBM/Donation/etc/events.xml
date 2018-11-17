@@ -18,5 +18,9 @@
 	<event name="sales_order_place_after">
 		<observer instance="ODBM\Donation\Observer\Sales\OrderPlaceAfter" name="odbm_donation_observer_sales_orderplaceafter"/>
 	</event>
+
+	<event name="controller_action_predispatch_checkout_cart_index">
+		<observer instance="ODBM\Donation\Observer\RedirectEmptyCart" name="odbm_redirect_empty"/>
+	</event>
 	
 </config>

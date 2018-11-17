@@ -19,7 +19,7 @@ class ValidateCart implements ObserverInterface {
 	protected $_messageManager;
 
 	public function __construct(
-	 \Magento\Checkout\Model\Cart $cart,
+	 	\Magento\Checkout\Model\Cart $cart,
 		\Magento\Framework\Message\ManagerInterface $messageManager
 	) {
 		$this->_cart = $cart;

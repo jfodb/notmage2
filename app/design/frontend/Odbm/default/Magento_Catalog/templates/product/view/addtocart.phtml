@@ -17,8 +17,9 @@ if ($_product->getTypeId() === "donation") {
 }
 
 ?>
+
 <?php if ($_product->isSaleable()): ?>
-	<div class="box-tocart">
+	<div class="box-tocart<?php if($_product->getData('one-time-donation')==1){echo ' oneTimeOnly';} //.onetimeonly unhides payment options ?>" style="display: none;">
 		<div class="fieldset">
 			<?php if ($block->shouldRenderQuantity()): ?>
 				<div class="field qty">
@@ -35,8 +36,10 @@ if ($_product->getTypeId() === "donation") {
 					</div>
 				</div>
 			<?php endif; ?>
+
+			<p>Give your <span id="gifttype"><span class="ot">one-time</span><span class="rc">recurring</span></span> gift by</p>
+
 			<div class="actions hidden dntpmtoptbx">
-				<p>Give your <span id="gifttype"><span class="ot">one-time</span><span class="rc">recurring</span></span> gift by</p>
 				<button type="submit"
 				title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
 				class="action primary tocart"
