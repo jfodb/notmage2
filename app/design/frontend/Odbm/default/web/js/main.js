@@ -170,3 +170,10 @@ function filter_money_amount(amount) {
 
     return newnum;
 }
+
+//prevent fatal errors caused by adblocking faults
+if(typeof require != 'undefined') {
+    require.onError = function (e) {
+        console.error("RequireJS Error", e);
+    }
+}
