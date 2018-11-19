@@ -1,9 +1,21 @@
 #!/bin/bash
+exec 2> /tmp/after_install.log
+
 if [[ $(findmnt -m /usr/share/nginx/html/magento/pub/media) ]]; then
     echo "Mounted"
 else
-    mount -t efs fs-1e74a656:/ /usr/share/nginx/html/magento/pub/media/
+    if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
+    then
+        mount -t efs fs-e12571ab:/ /usr/share/nginx/html/magento/pub/media/
+    else 
+        mount -t efs fs-1e74a656:/ /usr/share/nginx/html/magento/pub/media/
+    fi
+    
 fi
+
+# Pull from S3 based on deployment group
+aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/env.php /usr/share/nginx/html/magento/app/etc/env.php
+aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
 
 php /usr/share/nginx/html/magento/bin/magento setup:upgrade
 php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy

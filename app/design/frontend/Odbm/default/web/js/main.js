@@ -81,19 +81,19 @@ require(['jquery', 'jquery/ui'], function($) {
 		}
 
 		$('.radio--button').click(function(){
-			//no value set yet
-			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
-				$('#amount').focus();
-				return false;
-			} else {
-				amount = $('#amount').val();
-			}
-				
 			//cleanup
+			amount = $('#amount').val();
 			tmpvar = filter_money_amount(amount);
 			if(tmpvar != amount)
 				$('#amount').val(tmpvar);
 			amount = tmpvar;
+			
+            
+			//no value set yet
+			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
+				$('#amount').focus();
+				return false;
+			} 
 			
 			$('.box-tocart').show();
             
@@ -177,4 +177,11 @@ function filter_money_amount(amount) {
         newnum = newnum.replace(',', '');
 
     return newnum;
+}
+
+//prevent fatal errors caused by adblocking faults
+if(typeof require != 'undefined') {
+    require.onError = function (e) {
+        console.error("RequireJS Error", e);
+    }
 }
