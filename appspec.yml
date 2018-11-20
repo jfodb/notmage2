@@ -25,6 +25,8 @@ os: linux
 files:
   - source: /app
     destination: /usr/share/nginx/html/magento/app
+  - source: /magento.conf
+    destination: /usr/share/nginx/html/magento/magento.conf
   - source: /bin
     destination: /usr/share/nginx/html/magento/bin
   - source: /generated
