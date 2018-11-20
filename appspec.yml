@@ -26,7 +26,7 @@ files:
   - source: /app
     destination: /usr/share/nginx/html/magento/app
   - source: /magento.conf
-    destination: /usr/share/nginx/html/magento/magento.conf
+    destination: /usr/share/nginx/html/magento/
   - source: /bin
     destination: /usr/share/nginx/html/magento/bin
   - source: /generated
