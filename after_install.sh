@@ -13,8 +13,9 @@ else
     
 fi
 
-cp /tmp/env.php /usr/share/nginx/html/magento/app/etc/env.php
-cp /tmp/magento.conf /usr/share/nginx/html/magento/magento.conf
+# Pull from S3 based on deployment group
+aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/env.php /usr/share/nginx/html/magento/app/etc/env.php
+aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
 
 php /usr/share/nginx/html/magento/bin/magento setup:upgrade
 php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy
