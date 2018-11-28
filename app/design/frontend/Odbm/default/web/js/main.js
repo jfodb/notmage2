@@ -168,15 +168,20 @@ function filter_money_amount(amount) {
     num = num.replace(/[jkl;>\/]/, '.');
     matches = /([0-9,\.]+)/.exec(num);
 
-    newnum = matches[1];
-    if(/,[0-9][0-9]$/.test(newnum)) {
-    	len = newnum.length;
-        newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
-    }
-    if(newnum.indexOf(',') > 0)
-        newnum = newnum.replace(',', '');
-
-    return newnum;
+	//check for null
+	if(matches) {
+		newnum = matches[1];
+		if(/,[0-9][0-9]$/.test(newnum)) {
+			len = newnum.length;
+			newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
+		}
+		if(newnum.indexOf(',') > 0)
+			newnum = newnum.replace(',', '');
+		
+			return newnum;
+		
+		}
+	return amount;
 }
 
 //prevent fatal errors caused by adblocking faults
