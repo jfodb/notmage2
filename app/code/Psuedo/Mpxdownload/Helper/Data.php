@@ -62,7 +62,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$this->timeoffset = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/timezone", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		if (empty($this->timeoffset))
-			$this->timeoffset = "02:00:00";
+			$this->timeoffset = "04:00:00";
 
 		$this->store = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/store_id/{$this->domain}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
