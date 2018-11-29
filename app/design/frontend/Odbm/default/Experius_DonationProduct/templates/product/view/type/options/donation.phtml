@@ -38,7 +38,19 @@
 				<div class="control">
 					<div class="restrain">
 						<span class="currency"><?php echo $block->getCurrencySymbol(); ?></span>
-						<input name="amount" id="amount" title="amount" placeholder="<?php echo __('Amount'); ?>" class="input-text validate-number" type="text" data-msg-required="Please enter an amount" data-msg-number="Amount must be a number only" data-msg-validate-number="Amount must be a number only" data-validate="{required:true, 'validate-number': true, 'number': true}" value="" tabindex="3">
+						<input 
+							name="amount" 
+							id="amount" 
+							title="amount" 
+							placeholder="<?php echo __('Amount'); ?>" 
+							class="input-text validate-number" type="text" 
+							data-msg-required="Please enter an amount"
+							data-msg-number="Amount must be a number only" 
+							data-msg-validate-number="Amount must be a number only" 
+							data-validate="{required:true, 'validate-number': true, 'number': true}" 
+							value="<?php echo ( !empty( $_GET['amount'] ) && is_numeric( $_GET['amount'] ) )  ? $_GET['amount'] : '2'; ?>"
+							tabindex="3"
+						/>
 					</div>
 				</div>
 			</div>
