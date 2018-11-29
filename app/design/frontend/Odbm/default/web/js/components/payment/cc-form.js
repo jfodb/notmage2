@@ -24,6 +24,7 @@ define([
             creditCardSsStartYear: '',
             creditCardSsIssue: '',
             creditCardVerificationNumber: '',
+            creditCardToken: '',
             selectedCardType: null,
             isVisible: true
         },
@@ -36,6 +37,7 @@ define([
                     'creditCardExpYear',
                     'creditCardExpMonth',
                     'creditCardNumber',
+                    'creditCardToken',
                     'creditCardVerificationNumber',
                     'creditCardSsStartMonth',
                     'creditCardSsStartYear',
@@ -91,10 +93,59 @@ define([
                 creditCardData.expirationMonth = value;
             });
 
+            // Add credit card token to credit card data
+            this.creditCardToken.subscribe(function (value) {
+                creditCardData.creditCardToken = value;
+            });
+
             //Set cvv code to credit card data object
             this.creditCardVerificationNumber.subscribe(function (value) {
                 creditCardData.cvvCode = value;
             });
+        
+            // const options = {
+            //     containerId: "card-form",
+            //     stylesId: "card-styles",
+            //     labels: {
+            //     cardNumber: "Card #"
+            //     },
+            //     acceptedBrands: ["amex", "visa", "mastercard", "discover"]
+            // };
+    
+            // var form = new ptc.PaymentForm();
+    
+            // form.load(options);
+    
+            // form.onStateChanged(this.onStateChanged);
+            // form.onCardInfo(this.onCardInfo);
+            // form.onCardToken(this.onCardToken);
+        },
+
+        onStateChanged: function(state) {
+            for (let key in state) {
+                var field = state[key];
+
+                var requiredMsg = document.getElementById(`${key}_required`);
+                var invalidMsg = document.getElementById(`${key}_invalid`);
+
+                invalidMsg.style.display = "none";
+                requiredMsg.style.display = "none";
+
+                if (field.touched && !field.valid) {
+                var msgToShow = field.empty ? requiredMsg : invalidMsg;
+                msgToShow.style.display = "block";
+                }
+            }
+        },
+
+        onCardInfo: function(info) {
+            document.getElementById("brand").innerText = info.brand || "";
+            document.getElementById("lastFour").innerText = info.lastFour || "";
+            document.getElementById("expiration").innerText = info.expiration || "";
+        },
+
+        onCardToken: function(token) {
+            document.getElementById("paperless_token").value = token || "";
         },
 
         /**
@@ -124,7 +175,8 @@ define([
                     'cc_type': this.creditCardType(),
                     'cc_exp_year': this.creditCardExpYear(),
                     'cc_exp_month': this.creditCardExpMonth(),
-                    'cc_number': this.creditCardNumber()
+                    'cc_number': this.creditCardNumber(),
+                    'cc_token': this.creditCardToken()
                 }
             };
         },
