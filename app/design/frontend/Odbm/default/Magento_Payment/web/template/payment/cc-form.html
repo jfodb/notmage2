@@ -5,7 +5,7 @@
  */
 -->
 
-<fieldset data-bind="fadeVisible: isVisible(), attr: {class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_' + getCode()}">
+<fieldset data-bind="attr: {class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_' + getCode()}">
   <h2 class="paymentdetails"><!-- ko i18n: 'Payment Details'--><!-- /ko --></h2>
 
   <!-- ko if: (isShowLegend())-->
@@ -120,7 +120,7 @@
 
 <body>
   <h1>Injection Demo</h1>
-  <div id="card-form" style="width: 500px"></div>
+  <div id="card-form" style="width: 500px" data-bind="afterRender:afterFormRenders"></div>
 
   <ul class="errors">
       <li id="cardNumber_required">
@@ -163,6 +163,6 @@
   </ul>
 
 
-  <input name="paperless_token" id="paperless_token" type="text" data-bind="value: creditCardToken" />
+  <input name="paperless_token" id="paperless_token" type="text" value="" data-bind="value: creditCardToken" />
 <!-- /ko -->
 </fieldset>

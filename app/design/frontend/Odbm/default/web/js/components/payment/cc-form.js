@@ -24,9 +24,8 @@ define([
             creditCardSsStartYear: '',
             creditCardSsIssue: '',
             creditCardVerificationNumber: '',
-            creditCardToken: '',
-            selectedCardType: null,
-            isVisible: true
+            creditCardToken: 'test123',
+            selectedCardType: null
         },
 
         /** @inheritdoc */
@@ -42,8 +41,7 @@ define([
                     'creditCardSsStartMonth',
                     'creditCardSsStartYear',
                     'creditCardSsIssue',
-                    'selectedCardType',
-                    'isVisible'
+                    'selectedCardType'
                 ]);
 
             return this;
@@ -60,6 +58,7 @@ define([
             //Set credit card number to credit card data object
             this.creditCardNumber.subscribe(function (value) {
                 var result;
+                console.log("result: " + result);
 
                 self.selectedCardType(null);
 
@@ -86,40 +85,74 @@ define([
             // Set expiration year to credit card data object
             this.creditCardExpYear.subscribe(function (value) {
                 creditCardData.expirationYear = value;
+                console.log("ccY: " + creditCardData.expirationYear);
             });
 
             // Set expiration month to credit card data object
             this.creditCardExpMonth.subscribe(function (value) {
                 creditCardData.expirationMonth = value;
+                console.log("ccM: " + creditCardData.expirationMonth);
             });
 
             // Add credit card token to credit card data
             this.creditCardToken.subscribe(function (value) {
                 creditCardData.creditCardToken = value;
+                console.log("Token: " + creditCardData.creditCardToken);
             });
 
             //Set cvv code to credit card data object
             this.creditCardVerificationNumber.subscribe(function (value) {
                 creditCardData.cvvCode = value;
+                console.log("cvv: " + creditCardData.cvvCode);
             });
-        
-            // const options = {
-            //     containerId: "card-form",
-            //     stylesId: "card-styles",
-            //     labels: {
-            //     cardNumber: "Card #"
-            //     },
-            //     acceptedBrands: ["amex", "visa", "mastercard", "discover"]
-            // };
-    
-            // var form = new ptc.PaymentForm();
-    
-            // form.load(options);
-    
-            // form.onStateChanged(this.onStateChanged);
-            // form.onCardInfo(this.onCardInfo);
-            // form.onCardToken(this.onCardToken);
         },
+
+        //load the injected paperless fields afterRender
+        afterFormRenders: function(){
+            function onStateChanged(state) {
+                for (let key in state) {
+                  var field = state[key];
+        
+                  var requiredMsg = document.getElementById(`${key}_required`);
+                  var invalidMsg = document.getElementById(`${key}_invalid`);
+        
+                  invalidMsg.style.display = "none";
+                  requiredMsg.style.display = "none";
+        
+                  if (field.touched && !field.valid) {
+                    var msgToShow = field.empty ? requiredMsg : invalidMsg;
+                    msgToShow.style.display = "block";
+                  }
+                }
+              }
+        
+              function onCardInfo(info) {
+                document.getElementById("brand").innerText = info.brand || "";
+                document.getElementById("lastFour").innerText = info.lastFour || "";
+                document.getElementById("expiration").innerText = info.expiration || "";
+              }
+        
+              function onCardToken(token) {
+                document.getElementById("paperless_token").value = token || "";
+              }
+        
+                const options = {
+                  containerId: "card-form",
+                  stylesId: "card-styles",
+                  labels: {
+                    cardNumber: "Card #"
+                  },
+                  acceptedBrands: ["amex", "visa", "mastercard", "discover"]
+                };
+        
+                var form = new ptc.PaymentForm();
+        
+                form.load(options);
+        
+                form.onStateChanged(onStateChanged);
+                form.onCardInfo(onCardInfo);
+                form.onCardToken(onCardToken);
+            },
 
         onStateChanged: function(state) {
             for (let key in state) {
@@ -155,10 +188,6 @@ define([
         getCode: function () {
             return 'cc';
         },
-
-        // isVisible: function() {
-        // 	return this.isVisible;
-        // },
 
         /**
          * Get data
