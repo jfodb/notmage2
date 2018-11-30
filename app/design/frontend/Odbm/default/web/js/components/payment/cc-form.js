@@ -128,7 +128,7 @@ define([
     
             form.onStateChanged(this.onStateChanged);
             form.onCardInfo(this.onCardInfo);
-            form.onCardToken( token => document.getElementById( self.getCode() + '_cc_token' ).value = token || "" );
+            form.onCardToken( token => self.creditCardToken(token) );
         },
 
         onStateChanged: (state) => {
