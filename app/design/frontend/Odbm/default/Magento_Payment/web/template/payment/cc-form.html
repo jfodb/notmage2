@@ -116,10 +116,7 @@
           content: "DISCOVER  \2713";
       }
   </style>
-</head>
 
-<body>
-  <h1>Injection Demo</h1>
   <div id="card-form" style="width: 500px" data-bind="afterRender:afterFormRenders"></div>
 
   <ul class="errors">
@@ -162,7 +159,12 @@
       </li>
   </ul>
 
-
-  <input name="paperless_token" id="paperless_token" type="text" value="" data-bind="value: creditCardToken" />
-<!-- /ko -->
+    <input type="text"
+    name="payment[cc_token]"
+    id="paperless_token"
+    class="input-text"
+    value=""
+    data-bind="attr: {id: getCode() + '_cc_token', 'data-container': getCode() + '-cc-token'},
+    value: creditCardToken
+    ">
 </fieldset>

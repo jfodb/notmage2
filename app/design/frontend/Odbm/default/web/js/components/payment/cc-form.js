@@ -24,8 +24,9 @@ define([
             creditCardSsStartYear: '',
             creditCardSsIssue: '',
             creditCardVerificationNumber: '',
-            creditCardToken: 'test123',
-            selectedCardType: null
+            creditCardToken: 'test',
+            selectedCardType: null,
+            isVisible: true
         },
 
         /** @inheritdoc */
@@ -96,6 +97,7 @@ define([
 
             // Add credit card token to credit card data
             this.creditCardToken.subscribe(function (value) {
+                console.log(value, 'token');
                 creditCardData.creditCardToken = value;
                 console.log("Token: " + creditCardData.creditCardToken);
             });
@@ -109,52 +111,27 @@ define([
 
         //load the injected paperless fields afterRender
         afterFormRenders: function(){
-            function onStateChanged(state) {
-                for (let key in state) {
-                  var field = state[key];
-        
-                  var requiredMsg = document.getElementById(`${key}_required`);
-                  var invalidMsg = document.getElementById(`${key}_invalid`);
-        
-                  invalidMsg.style.display = "none";
-                  requiredMsg.style.display = "none";
-        
-                  if (field.touched && !field.valid) {
-                    var msgToShow = field.empty ? requiredMsg : invalidMsg;
-                    msgToShow.style.display = "block";
-                  }
-                }
-              }
-        
-              function onCardInfo(info) {
-                document.getElementById("brand").innerText = info.brand || "";
-                document.getElementById("lastFour").innerText = info.lastFour || "";
-                document.getElementById("expiration").innerText = info.expiration || "";
-              }
-        
-              function onCardToken(token) {
-                document.getElementById("paperless_token").value = token || "";
-              }
-        
-                const options = {
-                  containerId: "card-form",
-                  stylesId: "card-styles",
-                  labels: {
-                    cardNumber: "Card #"
-                  },
-                  acceptedBrands: ["amex", "visa", "mastercard", "discover"]
-                };
-        
-                var form = new ptc.PaymentForm();
-        
-                form.load(options);
-        
-                form.onStateChanged(onStateChanged);
-                form.onCardInfo(onCardInfo);
-                form.onCardToken(onCardToken);
-            },
+            var self = this;
 
-        onStateChanged: function(state) {
+            const options = {
+                containerId: "card-form",
+                stylesId: "card-styles",
+                labels: {
+                cardNumber: "Card #"
+                },
+                acceptedBrands: ["amex", "visa", "mastercard", "discover"]
+            };
+    
+            var form = new ptc.PaymentForm();
+    
+            form.load(options);
+    
+            form.onStateChanged(this.onStateChanged);
+            form.onCardInfo(this.onCardInfo);
+            form.onCardToken( token => document.getElementById( self.getCode() + '_cc_token' ).value = token || "" );
+        },
+
+        onStateChanged: (state) => {
             for (let key in state) {
                 var field = state[key];
 
@@ -171,14 +148,10 @@ define([
             }
         },
 
-        onCardInfo: function(info) {
+        onCardInfo: (info) => {
             document.getElementById("brand").innerText = info.brand || "";
             document.getElementById("lastFour").innerText = info.lastFour || "";
             document.getElementById("expiration").innerText = info.expiration || "";
-        },
-
-        onCardToken: function(token) {
-            document.getElementById("paperless_token").value = token || "";
         },
 
         /**
