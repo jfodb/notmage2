@@ -13,4 +13,18 @@
 			<resource ref="anonymous"/>
 		</resources>
 	</route>
+
+	<route url="/V1/donation/fundraiser/" method="GET">
+		<service class="ODBM\Donation\Api\OdbDonationInterface" method="get_fundraiser_data"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+
+	<route url="/V1/donation/pool/:motivation" method="GET">
+		<service class="ODBM\Donation\Api\OdbDonationInterface" method="get_fundraiser_data"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
 </routes>
