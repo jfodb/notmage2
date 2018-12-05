@@ -1,0 +1,21 @@
+{
+  "name": "Odbm/theme-frontend-ymi-child",
+  "description": "N/A",
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0.0",
+    "Odbm/default": "100.0.*",
+    "magento/framework": "100.0.*"
+  },
+  "type": "magento2-theme",
+  "version": "2.2.1",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ]
+  }
+
+}
