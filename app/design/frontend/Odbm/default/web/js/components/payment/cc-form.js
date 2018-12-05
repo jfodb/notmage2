@@ -181,6 +181,22 @@ define([
         },
 
         /**
+         * Get image url for CVV
+         * @returns {String}
+         */
+        getCvvImageUrl: function () {
+            return window.checkoutConfig.payment.ccform.cvvImageUrl[this.getCode()];
+        },
+
+        /**
+         * Get image for CVV
+         * @returns {String}
+         */
+        getCvvImageHtml: function () {
+            return '<div style="font-size:11px">For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card.</div>';
+        },
+
+        /**
          * @deprecated
          * @returns {Object}
          */
