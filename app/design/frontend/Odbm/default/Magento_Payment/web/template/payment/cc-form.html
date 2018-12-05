@@ -119,18 +119,10 @@
       min="0"
       max="9999"
     />
-    <div class="field-tooltip toggle">
-      <span class="field-tooltip-action action-cvv"
-      tabindex="0"
-      data-toggle="dropdown"
-      data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
-      <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+    <span class="checkout-tooltip-left field-tooltip toggle">
+      <span class="tooltip-toggle field-tooltip-action"></span>
+      <span class="tooltip-content">For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card.</span>
     </span>
-    <div class="field-tooltip-content"
-    data-target="dropdown"
-    data-bind="html: getCvvImageHtml()"></div>
-  </div>
-</div>
-</div>
+</div></div>
 <!-- /ko -->
 </fieldset>
