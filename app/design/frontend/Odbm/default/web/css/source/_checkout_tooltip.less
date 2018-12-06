@@ -1,0 +1,24 @@
+& when (@media-common = true) {
+    .checkout-tooltip-left {
+        .lib-tooltip(left);
+        position: absolute !important;
+    }
+    
+    .checkout-tooltip-left.field-tooltip .tooltip-content:after {
+        border: 10px solid transparent;
+        border-left-color: #f4f4f4;
+    }
+
+    .checkout-tooltip-left.field-tooltip .tooltip-content:before {
+    margin-top: -10px;
+    top:18px;
+    border-width: 12px;
+    }
+
+    .checkout-tooltip-left .tooltip-content {
+        background:#f4f4f4;
+        border: 1px solid #999999;
+        right: 28px;
+        top: -4px;
+    }
+}

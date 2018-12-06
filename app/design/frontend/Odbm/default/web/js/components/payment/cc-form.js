@@ -193,7 +193,7 @@ define([
          * @returns {String}
          */
         getCvvImageHtml: function () {
-            return '<a href="https://www.cvvnumber.com/cvv.html" target="_blank" style="font-size:11px">What is my CVV code?</a>';
+            return 'For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card.';
         },
 
         /**
