@@ -120,9 +120,13 @@
       max="9999"
     />
     <!-- CVV Tooltip -->
-    <span class="checkout-tooltip-left field-tooltip toggle">
-      <span class="tooltip-toggle field-tooltip-action"></span>
-      <span class="tooltip-content" data-bind="html: getCvvImageHtml()"></span>
+    <span class="checkout-tooltip-left">
+      <span class="tooltip-toggle"
+      tabindex="0" 
+      data-mage-init='{"dropdown":{}}'
+      data-toggle="dropdown">
+    </span>
+      <span class="tooltip-content" data-target="dropdown" data-bind="html: getCvvImageHtml()"></span>
     </span>
 </div></div>
 <!-- /ko -->
