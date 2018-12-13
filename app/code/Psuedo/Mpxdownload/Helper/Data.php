@@ -445,6 +445,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$output = file_get_contents($file_cache);
 
 				header('Content-type: text/plain; charset=utf-8', true, 200);
+				$tmpdata = json_decode($output, true);
+				if($tmpdata) {
+					$tmpdata['served_cached'] = 'true';
+					$output = json_encode($tmpdata);
+				}
 				header('Content-length: '.strlen($output));
 
 				if(ob_get_level())
