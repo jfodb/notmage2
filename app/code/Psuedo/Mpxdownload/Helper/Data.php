@@ -432,6 +432,35 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$end_date = strtotime("+1 day", $start_date);
 
 
+		//check for caching.
+		$file_cache_key =  sprintf( "mpx-%s-%s.json", pathinfo($startdate, PATHINFO_BASENAME), $this->store);
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$directories = $objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
+		$directory = $directories->getPath('log');
+
+		$file_cache = $directory . '/' . $file_cache_key;
+
+		if(file_exists($file_cache)){
+			if(filesize($file_cache)>100){
+				$output = file_get_contents($file_cache);
+				header('Content-type: text/plain; charset=utf-8', true, 200);
+				$tmpdata = json_decode($output, true);
+				if($tmpdata) {
+					$tmpdata['served_cached'] = 'true';
+					$output = json_encode($tmpdata);
+				}
+				header('Content-length: '.strlen($output));
+				if(ob_get_level())
+					ob_clean();
+				echo $output;
+				if(ob_get_level())
+					ob_flush();
+
+				return;
+			}
+		}
+		
+		
 
 		//see if job must be reset
 		$sql = sprintf("SELECT * from `%s` WHERE `store_id`=%d AND `ext_order_id`=%d;", $this->db_resource->getTableName('sales_order'), $this->store, $job_id);
@@ -625,8 +654,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$sql = sprintf("SELECT * FROM `%s` WHERE `parent_id`=%d", $this->db_resource->getTableName('sales_order_payment'), $OrderNumber);
 				$tmp = $this->db->fetchAssoc($sql);
 
-				$this->_logger->notice($OrderNumber);
-				$this->_logger->notice(print_r($tmp, true));
+				//$this->_logger->notice($OrderNumber);
+				//$this->_logger->notice(print_r($tmp, true));
 				foreach($tmp as $idontcare=>$payment) break;
 				//$payment = $tmp[$key];
 
@@ -1117,6 +1146,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		$json = json_encode($JsonBuild);
+
+		@file_put_contents($file_cache, $json);
 
 		if ($PROCESSED_ROWS == count($orderRows))
 			$status = 200;
