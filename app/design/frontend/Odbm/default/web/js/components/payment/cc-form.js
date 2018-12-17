@@ -42,7 +42,8 @@ define([
                     'creditCardSsStartMonth',
                     'creditCardSsStartYear',
                     'creditCardSsIssue',
-                    'selectedCardType'
+                    'selectedCardType',
+                    'isVisible'
                 ]);
 
             return this;
