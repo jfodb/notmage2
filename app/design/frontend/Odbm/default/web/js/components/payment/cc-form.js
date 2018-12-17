@@ -24,7 +24,7 @@ define([
             creditCardSsStartYear: '',
             creditCardSsIssue: '',
             creditCardVerificationNumber: '',
-            creditCardToken: 'test',
+            creditCardToken: '',
             selectedCardType: null,
             isVisible: true
         },
@@ -60,7 +60,6 @@ define([
             //Set credit card number to credit card data object
             this.creditCardNumber.subscribe(function (value) {
                 var result;
-                console.log("result: " + result);
 
                 self.selectedCardType(null);
 
@@ -87,26 +86,21 @@ define([
             // Set expiration year to credit card data object
             this.creditCardExpYear.subscribe(function (value) {
                 creditCardData.expirationYear = value;
-                console.log("ccY: " + creditCardData.expirationYear);
             });
 
             // Set expiration month to credit card data object
             this.creditCardExpMonth.subscribe(function (value) {
                 creditCardData.expirationMonth = value;
-                console.log("ccM: " + creditCardData.expirationMonth);
             });
 
             // Add credit card token to credit card data
             this.creditCardToken.subscribe(function (value) {
-                console.log(value, 'token');
                 creditCardData.creditCardToken = value;
-                console.log("Token: " + creditCardData.creditCardToken);
             });
 
             //Set cvv code to credit card data object
             this.creditCardVerificationNumber.subscribe(function (value) {
                 creditCardData.cvvCode = value;
-                console.log("cvv: " + creditCardData.cvvCode);
             });
         },
 
