@@ -495,8 +495,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		//updated_at
-		$sql  = sprintf("SELECT orders.* FROM `%s` orders WHERE store_id=%d AND state='%s' AND status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
+		$sql  = sprintf("SELECT orders.*, ocache.* FROM `%s` orders LEFT JOIN `%s` ocache ON ocache.order_id=orders.entity_id WHERE store_id=%d AND state='%s' AND status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
 			$this->db_resource->getTableName('sales_order'),
+			$this->db_resource->getTableName('mpx_flat_orders'),
 			$this->store,
 			$this->START_STATE,
 			$this->START_STATUS,
@@ -654,19 +655,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//$OrderRow["MediaCode"] = "";
 				//$OrderRow["MediaProgram"] = "";
 
-				$sql = sprintf("SELECT * FROM `%s` WHERE `parent_id`=%d", $this->db_resource->getTableName('sales_order_payment'), $OrderNumber);
-				$tmp = $this->db->fetchAssoc($sql);
+				
+				
+				if(!empty($order['payment'])){
+					$payment = json_decode($order['payment'], true);
+				} else {
+					$sql = sprintf("SELECT * FROM `%s` WHERE `parent_id`=%d", $this->db_resource->getTableName('sales_order_payment'), $OrderNumber);
+					$tmp = $this->db->fetchAssoc($sql);
 
-				//$this->_logger->notice($OrderNumber);
-				//$this->_logger->notice(print_r($tmp, true));
-				foreach($tmp as $idontcare=>$payment) break;
-				//$payment = $tmp[$key];
-
-				$sql = sprintf("SELECT * FROM `%s` WHERE `entity_id`=%d", $this->db_resource->getTableName('sales_order_grid'), $OrderNumber);
-				$tmp = $this->db->fetchAssoc($sql);
-				foreach($tmp as $idontcare=>$order_grid) break;
-				//$order_grid = $tmp[$key];
-
+					//$this->_logger->notice($OrderNumber);
+					//$this->_logger->notice(print_r($tmp, true));
+					foreach ($tmp as $idontcare => $payment) break;
+					//$payment = $tmp[$key];
+				}
+				if(!empty($order['order_grid'])) {
+					$order_grid = json_decode($order['order_grid'], true);
+				} else {
+					$sql = sprintf("SELECT * FROM `%s` WHERE `entity_id`=%d", $this->db_resource->getTableName('sales_order_grid'), $OrderNumber);
+					$tmp = $this->db->fetchAssoc($sql);
+					foreach ($tmp as $idontcare => $order_grid) break;
+					//$order_grid = $tmp[$key];
+				}
 
 				if(!empty($payment)) {
 					if(is_null($payment['method']))
@@ -766,15 +775,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$mainemail = array();
 				$mainphone = array();
 
-				$sql = sprintf("SELECT address.*, region.code FROM `%s` address LEFT JOIN `%s` region ON address.region_id=region.region_id WHERE `entity_id` IN (%d, %d)",
-					$this->db_resource->getTableName('sales_order_address'),
-					$this->db_resource->getTableName('directory_country_region'),
-					$order['billing_address_id'],
-					$order['shipping_address_id']
-				);
-				$addr = $this->db->query($sql);
-				while ($row = $addr->fetch())
-				{
+				if(!empty($order['addresses'])){
+					$addr = json_decode($order['addresses'], true);
+				} else {
+					$sql = sprintf("SELECT address.*, region.code FROM `%s` address LEFT JOIN `%s` region ON address.region_id=region.region_id WHERE `entity_id` IN (%d, %d)",
+						$this->db_resource->getTableName('sales_order_address'),
+						$this->db_resource->getTableName('directory_country_region'),
+						$order['billing_address_id'],
+						$order['shipping_address_id']
+					);
+					$addr_row = $this->db->query($sql);
+					$addr = array();
+					while ($row = $addr_row->fetch())
+						$addr[] = $row;
+				}
+				foreach ($addr as $row) {
 					$addrline = array();
 
 					if($row['address_type'] == 'shipping')
@@ -908,8 +923,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 
-				$sql = sprintf("SELECT * FROM `%s` WHERE `order_id`=%d", $this->db_resource->getTableName('sales_order_item'), $OrderNumber);
-				$items = $this->db->fetchAll($sql);
+				if(!empty($order['items'])){
+					$items = json_decode($order['items'], true);
+				} else {
+					$sql = sprintf("SELECT * FROM `%s` WHERE `order_id`=%d", $this->db_resource->getTableName('sales_order_item'), $OrderNumber);
+					$items = $this->db->fetchAll($sql);
+				}
 
 				$shiptax = 0.0;
 				$TotalTax = $order['base_tax_amount'];
@@ -988,12 +1007,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if($lineitem['base_discount_amount'] != 0)
 						$lineitem['base_discount_amount'] = abs($lineitem['base_discount_amount']);
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
-					$original = $this->productModel->load($lineitem['product_id']);
 
-					if($original->getResource()->getAttribute('productoffertype'))
-						$attr = $original -> getAttributeText('productoffertype');
-					else
-						$attr = false;
+					$original = $this->productModel->load($lineitem['product_id']);
+					if(!empty($lineitem['attr'])) {
+						$attr = $lineitem['attr'];
+					} else {
+						
+						if ($original->getResource()->getAttribute('productoffertype'))
+							$attr = $original->getAttributeText('productoffertype');
+						else
+							$attr = false;
+					}
 
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
@@ -1067,10 +1091,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 					//fetch set product type if available
-					if($original->getResource()->getAttribute('productoffertype'))
-						$attr = $original -> getAttributeText('productoffertype');
-					else $attr = false;
-
+					if(empty($attr)) {
+						if(empty($lineitem['attr'])) {
+							if ($original->getResource()->getAttribute('productoffertype'))
+								$attr = $original->getAttributeText('productoffertype');
+							else $attr = false;
+						} else 
+							$attr = $lineitem['attr'];
+					}
 
 					if(!empty($attr))
 						$li['SourceProductType'] = ucfirst(strtolower($attr)); //camelcase
