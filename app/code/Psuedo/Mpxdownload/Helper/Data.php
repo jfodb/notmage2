@@ -699,6 +699,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$OrderRow["CreditCardNumber"] = "";
 					//else
 					//  $OrderRow["CreditCardNumber"] = $payment['cc_last_4'];
+					if(!empty($payment['ExpirationDate']))
+						$OrderRow['ExpirationDate'] = $payment['ExpirationDate'];
+					else
 					if(is_null($payment['cc_exp_year']) || $payment['cc_exp_year'] == 0 || is_null($payment['cc_exp_month']) || $payment['cc_exp_month'] == 0)
 						$OrderRow['ExpirationDate'] = "";
 					else
@@ -810,6 +813,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
 					$addrline["OrganizationName"] = trim($row['company']);
+					if(is_array($row['street'])){
+						for($z=0; $z<count($row['street']); $z++) {
+							$addrline["Address" . ($z+1) ] = $row['street'][$z];
+						}
+					} else
 					if(!strpos($row['street'], "\n"))
 						$addrline["Address1"] = trim($row['street']);
 					else {
@@ -958,9 +966,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				//rehash by ID as index
 				$products = array();
+				$item_hash = array();
 				foreach($items as $lineitem) {
-					$products[$lineitem['item_id']] = $lineitem;
+					if(!empty($lineitem['product_id']))
+						$products[$lineitem['product_id']] = $lineitem;
+					if(!empty($lineitem['item_id']))
+						$products[$lineitem['item_id']] = $lineitem;
 				}
+				
 				foreach($items as $index => $lineitem) {
 					if(!empty($lineitem['parent_item_id']) ) {
 						//we have a child based variation?
@@ -968,7 +981,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//do we have the parent?
 						if(!empty($products[$lineitem['parent_item_id']])) {
 
-							if ($lineitem['sku'] === $products[$lineitem['parent_item_id']]['sku']) {
+							if ($lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
 								unset($items[$index]);
 								continue;     //this element contains no relevant additional information
 							}
