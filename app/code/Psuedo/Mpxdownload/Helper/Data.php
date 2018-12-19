@@ -568,8 +568,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//OrderRow.Add("MotivationCode", "");
 				//$OrderRow["MinistryEffort"] = $this->ministry;
 
-
-
 				//decimal payments, refunds, recvd;
 				//payments = refunds = 0;
 				//for (int j = 0; j < order.Payments.Count; j++)

@@ -1,0 +1,64 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+		<referenceBlock name="logo">
+			<arguments>
+				<argument name="logo_file" xsi:type="string">images/odb_logo.svg</argument>
+				<argument name="logo_img_width" xsi:type="number">98</argument>
+				<argument name="logo_img_height" xsi:type="number">45</argument>
+			</arguments>
+
+		</referenceBlock>
+
+		<!-- Only Use Topmenu nav in header container -->
+		<referenceContainer name="header.panel.wrapper">
+			<container name="header.panel" label="Page Header Panel" htmlTag="div" htmlClass="panel header">
+				<block class="Magento\Framework\View\Element\Template" name="skip_to_content" template="Magento_Theme::html/skip.phtml">
+					<arguments>
+						<argument name="target" xsi:type="string">contentarea</argument>
+						<argument name="label" translate="true" xsi:type="string">Skip to Content</argument>
+					</arguments>
+				</block>
+				<block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="Magento_Store::switch/languages.phtml"/>
+				<block class="Magento\Customer\Block\Account\Navigation" name="top.links">
+					<arguments>
+						<argument name="css_class" xsi:type="string">header links</argument>
+					</arguments>
+				</block>
+
+				<block class="Magento\Theme\Block\Html\Topmenu" name="catalog.topnav" template="html/topmenu.phtml" ttl="3600" before="-">
+					<block class="ODBM\Donation\Block\HeaderLink" name="nav-home">
+						<arguments>
+							<argument name="label" xsi:type="string">Home</argument>
+							<argument name="path" xsi:type="string">https://ymi.today/</argument>
+						</arguments>
+					</block>
+
+					<block class="ODBM\Donation\Block\HeaderLink" name="nav-topics">
+						<arguments>
+							<argument name="label" xsi:type="string">Topics</argument>
+							<argument name="path" xsi:type="string">https://ymi.today/topics/</argument>
+						</arguments>
+					</block>
+
+					<block class="ODBM\Donation\Block\HeaderLink" name="nav-subscribe">
+						<arguments>
+							<argument name="label" xsi:type="string">Subscribe</argument>
+							<argument name="icon" xsi:type="string">print</argument>
+							<argument name="path" xsi:type="string">https://ymi.today/subscribe/</argument>
+							<argument name="attributes" xsi:type="array">
+								<item name="class" xsi:type="string">nav-subscribe</item>
+								<item name="target" xsi:type="string">_blank</item>
+							</argument>
+						</arguments>
+					</block>
+				</block>
+			</container>
+		</referenceContainer>
+
+		<!-- Override default navigation sections -->
+		<referenceBlock name="navigation.sections" remove="true"/>
+		<referenceBlock name="minicart" remove="true"/>
+		<referenceBlock name="top.search" remove="true"/>
+		<referenceBlock name="breadcrumbs" remove="true" />
+	</body>
+</page>
