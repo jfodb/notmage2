@@ -3,8 +3,8 @@
 		<referenceBlock name="logo">
 			<arguments>
 				<argument name="logo_file" xsi:type="string">images/ymi-logo.png</argument>
-				<argument name="logo_img_width" xsi:type="number">184</argument>
-				<argument name="logo_img_height" xsi:type="number">32</argument>
+				<argument name="logo_img_width" xsi:type="number">98</argument>
+				<argument name="logo_img_height" xsi:type="number">45</argument>
 			</arguments>
 
 		</referenceBlock>
@@ -44,37 +44,12 @@
 						<arguments>
 							<argument name="label" xsi:type="string">Subscribe</argument>
 							<argument name="icon" xsi:type="string">print</argument>
-							<argument name="path" xsi:type="string">https://odb.org/subscribe/</argument>
+							<argument name="path" xsi:type="string">https://ymi.today/subscribe/</argument>
 							<argument name="attributes" xsi:type="array">
 								<item name="class" xsi:type="string">nav-subscribe</item>
 								<item name="target" xsi:type="string">_blank</item>
 							</argument>
 						</arguments>
-					</block>
-
-					<block class="ODBM\Donation\Block\HeaderLink" name="submenu">
-						<arguments>
-							<argument name="label" xsi:type="string">Daily</argument>
-							<argument name="path" xsi:type="string">#</argument>
-						</arguments>
-						<block class="ODBM\Donation\Block\HeaderLink" name="nav-odb">
-							<arguments>
-								<argument name="label" xsi:type="string">Our Daily Bread</argument>
-								<argument name="path" xsi:type="string">https://odb.org/</argument>
-							</arguments>
-						</block>
-						<block class="ODBM\Donation\Block\HeaderLink" name="nav-odj">
-							<arguments>
-								<argument name="label" xsi:type="string">Our Daily Journey</argument>
-								<argument name="path" xsi:type="string">https://odj.org/</argument>
-							</arguments>
-						</block>
-						<block class="ODBM\Donation\Block\HeaderLink" name="nav-utmost">
-							<arguments>
-								<argument name="label" xsi:type="string">My Utmost For His Highest</argument>
-								<argument name="path" xsi:type="string">https://utmost.org/</argument>
-							</arguments>
-						</block>
 					</block>
 				</block>
 			</container>
