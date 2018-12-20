@@ -18,7 +18,6 @@
   <script src="https://injector.paperlesstrans.com/v1.1.min.js" type="text/javascript"></script>
 
   <style id="card-styles">
-
        input.valid {
           border-left: solid 5px limegreen;
       }
@@ -32,51 +31,68 @@
           background: pink;
       }
 
-
-
-      @media all and (min-width: 480px) {
+    
+      @media all and (min-width: 321px) {
       #expiration.field-wrapper, #cvv.field-wrapper{
         display: inline-block;
+        width:50%;
       }
         #cvv {
-            width: 50%;
+            padding-right: 2.5px;
+            float:left;
         }
 
         #expiration {
-            width: 50%;
+            padding-left: 2.5px; 
+        }   
+
+        #cardNumber_label::after {
+        content: "(Do not use spaces or dashes)";
         }
-      
+
+        #expiration_label::after {
+        content: "  (MM/YYYY)";
+        }    
+
+        #cvv_label::after {
+            content: " ";
+        }  
       }
 
-      @media all and (max-width: 479px) {
+      @media all and (max-width: 320px) {
       #expiration.field-wrapper, #cvv.field-wrapper{
-        display: inline-block;
+        display: block;
       }
-        #cvv {
-            width: 30%; 
+        #cardNumber_label::after {
+        content: " \A Do not use spaces or dashes";
+        white-space: pre;
         }
 
-        #expiration {
-            width: 70%;
+        #expiration_label::after {
+        content: "\A MM/YYYY";
+        white-space: pre;
         }
+
       
       }
       
-       #cvv /*#expiration */{
-        float:left;
-      } 
+      #expiration_field, #cvv_field, #cardNumber_field{
+        margin-top:4px;
+      }
 
       #expiration_label, #cvv_label, #cardNumber_label{
-      font-size: 20px;
-      font-family: 'PT Sans', sans-serif;
-      color: #333333;
-      padding-left: 9px;
+        font-family: PTSans-Bold;
+        font-size: 16px;
+        color: #004A97;
+        letter-spacing: 2.29px;
+        line-height: 5px;
       }
 
-      #expiration_label::after {
-          content: "  (MM/YYYY)";
-          color: gray;
-          font-size: 75%;
+      #expiration_label::after, #cvv_label::after,#cardNumber_label::after {
+        font-family: PTSans-Regular;
+        font-size: 14px;
+        color: #222222;
+        letter-spacing: 0;
       }
 
       .amex::after,
