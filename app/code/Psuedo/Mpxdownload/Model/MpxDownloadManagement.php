@@ -62,6 +62,14 @@ class MpxDownloadManagement extends \Magento\Framework\Model\AbstractModel
 		
 	}
 	
+	public function getDbAccess() {
+		return $this->getConnection();
+	}
+	
+	public function getDbResource() {
+		return $this->_resource->getContext()->getResources();
+	}
+	
 
 	protected function getConnection()
 	{
