@@ -3,6 +3,11 @@
  * See COPYING.txt for license details.
  */
 
+ // Additional Actions:
+ // Pass card type to Magento? this.selectedCardType(info.brand);
+ // Cleanup unused functions
+ // Test styles, devices and breakpoints
+ 
 /* @api */
 define([
     'underscore',
@@ -112,7 +117,8 @@ define([
                 containerId: "card-form",
                 stylesId: "card-styles",
                 labels: {
-                cardNumber: "Card #"
+                cardNumber: "CARD NUMBER",
+                expiration: "EXPIRATION"
                 },
                 acceptedBrands: ["amex", "visa", "mastercard", "discover"]
             };
@@ -120,14 +126,20 @@ define([
             var form = new ptc.PaymentForm();
     
             form.load(options);
-    
             form.onStateChanged(this.onStateChanged);
             form.onCardInfo(this.onCardInfo);
             form.onCardToken( token => self.creditCardToken(token) );
         },
 
         onStateChanged: (state) => {
+            // Validation variables to enable/disable submit button
+            var disableSubmit = true;
+            var fieldCount = 0;
+            var validFieldCount = 0;
+
             for (let key in state) {
+                // ++ increase field count
+                fieldCount++;
                 var field = state[key];
 
                 var requiredMsg = document.getElementById(`${key}_required`);
@@ -137,10 +149,22 @@ define([
                 requiredMsg.style.display = "none";
 
                 if (field.touched && !field.valid) {
-                var msgToShow = field.empty ? requiredMsg : invalidMsg;
-                msgToShow.style.display = "block";
+                    var msgToShow = field.empty ? requiredMsg : invalidMsg;
+                    msgToShow.style.display = "block";
+                } else if (field.touched && field.valid){
+                    // ++ increase valid field count
+                    validFieldCount++;
                 }
             }
+
+            // Check if all the iframe fields are valid
+            if(validFieldCount==fieldCount){
+                disableSubmit=false;
+            }
+
+            // Enable or disable submit button
+            document.getElementById("submitDonationButton").disabled = disableSubmit;
+            
         },
 
         onCardInfo: (info) => {
