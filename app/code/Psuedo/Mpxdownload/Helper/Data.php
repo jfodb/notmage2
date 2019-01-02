@@ -733,9 +733,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//no updated/cached auth code in the payment record,
 						//first decode from the extra payment data;
 						//$paypal_record = unserialize($payment['additional_information']);
-						$paypal_record = json_decode($payment['additional_information'], true);
-						if(!$paypal_record || empty($paypal_record['paypal_correlation_id'])) {
-							mail('peter.postma@odb.org', 'paypal record error', "Payment results were: " . $payment['additional_information']);
+						
+						//from db record is encoded data, from cache it is already decoded
+						if(is_string($payment['additional_information']))
+							$paypal_record = json_decode($payment['additional_information'], true);
+						else if(is_array($payment['additional_information']))
+							$paypal_record = $payment['additional_information'];
+						else
+							$paypal_record = false;
+						
+						if(empty($paypal_record) || !is_array($paypal_record) || empty($paypal_record['paypal_correlation_id'])) {
+							//mail('peter.postma@odb.org', 'paypal record error', "Payment results were: " . $payment['additional_information']);
 							$OrderRow['AuthorizationCode'] = '';
 						} else {
 							$OrderRow['AuthorizationCode'] = $paypal_record['paypal_correlation_id'];
@@ -744,6 +752,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							//but if we can store that value for the Magento admin interface it would be better
 							if(!empty($paypal_record['paypal_correlation_id'])) {
 
+								if(!empty($payment['entity_id']))
 								$this->db->update(
 									$this->db_resource->getTableName('sales_order_payment'),
 									array('cc_approval'=>$paypal_record['paypal_correlation_id']),
@@ -812,7 +821,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
-					$addrline["OrganizationName"] = trim($row['company']);
+					if(empty($row['company']))
+						$addrline["OrganizationName"] = "";
+					else
+						$addrline["OrganizationName"] = trim($row['company']);
+					
 					if(is_array($row['street'])){
 						for($z=0; $z<count($row['street']); $z++) {
 							$addrline["Address" . ($z+1) ] = $row['street'][$z];
@@ -1147,10 +1160,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				try{
 					$this->db->query($sql);
 				} catch(\Exception $oops) {
-					//this is getting pretty rough
+					$this->_logger->error("MPX mysql-exceptions on exceptions!");
 				}
 
-
+				//maybe I should log this too
+				$this->_logger->error("MPX Order Exception");
+				$this->_logger->error($e->getMessage());
+				$this->_logger->error($e->getFile()." ".$e->getLine());
+				//note how far the process got and any details we have captured
+				$this->_logger->error( json_encode(@$OrderRow));
+				
 
 				$OrderRow = array();
 
@@ -1178,6 +1197,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//$OrderRow["MediaProgram"] = "";
 
 
+				//and yet, its not in the json file! :(
 				$Mem_rows[] = $OrderRow;
 			}
 		}
