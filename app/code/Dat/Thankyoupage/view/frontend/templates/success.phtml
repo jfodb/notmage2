@@ -2,107 +2,121 @@
 <?php
 $_order = $block->getOrderItemsDetails();
 $is_recurring = $block->isOrderRecurring();
+$thankYouPage = $block->getCustomPage();
 ?>
-<div class="checkout-success thankyoupage">
-	<h1 class="ty">
-		<?php if ( $is_recurring ): ?>
-			<?php if ($_order->getCustomerIsGuest()) :?>
-				<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
+
+<div class="checkout-success">
+			<?php if(!empty($thankYouPage)): //If exists, display custom Thank You page ?>
+				<?php echo $block->getLayout()
+					->createBlock('Magento\Cms\Block\Block')
+					->setBlockId($thankYouPage)
+					->toHtml();
+				?>
+				<div class="thankyoupage">
 			<?php  else: ?>
-				<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getCustomerFirstName())) ?>
-			<?php endif; // is guest ?>
-		<?php else: ?>
+				<div class="thankyoupage">
+					<h1 class="ty">
+						<?php if ( $is_recurring ): ?>
+							<?php if ($_order->getCustomerIsGuest()) :?>
+								<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
+							<?php  else: ?>
+								<?php echo __('<span class="highlight">%1</span>, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getCustomerFirstName())) ?>
+							<?php endif; // is guest ?>
+						<?php else: ?>
 
-			<?php if ($_order->getCustomerIsGuest()) :?>
-				<?php echo __('<span class="highlight">%1</span>, thank you for your support!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
-			<?php  else: ?>
-				<?php echo __('<span class="highlight">%1</span>, thank you for your support!', sprintf('%s', $_order->getCustomerFirstName())) ?>
-			<?php endif; // is guest ?>
+					<?php if ($_order->getCustomerIsGuest()) :?>
+						<?php echo __('<span class="highlight">%1</span>, thank you for your support!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
+					<?php  else: ?>
+						<?php echo __('<span class="highlight">%1</span>, thank you for your support!', sprintf('%s', $_order->getCustomerFirstName())) ?>
+					<?php endif; // is guest ?>
 
-		<?php endif; // is_recurring ?>
-	</h1>
+				<?php endif; // is_recurring ?>
+			</h1>
 
-	<?php if ( $is_recurring ): ?>
-		<p>
-			Thank you for signing up to become a monthly supporter of <em>Our Daily Bread</em>. We are humbled by your generosity and faithfulness to our ministry.
-		</p>
+			<?php if ( $is_recurring ): ?>
+				<p>
+					Thank you for signing up to become a monthly supporter of <em>Our Daily Bread</em>. We are humbled by your generosity and faithfulness to our ministry.
+				</p>
 
-		<p>
-			Because of you, lives are being changed and hearts are being transformed by God’s Word. More families will be strengthened, more prisoners will find hope, and more people will be encouraged to keep trusting the Lord in the midst of life’s challenges. It is the prayers and support of friends like you who allow us to continue reaching people around the world with the message of God’s love.
-		</p>
+				<p>
+					Because of you, lives are being changed and hearts are being transformed by God’s Word. More families will be strengthened, more prisoners will find hope, and more people will be encouraged to keep trusting the Lord in the midst of life’s challenges. It is the prayers and support of friends like you who allow us to continue reaching people around the world with the message of God’s love.
+				</p>
 
-		<p>The donation amount you designated will be charged automatically to your credit card each month. If this was not your intention, please contact us at 616-974-2210. One of our Ministry Service Representatives will be happy to help you.</p>
+				<p>The donation amount you designated will be charged automatically to your credit card each month. If this was not your intention, please contact us at 616-974-2210. One of our Ministry Service Representatives will be happy to help you.</p>
 
-		<p>Thank you so much. You are a blessing to us and to millions around the world!</p>
-	<?php else: ?>
-		<p>We appreciate your generous gift and your interest in joining us in our mission to make the wisdom of the Bible understandable and accessible to all.</p>
+				<p>Thank you so much. You are a blessing to us and to millions around the world!</p>
+			<?php else: ?>
+				<p>We appreciate your generous gift and your interest in joining us in our mission to make the wisdom of the Bible understandable and accessible to all.</p>
 
-		<p>You will be receiving an acknowledgment letter through the mail in 1&ndash;3 weeks.</p>
-	<?php endif; ?>
+				<p>You will be receiving an acknowledgment letter through the mail in 1&ndash;3 weeks.</p>
+			<?php endif; ?>
+			
+			<?php endif; //end custom form ?>
 
-	<?php if ($block->getOrderId()):?>
-		<p class="giftdetailslabel">GIFT DETAILS</p>
+			<?php if ($block->getOrderId()):?>
+				<p class="giftdetailslabel">GIFT DETAILS</p>
 
-		<table class="giftdetails">
-			<tr>
-				<td class="lc"><em>Transaction number:</em></td>
-				<td class="rc">
-					<?php
-					if ($block->getCanViewOrder()) {
-						echo __(
-							'%1',
-							sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>',
-								$block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId())
-							)
-						);
-					} else {
-						echo $block->escapeHtml($block->getOrderId());
-					}
-					?>
-				</td>
-			</tr>
-			<tr>
-				<td class="lc"><em>Amount:</em></td>
-				<td class="rc"><?php echo $_order->formatPrice($_order->getGrandTotal()); ?>
-				</td>
-			</tr>
-			<tr>
-				<td class="lc"><em>Payment Via:</em></td>
-				<td class="rc"><?php echo $_order->getPayment()->getMethodInstance()->getTitle(); ?>
-				</td>
-			</tr>
+				<table class="giftdetails">
+					<tr>
+						<td class="lc"><em>Transaction number:</em></td>
+						<td class="rc">
+							<?php
+							if ($block->getCanViewOrder()) {
+								echo __(
+									'%1',
+									sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>',
+										$block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId())
+									)
+								);
+							} else {
+								echo $block->escapeHtml($block->getOrderId());
+							}
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td class="lc"><em>Amount:</em></td>
+						<td class="rc"><?php echo $_order->formatPrice($_order->getGrandTotal()); ?>
+						</td>
+					</tr>
+					<tr>
+						<td class="lc"><em>Payment Via:</em></td>
+						<td class="rc"><?php echo $_order->getPayment()->getMethodInstance()->getTitle(); ?>
+						</td>
+					</tr>
 
-			<?php if ( $is_recurring ):  ?>
-				<tr>
-					<td class="lc"><em><?php echo __('Recurs'); ?>: </em></td>
-					<td class="rc"> <?php echo __('Monthly'); ?> </td>
-				</tr>
-			<?php	endif; ?>
-		</table>
-	<?php endif; ?>
+					<?php if ( $is_recurring ):  ?>
+						<tr>
+							<td class="lc"><em><?php echo __('Recurs'); ?>: </em></td>
+							<td class="rc"> <?php echo __('Monthly'); ?> </td>
+						</tr>
+					<?php	endif; ?>
+				</table>
+			<?php endif; ?>
 
-	<p>With appreciation,</p>
-	<div class="columnholder">
-		<div class="photocolumn"> <img class="rickphoto" src="https://d626yq9e83zk1.cloudfront.net/images/donate/rick2x.jpg" /></div>
-		<div class="sigcolumn"><img class="ricksig" src="https://d626yq9e83zk1.cloudfront.net/images/donate/rick_signature2x.png" />
-			<p><strong>Rick DeHaan</strong></p>
-			<p><em>President</em>, Our Daily Bread Ministries</p>
-		</div>
+			<p>With appreciation,</p>
+			<div class="columnholder">
+				<div class="photocolumn"> <img class="rickphoto" src="https://d626yq9e83zk1.cloudfront.net/images/donate/rick2x.jpg" /></div>
+				<div class="sigcolumn"><img class="ricksig" src="https://d626yq9e83zk1.cloudfront.net/images/donate/rick_signature2x.png" />
+					<p><strong>Rick DeHaan</strong></p>
+					<p><em>President</em>, Our Daily Bread Ministries</p>
+				</div>
+			</div>
+			
+			<?php 
+				if(!empty($block->hasGaData())){
+					echo $block->getGaForm();
+				} 
+			?>
+			
+			<script>
+
+			require(['domReady'], function (domReady) {
+				domReady(function () {
+					trySendCheckoutGA();
+				});
+			});
+			
+			</script>
 	</div>
-	
-	<?php 
-		if(!empty($block->hasGaData())){
-			echo $block->getGaForm();
-		} 
-	?>
-	
-	<script>
-
-    require(['domReady'], function (domReady) {
-        domReady(function () {
-            trySendCheckoutGA();
-        });
-    });
-    
-	</script>
 </div>

@@ -119,18 +119,15 @@
       min="0"
       max="9999"
     />
-    <div class="field-tooltip toggle">
-      <span class="field-tooltip-action action-cvv"
-      tabindex="0"
-      data-toggle="dropdown"
-      data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
-      <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+    <!-- CVV Tooltip -->
+    <span class="checkout-tooltip-left">
+      <span class="tooltip-toggle"
+      tabindex="0" 
+      data-mage-init='{"dropdown":{}}'
+      data-toggle="dropdown">
     </span>
-    <div class="field-tooltip-content"
-    data-target="dropdown"
-    data-bind="html: getCvvImageHtml()"></div>
-  </div>
-</div>
-</div>
+      <span class="tooltip-content" data-target="dropdown" data-bind="html: getCvvImageHtml()"></span>
+    </span>
+</div></div>
 <!-- /ko -->
 </fieldset>
