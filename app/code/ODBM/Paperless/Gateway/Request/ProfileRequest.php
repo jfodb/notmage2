@@ -29,50 +29,7 @@ class ProfileRequest extends PaperlessRequest
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
 
-		$base_req = parent::build($buildSubject);
-		$base_req['req']['uri'] = '/profiles/create';
-
-		$payment = $buildSubject['payment'];
-		$order = $payment->getOrder();
-		$address = $order->getBillingAddress();
-
-		$cardname = $payment->getCcOwner();
-		if(empty($cardname))
-			$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-		$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
-		if(empty($civ))
-			$civ = $payment->getCcSecureVerify();
-
-
-		$expmonth = $payment->getCcExpMonth();
-		if( strlen($payment->getCcExpMonth()) === 1)
-			$expmonth = sprintf('%2$d', $expmonth);
-
-		$expyear = $payment->getCcExpYear();
-		if( strlen($payment->getCcExpYear()) === 2)
-			$expyear = '20'.$expyear;
-
-
-		$addition['source'] = [
-			'card' => [
-				'accountNumber' => $payment->getCcNumber(),
-				'expiration' => $expmonth . '/' . $expyear,
-				'nameOnAccount' => $cardname,
-				'securityCode' => $civ,
-				'billingAddress'=> [
-					'street' => $address->getStreet(),
-					'city' => $address->getCity(),
-					'state' => $address->getRegionCode(),
-					'postal' => $address->getPostcode(),
-					'country' => $address->getCountryId()
-				]
-			],
-			'email' => $address->getEmail()
-		];
-
-
 		/** @var PaymentDataObjectInterface $payment */
-
-		return array_merge($base_req, $addition);
+		return $this->getProfileRequestBody($buildSubject);
 	}
 }

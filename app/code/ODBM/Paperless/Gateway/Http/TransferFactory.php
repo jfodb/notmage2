@@ -45,7 +45,6 @@ class TransferFactory implements TransferFactoryInterface
 			$headrs['TestFlag'] = 'true';
 		}
 
-
 		return $this->transferBuilder
 			->setUri($url)
 			->setBody( json_encode($request) )
