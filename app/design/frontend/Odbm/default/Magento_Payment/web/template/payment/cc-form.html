@@ -44,10 +44,6 @@
         width:100%;
     }
 
-    #ptc_payment_info{
-        height:100%;
-    }
-
     input.valid {
        border-left: solid 5px limegreen;
    }
@@ -64,7 +60,35 @@
    #cardNumber_field:focus, #cvv_field:focus, #expiration_field:focus  {
     background: white;
    }
-   @media all and (min-width: 961px) {
+
+   .checkout-payment-method .actions-toolbar div.primary {
+    padding-top: 25px !important;
+}
+
+    @media all and (min-width: 879px) {
+        #ptc_payment_info{
+            min-height:160px;
+        }
+    }
+
+    /* Set IFrame min-height */
+    @media all and (min-width: 768px) and (max-width: 878px){
+        #ptc_payment_info{
+            min-height:285px;
+        }
+    }
+    @media all and (min-width: 481px) and (max-width: 767px){
+        #ptc_payment_info{
+            min-height:160px;
+        }
+    }
+   @media all and (max-width: 480px) {
+        #ptc_payment_info{
+            min-height:285px;
+        }
+    }
+
+   @media all and (min-width: 906px) {
    #expiration.field-wrapper, #cvv.field-wrapper{
      display: inline-block;
      width:50%;
@@ -90,18 +114,15 @@
          content: " ";
      }
      .amex::after, .visa::after, .mastercard::after, .discover::after {
-        top:25px;
+        top:24px;
     }  
     #expiration_label::after, #cvv_label::after,#cardNumber_label::after {
         position: relative;
         padding-left: 10px;
    }
 }
-   @media all and (min-width: 768px) and (max-width: 960px){
-    #ptc_payment_info{
-        min-height:300px;
-    }
 
+@media all and (min-width: 713px) and (max-width: 905px){
    #expiration.field-wrapper, #cvv.field-wrapper{
      display: block;
    }
@@ -116,14 +137,14 @@
      }
 
      .amex::after, .visa::after, .mastercard::after, .discover::after {
-        top:44px;
+        top:47px;
     }
 
     #expiration_field, #cvv_field, #cardNumber_field{
      font-size:16px;
    }
    }
-   @media all and (min-width: 481px) and (max-width: 767px) {
+   @media all and (min-width: 426px) and (max-width: 712px) {
    #expiration.field-wrapper, #cvv.field-wrapper{
      display: inline-block;
      width:50%;
@@ -149,7 +170,7 @@
          content: " ";
      }
      .amex::after, .visa::after, .mastercard::after, .discover::after {
-        top:25px;
+        top:24px;
     }  
     #expiration_label::after, #cvv_label::after,#cardNumber_label::after {
         position: relative;
@@ -157,11 +178,7 @@
    }
 }
 
-   @media all and (max-width: 480px) {
-    #ptc_payment_info{
-        min-height:300px;
-    }
-
+@media all and (max-width: 425px) {
    #expiration.field-wrapper, #cvv.field-wrapper{
      display: block;
    }
@@ -176,7 +193,7 @@
      }
 
      .amex::after, .visa::after, .mastercard::after, .discover::after {
-        top:44px;
+        top:47px;
     }
 
     #expiration_field, #cvv_field, #cardNumber_field{
