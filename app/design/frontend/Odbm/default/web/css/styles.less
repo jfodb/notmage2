@@ -129,14 +129,13 @@ nav.navigation ul {
 }
 nav.navigation ul.submenu {
 	position: fixed;
-	display: block!important;
 	width: @odb-nav-width;
 	background-color: @odb-blue-gray;
 	height: 100vh;
 	right: -@odb-nav-width;
 	top: 0!important;
 	left: auto!important;
-	transition: right 200s;
+	transition: right .2s;
 	-webkit-transition: right .2s;
 	box-sizing: border-box;
 }
@@ -144,6 +143,7 @@ nav.navigation ul.submenu.active {
 	right: @odb-nav-width!important;
 	top: 0!important;
 	position: fixed;
+	display: block!important;
 }
 .header.panel nav.navigation ul > li > a.nav-subscribe,
 a.nav-subscribe,

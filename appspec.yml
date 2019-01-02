@@ -25,6 +25,8 @@ os: linux
 files:
   - source: /app
     destination: /usr/share/nginx/html/magento/app
+  - source: /magento.conf
+    destination: /usr/share/nginx/html/magento/
   - source: /bin
     destination: /usr/share/nginx/html/magento/bin
   - source: /generated
@@ -113,13 +115,10 @@ hooks:
       runas: root
 # During the ApplicationStart deployment lifecycle event, run the commands
 #   in the script specified in "location".
-#  ApplicationStart:
-#    - location: /home/ec2-user/flushmagcache
-#      timeout:
-#      runas: ec2-user
-#    - location:
-#      timeout:
-#      runas:
+  ApplicationStart:
+    - location: /applicationStart.sh
+      timeout: 30
+      runas: root
 # During the ValidateService deployment lifecycle event, run the commands
 #   in the script specified in "location".
 #  ValidateService:
