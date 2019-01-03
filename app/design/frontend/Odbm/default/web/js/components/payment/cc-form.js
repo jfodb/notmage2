@@ -2,11 +2,6 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
- // Additional Actions:
- // Pass card type to Magento? this.selectedCardType(info.brand);
- // Cleanup unused functions
- // Test styles, devices and breakpoints
  
 /* @api */
 define([
@@ -179,6 +174,22 @@ define([
          */
         getCode: function () {
             return 'cc';
+        },
+
+         /**
+         * Get Currency Disclaimer
+         * @returns {String}
+         */
+        getcurrencyDisclaimerHtml: function () {
+            return 'All transactions in US dollars.';
+        },
+
+         /**
+         * Get Terms and Conditions
+         * @returns {String}
+         */
+        getTermsAndConditionsHtml: function () {
+            return 'By giving, I agree to the <a href="https://ourdailybread.org/policy/terms-and-conditions/" target="_blank" style="color:inherit;text-decoration:underline;">terms & conditions</a> of this site.';
         },
 
         /**

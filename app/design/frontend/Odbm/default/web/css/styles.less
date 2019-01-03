@@ -391,6 +391,26 @@ h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
     font-size: 24px;
     margin-top: 10px;
 }
+
+.currencyDisclaimer, .termsDisclaimer {
+	text-align: center;
+	margin-top:10px;
+}
+
+.currencyDisclaimer {
+	font-style: italic;
+	color: #4A4A4A;
+	letter-spacing: 0;
+	line-height: 32px;
+	margin-bottom:-5px;
+}
+
+.termsDisclaimer {
+	color: #555555;
+	letter-spacing: -0.23px;
+	margin-bottom:15px;
+}
+
 .field-tooltip {
 	top: 3px;
 }
@@ -942,3 +962,41 @@ input.cvv, input.ccno {
 		right: -50%;
 	}
 }
+
+	@media all and (min-width: 864px) {
+		.currencyDisclaimer {
+		font-size:16px !important;
+		}
+			
+		.termsDisclaimer {
+		font-size:14px !important;
+		}
+    }
+
+    @media all and (min-width: 768px) and (max-width: 863px){
+		.currencyDisclaimer {
+		font-size:14px !important;
+		}
+			
+		.termsDisclaimer {
+		font-size:12px !important;
+		}
+    }
+    @media all and (min-width: 466px) and (max-width: 767px){
+		.currencyDisclaimer {
+		font-size:16px !important;
+		}
+			
+		.termsDisclaimer {
+		font-size:14px !important;
+		}
+    }
+   @media all and (max-width: 465px) {
+		div.currencyDisclaimer {
+		font-size:14px !important;
+		}
+			
+		div.termsDisclaimer {
+		font-size:12px !important;
+		}
+    }

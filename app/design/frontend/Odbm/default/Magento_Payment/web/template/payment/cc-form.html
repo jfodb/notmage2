@@ -42,6 +42,7 @@
 
     #card-form {
         width:100%;
+        padding-top:10px;
     }
     #ptc_payment_info{
             height:100%;
@@ -68,24 +69,25 @@
     padding-top: 25px !important;
 }
 
-    @media all and (min-width: 879px) {
+
+  /* Set IFrame min-height */
+    @media all and (min-width: 864px) {
         #ptc_payment_info{
             min-height:160px;
         }
     }
 
-    /* Set IFrame min-height */
-    @media all and (min-width: 768px) and (max-width: 878px){
+    @media all and (min-width: 768px) and (max-width: 863px){
         #ptc_payment_info{
             min-height:285px;
         }
     }
-    @media all and (min-width: 481px) and (max-width: 767px){
+    @media all and (min-width: 466px) and (max-width: 767px){
         #ptc_payment_info{
             min-height:160px;
         }
     }
-   @media all and (max-width: 480px) {
+   @media all and (max-width: 465px) {
         #ptc_payment_info{
             min-height:285px;
         }
@@ -233,6 +235,18 @@
        font-weight: bold;
        position: absolute;
        right: 15px;
+   }
+
+   @media all and (max-width: 234px){
+    .amex::after, .visa::after, .mastercard::after, .discover::after {
+        right:4px;
+    }
+   }
+
+   @media all and (max-width: 220px){
+    .amex::after, .visa::after, .mastercard::after, .discover::after {
+        display:none;
+    }
    }
 
    .amex::after {
