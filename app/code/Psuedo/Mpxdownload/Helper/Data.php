@@ -62,7 +62,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$this->timeoffset = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/timezone", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		if (empty($this->timeoffset))
-			$this->timeoffset = "02:00:00";
+			$this->timeoffset = "07:00:05";
 
 		$this->store = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/store_id/{$this->domain}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
@@ -431,7 +431,39 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		}
 		$end_date = strtotime("+1 day", $start_date);
 
+		
+		//check for caching.
+		$file_cache_key =  sprintf( "mpx-%s-%s.json", pathinfo($startdate, PATHINFO_BASENAME), $this->store);
+		$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+		$directories = $objectManager->get('\Magento\Framework\Filesystem\DirectoryList');
+		$directory = $directories->getPath('log');
+		
+		$file_cache = $directory . '/' . $file_cache_key;
+		
+		if(file_exists($file_cache)){
+			if(filesize($file_cache)>100){
+				$output = file_get_contents($file_cache);
 
+				header('Content-type: text/plain; charset=utf-8', true, 200);
+				$tmpdata = json_decode($output, true);
+				if($tmpdata) {
+					$tmpdata['served_cached'] = 'true';
+					$output = json_encode($tmpdata);
+				}
+				header('Content-length: '.strlen($output));
+
+				if(ob_get_level())
+					ob_clean();
+				echo $output;
+				if(ob_get_level())
+					ob_flush();
+				
+				return;
+			}
+		}
+
+		
+		
 
 		//see if job must be reset
 		$sql = sprintf("SELECT * from `%s` WHERE `store_id`=%d AND `ext_order_id`=%d;", $this->db_resource->getTableName('sales_order'), $this->store, $job_id);
@@ -463,8 +495,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		//updated_at
-		$sql  = sprintf("SELECT orders.* FROM `%s` orders WHERE store_id=%d AND state='%s' AND status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
+		$sql  = sprintf("SELECT orders.*, ocache.* FROM `%s` orders LEFT JOIN `%s` ocache ON ocache.order_id=orders.entity_id WHERE store_id=%d AND state='%s' AND status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
 			$this->db_resource->getTableName('sales_order'),
+			$this->db_resource->getTableName('mpx_flat_orders'),
 			$this->store,
 			$this->START_STATE,
 			$this->START_STATUS,
@@ -622,19 +655,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//$OrderRow["MediaCode"] = "";
 				//$OrderRow["MediaProgram"] = "";
 
-				$sql = sprintf("SELECT * FROM `%s` WHERE `parent_id`=%d", $this->db_resource->getTableName('sales_order_payment'), $OrderNumber);
-				$tmp = $this->db->fetchAssoc($sql);
+				
+				
+				if(!empty($order['payment'])){
+					$payment = json_decode($order['payment'], true);
+				} else {
+					$sql = sprintf("SELECT * FROM `%s` WHERE `parent_id`=%d", $this->db_resource->getTableName('sales_order_payment'), $OrderNumber);
+					$tmp = $this->db->fetchAssoc($sql);
 
-				$this->_logger->notice($OrderNumber);
-				$this->_logger->notice(print_r($tmp, true));
-				foreach($tmp as $idontcare=>$payment) break;
-				//$payment = $tmp[$key];
-
-				$sql = sprintf("SELECT * FROM `%s` WHERE `entity_id`=%d", $this->db_resource->getTableName('sales_order_grid'), $OrderNumber);
-				$tmp = $this->db->fetchAssoc($sql);
-				foreach($tmp as $idontcare=>$order_grid) break;
-				//$order_grid = $tmp[$key];
-
+					//$this->_logger->notice($OrderNumber);
+					//$this->_logger->notice(print_r($tmp, true));
+					foreach ($tmp as $idontcare => $payment) break;
+					//$payment = $tmp[$key];
+				}
+				if(!empty($order['order_grid'])) {
+					$order_grid = json_decode($order['order_grid'], true);
+				} else {
+					$sql = sprintf("SELECT * FROM `%s` WHERE `entity_id`=%d", $this->db_resource->getTableName('sales_order_grid'), $OrderNumber);
+					$tmp = $this->db->fetchAssoc($sql);
+					foreach ($tmp as $idontcare => $order_grid) break;
+					//$order_grid = $tmp[$key];
+				}
 
 				if(!empty($payment)) {
 					if(is_null($payment['method']))
@@ -658,6 +699,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$OrderRow["CreditCardNumber"] = "";
 					//else
 					//  $OrderRow["CreditCardNumber"] = $payment['cc_last_4'];
+					if(!empty($payment['ExpirationDate']))
+						$OrderRow['ExpirationDate'] = $payment['ExpirationDate'];
+					else
 					if(is_null($payment['cc_exp_year']) || $payment['cc_exp_year'] == 0 || is_null($payment['cc_exp_month']) || $payment['cc_exp_month'] == 0)
 						$OrderRow['ExpirationDate'] = "";
 					else
@@ -689,9 +733,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//no updated/cached auth code in the payment record,
 						//first decode from the extra payment data;
 						//$paypal_record = unserialize($payment['additional_information']);
-						$paypal_record = json_decode($payment['additional_information'], true);
-						if(!$paypal_record || empty($paypal_record['paypal_correlation_id'])) {
-							mail('peter.postma@odb.org', 'paypal record error', "Payment results were: " . $payment['additional_information']);
+						
+						//from db record is encoded data, from cache it is already decoded
+						if(is_string($payment['additional_information']))
+							$paypal_record = json_decode($payment['additional_information'], true);
+						else if(is_array($payment['additional_information']))
+							$paypal_record = $payment['additional_information'];
+						else
+							$paypal_record = false;
+						
+						if(empty($paypal_record) || !is_array($paypal_record) || empty($paypal_record['paypal_correlation_id'])) {
+							//mail('peter.postma@odb.org', 'paypal record error', "Payment results were: " . $payment['additional_information']);
 							$OrderRow['AuthorizationCode'] = '';
 						} else {
 							$OrderRow['AuthorizationCode'] = $paypal_record['paypal_correlation_id'];
@@ -700,6 +752,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							//but if we can store that value for the Magento admin interface it would be better
 							if(!empty($paypal_record['paypal_correlation_id'])) {
 
+								if(!empty($payment['entity_id']))
 								$this->db->update(
 									$this->db_resource->getTableName('sales_order_payment'),
 									array('cc_approval'=>$paypal_record['paypal_correlation_id']),
@@ -734,15 +787,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				$mainemail = array();
 				$mainphone = array();
 
-				$sql = sprintf("SELECT address.*, region.code FROM `%s` address LEFT JOIN `%s` region ON address.region_id=region.region_id WHERE `entity_id` IN (%d, %d)",
-					$this->db_resource->getTableName('sales_order_address'),
-					$this->db_resource->getTableName('directory_country_region'),
-					$order['billing_address_id'],
-					$order['shipping_address_id']
-				);
-				$addr = $this->db->query($sql);
-				while ($row = $addr->fetch())
-				{
+				if(!empty($order['addresses'])){
+					$addr = json_decode($order['addresses'], true);
+				} else {
+					$sql = sprintf("SELECT address.*, region.code FROM `%s` address LEFT JOIN `%s` region ON address.region_id=region.region_id WHERE `entity_id` IN (%d, %d)",
+						$this->db_resource->getTableName('sales_order_address'),
+						$this->db_resource->getTableName('directory_country_region'),
+						$order['billing_address_id'],
+						$order['shipping_address_id']
+					);
+					$addr_row = $this->db->query($sql);
+					$addr = array();
+					while ($row = $addr_row->fetch())
+						$addr[] = $row;
+				}
+				foreach ($addr as $row) {
 					$addrline = array();
 
 					if($row['address_type'] == 'shipping')
@@ -762,7 +821,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
-					$addrline["OrganizationName"] = trim($row['company']);
+					if(empty($row['company']))
+						$addrline["OrganizationName"] = "";
+					else
+						$addrline["OrganizationName"] = trim($row['company']);
+					
+					if(is_array($row['street'])){
+						for($z=0; $z<count($row['street']); $z++) {
+							$addrline["Address" . ($z+1) ] = $row['street'][$z];
+						}
+					} else
 					if(!strpos($row['street'], "\n"))
 						$addrline["Address1"] = trim($row['street']);
 					else {
@@ -876,8 +944,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 
-				$sql = sprintf("SELECT * FROM `%s` WHERE `order_id`=%d", $this->db_resource->getTableName('sales_order_item'), $OrderNumber);
-				$items = $this->db->fetchAll($sql);
+				if(!empty($order['items'])){
+					$items = json_decode($order['items'], true);
+				} else {
+					$sql = sprintf("SELECT * FROM `%s` WHERE `order_id`=%d", $this->db_resource->getTableName('sales_order_item'), $OrderNumber);
+					$items = $this->db->fetchAll($sql);
+				}
 
 				$shiptax = 0.0;
 				$TotalTax = $order['base_tax_amount'];
@@ -907,9 +979,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				//rehash by ID as index
 				$products = array();
+				$item_hash = array();
 				foreach($items as $lineitem) {
-					$products[$lineitem['item_id']] = $lineitem;
+					if(!empty($lineitem['product_id']))
+						$products[$lineitem['product_id']] = $lineitem;
+					if(!empty($lineitem['item_id']))
+						$products[$lineitem['item_id']] = $lineitem;
 				}
+				
 				foreach($items as $index => $lineitem) {
 					if(!empty($lineitem['parent_item_id']) ) {
 						//we have a child based variation?
@@ -917,7 +994,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//do we have the parent?
 						if(!empty($products[$lineitem['parent_item_id']])) {
 
-							if ($lineitem['sku'] === $products[$lineitem['parent_item_id']]['sku']) {
+							if ($lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
 								unset($items[$index]);
 								continue;     //this element contains no relevant additional information
 							}
@@ -956,12 +1033,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if($lineitem['base_discount_amount'] != 0)
 						$lineitem['base_discount_amount'] = abs($lineitem['base_discount_amount']);
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
-					$original = $this->productModel->load($lineitem['product_id']);
 
-					if($original->getResource()->getAttribute('productoffertype'))
-						$attr = $original -> getAttributeText('productoffertype');
-					else
-						$attr = false;
+					$original = $this->productModel->load($lineitem['product_id']);
+					if(!empty($lineitem['attr'])) {
+						$attr = $lineitem['attr'];
+					} else {
+						
+						if ($original->getResource()->getAttribute('productoffertype'))
+							$attr = $original->getAttributeText('productoffertype');
+						else
+							$attr = false;
+					}
 
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
@@ -1035,10 +1117,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 					//fetch set product type if available
-					if($original->getResource()->getAttribute('productoffertype'))
-						$attr = $original -> getAttributeText('productoffertype');
-					else $attr = false;
-
+					if(empty($attr)) {
+						if(empty($lineitem['attr'])) {
+							if ($original->getResource()->getAttribute('productoffertype'))
+								$attr = $original->getAttributeText('productoffertype');
+							else $attr = false;
+						} else 
+							$attr = $lineitem['attr'];
+					}
 
 					if(!empty($attr))
 						$li['SourceProductType'] = ucfirst(strtolower($attr)); //camelcase
@@ -1074,10 +1160,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				try{
 					$this->db->query($sql);
 				} catch(\Exception $oops) {
-					//this is getting pretty rough
+					$this->_logger->error("MPX mysql-exceptions on exceptions!");
 				}
 
-
+				//maybe I should log this too
+				$this->_logger->error("MPX Order Exception");
+				$this->_logger->error($e->getMessage());
+				$this->_logger->error($e->getFile()." ".$e->getLine());
+				//note how far the process got and any details we have captured
+				$this->_logger->error( json_encode(@$OrderRow));
+				
 
 				$OrderRow = array();
 
@@ -1105,6 +1197,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//$OrderRow["MediaProgram"] = "";
 
 
+				//and yet, its not in the json file! :(
 				$Mem_rows[] = $OrderRow;
 			}
 		}
@@ -1118,6 +1211,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$json = json_encode($JsonBuild);
 
+		@file_put_contents($file_cache, $json);
+		
 		if ($PROCESSED_ROWS == count($orderRows))
 			$status = 200;
 		else
