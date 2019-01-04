@@ -2,7 +2,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
+ 
 /* @api */
 define([
     'underscore',
@@ -24,6 +24,7 @@ define([
             creditCardSsStartYear: '',
             creditCardSsIssue: '',
             creditCardVerificationNumber: '',
+            creditCardToken: '',
             selectedCardType: null,
             isVisible: true
         },
@@ -36,6 +37,7 @@ define([
                     'creditCardExpYear',
                     'creditCardExpMonth',
                     'creditCardNumber',
+                    'creditCardToken',
                     'creditCardVerificationNumber',
                     'creditCardSsStartMonth',
                     'creditCardSsStartYear',
@@ -91,10 +93,79 @@ define([
                 creditCardData.expirationMonth = value;
             });
 
+            // Add credit card token to credit card data
+            this.creditCardToken.subscribe(function (value) {
+                creditCardData.creditCardToken = value;
+            });
+
             //Set cvv code to credit card data object
             this.creditCardVerificationNumber.subscribe(function (value) {
                 creditCardData.cvvCode = value;
             });
+        },
+
+        //load the injected paperless fields afterRender
+        afterFormRenders: function(){
+            var self = this;
+
+            const options = {
+                containerId: "card-form",
+                stylesId: "card-styles",
+                labels: {
+                cardNumber: "CARD NUMBER",
+                expiration: "EXPIRATION"
+                },
+                acceptedBrands: ["amex", "visa", "mastercard", "discover"]
+            };
+    
+            var form = new ptc.PaymentForm();
+    
+            form.load(options);
+            form.onStateChanged(this.onStateChanged);
+            form.onCardInfo(this.onCardInfo);
+            form.onCardToken( token => self.creditCardToken(token) );
+        },
+
+        onStateChanged: (state) => {
+            // Validation variables to enable/disable submit button
+            var disableSubmit = true;
+            var fieldCount = 0;
+            var validFieldCount = 0;
+
+            for (let key in state) {
+                // ++ increase field count
+                fieldCount++;
+                var field = state[key];
+
+                var requiredMsg = document.getElementById(`${key}_required`);
+                var invalidMsg = document.getElementById(`${key}_invalid`);
+
+                invalidMsg.style.display = "none";
+                requiredMsg.style.display = "none";
+
+                if (field.touched && !field.valid) {
+                    var msgToShow = field.empty ? requiredMsg : invalidMsg;
+                    msgToShow.style.display = "block";
+                } else if (field.touched && field.valid){
+                    // ++ increase valid field count
+                    validFieldCount++;
+                }
+            }
+
+            // Check if all the iframe fields are valid
+            if(validFieldCount==fieldCount){
+                disableSubmit=false;
+            }
+
+            // Enable or disable submit button
+            document.getElementById("submitDonationButton").disabled = disableSubmit;
+            
+        },
+
+        onCardInfo: (info) => {
+            document.getElementById("brand").innerText = info.brand || "";
+            document.getElementById("lastFour").innerText = info.lastFour || "";
+            document.getElementById("expiration").innerText = info.expiration || "";
         },
 
         /**
@@ -105,9 +176,21 @@ define([
             return 'cc';
         },
 
-        // isVisible: function() {
-        // 	return this.isVisible;
-        // },
+         /**
+         * Get Currency Disclaimer
+         * @returns {String}
+         */
+        getcurrencyDisclaimerHtml: function () {
+            return 'All transactions in US dollars.';
+        },
+
+         /**
+         * Get Terms and Conditions
+         * @returns {String}
+         */
+        getTermsAndConditionsHtml: function () {
+            return 'By giving, I agree to the <a href="https://ourdailybread.org/policy/terms-and-conditions/" target="_blank" style="color:inherit;text-decoration:underline;">terms & conditions</a> of this site.';
+        },
 
         /**
          * Get data
@@ -124,7 +207,8 @@ define([
                     'cc_type': this.creditCardType(),
                     'cc_exp_year': this.creditCardExpYear(),
                     'cc_exp_month': this.creditCardExpMonth(),
-                    'cc_number': this.creditCardNumber()
+                    'cc_number': this.creditCardNumber(),
+                    'cc_token': this.creditCardToken()
                 }
             };
         },

@@ -25,9 +25,17 @@
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+
+        
+        <div class="currencyDisclaimer"
+        data-bind="html: getcurrencyDisclaimerHtml(),
+        visible: isPlaceOrderActionAllowed()">
+        </div>
+
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"
+                        id="submitDonationButton"
                         type="submit"
                         data-bind="
                         click: placeOrder,
@@ -40,5 +48,11 @@
                 </button>
             </div>
         </div>
+
+        <div class="termsDisclaimer"
+        data-bind="html: getTermsAndConditionsHtml(),
+        visible: isPlaceOrderActionAllowed()">
+    </div>
+
     </div>
 </div>
