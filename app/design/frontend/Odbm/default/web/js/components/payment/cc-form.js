@@ -124,6 +124,9 @@ define([
             form.onStateChanged(this.onStateChanged);
             form.onCardInfo(this.onCardInfo);
             form.onCardToken( token => self.creditCardToken(token) );
+
+            // Disable submit button on initial load
+            document.getElementById("submitDonationButton").disabled = true;
         },
 
         onStateChanged: (state) => {
@@ -146,7 +149,7 @@ define([
                 if (field.touched && !field.valid) {
                     var msgToShow = field.empty ? requiredMsg : invalidMsg;
                     msgToShow.style.display = "block";
-                } else if (field.touched && field.valid){
+                } else if (field.valid){
                     // ++ increase valid field count
                     validFieldCount++;
                 }
