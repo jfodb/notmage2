@@ -129,14 +129,27 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 		
 		$cache_table = $connection->getTableName('mpx_flat_orders');
 		
-		$connection->insert($cache_table,
-			[
-				'order_id' => $order->getId(),
-				'payment' => $payment_json,
-				'addresses' => $address_json,
-				'order_grid' => $grid_json,
-				'items' => $item_json
-			]);
+		try {
+			$connection->insert($cache_table,
+				[
+					'order_id' => $order->getId(),
+					'payment' => $payment_json,
+					'addresses' => $address_json,
+					'order_grid' => $grid_json,
+					'items' => $item_json
+				]);
+		} catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate){
+			$connection->update (
+				$cache_table,
+				[
+					'payment' => $payment_json,
+					'addresses' => $address_json,
+					'order_grid' => $grid_json,
+					'items' => $item_json
+				],
+				'order_id='. $order->getId()
+			);
+		}
 		
 	}
 }
