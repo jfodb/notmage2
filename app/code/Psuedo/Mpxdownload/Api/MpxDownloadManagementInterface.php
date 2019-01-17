@@ -23,8 +23,6 @@ namespace Psuedo\Mpxdownload\Api;
 
 interface MpxDownloadManagementInterface
 {
-
-
     /**
      * GET for mpx_download api
      * @param string $param
