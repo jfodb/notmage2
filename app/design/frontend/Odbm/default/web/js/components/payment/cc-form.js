@@ -147,14 +147,15 @@ define([
                 months: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
             };
     
-            var disposableTerminalKey = "bd334a94914545b58243a86d1dfedc19"; // Get disposable terminal key from background call to PTC REST API
-
+            var disposableTerminalKey = this.getDisposableTerminalKey();
             var form = new ptc.PaymentForm(disposableTerminalKey);
     
             form.load(options);
             form.onStateChanged(this.onStateChanged);
             form.onCardInfo(this.onCardInfo);
-            form.onCardToken( token => self.creditCardToken(token) );
+            form.onCardToken( token => {
+                self.creditCardToken(token)
+            } );
 
             // Disable submit button on initial load
             document.getElementById("submitDonationButton").disabled = true;

@@ -50,9 +50,9 @@ class CaptureRequest extends PaperlessRequest
 		if(!empty((string)$payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
-			if ($this->is_tokenized()) {
+			if ( $token = $this->is_tokenized($payment) ) {
 				//insert vault access here
-				$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
+				$additional['source'] = ['profileNumber' => $token];
 				$additional['metadata'] = $this->customfields;
 			} else if($this->is_recurring($paymentDO)){
 				$base_req['_recurring'] = true;
