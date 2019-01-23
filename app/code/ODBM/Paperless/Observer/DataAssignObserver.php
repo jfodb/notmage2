@@ -6,6 +6,8 @@
 namespace ODBM\Paperless\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Payment\Observer\AbstractDataAssignObserver;
+use Magento\Quote\Api\Data\PaymentInterface;
+
 class DataAssignObserver extends AbstractDataAssignObserver
 {
 	/**
@@ -23,5 +25,16 @@ class DataAssignObserver extends AbstractDataAssignObserver
 				$data->getDataByKey('transaction_result')
 			);
 		}
+
+		$additionalData = $data->getData(PaymentInterface::KEY_ADDITIONAL_DATA);
+		if (!is_array($additionalData)) {
+			return;
+		}
+
+		$paymentModel = $this->readPaymentModelArgument($observer);
+
+		$paymentModel->setAdditionalInformation(
+			$additionalData
+		);
 	}
 }

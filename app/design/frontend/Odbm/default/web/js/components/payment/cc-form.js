@@ -118,12 +118,15 @@ define([
                 acceptedBrands: ["amex", "visa", "mastercard", "discover"]
             };
     
-            var form = new ptc.PaymentForm();
+            var disposableTerminalKey = this.getDisposableTerminalKey();
+            var form = new ptc.PaymentForm(disposableTerminalKey);
     
             form.load(options);
             form.onStateChanged(this.onStateChanged);
             form.onCardInfo(this.onCardInfo);
-            form.onCardToken( token => self.creditCardToken(token) );
+            form.onCardToken( token => {
+                self.creditCardToken(token)
+            } );
 
             // Disable submit button on initial load
             document.getElementById("submitDonationButton").disabled = true;
