@@ -110,12 +110,41 @@ define([
 
             const options = {
                 containerId: "card-form",
+
+                fieldOrder: [
+                    "cardNumber",
+                    "expirationMonth",
+                    "expirationYear",
+                    "cvv"
+                ],
+    
                 stylesId: "card-styles",
+    
                 labels: {
-                cardNumber: "CARD NUMBER",
-                expiration: "EXPIRATION"
+                    cardNumber: "CARD NUMBER",
+                    expirationMonth: "MONTH",
+                    expirationYear: "YEAR",
+                    cvv: "CVV"
                 },
-                acceptedBrands: ["amex", "visa", "mastercard", "discover"]
+    
+                placeholders: {
+                    // cardNumber: "CARD NUMBER",
+                    // expirationMonth: "MONTH",
+                    // expirationYear: "YEAR",
+                    // cvv: "CVV"
+                },
+    
+                tooltips: {
+                    cvv: "For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card."
+                },
+    
+                acceptedBrands: ["amex", "visa", "mastercard", "discover"],
+    
+                cardNumberFormat: 'hyphen',
+    
+                selectExpiration: true,
+    
+                months: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
             };
     
             var disposableTerminalKey = this.getDisposableTerminalKey();
