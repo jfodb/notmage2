@@ -210,5 +210,15 @@ class PaperlessRequest implements BuilderInterface
 			*/
 			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 		}
+
+
+
+		//hack features in because at this time there is no way to make a double call to pre-token, without re-placing the entire call stack
+        function impromptu_token() {
+
+
+            //create a token from data.
+
+        }
 	}
 		
