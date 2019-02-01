@@ -39,28 +39,31 @@ class ProfileRequest extends PaperlessRequest
 		$cardname = $payment->getCcOwner();
 		if(empty($cardname))
 			$cardname = $address->getFirstname() . ' ' . $address->getLastname();
-		$civ = $payment->getCcCid();  //this is deprecated, how do we get it??
-		if(empty($civ))
-			$civ = $payment->getCcSecureVerify();
 
 
 		$expmonth = $payment->getCcExpMonth();
 		if( strlen($payment->getCcExpMonth()) === 1)
-			$expmonth = sprintf('%2$d', $expmonth);
+			$expmonth = sprintf('%02d', $expmonth);
 
 		$expyear = $payment->getCcExpYear();
 		if( strlen($payment->getCcExpYear()) === 2)
 			$expyear = '20'.$expyear;
 
+		$civ = $payment->getCcCid();
+		if(empty($civ))
+			$civ = $payment->getCcSecureVerify();
+		if(!empty($civ) && strlen($civ) > 4)
+			$civ = $this->_encryptor->decrypt( $civ );
+
 
 		$addition['source'] = [
 			'card' => [
-				'accountNumber' => $payment->getCcNumber(),
+				'accountNumber' => $this->_encryptor->decrypt( $payment->getCcNumberEnc() ) ,
 				'expiration' => $expmonth . '/' . $expyear,
 				'nameOnAccount' => $cardname,
 				'securityCode' => $civ,
 				'billingAddress'=> [
-					'street' => $address->getStreet(),
+					'street' => $address->getStreetLine1(),
 					'city' => $address->getCity(),
 					'state' => $address->getRegionCode(),
 					'postal' => $address->getPostcode(),
@@ -69,6 +72,7 @@ class ProfileRequest extends PaperlessRequest
 			],
 			'email' => $address->getEmail()
 		];
+		$additional['metadata'] = $this->customfields;
 
 
 		/** @var PaymentDataObjectInterface $payment */
