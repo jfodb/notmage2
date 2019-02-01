@@ -10,20 +10,32 @@ namespace Psuedo\Mpxdownload\Observer;
 
 class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 {
-	protected $objectManager, $manager;
+	protected $objectManager, $manager, $logger;
 
 	public function __construct(
 		\Magento\Framework\ObjectManagerInterface $objectManager,
-		\Psuedo\Mpxdownload\Model\MpxDownloadManagement $manager
+		\Psuedo\Mpxdownload\Model\MpxDownloadManagement $manager,
+		\Psr\Log\LoggerInterface $logger
 	)
 	{
 		$this->objectManager = $objectManager;
 		$this->manager = $manager;
+		$this->logger = $logger;
 	} 
 
 	public function execute(
 		\Magento\Framework\Event\Observer $observer
 	) {
+
+		$this->logger->alert("Order Cache activated for ".$_SERVER['REQUEST_URI']);
+		//not a capture/payment event.
+		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment'] || empty($GLOBALS['_FLAGS']['payment']['capture']))) {
+			$this->logger->alert("Not presently a payment-capture so not caching");
+			return;
+		}
+
+		$this->logger->alert("Capture flag set, caching");
+
 		$order = $observer->getData('order');
 		
 		$payment = $order->getPayment();
@@ -96,7 +108,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 		//}
 		
 		foreach ($items as $itm) {
-			$why  =true;
+
 			$itm_data = [
 				'parent_item_id' => $itm->getParentItemId(),
 				'product_id' => $itm->getProductId(),
@@ -128,17 +140,19 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 		//$dbs = $connection->getDbResource();
 		
 		$cache_table = $connection->getTableName('mpx_flat_orders');
-		
+
 		try {
 			$connection->insert($cache_table,
 				[
-					'order_id' => $order->getId(),
-					'payment' => $payment_json,
-					'addresses' => $address_json,
-					'order_grid' => $grid_json,
-					'items' => $item_json
+				    'order_id' => $order->getId(),
+				    'payment' => $payment_json,
+				    'addresses' => $address_json,
+				    'order_grid' => $grid_json,
+				    'items' => $item_json
 				]);
-		} catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate){
+			$this->logger->alert("Order data was cached");
+
+		}catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate) {
 			$connection->update (
 				$cache_table,
 				[
@@ -149,6 +163,11 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				],
 				'order_id='. $order->getId()
 			);
+			$this->logger->alert('Mysql duplicate transaction caught and averted');
+		} catch (\Exception $e ){
+			$this->logger->error('Order Caching error not caught. '.get_class($e));
+			$this->logger->error($e);
+			throw $e;
 		}
 		
 	}

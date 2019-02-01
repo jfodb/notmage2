@@ -821,11 +821,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
-					if(empty($row['company']))
-						$addrline["OrganizationName"] = "";
-					else
-						$addrline["OrganizationName"] = trim($row['company']);
-					
+					$addrline["OrganizationName"] = trim($row['company']);
 					if(is_array($row['street'])){
 						for($z=0; $z<count($row['street']); $z++) {
 							$addrline["Address" . ($z+1) ] = $row['street'][$z];
