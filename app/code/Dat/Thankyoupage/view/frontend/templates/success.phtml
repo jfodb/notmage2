@@ -8,8 +8,13 @@ $thankYouPage = $block->getCustomPage();
 <div class="checkout-success">
 			<?php if(!empty($thankYouPage)): //If exists, display custom Thank You page ?>
 				<?php echo $block->getLayout()
-					->createBlock('Magento\Cms\Block\Block')
+					->createBlock('Dat\Thankyoupage\Block\CmsBlock')
 					->setBlockId($thankYouPage)
+					->setData( 'order_id', $block->escapeHtml($block->getOrderId()))
+					->setData('amount', $_order->getGrandTotal())
+					->setData('method', __('%1', sprintf('%s', $_order->getPayment()->getMethodInstance()->getTitle())))
+					->setData('first_name', $_order->getCustomerIsGuest() ? __('%1', sprintf('%s', $_order->getBillingAddress()->getFirstname())) : __('%1', sprintf('%s', $_order->getCustomerFirstName())))
+					->setData('freq', $is_recurring ? 'recurring' : 'one-time')
 					->toHtml();
 				?>
 				<div class="thankyoupage">
