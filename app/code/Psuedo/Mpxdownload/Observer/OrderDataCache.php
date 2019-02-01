@@ -26,9 +26,15 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 	public function execute(
 		\Magento\Framework\Event\Observer $observer
 	) {
+
+		$this->logger->alert("Order Cache activated for ".$_SERVER['REQUEST_URI']);
 		//not a capture/payment event.
-		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment'] || empty($GLOBALS['_FLAGS']['payment']['capture'])))
+		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment'] || empty($GLOBALS['_FLAGS']['payment']['capture']))) {
+			$this->logger->alert("Not presently a payment-capture so not caching");
 			return;
+		}
+
+		$this->logger->alert("Capture flag set, caching");
 
 		$order = $observer->getData('order');
 		
@@ -144,6 +150,8 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				    'order_grid' => $grid_json,
 				    'items' => $item_json
 				]);
+			$this->logger->alert("Order data was cached");
+
 		}catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate) {
 			$connection->update (
 				$cache_table,
@@ -155,7 +163,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				],
 				'order_id='. $order->getId()
 			);
-			$this->logger->notice('Mysql duplicate transaction caught and averted');
+			$this->logger->alert('Mysql duplicate transaction caught and averted');
 		} catch (\Exception $e ){
 			$this->logger->error('Order Caching error not caught. '.get_class($e));
 			$this->logger->error($e);
