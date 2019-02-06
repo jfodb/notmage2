@@ -267,6 +267,10 @@ define([
                 : false;
         },
 
+        isiFrame: function() {
+            return window.checkoutConfig.payment[this.getCode()].isiFrame;
+        },
+
         /**
          * Get list of months
          * @returns {Object}

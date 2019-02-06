@@ -40,9 +40,22 @@ final class ConfigProvider implements ConfigProviderInterface
 			'months' => $this->ccConfig->getCcMonths(),
 			'years' => $this->ccConfig->getCcYears(),
 			'hasVerification' => $this->ccConfig->hasVerification(),
-			'disposableTerminalKey' => $this->getTemporaryToken()
+			'disposableTerminalKey' => $this->getTemporaryToken(),
+			'isiFrame' =>  $this->getIsPaperlessiFrame()
 		);
 		return $output;
+	}
+
+	/**
+	 * Get system config value that tells us whether we want to display the form
+	 * in an iframe
+	 * 
+	 * @return boolean
+	 */
+	private function getIsPaperlessiFrame() {
+		$config_value = $this->_config->getValue('payment/odbm_paperless/payment_mechanism', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+		return ($config_value !== 'direct');
 	}
 
 	/**
@@ -54,6 +67,9 @@ final class ConfigProvider implements ConfigProviderInterface
 	 * @return  string $token The temporary token to authenicate with.
 	 */
 	private function getTemporaryToken() {
+		// Token is false if we are not using an iframe
+		$token = false;
+
 		$terminal_key_enc = $this->_config->getValue('payment/odbm_paperless/merchant_gateway_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		$terminal_key = $this->_encryptor->decrypt($terminal_key_enc);
 
