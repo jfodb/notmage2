@@ -11,7 +11,7 @@ $thankYouPage = $block->getCustomPage();
 					->createBlock('Dat\Thankyoupage\Block\CmsBlock')
 					->setBlockId($thankYouPage)
 					->setData( 'order_id', $block->escapeHtml($block->getOrderId()))
-					->setData('amount', $_order->getGrandTotal())
+					->setData('amount', sprintf("%01.2f", $_order->getGrandTotal()))
 					->setData('method', __('%1', sprintf('%s', $_order->getPayment()->getMethodInstance()->getTitle())))
 					->setData('first_name', $_order->getCustomerIsGuest() ? __('%1', sprintf('%s', $_order->getBillingAddress()->getFirstname())) : __('%1', sprintf('%s', $_order->getCustomerFirstName())))
 					->setData('freq', $is_recurring ? 'recurring' : 'one-time')
