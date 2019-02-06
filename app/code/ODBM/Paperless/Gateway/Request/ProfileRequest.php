@@ -32,9 +32,10 @@ class ProfileRequest extends PaperlessRequest
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/profiles/create';
 
-		$payment = $buildSubject['payment'];
-		$order = $payment->getOrder();
+		$paymentDO = $buildSubject['payment'];
+		$order = $paymentDO->getOrder();
 		$address = $order->getBillingAddress();
+		$payment = $paymentDO->getPayment();
 
 		$cardname = $payment->getCcOwner();
 		if(empty($cardname))
