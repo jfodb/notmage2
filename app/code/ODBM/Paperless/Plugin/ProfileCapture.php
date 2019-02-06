@@ -21,7 +21,7 @@ class ProfileCapture
 
 	}
 
-	public function beforeBuild(ODBM\Paperless\Gateway\Request\PaperlessRequest $request, array $buildSubject) {
+	public function beforeBuild(O$request, array $buildSubject) {
 		$paymentDO = $buildSubject['payment'];
 		$isrecurring = $request->is_recurring($paymentDO);
 
