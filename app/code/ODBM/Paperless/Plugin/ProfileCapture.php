@@ -25,7 +25,8 @@ class ProfileCapture
 		$paymentDO = $buildSubject['payment'];
 		$isrecurring = $request->is_recurring($paymentDO);
 
-		$request->improptu_profile($buildSubject['payment']);
+		if($isrecurring)
+			$request->improptu_profile($buildSubject['payment']);
 
 	}
 }

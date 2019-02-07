@@ -29,7 +29,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 
 		$this->logger->alert("Order Cache activated for ".$_SERVER['REQUEST_URI']);
 		//not a capture/payment event.
-		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment'] || empty($GLOBALS['_FLAGS']['payment']['capture']))) {
+		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment']) || empty($GLOBALS['_FLAGS']['payment']['capture'])) {
 			$this->logger->alert("Not presently a payment-capture so not caching");
 			return;
 		}
@@ -153,6 +153,18 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			$this->logger->alert("Order data was cached");
 
 		}catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate) {
+			$connection->update (
+				$cache_table,
+				[
+					'payment' => $payment_json,
+					'addresses' => $address_json,
+					'order_grid' => $grid_json,
+					'items' => $item_json
+				],
+				'order_id='. $order->getId()
+			);
+		} catch (\Magento\Framework\DB\Adapter\DuplicateException $duplicate) {
+			//second possible exception type for the same error, but this is the admin side:
 			$connection->update (
 				$cache_table,
 				[

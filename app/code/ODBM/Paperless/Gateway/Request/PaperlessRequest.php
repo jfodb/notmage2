@@ -11,6 +11,7 @@ namespace ODBM\Paperless\Gateway\Request;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
+use Magento\Framework;
 
 class PaperlessRequest implements BuilderInterface
 {
@@ -217,6 +218,7 @@ class PaperlessRequest implements BuilderInterface
 			require_once (__DIR__.'/ProfileRequest.php');
 
 
+
 			$profileData = new ProfileRequest($this->config, $this->_encryptor);
 
 			$data = $profileData->build(['payment' => $paymentDO]);
@@ -255,7 +257,7 @@ class PaperlessRequest implements BuilderInterface
 			curl_close($selfconnect);
 
 			if($responseInfo['http_code'] == 0 ){
-				throw new \Magento\Payment\Gateway\Http\ClientException("Failed to connect to card processor");
+				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"));
 			}
 
 			$resp = json_decode($response, true);
@@ -264,7 +266,7 @@ class PaperlessRequest implements BuilderInterface
 
 			if($responseInfo['http_code'] != 200 || empty($resp['profile']) || empty($resp['profile']['profileNumber'])){
 				$payment->setEcheckAccountType($response);  //cc_debug_response_serialized, but its only 32 chars!!
-				throw new \Magento\Payment\Gateway\Http\ClientException("Transaction declined");
+				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"));
 			}
 
 
