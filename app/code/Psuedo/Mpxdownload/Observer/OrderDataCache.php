@@ -156,6 +156,19 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				'order_id='. $order->getId()
 			);
 			$this->logger->notice('Mysql duplicate transaction caught and averted');
+		} catch (\Magento\Framework\DB\Adapter\DuplicateException $duplicate) {
+			//second possible exception type for the same error, but this is the admin side:
+			$connection->update (
+				$cache_table,
+				[
+					'payment' => $payment_json,
+					'addresses' => $address_json,
+					'order_grid' => $grid_json,
+					'items' => $item_json
+				],
+				'order_id='. $order->getId()
+			);
+			$this->logger->alert('Mysql duplicate transaction caught and averted');
 		} catch (\Exception $e ){
 			$this->logger->error('Order Caching error not caught. '.get_class($e));
 			$this->logger->error($e);
