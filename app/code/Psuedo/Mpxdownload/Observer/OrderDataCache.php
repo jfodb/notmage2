@@ -27,7 +27,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 		\Magento\Framework\Event\Observer $observer
 	) {
 		//not a capture/payment event.
-		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment'] || empty($GLOBALS['_FLAGS']['payment']['capture'])))
+		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment']) || empty($GLOBALS['_FLAGS']['payment']['capture']))
 			return;
 
 		$order = $observer->getData('order');
