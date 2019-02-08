@@ -34,10 +34,10 @@ class PaperlessRequest implements BuilderInterface
 			$this->_encryptor = $encryptor;
 			
 			if(!isset($GLOBALS['_FLAGS'])){
-				$GLOBALS['_FLAGS'] = array('payment'=>array('payment' => array()));
+				$GLOBALS['_FLAGS'] = array('payment'=>array('method' => 'paperless'));
 			}
 			if(!isset($GLOBALS['_FLAGS']['payment']))
-				$GLOBALS['_FLAGS']['payment'] = array();
+				$GLOBALS['_FLAGS']['payment'] = array('method' => 'paperless');
 
 		}
 		
