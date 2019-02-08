@@ -29,6 +29,8 @@ class CaptureRequest extends PaperlessRequest
 	$base_req = parent::build($buildSubject);
 	$base_req['req']['uri'] = '/transactions/capture';
 
+	$GLOBALS['_FLAGS']['payment']['method'] = 'paperless';
+
 	$payment_action = $this->config->getValue('payment/odbm_paperless/payment_action',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 	/** @var PaymentDataObjectInterface $paymentDO */
@@ -50,9 +52,12 @@ class CaptureRequest extends PaperlessRequest
 		if(!empty((string)$payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
-			if ($this->is_tokenized()) {
+			if ($token = $this->is_tokenized($payment)) {
 				//insert vault access here
-				$additional['source'] = ['profileNumber' => $payment->getUserCardToken()];
+				if($token === true)
+					$additional['source'] = ['profileNumber' => $payment->getCcStatusDescription()];
+				else
+					$additional['source'] = ['profileNumber' => $token];
 				$additional['metadata'] = $this->customfields;
 			} else if($this->is_recurring($paymentDO)){
 				$base_req['_recurring'] = true;
