@@ -68,7 +68,8 @@ final class ConfigProvider implements ConfigProviderInterface
 	 */
 	private function getTemporaryToken() {
 		// Token is false if we are not using an iframe
-		$token = false;
+		if ( !$this->getIsPaperlessiFrame() )
+			return false;
 
 		$terminal_key_enc = $this->_config->getValue('payment/odbm_paperless/merchant_gateway_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		$terminal_key = $this->_encryptor->decrypt($terminal_key_enc);
@@ -101,7 +102,7 @@ final class ConfigProvider implements ConfigProviderInterface
 
 			// 202: Accepted
 			if ( $response->getStatus() !== 202 ) {
-				throw new \Exception( 'Could not get Paperless token. Status: ' . $response->getStatus() );
+				return false;
 			}
 
 			if ( empty($token) ) {

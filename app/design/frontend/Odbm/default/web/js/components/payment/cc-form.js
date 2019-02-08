@@ -106,59 +106,62 @@ define([
 
         //load the injected paperless fields afterRender
         afterFormRenders: function(){
-            var self = this;
+            // Initialize iframe if we are in the iframe
+            if ( this.isiFrame() ) {
+                var self = this;
 
-            const options = {
-                containerId: "card-form",
-
-                fieldOrder: [
-                    "cardNumber",
-                    "expirationMonth",
-                    "expirationYear",
-                    "cvv"
-                ],
+                const options = {
+                    containerId: "card-form",
     
-                stylesId: "card-styles",
+                    fieldOrder: [
+                        "cardNumber",
+                        "expirationMonth",
+                        "expirationYear",
+                        "cvv"
+                    ],
+        
+                    stylesId: "card-styles",
+        
+                    labels: {
+                        cardNumber: "CARD NUMBER",
+                        expirationMonth: "MONTH",
+                        expirationYear: "YEAR",
+                        cvv: "CVV"
+                    },
+        
+                    placeholders: {
+                        // cardNumber: "CARD NUMBER",
+                        // expirationMonth: "MONTH",
+                        // expirationYear: "YEAR",
+                        // cvv: "CVV"
+                    },
+        
+                    tooltips: {
+                        cvv: "For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card."
+                    },
+        
+                    acceptedBrands: ["amex", "visa", "mastercard", "discover"],
+        
+                    cardNumberFormat: 'hyphen',
+        
+                    selectExpiration: true,
+        
+                    months: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+                };
+        
+                var disposableTerminalKey = this.getDisposableTerminalKey();
+                var form = new ptc.PaymentForm(disposableTerminalKey);
+        
+                form.load(options);
+                form.onStateChanged(this.onStateChanged);
+                form.onCardInfo(this.onCardInfo);
+                form.onCardToken( token => {
+                    self.creditCardToken(token)
+                } );
     
-                labels: {
-                    cardNumber: "CARD NUMBER",
-                    expirationMonth: "MONTH",
-                    expirationYear: "YEAR",
-                    cvv: "CVV"
-                },
-    
-                placeholders: {
-                    // cardNumber: "CARD NUMBER",
-                    // expirationMonth: "MONTH",
-                    // expirationYear: "YEAR",
-                    // cvv: "CVV"
-                },
-    
-                tooltips: {
-                    cvv: "For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card."
-                },
-    
-                acceptedBrands: ["amex", "visa", "mastercard", "discover"],
-    
-                cardNumberFormat: 'hyphen',
-    
-                selectExpiration: true,
-    
-                months: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
-            };
-    
-            var disposableTerminalKey = this.getDisposableTerminalKey();
-            var form = new ptc.PaymentForm(disposableTerminalKey);
-    
-            form.load(options);
-            form.onStateChanged(this.onStateChanged);
-            form.onCardInfo(this.onCardInfo);
-            form.onCardToken( token => {
-                self.creditCardToken(token)
-            } );
-
-            // Disable submit button on initial load
-            document.getElementById("submitDonationButton").disabled = true;
+                // Disable submit button on initial load
+                document.getElementById("submitDonationButton").disabled = true;
+            }
         },
 
         onStateChanged: (state) => {
