@@ -185,6 +185,8 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	protected $cart;
 	protected $referer;
 	protected $is_recurring;
+	protected $session;
+	protected $messagemanager;
 
 	/**
 	 * @param \Magento\Customer\Helper\Address $customerAddress
@@ -196,6 +198,9 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 	 * @param ProcessableExceptionFactory $processableExceptionFactory
 	 * @param \Magento\Framework\Exception\LocalizedExceptionFactory $frameworkExceptionFactory
 	 * @param \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
+	 * @param \Magento\Checkout\Model\Cart $cart
+	 * @param \Magento\Customer\Model\Session $customerSession
+	 * @param \Magento\Framework\Message\ManagerInterface $messageManager
 	 * @param array $data
 	 * @SuppressWarnings(PHPMD.ExcessiveParameterList)
 	 */
@@ -210,11 +215,15 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		\Magento\Framework\Exception\LocalizedExceptionFactory $frameworkExceptionFactory,
 		\Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
 		\Magento\Checkout\Model\Cart $cart,
+		\Magento\Customer\Model\Session $customerSession,
+		\Magento\Framework\Message\ManagerInterface $messageManager,
 		array $data = []
 	) {
 		parent::__construct($customerAddress, $logger, $customLogger, $localeResolver, $regionFactory, $countryFactory, $processableExceptionFactory,  $frameworkExceptionFactory, $curlFactory, $data);
 
 		$this->cart = $cart;
+		$this->session = $customerSession;
+		$this->messagemanager = $messageManager;
 
 		// Initalize properties
 		$this->resetValues();
@@ -397,8 +406,111 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		// $request['ADDROVERRIDE'] = 0; // Use this to allow user to override address with Paypal address
 
 		$response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
+
 		$this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
 
 		$this->resetValues();
+	}
+
+	//take this function and re-do it.
+	//because the exception messages and directions to user
+	//are discarded by magento when it redirects.
+	//It needs to be placed into the Users session messages
+	public function call($methodName, array $request)
+	{
+		$request = $this->_addMethodToRequest($methodName, $request);
+		$eachCallRequest = $this->_prepareEachCallRequest($methodName);
+		if ($this->getUseCertAuthentication()) {
+			$key = array_search('SIGNATURE', $eachCallRequest);
+			if ($key) {
+				unset($eachCallRequest[$key]);
+			}
+		}
+		$request = $this->_exportToRequest($eachCallRequest, $request);
+		$debugData = ['url' => $this->getApiEndpoint(), $methodName => $request];
+
+		$URL = $_SERVER['REQUEST_URI'];
+
+		try {
+			$http = $this->_curlFactory->create();
+			$config = ['timeout' => 60, 'verifypeer' => $this->_config->getValue('verifyPeer')];
+			if ($this->getUseProxy()) {
+				$config['proxy'] = $this->getProxyHost() . ':' . $this->getProxyPort();
+			}
+			if ($this->getUseCertAuthentication()) {
+				$config['ssl_cert'] = $this->getApiCertificate();
+			}
+			$http->setConfig($config);
+			$http->write(
+				\Zend_Http_Client::POST,
+				$this->getApiEndpoint(),
+				'1.1',
+				$this->_headers,
+				$this->_buildQuery($request)
+			);
+			$response = $http->read();
+			if(empty($response)) {
+				//notify the user
+				$this->messagemanager->addErrorMessage(__('Payment Gateway is unreachable at the moment. Please use another payment option.'));
+				$this->session->addGatewayMessage(__('Paypal is down, please use a different method'));
+				$this->_logger->error("Paypal did not return");
+				$this->_logger->error($this->getApiEndpoint());
+				$this->_logger->error(json_encode($request));
+				throw new \Magento\Framework\Exception\LocalizedException(
+					__('Payment Gateway is unreachable at the moment. Please use another payment option.')
+				);
+			}
+		} catch (\Exception $e) {
+			$debugData['http_error'] = ['error' => $e->getMessage(), 'code' => $e->getCode()];
+			$this->_debug($debugData);
+			throw $e;
+		}
+
+		$response = preg_split('/^\r?$/m', $response, 2);
+		$response = trim($response[1]);
+		$response = $this->_deformatNVP($response);
+
+		$debugData['response'] = $response;
+		$this->_debug($debugData);
+
+		$response = $this->_postProcessResponse($response);
+
+		// handle transport error
+		if ($http->getErrno()) {
+			$this->_logger->critical(
+				new \Exception(
+					sprintf('PayPal NVP CURL connection error #%s: %s', $http->getErrno(), $http->getError())
+				)
+			);
+			$http->close();
+
+			//notify the user
+			$this->messagemanager->addErrorMessage(__('Payment Gateway is unreachable at the moment. Please use another payment option.'));
+			$this->session->addGatewayMessage(__('Paypal is down, please use a different method'));
+
+			throw new \Magento\Framework\Exception\LocalizedException(
+				__('Payment Gateway is unreachable at the moment. Please use another payment option.')
+			);
+		}
+
+		// cUrl resource must be closed after checking it for errors
+		$http->close();
+
+		if (!$this->_validateResponse($methodName, $response)) {
+			$this->_logger->critical(new \Exception(__('PayPal response hasn\'t required fields.')));
+			throw new \Magento\Framework\Exception\LocalizedException(
+				__('Something went wrong while processing your order.')
+			);
+		}
+
+		$this->_callErrors = [];
+		if ($this->_isCallSuccessful($response)) {
+			if ($this->_rawResponseNeeded) {
+				$this->setRawSuccessResponseData($response);
+			}
+			return $response;
+		}
+		$this->_handleCallErrors($response);
+		return $response;
 	}
 }
