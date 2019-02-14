@@ -2,13 +2,13 @@
     "name": "magento/project-community-edition",
     "description": "eCommerce Platform for Growth (Community Edition)",
     "type": "project",
-    "version": "2.2.3",
+    "version": "2.3",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
     ],
     "require": {
-        "magento/product-community-edition": "2.2.3",
+        "magento/product-community-edition": "2.3.0",
         "composer/composer": "@alpha",
         "experius/module-donationproduct": "~1.0.0",
         "mageplaza/module-smtp": "^1.1"
@@ -18,9 +18,9 @@
         "squizlabs/php_codesniffer": "3.2.2",
         "phpmd/phpmd": "@stable",
         "pdepend/pdepend": "2.5.2",
-        "friendsofphp/php-cs-fixer": "~2.2.0",
+        "friendsofphp/php-cs-fixer": "~2.10.1",
         "lusitanian/oauth": "~0.8.10",
-        "sebastian/phpcpd": "2.0.4"
+        "sebastian/phpcpd": "~3.0.0"
     },
     "autoload": {
         "psr-4": {
@@ -48,7 +48,8 @@
             "Magento\\Tools\\": "dev/tools/Magento/Tools/",
             "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/",
             "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
-            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/"
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Zend\\Mvc\\Controller\\": "setup/src/Zend/Mvc/Controller/"
         }
     },
     "minimum-stability": "stable",
