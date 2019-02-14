@@ -419,6 +419,15 @@ h2.paymentdetails {
 .checkout-payment-method .ccard .fields .select {
 	padding-left: 10px;
 }
+/*
+Hide all payment methods execpt the active one (cc-form)
+*/
+.payment-method._active {
+    display: block;
+}
+.payment-method {
+    display: none;
+}
 .opc-wrapper .step-content {
 	margin-bottom: 0;
 }
@@ -714,9 +723,7 @@ input.cvv, input.ccno {
 	color: #4c99e1;
 	font-family: 'PT Sans',sans-serif;
 	font-size: 20px;
-	display: inline-flex;
-	flex-direction: column;
-	justify-content: center;
+	display: inline-block;
 	margin: 10px auto 25px;
 	width: 143px;
 	height: 45px;
