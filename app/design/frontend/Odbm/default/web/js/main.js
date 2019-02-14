@@ -79,24 +79,6 @@ require(['jquery', 'jquery/ui'], function($) {
 		var delta = 5;
 		var navbarHeight = $('header').outerHeight();
 
-		$(window).scroll(function(event){
-			didScroll = true;
-		});
-
-		setInterval(function() {
-			if (didScroll) {
-				hasScrolled();
-				didScroll = false;
-			}
-		}, 250);
-
-		//If donation is one time only, then show payment methods immediately
-		if($('.oneTimeOnly').length){
-			$('.box-tocart').show();
-			$('.dntpmtoptbx').removeClass('hidden');
-		}
-	});
-
 		function hasScrolled() {
 		    var scrollTop = $(this).scrollTop();
 
@@ -116,6 +98,24 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		    lastScrollTop = scrollTop;
 		}
+
+		$(window).scroll(function(event){
+			didScroll = true;
+		});
+
+		setInterval(function() {
+			if (didScroll) {
+				hasScrolled();
+				didScroll = false;
+			}
+		}, 250);
+
+		//If donation is one time only, then show payment methods immediately
+		if($('.oneTimeOnly').length){
+			$('.box-tocart').show();
+			$('.dntpmtoptbx').removeClass('hidden');
+		}
+	});
 
 		function closeMenu() {
 			$('.page-header .panel.wrapper, .overlay, .submenu, .has-submenu').removeClass('active');
