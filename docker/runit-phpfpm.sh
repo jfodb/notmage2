@@ -1,2 +1,2 @@
 #!/bin/sh
-exec /usr/sbin/php-fpm7.0 --nodaemonize -R --fpm-config /magento/docker/php-fpm.conf
+exec /usr/sbin/php-fpm7.2 --nodaemonize -R --fpm-config /magento/docker/php-fpm.conf
