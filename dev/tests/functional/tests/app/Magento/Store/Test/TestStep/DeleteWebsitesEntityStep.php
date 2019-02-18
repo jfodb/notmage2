@@ -10,13 +10,15 @@ use Magento\Backend\Test\Page\Adminhtml\EditWebsite;
 use Magento\Backend\Test\Page\Adminhtml\DeleteWebsite;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
+use Magento\Config\Test\TestStep\SetupConfigurationStep;
 use Magento\Store\Test\Fixture\Store;
 use Magento\Mtf\TestStep\TestStepInterface;
 use Magento\Mtf\Fixture\FixtureFactory;
 use Magento\Mtf\Fixture\FixtureInterface;
+use Magento\Mtf\TestStep\TestStepFactory;
 
 /**
- * Test Step for DeleteStoreEntity
+ * Test Step for DeleteWebsitesEntity.
  */
 class DeleteWebsitesEntityStep implements TestStepInterface
 {
@@ -26,43 +28,31 @@ class DeleteWebsitesEntityStep implements TestStepInterface
     /* end tags */
 
     /**
-     * Page BackupIndex
-     *
      * @var BackupIndex
      */
     private $backupIndex;
 
     /**
-     * Page StoreIndex
-     *
      * @var StoreIndex
      */
     private $storeIndex;
 
     /**
-     * Page EditWebsite
-     *
      * @var EditWebsite
      */
     private $editWebsite;
 
     /**
-     * Page StoreDelete
-     *
      * @var DeleteWebsite
      */
     private $deleteWebsite;
 
     /**
-     * Fixture factory.
-     *
      * @var FixtureFactory
      */
     private $fixtureFactory;
 
     /**
-     * Fixture factory.
-     *
      * @var FixtureInterface
      */
     private $item;
@@ -73,7 +63,12 @@ class DeleteWebsitesEntityStep implements TestStepInterface
     private $createBackup;
 
     /**
-     * Prepare pages for test
+     * @var TestStepFactory
+     */
+    private $stepFactory;
+
+    /**
+     * Prepare pages for test.
      *
      * @param BackupIndex $backupIndex
      * @param StoreIndex $storeIndex
@@ -81,6 +76,7 @@ class DeleteWebsitesEntityStep implements TestStepInterface
      * @param DeleteWebsite $deleteWebsite
      * @param FixtureFactory $fixtureFactory
      * @param FixtureInterface $item
+     * @param TestStepFactory $testStepFactory
      * @param string $createBackup
      */
     public function __construct(
@@ -90,6 +86,7 @@ class DeleteWebsitesEntityStep implements TestStepInterface
         DeleteWebsite $deleteWebsite,
         FixtureFactory $fixtureFactory,
         FixtureInterface $item,
+        TestStepFactory $testStepFactory,
         $createBackup = 'No'
     ) {
         $this->storeIndex = $storeIndex;
@@ -99,6 +96,7 @@ class DeleteWebsitesEntityStep implements TestStepInterface
         $this->item = $item;
         $this->createBackup = $createBackup;
         $this->fixtureFactory = $fixtureFactory;
+        $this->stepFactory = $testStepFactory;
     }
 
     /**
@@ -108,6 +106,12 @@ class DeleteWebsitesEntityStep implements TestStepInterface
      */
     public function run()
     {
+        /** @var SetupConfigurationStep $enableBackupsStep */
+        $enableBackupsStep = $this->stepFactory->create(
+            SetupConfigurationStep::class,
+            ['configData' => 'enable_backups_functionality']
+        );
+        $enableBackupsStep->run();
         $this->backupIndex->open()->getBackupGrid()->massaction([], 'Delete', true, 'Select All');
         $this->storeIndex->open();
         $websiteNames = $this->item->getWebsiteIds();
