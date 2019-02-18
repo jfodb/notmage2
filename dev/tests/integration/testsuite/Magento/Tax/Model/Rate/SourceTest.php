@@ -9,24 +9,8 @@ namespace Magento\Tax\Model\Rate;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Model\Rate\Provider;
 
-class SourceTest extends \Magento\TestFramework\Indexer\TestCase
+class SourceTest extends \PHPUnit\Framework\TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        $db = Bootstrap::getInstance()->getBootstrap()
-            ->getApplication()
-            ->getDbInstance();
-        if (!$db->isDbDumpExists()) {
-            throw new \LogicException('DB dump does not exist.');
-        }
-        $db->restoreFromDbDump();
-
-        parent::setUpBeforeClass();
-    }
-
-    /**
-     * @magentoDbIsolation disabled
-     */
     public function testToOptionArray()
     {
         /** @var \Magento\Tax\Model\ResourceModel\Calculation\Rate\Collection $collection */
@@ -54,13 +38,5 @@ class SourceTest extends \Magento\TestFramework\Indexer\TestCase
             $source->toOptionArray(),
             'Tax rate options are invalid.'
         );
-    }
-
-    /**
-     * teardown
-     */
-    public function tearDown()
-    {
-        parent::tearDown();
     }
 }

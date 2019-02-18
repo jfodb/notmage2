@@ -74,8 +74,7 @@ class RulePoolTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPatternDirsException($type, array $overriddenParams, $expectedErrorMessage)
     {
-        $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage($expectedErrorMessage);
+        $this->expectException('InvalidArgumentException', $expectedErrorMessage);
         $params = $overriddenParams + $this->defaultParams;
         $this->model->getRule($type)->getPatternDirs($params);
     }

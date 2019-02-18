@@ -14,7 +14,7 @@ use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
  * Optionally generates inactive quotes for generated orders.
  *
  * Support the following format:
- * <!-- It is necessary to enable quotes for orders -->
+ * <!-- Is is nescessary to enable quotes for orders -->
  * <order_quotes_enable>{bool}</order_quotes_enable>
  *
  * <!-- Min number of simple products per each order -->
@@ -232,12 +232,6 @@ class OrdersFixture extends Fixture
             return;
         }
 
-        $ruleId = $this->getMaxEntityId(
-            'salesrule',
-            \Magento\SalesRule\Model\ResourceModel\Rule::class,
-            'rule_id'
-        );
-
         $maxItemId = $this->getMaxEntityId(
             'sales_order_item',
             \Magento\Sales\Model\ResourceModel\Order\Item::class,
@@ -336,7 +330,6 @@ class OrdersFixture extends Fixture
                 '%productStoreId%' => $productStoreId($entityId),
                 '%productStoreName%' => $productStoreName($entityId),
                 '%entityId%' => $entityId,
-                '%ruleId%' => $ruleId,
             ];
             $shippingAddress = ['%orderAddressId%' => $entityId * 2 - 1, '%addressType%' => 'shipping'];
             $billingAddress = ['%orderAddressId%' => $entityId * 2, '%addressType%' => 'billing'];

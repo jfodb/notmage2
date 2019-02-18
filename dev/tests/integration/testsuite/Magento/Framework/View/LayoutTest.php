@@ -275,8 +275,7 @@ class LayoutTest extends \PHPUnit\Framework\TestCase
         $msg = 'Html tag "span" is forbidden for usage in containers. ' .
             'Consider to use one of the allowed: aside, dd, div, dl, fieldset, main, nav, ' .
             'header, footer, ol, p, section, table, tfoot, ul.';
-        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
-        $this->expectExceptionMessage($msg);
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class, $msg);
         $this->_layout->addContainer('container', 'Container', ['htmlTag' => 'span']);
     }
 

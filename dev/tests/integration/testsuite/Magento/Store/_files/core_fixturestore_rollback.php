@@ -23,3 +23,6 @@ if ($store->getId()) {
 
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', false);
+
+/* Refresh stores memory cache */
+$objectManager->get(\Magento\Store\Model\StoreManagerInterface::class)->reinitStores();

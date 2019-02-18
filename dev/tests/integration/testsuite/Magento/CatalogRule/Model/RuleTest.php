@@ -33,7 +33,7 @@ class RuleTest extends \PHPUnit\Framework\TestCase
 
         $this->_object = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             \Magento\CatalogRule\Model\Rule::class,
-            ['ruleResourceModel' => $resourceMock]
+            ['resource' => $resourceMock]
         );
     }
 

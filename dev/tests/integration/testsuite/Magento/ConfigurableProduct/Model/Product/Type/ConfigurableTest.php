@@ -4,6 +4,8 @@
  * See COPYING.txt for license details.
  */
 
+// @codingStandardsIgnoreFile
+
 namespace Magento\ConfigurableProduct\Model\Product\Type;
 
 use Magento\Catalog\Api\Data\ProductInterface;
@@ -149,19 +151,6 @@ class ConfigurableTest extends \PHPUnit\Framework\TestCase
             $this->assertEquals('Option 2', $options[1]['label']);
             break;
         }
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable_custom.php
-     */
-    public function testGetConfigurableAttributesWithSourceModel()
-    {
-        $collection = $this->model->getConfigurableAttributes($this->product);
-        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $configurableAttribute */
-        $configurableAttribute = $collection->getFirstItem();
-        $attribute = $this->_getAttributeByCode('test_configurable_with_sm');
-        $this->assertSameSize($attribute->getSource()->getAllOptions(), $configurableAttribute->getOptions());
     }
 
     /**
@@ -332,8 +321,7 @@ class ConfigurableTest extends \PHPUnit\Framework\TestCase
         $attribute = reset($attributes);
         $optionValueId = $attribute['values'][0]['value_index'];
 
-        $product->addCustomOption(
-            'attributes',
+        $product->addCustomOption('attributes',
             $serializer->serialize([$attribute['attribute_id'] => $optionValueId])
         );
 

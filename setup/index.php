@@ -4,7 +4,6 @@
  * See COPYING.txt for license details.
  */
 use Magento\Setup\Application;
-use Magento\Setup\Model\ObjectManagerProvider;
 
 if (PHP_SAPI == 'cli') {
     echo "You cannot run this from the command line." . PHP_EOL .
@@ -33,7 +32,4 @@ set_error_handler([$handler, 'handler']);
 $configuration = require __DIR__ . '/config/application.config.php';
 $bootstrap = new Application();
 $application = $bootstrap->bootstrap($configuration);
-$application->getServiceManager()
-    ->get(ObjectManagerProvider::class)
-    ->setObjectManager(\Magento\Framework\App\Bootstrap::create(BP, $_SERVER)->getObjectManager());
 $application->run();

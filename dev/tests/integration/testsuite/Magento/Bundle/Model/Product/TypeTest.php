@@ -51,7 +51,6 @@ class TypeTest extends \PHPUnit\Framework\TestCase
      * @magentoDataFixture Magento/Bundle/_files/product.php
      * @covers \Magento\Indexer\Model\Indexer::reindexAll
      * @covers \Magento\Bundle\Model\Product\Type::getSearchableData
-     * @magentoDbIsolation disabled
      */
     public function testPrepareProductIndexForBundleProduct()
     {
@@ -67,7 +66,6 @@ class TypeTest extends \PHPUnit\Framework\TestCase
     /**
      * @magentoDataFixture Magento/Bundle/_files/product_with_multiple_options.php
      * @covers \Magento\Bundle\Model\Product\Type::getOptionsCollection
-     * @magentoDbIsolation disabled
      */
     public function testGetOptionsCollection()
     {
@@ -83,7 +81,6 @@ class TypeTest extends \PHPUnit\Framework\TestCase
     /**
      * @magentoDataFixture Magento/Bundle/_files/product.php
      * @covers \Magento\Bundle\Model\Product\Type::getParentIdsByChild()
-     * @magentoDbIsolation disabled
      */
     public function testGetParentIdsByChild()
     {

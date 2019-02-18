@@ -127,7 +127,6 @@ class InstallStoreConfigurationCommand extends AbstractSetupCommand
         }
         $installer = $this->installerFactory->create(new ConsoleLogger($output));
         $installer->installUserConfig($input->getOptions());
-        return \Magento\Framework\Console\Cli::RETURN_SUCCESS;
     }
 
     /**

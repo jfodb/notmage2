@@ -4,7 +4,6 @@
  * See COPYING.txt for license details.
  */
 //Create customer
-/** @var Magento\Customer\Model\Customer $customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     \Magento\Customer\Model\Customer::class
 );
@@ -76,4 +75,5 @@ $addressSecond->addData(
 $addressSecond->isObjectNew(true);
 $customer->addAddress($addressSecond);
 $customer->setDefaultShipping($addressSecond->getId());
+$customer->isObjectNew(true);
 $customer->save();

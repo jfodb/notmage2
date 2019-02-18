@@ -246,7 +246,7 @@ class FieldsetTest extends \PHPUnit\Framework\TestCase
         $fieldsetField = $textField;
         $fieldsetField[1] = 'fieldset';
         $advancedFieldsetFld = $fieldsetField;
-        // set isAdvanced flag
+        // set isAdvenced flag
         $advancedFieldsetFld[4] = true;
         $result = [[[$fieldsetField, $textField, $advancedFieldsetFld], 1]];
         return $result;

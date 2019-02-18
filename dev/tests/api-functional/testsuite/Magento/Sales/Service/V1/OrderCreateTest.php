@@ -140,7 +140,7 @@ class OrderCreateTest extends WebapiAbstract
                 [
                     'shipping' => [
                         'address' => $address,
-                        'method' => 'flatrate_flatrate'
+                        'method' => 'Flat Rate - Fixed'
                     ],
                     'items' => [$orderItem->getData()],
                     'stock_id' => null,
@@ -232,9 +232,6 @@ class OrderCreateTest extends WebapiAbstract
         $this->assertEquals($order['grand_total'], $model->getGrandTotal());
         $this->assertNotNull($model->getShippingAddress());
         $this->assertTrue((bool)$model->getShippingAddress()->getId());
-        $this->assertEquals('Flat Rate - Fixed', $model->getShippingDescription());
-        $shippingMethod = $model->getShippingMethod(true);
-        $this->assertEquals('flatrate', $shippingMethod['carrier_code']);
-        $this->assertEquals('flatrate', $shippingMethod['method']);
+        $this->assertEquals('Flat Rate - Fixed', $model->getShippingMethod());
     }
 }

@@ -41,6 +41,16 @@ module.exports = {
         ],
         dsl: 'less'
     },
+    odbm: {
+        area: 'frontend',
+        name: 'Odbm/default',
+        locale: 'en_US',
+        files: [
+            'css/source/_theme',
+            'css/styles'
+        ],
+        dsl: 'less'
+    },
     backend: {
         area: 'adminhtml',
         name: 'Magento/backend',

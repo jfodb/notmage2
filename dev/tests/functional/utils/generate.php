@@ -3,15 +3,19 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 require_once dirname(__FILE__) . '/' . 'bootstrap.php';
 
-deleteDirectory(MTF_BP . '/generated');
-
-// Generate moduleSequence.json file
-generateModuleSequence();
+// Generate fixtures
+$magentoObjectManagerFactory = \Magento\Framework\App\Bootstrap::createObjectManagerFactory(BP, $_SERVER);
+$magentoObjectManager = $magentoObjectManagerFactory->create($_SERVER);
+// Remove previously generated static classes
+$fs = $magentoObjectManager->create(Filesystem::class);
+$fs->getDirectoryWrite(DirectoryList::ROOT)->delete('dev/tests/functional/generated/');
 // Generate factories for old end-to-end tests
-$objectManager->create(\Magento\Mtf\Util\Generate\Factory::class)->launch();
+$magentoObjectManager->create(\Magento\Mtf\Util\Generate\Factory::class)->launch();
 
 $generatorPool = $objectManager->get('Magento\Mtf\Util\Generate\Pool');
 foreach ($generatorPool->getGenerators() as $generator) {
@@ -24,28 +28,3 @@ foreach ($generatorPool->getGenerators() as $generator) {
 }
 
 \Magento\Mtf\Util\Generate\GenerateResult::displayResults();
-
-
-function deleteDirectory($dir)
-{
-    if (!file_exists($dir)) {
-        return true;
-    }
-    if (!is_dir($dir)) {
-        return unlink($dir);
-    }
-    foreach (scandir($dir) as $item) {
-        if ($item == '.' || $item == '..') {
-            continue;
-        }
-        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
-            return false;
-        }
-    }
-    return rmdir($dir);
-}
-
-function generateModuleSequence()
-{
-    require_once "generate/moduleSequence.php";
-}

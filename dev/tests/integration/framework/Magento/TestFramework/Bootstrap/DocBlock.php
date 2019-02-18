@@ -5,8 +5,6 @@
  */
 namespace Magento\TestFramework\Bootstrap;
 
-use Magento\TestFramework\Application;
-
 /**
  * Bootstrap of the custom DocBlock annotations
  *
@@ -29,9 +27,8 @@ class DocBlock
 
     /**
      * Activate custom DocBlock annotations along with more-or-less permanent workarounds
-     * @param Application $application
      */
-    public function registerAnnotations(Application $application)
+    public function registerAnnotations(\Magento\TestFramework\Application $application)
     {
         $eventManager = new \Magento\TestFramework\EventManager($this->_getSubscribers($application));
         \Magento\TestFramework\Event\PhpUnit::setDefaultEventManager($eventManager);
@@ -45,10 +42,10 @@ class DocBlock
      * To allow config fixtures to deal with fixture stores, data fixtures should be processed first.
      * ConfigFixture applied twice because data fixtures could clean config and clean custom settings
      *
-     * @param Application $application
+     * @param \Magento\TestFramework\Application $application
      * @return array
      */
-    protected function _getSubscribers(Application $application)
+    protected function _getSubscribers(\Magento\TestFramework\Application $application)
     {
         return [
             new \Magento\TestFramework\Workaround\Segfault(),
@@ -57,7 +54,6 @@ class DocBlock
             new \Magento\TestFramework\Isolation\WorkingDirectory(),
             new \Magento\TestFramework\Isolation\DeploymentConfig(),
             new \Magento\TestFramework\Annotation\AppIsolation($application),
-            new \Magento\TestFramework\Annotation\IndexerDimensionMode($application),
             new \Magento\TestFramework\Isolation\AppConfig(),
             new \Magento\TestFramework\Annotation\ConfigFixture(),
             new \Magento\TestFramework\Annotation\DataFixtureBeforeTransaction($this->_fixturesBaseDir),

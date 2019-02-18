@@ -23,7 +23,7 @@ class AssertVersionOnGrid extends AbstractConstraint
     /*#@-*/
 
     /**
-     * Assert that version of extension is correct.
+     * Assert that that version of extension is correct.
      *
      * @param Grid $grid
      * @param Extension $extension
@@ -45,7 +45,7 @@ class AssertVersionOnGrid extends AbstractConstraint
                 $version = '';
         }
 
-        \PHPUnit\Framework\Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertTrue(
             $grid->getVersion($extension) === $version,
             'Version of extension is not correct.'
         );

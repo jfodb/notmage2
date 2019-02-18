@@ -64,7 +64,7 @@ class ReservedWordsSniff implements Sniff
                     'Cannot use "%s" in namespace as it is reserved since PHP %s',
                     $stackPtr,
                     'Namespace',
-                    [$namespacePart, $this->reservedWords[strtolower($namespacePart)]]
+                    [$namespacePart, $this->reservedWords[$namespacePart]]
                 );
             }
             $stackPtr++;

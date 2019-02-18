@@ -18,7 +18,7 @@ use Magento\Mtf\Client\Locator;
 class Links extends Block
 {
     /**
-     * Selector title for links
+     * Selector title for for links
      *
      * @var string
      */

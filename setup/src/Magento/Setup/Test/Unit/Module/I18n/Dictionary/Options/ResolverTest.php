@@ -136,8 +136,7 @@ class ResolverTest extends \PHPUnit\Framework\TestCase
                 'directoryList' => $directoryList
             ]
         );
-        $this->expectException('\InvalidArgumentException');
-        $this->expectExceptionMessage($message);
+        $this->expectException('\InvalidArgumentException', $message);
         $resolver->getOptions();
     }
 

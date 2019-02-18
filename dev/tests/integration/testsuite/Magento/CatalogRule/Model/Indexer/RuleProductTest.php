@@ -32,7 +32,6 @@ class RuleProductTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDbIsolation disabled
      * @magentoDataFixtureBeforeTransaction Magento/CatalogRule/_files/attribute.php
      * @magentoDataFixtureBeforeTransaction Magento/CatalogRule/_files/rule_by_attribute.php
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
@@ -40,7 +39,7 @@ class RuleProductTest extends \PHPUnit\Framework\TestCase
     public function testReindexAfterRuleCreation()
     {
         /** @var \Magento\Catalog\Model\ProductRepository $productRepository */
-        $productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+        $productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             \Magento\Catalog\Model\ProductRepository::class
         );
         $product = $productRepository->get('simple');

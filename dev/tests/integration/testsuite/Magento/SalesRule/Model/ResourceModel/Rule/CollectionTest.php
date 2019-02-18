@@ -17,7 +17,6 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
      * @dataProvider setValidationFilterDataProvider()
      * @param string $couponCode
      * @param array $expectedItems
-     * @magentoDbIsolation disabled
      */
     public function testSetValidationFilter($couponCode, $expectedItems)
     {
@@ -64,7 +63,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Checkout/_files/quote_with_shipping_method_and_items_categories.php
      * @magentoDataFixture Magento/SalesRule/_files/rules_group_any_categories.php
@@ -101,7 +100,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Checkout/_files/quote_with_shipping_method_and_items_categories.php
      * @magentoDataFixture Magento/SalesRule/_files/rules_group_any_categories.php
@@ -137,7 +136,7 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Checkout/_files/quote_with_shipping_method_and_items_categories.php
      * @magentoDataFixture Magento/SalesRule/_files/rules_group_not_categories_sku_attr.php

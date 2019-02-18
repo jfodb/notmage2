@@ -4,6 +4,8 @@
  * See COPYING.txt for license details.
  */
 
+// @codingStandardsIgnoreFile
+
 namespace Magento\Setup\Module\Di\Code\Reader;
 
 /**
@@ -54,7 +56,7 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
         /*
          * MACRO creation
          */
-        $macroTokenAdvance = function () use (&$tokens, &$tokenIndex, &$token, &$tokenContent, &$tokenLine) {
+        $MACRO_TOKEN_ADVANCE = function () use (&$tokens, &$tokenIndex, &$token, &$tokenContent, &$tokenLine) {
             $tokenIndex = ($tokenIndex === null) ? 0 : $tokenIndex + 1;
             if (!isset($tokens[$tokenIndex])) {
                 $token = false;
@@ -79,18 +81,18 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
             return $tokenIndex;
         };
-        $macroTokenLogicalStartIndex = function () use (&$tokenIndex, &$docCommentIndex) {
+        $MACRO_TOKEN_LOGICAL_START_INDEX = function () use (&$tokenIndex, &$docCommentIndex) {
             return ($docCommentIndex === false) ? $tokenIndex : $docCommentIndex;
         };
-        $macroDocCommentStart = function () use (&$tokenIndex, &$docCommentIndex) {
+        $MACRO_DOC_COMMENT_START = function () use (&$tokenIndex, &$docCommentIndex) {
             $docCommentIndex = $tokenIndex;
 
             return $docCommentIndex;
         };
-        $macroDocCommentValidate = function () use (&$docCommentIndex) {
+        $MACRO_DOC_COMMENT_VALIDATE = function () use (&$docCommentIndex) {
             static $validTrailingTokens = null;
             if ($validTrailingTokens === null) {
-                $validTrailingTokens = [T_WHITESPACE, T_FINAL, T_ABSTRACT, T_INTERFACE, T_CLASS, T_FUNCTION];
+                $validTrailingTokens = array(T_WHITESPACE, T_FINAL, T_ABSTRACT, T_INTERFACE, T_CLASS, T_FUNCTION);
             }
             if ($docCommentIndex !== false && !in_array($this->tokenType, $validTrailingTokens)) {
                 $docCommentIndex = false;
@@ -98,7 +100,7 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
             return $docCommentIndex;
         };
-        $macroInfoAdvance = function () use (&$infoIndex, &$infos, &$tokenIndex, &$tokenLine) {
+        $MACRO_INFO_ADVANCE = function () use (&$infoIndex, &$infos, &$tokenIndex, &$tokenLine) {
             $infos[$infoIndex]['tokenEnd'] = $tokenIndex;
             $infos[$infoIndex]['lineEnd'] = $tokenLine;
             $infoIndex++;
@@ -111,7 +113,7 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
          */
 
         // Initialize token
-        $macroTokenAdvance();
+        $MACRO_TOKEN_ADVANCE();
 
         SCANNER_TOP:
 
@@ -120,26 +122,29 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
         }
 
         // Validate current doc comment index
-        $macroDocCommentValidate();
+        $MACRO_DOC_COMMENT_VALIDATE();
 
         switch ($this->tokenType) {
+
             case T_DOC_COMMENT:
-                $macroDocCommentStart();
+
+                $MACRO_DOC_COMMENT_START();
                 goto SCANNER_CONTINUE;
             //goto no break needed
 
             case T_NAMESPACE:
-                $infos[$infoIndex] = [
+
+                $infos[$infoIndex] = array(
                     'type' => 'namespace',
-                    'tokenStart' => $macroTokenLogicalStartIndex(),
+                    'tokenStart' => $MACRO_TOKEN_LOGICAL_START_INDEX(),
                     'tokenEnd' => null,
                     'lineStart' => $token[2],
                     'lineEnd' => null,
                     'namespace' => null,
-                ];
+                );
 
                 // start processing with next token
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
 
@@ -159,7 +164,7 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
                 SCANNER_NAMESPACE_CONTINUE:
 
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
                 goto SCANNER_NAMESPACE_TOP;
@@ -168,26 +173,28 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
                 $namespace = $infos[$infoIndex]['namespace'];
 
-                $macroInfoAdvance();
+                $MACRO_INFO_ADVANCE();
                 goto SCANNER_CONTINUE;
             //goto no break needed
 
             case T_USE:
-                $infos[$infoIndex] = [
+
+                $infos[$infoIndex] = array(
                     'type' => 'use',
-                    'tokenStart' => $macroTokenLogicalStartIndex(),
+                    'tokenStart' => $MACRO_TOKEN_LOGICAL_START_INDEX(),
                     'tokenEnd' => null,
                     'lineStart' => $tokens[$tokenIndex][2],
                     'lineEnd' => null,
                     'namespace' => $namespace,
-                    'statements' => [0 => ['use' => null, 'as' => null]],
-                ];
+                    'statements' => array(0 => array('use' => null,
+                        'as' => null)),
+                );
 
                 $useStatementIndex = 0;
                 $useAsContext = false;
 
                 // start processing with next token
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
 
@@ -199,7 +206,8 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
                     } elseif ($tokenContent === ',') {
                         $useAsContext = false;
                         $useStatementIndex++;
-                        $infos[$infoIndex]['statements'][$useStatementIndex] = ['use' => null, 'as' => null];
+                        $infos[$infoIndex]['statements'][$useStatementIndex] = array('use' => null,
+                            'as' => null);
                     }
                 }
 
@@ -221,14 +229,14 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
                 SCANNER_USE_CONTINUE:
 
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
                 goto SCANNER_USE_TOP;
 
                 SCANNER_USE_END:
 
-                $macroInfoAdvance();
+                $MACRO_INFO_ADVANCE();
                 goto SCANNER_CONTINUE;
             //goto no break needed
 
@@ -236,26 +244,27 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
             case T_INCLUDE_ONCE:
             case T_REQUIRE:
             case T_REQUIRE_ONCE:
+
                 // Static for performance
-                static $includeTypes = [
+                static $includeTypes = array(
                     T_INCLUDE => 'include',
                     T_INCLUDE_ONCE => 'include_once',
                     T_REQUIRE => 'require',
                     T_REQUIRE_ONCE => 'require_once'
-                ];
+                );
 
-                $infos[$infoIndex] = [
+                $infos[$infoIndex] = array(
                     'type' => 'include',
-                    'tokenStart' => $macroTokenLogicalStartIndex(),
+                    'tokenStart' => $MACRO_TOKEN_LOGICAL_START_INDEX(),
                     'tokenEnd' => null,
                     'lineStart' => $tokens[$tokenIndex][2],
                     'lineEnd' => null,
                     'includeType' => $includeTypes[$tokens[$tokenIndex][0]],
                     'path' => '',
-                ];
+                );
 
                 // start processing with next token
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
 
@@ -269,14 +278,14 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
                 SCANNER_INCLUDE_CONTINUE:
 
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
                 goto SCANNER_INCLUDE_TOP;
 
                 SCANNER_INCLUDE_END:
 
-                $macroInfoAdvance();
+                $MACRO_INFO_ADVANCE();
                 goto SCANNER_CONTINUE;
             //goto no break needed
 
@@ -286,9 +295,10 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
             case T_CLASS:
             case T_INTERFACE:
             case T_TRAIT:
-                $infos[$infoIndex] = [
+
+                $infos[$infoIndex] = array(
                     'type' => ($this->tokenType === T_FUNCTION) ? 'function' : 'class',
-                    'tokenStart' => $macroTokenLogicalStartIndex(),
+                    'tokenStart' => $MACRO_TOKEN_LOGICAL_START_INDEX(),
                     'tokenEnd' => null,
                     'lineStart' => $tokens[$tokenIndex][2],
                     'lineEnd' => null,
@@ -296,7 +306,7 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
                     'uses' => $this->getUsesNoScan($namespace),
                     'name' => null,
                     'shortName' => null,
-                ];
+                );
 
                 $classBraceCount = 0;
 
@@ -306,17 +316,11 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
                 // process the name
                 if ($infos[$infoIndex]['shortName'] == ''
-                    && (($this->tokenType === T_CLASS
-                            || $this->tokenType === T_INTERFACE
-                            || $this->tokenType === T_TRAIT
-                        )
-                        && $infos[$infoIndex]['type'] === 'class' && $tokens[$tokenIndex - 1][0] !== T_DOUBLE_COLON
+                    && (($this->tokenType === T_CLASS || $this->tokenType === T_INTERFACE || $this->tokenType === T_TRAIT) && $infos[$infoIndex]['type'] === 'class' && $tokens[$tokenIndex - 1][0] !== T_DOUBLE_COLON
                         || ($this->tokenType === T_FUNCTION && $infos[$infoIndex]['type'] === 'function'))
                 ) {
                     $infos[$infoIndex]['shortName'] = $tokens[$tokenIndex + 2][1];
-                    $infos[$infoIndex]['name'] = (($namespace !== null)
-                            ? $namespace . '\\'
-                            : '') . $infos[$infoIndex]['shortName'];
+                    $infos[$infoIndex]['name'] = (($namespace !== null) ? $namespace . '\\' : '') . $infos[$infoIndex]['shortName'];
                 }
 
                 if ($this->tokenType === null) {
@@ -333,20 +337,21 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
 
                 SCANNER_CLASS_CONTINUE:
 
-                if ($macroTokenAdvance() === false) {
+                if ($MACRO_TOKEN_ADVANCE() === false) {
                     goto SCANNER_END;
                 }
                 goto SCANNER_CLASS_TOP;
 
                 SCANNER_CLASS_END:
 
-                $macroInfoAdvance();
+                $MACRO_INFO_ADVANCE();
                 goto SCANNER_CONTINUE;
+
         }
 
         SCANNER_CONTINUE:
 
-        if ($macroTokenAdvance() === false) {
+        if ($MACRO_TOKEN_ADVANCE() === false) {
             goto SCANNER_END;
         }
         goto SCANNER_TOP;
@@ -356,6 +361,7 @@ class FileScanner extends \Zend\Code\Scanner\FileScanner
         /**
          * END FINITE STATE MACHINE FOR SCANNING TOKENS
          */
+
         $this->isScanned = true;
     }
 }

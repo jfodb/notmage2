@@ -36,8 +36,7 @@ $product->setTypeId(
 )->setStockData(
     [
         'qty' => 100,
-        'is_in_stock' => 1,
-        'manage_stock' => 1,
+        'is_in_stock' => 1
     ]
 )->setHasOptions(true);
 
@@ -47,7 +46,7 @@ $options = [
         'type' => 'field',
         'is_require' => true,
         'sort_order' => 1,
-        'price' => -10.0,
+        'price' => 10.0,
         'price_type' => 'fixed',
         'sku' => 'sku1',
         'max_characters' => 10,

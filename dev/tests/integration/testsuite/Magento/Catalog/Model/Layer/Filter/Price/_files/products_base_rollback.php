@@ -54,22 +54,15 @@ foreach ($testCases as $index => $testCase) {
         $category->delete();
     }
 
-    /** @var \Magento\Catalog\Api\ProductRepositoryInterface $productRepository */
-    $productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-        \Magento\Catalog\Api\ProductRepositoryInterface::class
-    );
-
     foreach ($testCase[0] as $price) {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             \Magento\Catalog\Model\Product::class
         );
         $productId = $lastProductId + 1;
-        try {
-            $product = $productRepository->get('simple-' . $productId, false, null, true);
-            $productRepository->delete($product);
-        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-            //Product already removed
+        $product->load($productId);
+        if ($product->getId()) {
+            $product->delete();
         }
         ++$lastProductId;
     }

@@ -51,7 +51,7 @@ class ReAuthorizeTokensIntegrationEntityTest extends Injectable
      *
      * @param FixtureFactory $fixtureFactory
      * @param IntegrationIndex $integrationIndex
-     * @return void
+     * @retun void
      */
     public function __inject(IntegrationIndex $integrationIndex, FixtureFactory $fixtureFactory)
     {

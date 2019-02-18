@@ -5,13 +5,9 @@
  */
 namespace Magento\Setup\Test\Unit\Console\Command;
 
-use Magento\Framework\App\Console\MaintenanceModeEnabler;
 use Magento\Setup\Console\Command\RollbackCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- */
 class RollbackCommandTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -100,8 +96,7 @@ class RollbackCommandTest extends \PHPUnit\Framework\TestCase
         $this->command = new RollbackCommand(
             $objectManagerProvider,
             $maintenanceMode,
-            $this->deploymentConfig,
-            new MaintenanceModeEnabler($maintenanceMode)
+            $this->deploymentConfig
         );
         $this->command->setHelperSet($this->helperSet);
         $this->tester = new CommandTester($this->command);
@@ -170,7 +165,7 @@ class RollbackCommandTest extends \PHPUnit\Framework\TestCase
             ->method('isAvailable')
             ->will($this->returnValue(true));
         $this->question
-            ->expects($this->atLeast(2))
+            ->expects($this->once())
             ->method('ask')
             ->will($this->returnValue(false));
         $this->helperSet

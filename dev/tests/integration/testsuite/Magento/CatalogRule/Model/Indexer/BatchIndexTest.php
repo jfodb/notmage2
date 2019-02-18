@@ -60,7 +60,7 @@ class BatchIndexTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @dataProvider dataProvider
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml

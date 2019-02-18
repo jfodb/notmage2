@@ -3,18 +3,21 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 namespace Magento\Customer\Api;
 
 use Magento\Customer\Api\Data\CustomerInterface as Customer;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Webapi\Exception as HTTPExceptionCodes;
-use Magento\Newsletter\Model\Subscriber;
-use Magento\Security\Model\Config;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\Helper\Customer as CustomerHelper;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Framework\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Security\Model\Config;
+use Magento\Newsletter\Model\Plugin\CustomerPlugin;
+use Magento\Framework\Webapi\Rest\Request as RestRequest;
+use Magento\Newsletter\Model\Subscriber;
+use Magento\Customer\Model\Data\Customer as CustomerData;
 
 /**
  * Test class for Magento\Customer\Api\AccountManagementInterface
@@ -109,16 +112,16 @@ class AccountManagementTest extends WebapiAbstract
         $this->initSubscriber();
 
         if ($this->config->getConfigDataValue(
-            Config::XML_PATH_FRONTEND_AREA .
+            Config::XML_PATH_FRONTED_AREA .
             Config::XML_PATH_PASSWORD_RESET_PROTECTION_TYPE
         ) != 0) {
             $this->configValue = $this->config
                 ->getConfigDataValue(
-                    Config::XML_PATH_FRONTEND_AREA .
+                    Config::XML_PATH_FRONTED_AREA .
                     Config::XML_PATH_PASSWORD_RESET_PROTECTION_TYPE
                 );
             $this->config->setDataByPath(
-                Config::XML_PATH_FRONTEND_AREA . Config::XML_PATH_PASSWORD_RESET_PROTECTION_TYPE,
+                Config::XML_PATH_FRONTED_AREA . Config::XML_PATH_PASSWORD_RESET_PROTECTION_TYPE,
                 0
             );
             $this->config->save();
@@ -147,7 +150,7 @@ class AccountManagementTest extends WebapiAbstract
             }
         }
         $this->config->setDataByPath(
-            Config::XML_PATH_FRONTEND_AREA . Config::XML_PATH_PASSWORD_RESET_PROTECTION_TYPE,
+            Config::XML_PATH_FRONTED_AREA . Config::XML_PATH_PASSWORD_RESET_PROTECTION_TYPE,
             $this->configValue
         );
         $this->config->save();
@@ -210,34 +213,6 @@ class AccountManagementTest extends WebapiAbstract
                 ];
                 $this->assertEquals($expectedExceptionData, $exceptionData);
             }
-        }
-    }
-
-    public function testCreateCustomerWithoutOptionalFields()
-    {
-        $serviceInfo = [
-            'rest' => [
-                'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Framework\Webapi\Rest\Request::HTTP_METHOD_POST, ],
-            'soap' => [
-                'service' => self::SERVICE_NAME,
-                'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateAccount',
-            ],
-        ];
-
-        $customerDataArray = $this->dataObjectProcessor->buildOutputDataArray(
-            $this->customerHelper->createSampleCustomerDataObject(),
-            \Magento\Customer\Api\Data\CustomerInterface::class
-        );
-        unset($customerDataArray['store_id']);
-        unset($customerDataArray['website_id']);
-        $requestData = ['customer' => $customerDataArray, 'password' => CustomerHelper::PASSWORD];
-        try {
-            $customerData = $this->_webApiCall($serviceInfo, $requestData, null, 'all');
-            $this->assertNotNull($customerData['id']);
-        } catch (\Exception $e) {
-            $this->fail('Customer should be created without optional fields.');
         }
     }
 
@@ -351,7 +326,7 @@ class AccountManagementTest extends WebapiAbstract
             ],
         ];
 
-        $expectedMessage = 'The password token is mismatched. Reset and try again.';
+        $expectedMessage = 'Reset password token mismatch.';
 
         try {
             if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
@@ -395,13 +370,13 @@ class AccountManagementTest extends WebapiAbstract
                 'message' => 'One or more input exceptions have occurred.',
                 'errors' => [
                     [
-                        'message' => '"%fieldName" is required. Enter and try again.',
+                        'message' => '%fieldName is a required field.',
                         'parameters' => [
                             'fieldName' => 'email',
                         ],
                     ],
                     [
-                        'message' => '"%fieldName" is required. Enter and try again.',
+                        'message' => '%fieldName is a required field.',
                         'parameters' => [
                             'fieldName' => 'template',
                         ]
@@ -604,14 +579,8 @@ class AccountManagementTest extends WebapiAbstract
         $validationResponse = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertFalse($validationResponse['valid']);
 
-        $this->assertEquals(
-            'The "First Name" attribute value is empty. Set the attribute and try again.',
-            $validationResponse['messages'][0]
-        );
-        $this->assertEquals(
-            'The "Last Name" attribute value is empty. Set the attribute and try again.',
-            $validationResponse['messages'][1]
-        );
+        $this->assertEquals('The value of attribute "firstname" must be set', $validationResponse['messages'][0]);
+        $this->assertEquals('The value of attribute "lastname" must be set', $validationResponse['messages'][1]);
     }
 
     public function testIsReadonly()

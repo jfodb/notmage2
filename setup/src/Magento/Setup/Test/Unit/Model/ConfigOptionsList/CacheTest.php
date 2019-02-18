@@ -28,9 +28,6 @@ class CacheTest extends \PHPUnit\Framework\TestCase
      */
     private $deploymentConfigMock;
 
-    /**
-     * Tests setup
-     */
     protected function setUp()
     {
         $this->validatorMock = $this->createMock(RedisConnectionValidator::class);
@@ -39,13 +36,10 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->configOptionsList = new CacheConfigOptionsList($this->validatorMock);
     }
 
-    /**
-     * testGetOptions
-     */
     public function testGetOptions()
     {
         $options = $this->configOptionsList->getOptions();
-        $this->assertCount(5, $options);
+        $this->assertCount(4, $options);
 
         $this->assertArrayHasKey(0, $options);
         $this->assertInstanceOf(SelectConfigOption::class, $options[0]);
@@ -62,15 +56,8 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertArrayHasKey(3, $options);
         $this->assertInstanceOf(TextConfigOption::class, $options[3]);
         $this->assertEquals('cache-backend-redis-port', $options[3]->getName());
-
-        $this->assertArrayHasKey(4, $options);
-        $this->assertInstanceOf(TextConfigOption::class, $options[4]);
-        $this->assertEquals('cache-backend-redis-password', $options[4]->getName());
     }
 
-    /**
-     * testCreateConfigCacheRedis
-     */
     public function testCreateConfigCacheRedis()
     {
         $this->deploymentConfigMock->method('get')->willReturn('');
@@ -83,8 +70,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
                         'backend_options' => [
                             'server' => '',
                             'port' => '',
-                            'database' => '',
-                            'password' => ''
+                            'database' => ''
                         ]
                     ]
                 ]
@@ -96,9 +82,6 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedConfigData, $configData->getData());
     }
 
-    /**
-     * testCreateConfigWithRedisConfig
-     */
     public function testCreateConfigWithRedisConfig()
     {
         $expectedConfigData = [
@@ -109,8 +92,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
                         'backend_options' => [
                             'server' => 'localhost',
                             'port' => '1234',
-                            'database' => '5',
-                            'password' => ''
+                            'database' => '5'
                         ]
                     ]
                 ]
@@ -128,9 +110,6 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedConfigData, $configData->getData());
     }
 
-    /**
-     * testValidateWithValidInput
-     */
     public function testValidateWithValidInput()
     {
         $options = [
@@ -139,7 +118,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         ];
         $this->validatorMock->expects($this->once())
             ->method('isValidConnection')
-            ->with(['host'=>'localhost', 'db'=>'', 'port'=>'', 'password'=>''])
+            ->with(['host'=>'localhost', 'db'=>'', 'port'=>''])
             ->willReturn(true);
 
         $errors = $this->configOptionsList->validate($options, $this->deploymentConfigMock);
@@ -147,9 +126,6 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($errors);
     }
 
-    /**
-     * testValidateWithInvalidInput
-     */
     public function testValidateWithInvalidInput()
     {
         $invalidCacheOption = 'clay-tablet';

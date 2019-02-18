@@ -123,7 +123,6 @@ class AddProductsToTheCartStep implements TestStepInterface
             }
         }
         $cart['data']['items'] = ['products' => $this->products];
-        sleep(10);
         return ['cart' => $this->fixtureFactory->createByCode('cart', $cart)];
     }
 }

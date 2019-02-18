@@ -5,7 +5,6 @@
  */
 namespace Magento\Setup\Test\Unit\Console\Command;
 
-use Magento\Framework\App\Console\MaintenanceModeEnabler;
 use Magento\Setup\Console\Command\BackupCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -74,8 +73,7 @@ class BackupCommandTest extends \PHPUnit\Framework\TestCase
         $command = new BackupCommand(
             $objectManagerProvider,
             $maintenanceMode,
-            $this->deploymentConfig,
-            new MaintenanceModeEnabler($maintenanceMode)
+            $this->deploymentConfig
         );
         $this->tester = new CommandTester($command);
     }

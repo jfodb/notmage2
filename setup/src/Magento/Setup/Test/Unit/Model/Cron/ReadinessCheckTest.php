@@ -201,9 +201,6 @@ class ReadinessCheckTest extends \PHPUnit\Framework\TestCase
 
 namespace Magento\Setup\Model\Cron;
 
-/**
- * @return int
- */
 function time()
 {
     return 100;

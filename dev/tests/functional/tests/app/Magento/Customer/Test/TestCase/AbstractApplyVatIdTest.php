@@ -76,7 +76,7 @@ abstract class AbstractApplyVatIdTest extends Injectable
     }
 
     /**
-     * Prepare VAT ID configuration.
+     * Prepare VAT ID confguration.
      *
      * @param ConfigData $vatConfig
      * @param string $customerGroup

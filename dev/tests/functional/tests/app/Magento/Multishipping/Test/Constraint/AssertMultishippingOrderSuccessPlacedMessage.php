@@ -21,7 +21,7 @@ class AssertMultishippingOrderSuccessPlacedMessage extends AbstractConstraint
     /**
      * Expected success message
      */
-    const SUCCESS_MESSAGE = 'Thank you for your purchase!';
+    const SUCCESS_MESSAGE = 'We received your order!';
 
     /**
      * Assert that success message is correct.
@@ -31,7 +31,7 @@ class AssertMultishippingOrderSuccessPlacedMessage extends AbstractConstraint
      */
     public function processAssert(MultishippingCheckoutSuccess $multishippingCheckoutSuccess)
     {
-        \PHPUnit\Framework\Assert::assertEquals(
+        \PHPUnit_Framework_Assert::assertEquals(
             self::SUCCESS_MESSAGE,
             $multishippingCheckoutSuccess->getTitleBlock()->getTitle(),
             'Wrong success message is displayed.'

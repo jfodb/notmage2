@@ -83,9 +83,6 @@ class ObjectManagerProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(ObjectManagerInterface::class, $this->model->get());
     }
 
-    /**
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
     private function getCommandListMock()
     {
         $commandMock = $this->getMockBuilder(Command::class)->disableOriginalConstructor()->getMock();

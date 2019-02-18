@@ -5,10 +5,7 @@
  */
 namespace Magento\UrlRewrite\Controller;
 
-use Magento\TestFramework\TestCase\AbstractController;
-use Magento\Framework\App\Response\Http as HttpResponse;
-
-class UrlRewriteTest extends AbstractController
+class UrlRewriteTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/UrlRewrite/_files/url_rewrite.php
@@ -24,27 +21,18 @@ class UrlRewriteTest extends AbstractController
      * @dataProvider requestDataProvider
      */
     public function testMatchUrlRewrite(
-        string $request,
-        string $redirect,
-        int $expectedCode = 301
+        $request,
+        $redirect,
+        $expectedCode = 301
     ) {
         $this->dispatch($request);
-        /** @var HttpResponse $response */
-        $response = $this->getResponse();
-        $code = $response->getHttpResponseCode();
-        $location = $response->getHeader('Location')->getFieldValue();
+        $code = $this->getResponse()->getHttpResponseCode();
+        $location = $this->getResponse()->getHeader('Location')->getFieldValue();
 
         $this->assertEquals($expectedCode, $code, 'Invalid response code');
-        $this->assertStringEndsWith(
-            $redirect,
-            $location,
-            'Invalid location header'
-        );
+        $this->assertStringEndsWith($redirect, $location, 'Invalid location header');
     }
 
-    /**
-     * @return array
-     */
     public function requestDataProvider()
     {
         return [
@@ -72,6 +60,12 @@ class UrlRewriteTest extends AbstractController
                 'request' => '/page-similar/',
                 'redirect' => '/page-b',
             ],
+            'Use Case #7: Rewrite during stores switching' => [
+                'request' => '/page-c-on-2nd-store'
+                    . '?___store=default&___from_store=fixture_second_store',
+                'redirect' => '/page-c-on-1st-store',
+                'expectedCode' => 302
+            ]
         ];
     }
 }

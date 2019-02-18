@@ -25,9 +25,6 @@ class ParagraphMixinTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedResult, $this->mixin->apply($subject));
     }
 
-    /**
-     * @return array
-     */
     public function getTestData()
     {
         return [

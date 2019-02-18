@@ -3,144 +3,80 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-declare(strict_types=1);
 
 namespace Magento\Sales\Model\Order;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Payment\Helper\Data;
-use Magento\Sales\Api\Data\CommentInterface;
-use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Api\Data\ShipmentInterface;
-use Magento\Sales\Api\Data\ShipmentItemInterface;
-use Magento\Sales\Api\Data\ShipmentTrackInterface;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Api\ShipmentRepositoryInterface;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\ObjectManager;
-
 /**
+ * Class ShipmentTest
  * @magentoAppIsolation enabled
- * @magentoDataFixture Magento/Sales/_files/order.php
+ * @package Magento\Sales\Model\Order
  */
 class ShipmentTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var ObjectManager
-     */
-    private $objectManager;
-
-    /**
-     * @var ShipmentRepositoryInterface
-     */
-    private $shipmentRepository;
-
-    /**
-     * @inheritdoc
-     */
-    protected function setUp()
-    {
-        $this->objectManager = Bootstrap::getObjectManager();
-        $this->shipmentRepository = $this->objectManager->get(ShipmentRepositoryInterface::class);
-    }
-
-    /**
      * Check the correctness and stability of set/get packages of shipment
      *
-     * @magentoAppArea frontend
+     * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testPackages()
     {
-        $order = $this->getOrder('100000001');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get(\Magento\Framework\App\State::class)->setAreaCode('frontend');
+        $order = $objectManager->create(\Magento\Sales\Model\Order::class);
+        $order->loadByIncrementId('100000001');
+        $order->setCustomerEmail('customer@example.com');
 
         $payment = $order->getPayment();
-        $paymentInfoBlock = $this->objectManager->get(Data::class)
-            ->getInfoBlock($payment);
+        $paymentInfoBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            \Magento\Payment\Helper\Data::class
+        )->getInfoBlock(
+            $payment
+        );
         $payment->setBlockMock($paymentInfoBlock);
 
-        $items = [];
-        foreach ($order->getItems() as $item) {
-            $items[$item->getId()] = $item->getQtyOrdered();
-        }
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-        $shipment = $this->objectManager->get(ShipmentFactory::class)->create($order, $items);
+        $shipment = $objectManager->create(\Magento\Sales\Model\Order\Shipment::class);
+        $shipment->setOrder($order);
 
         $packages = [['1'], ['2']];
 
+        $shipment->addItem($objectManager->create(\Magento\Sales\Model\Order\Shipment\Item::class));
         $shipment->setPackages($packages);
-        $saved = $this->shipmentRepository->save($shipment);
-        self::assertEquals($packages, $saved->getPackages());
+        $this->assertEquals($packages, $shipment->getPackages());
+        $shipment->save();
+        $shipment->save();
+        $shipment->load($shipment->getId());
+        $this->assertEquals($packages, $shipment->getPackages());
     }
 
     /**
      * Check that getTracksCollection() always return collection instance.
+     *
+     * @magentoDataFixture Magento/Sales/_files/order.php
      */
     public function testAddTrack()
     {
-        $order = $this->getOrder('100000001');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var ShipmentTrackInterface $track */
-        $track = $this->objectManager->create(ShipmentTrackInterface::class);
-        $track->setNumber('Test Number')
-            ->setTitle('Test Title')
-            ->setCarrierCode('Test CODE');
+        $order = $objectManager->create(\Magento\Sales\Model\Order::class);
+        $order->loadByIncrementId('100000001');
 
-        $items = [];
-        foreach ($order->getItems() as $item) {
-            $items[$item->getId()] = $item->getQtyOrdered();
-        }
         /** @var \Magento\Sales\Model\Order\Shipment $shipment */
-        $shipment = $this->objectManager->get(ShipmentFactory::class)->create($order, $items);
-        $shipment->addTrack($track);
+        $shipment = $objectManager->create(\Magento\Sales\Model\Order\Shipment::class);
+        $shipment->setOrder($order);
+
+        $shipment->addItem($objectManager->create(\Magento\Sales\Model\Order\Shipment\Item::class));
         $shipment->save();
-        $saved = $this->shipmentRepository->save($shipment);
-        self::assertNotEmpty($saved->getTracks());
-    }
 
-    /**
-     * Checks adding comment to the shipment entity.
-     */
-    public function testAddComment()
-    {
-        $message1 = 'Test Comment 1';
-        $message2 = 'Test Comment 2';
-        $order = $this->getOrder('100000001');
+        /** @var $track \Magento\Sales\Model\Order\Shipment\Track */
+        $track = $objectManager->get(\Magento\Sales\Model\Order\Shipment\Track::class);
+        $track->setNumber('Test Number')->setTitle('Test Title')->setCarrierCode('Test CODE');
 
-        /** @var ShipmentInterface $shipment */
-        $shipment = $this->objectManager->create(ShipmentInterface::class);
-        $shipment->setOrder($order)
-            ->addItem($this->objectManager->create(ShipmentItemInterface::class))
-            ->addComment($message1)
-            ->addComment($message2);
+        $this->assertEmpty($shipment->getTracks());
+        $shipment->addTrack($track)->save();
 
-        $saved = $this->shipmentRepository->save($shipment);
-
-        $comments = $saved->getComments();
-        $actual = array_map(function (CommentInterface $comment) {
-            return $comment->getComment();
-        }, $comments);
-        self::assertEquals(2, count($actual));
-        self::assertEquals([$message1, $message2], $actual);
-    }
-
-    /**
-     * Gets order entity by increment id.
-     *
-     * @param string $incrementId
-     * @return OrderInterface
-     */
-    private function getOrder(string $incrementId): OrderInterface
-    {
-        /** @var SearchCriteriaBuilder $searchCriteriaBuilder */
-        $searchCriteriaBuilder = $this->objectManager->get(SearchCriteriaBuilder::class);
-        $searchCriteria = $searchCriteriaBuilder->addFilter('increment_id', $incrementId)
-            ->create();
-
-        /** @var OrderRepositoryInterface $repository */
-        $repository = $this->objectManager->get(OrderRepositoryInterface::class);
-        $items = $repository->getList($searchCriteria)
-            ->getItems();
-
-        return array_pop($items);
+        //to empty cache
+        $shipment->setTracks(null);
+        $this->assertNotEmpty($shipment->getTracks());
     }
 }

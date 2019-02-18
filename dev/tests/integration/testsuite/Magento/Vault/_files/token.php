@@ -23,4 +23,4 @@ $token->setGatewayToken('gateway_token')
 
 /** @var PaymentTokenRepository $tokenRepository */
 $tokenRepository = $objectManager->create(PaymentTokenRepository::class);
-$token = $tokenRepository->save($token);
+$tokenRepository->save($token);

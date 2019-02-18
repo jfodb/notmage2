@@ -5,9 +5,6 @@
  */
 namespace Magento\CatalogImportExport\Model\Import\Product\Type;
 
-/**
- * Tests \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType.
- */
 class AbstractTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -16,30 +13,19 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
     protected $_model;
 
     /**
-     * @var \Magento\TestFramework\ObjectManager
-     */
-    private $objectManager;
-
-    /**
      * On product import abstract class methods level it doesn't matter what product type is using.
      * That is why current tests are using simple product entity type by default
      */
     protected function setUp()
     {
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $params = [$this->objectManager->create(\Magento\CatalogImportExport\Model\Import\Product::class), 'simple'];
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $params = [$objectManager->create(\Magento\CatalogImportExport\Model\Import\Product::class), 'simple'];
         $this->_model = $this->getMockForAbstractClass(
             \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType::class,
             [
-                $this->objectManager->get(
-                    \Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory::class
-                ),
-                $this->objectManager->get(
-                    \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory::class
-                ),
-                $this->objectManager->get(
-                    \Magento\Framework\App\ResourceConnection::class
-                ),
+                $objectManager->get(\Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory::class),
+                $objectManager->get(\Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory::class),
+                $objectManager->get(\Magento\Framework\App\ResourceConnection::class),
                 $params
             ]
         );
@@ -47,17 +33,9 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider prepareAttributesWithDefaultValueForSaveDataProvider
-     *
-     * @param array $rowData
-     * @param bool  $withDefaultValue
-     * @param array $expectedAttributes
-     * @return void
      */
-    public function testPrepareAttributesWithDefaultValueForSave(
-        array $rowData,
-        bool $withDefaultValue,
-        array $expectedAttributes
-    ): void {
+    public function testPrepareAttributesWithDefaultValueForSave($rowData, $withDefaultValue, $expectedAttributes)
+    {
         $actualAttributes = $this->_model->prepareAttributesWithDefaultValueForSave($rowData, $withDefaultValue);
         foreach ($expectedAttributes as $key => $value) {
             $this->assertArrayHasKey($key, $actualAttributes);
@@ -65,11 +43,7 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * @return array
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     */
-    public function prepareAttributesWithDefaultValueForSaveDataProvider(): array
+    public function prepareAttributesWithDefaultValueForSaveDataProvider()
     {
         return [
             'Updating existing product with attributes that do not have default values' => [
@@ -151,54 +125,14 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
                     'options_container' => 'container2',
                     'msrp_display_actual_price_type' => 2
                 ],
-            ],
-            'Adding new product with empty attribute value for attribute_type = select' => [
-                [
-                    'sku' => 'simple_product_5',
-                    'store_view_code' => '',
-                    '_attribute_set' => 'Default',
-                    'product_type' => 'simple',
-                    'categories' => '_root_category',
-                    'website_code' => '',
-                    'name' => 'Simple Product 5',
-                    'price' => 150,
-                    'status' => 1,
-                    'tax_class_id' => ' ',
-                    'weight' => 1,
-                    'description' => 'a',
-                    'short_description' => 'a',
-                    'visibility' => 'not visible individually',
-                    'addition_attribute' => '',
-                ],
-                true,
-                [
-                    'name' => 'Simple Product 5',
-                    'price' => 150,
-                    'status' => 1,
-                    'tax_class_id' => ' ',
-                    'weight' => 1,
-                    'description' => 'a',
-                    'short_description' => 'a',
-                    'visibility' => 1,
-                    'options_container' => 'container2',
-                    'msrp_display_actual_price_type' => 0,
-                ],
-            ],
+            ]
         ];
     }
 
     /**
-     * Test cleaning imported attribute data from empty values (note '0' is not empty).
-     *
-     * @magentoDbIsolation  enabled
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture  Magento/CatalogImportExport/Model/Import/_files/custom_attributes.php
-     * @dataProvider        clearEmptyDataDataProvider
-     * @param array $rowData
-     * @param array $expectedAttributes
-     * @return void
+     * @dataProvider clearEmptyDataDataProvider
      */
-    public function testClearEmptyData(array $rowData, array $expectedAttributes): void
+    public function testClearEmptyData($rowData, $expectedAttributes)
     {
         $actualAttributes = $this->_model->clearEmptyData($rowData);
         foreach ($expectedAttributes as $key => $value) {
@@ -207,14 +141,8 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    /**
-     * Data provider for testClearEmptyData.
-     *
-     * @return array
-     */
-    public function clearEmptyDataDataProvider(): array
+    public function clearEmptyDataDataProvider()
     {
-        // We use sku attribute to test static attributes.
         return [
             [
                 [
@@ -224,7 +152,6 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
                     'product_type' => 'simple',
                     'name' => 'Simple 01',
                     'price' => 10,
-                    'test_attribute' => '1',
                 ],
                 [
                     'sku' => 'simple1',
@@ -232,49 +159,26 @@ class AbstractTest extends \PHPUnit\Framework\TestCase
                     '_attribute_set' => 'Default',
                     'product_type' => 'simple',
                     'name' => 'Simple 01',
-                    'price' => 10,
-                    'test_attribute' => '1',
+                    'price' => 10
                 ],
             ],
             [
                 [
-                    'sku' => '0',
-                    'store_view_code' => '',
+                    'sku' => '',
+                    'store_view_code' => 'German',
                     '_attribute_set' => 'Default',
-                    'product_type' => 'simple',
-                    'name' => 'Simple 01',
-                    'price' => 10,
-                    'test_attribute' => '0',
+                    'product_type' => '',
+                    'name' => 'Simple 01 German',
+                    'price' => '',
                 ],
                 [
-                    'sku' => '0',
-                    'store_view_code' => '',
+                    'sku' => '',
+                    'store_view_code' => 'German',
                     '_attribute_set' => 'Default',
-                    'product_type' => 'simple',
-                    'name' => 'Simple 01',
-                    'price' => 10,
-                    'test_attribute' => '0',
-                ],
-            ],
-            [
-                [
-                    'sku' => null,
-                    'store_view_code' => '',
-                    '_attribute_set' => 'Default',
-                    'product_type' => 'simple',
-                    'name' => 'Simple 01',
-                    'price' => 10,
-                    'test_attribute' => null,
-                ],
-                [
-                    'sku' => null,
-                    'store_view_code' => '',
-                    '_attribute_set' => 'Default',
-                    'product_type' => 'simple',
-                    'name' => 'Simple 01',
-                    'price' => 10,
-                ],
-            ],
+                    'product_type' => '',
+                    'name' => 'Simple 01 German'
+                ]
+            ]
         ];
     }
 }

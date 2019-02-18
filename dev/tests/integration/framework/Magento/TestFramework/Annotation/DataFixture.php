@@ -9,8 +9,6 @@
  */
 namespace Magento\TestFramework\Annotation;
 
-use PHPUnit\Framework\Exception;
-
 class DataFixture
 {
     /**
@@ -173,13 +171,8 @@ class DataFixture
                 require $fixture;
             }
         } catch (\Exception $e) {
-            throw new Exception(
-                sprintf(
-                    "Error in fixture: %s.\n %s\n %s",
-                    json_encode($fixture),
-                    $e->getMessage(),
-                    $e->getTraceAsString()
-                ),
+            throw new \Exception(
+                sprintf("Error in fixture: %s.\n %s", json_encode($fixture), $e->getMessage()),
                 500,
                 $e
             );
@@ -210,8 +203,7 @@ class DataFixture
      */
     protected function _revertFixtures()
     {
-        $appliedFixtures = array_reverse($this->_appliedFixtures);
-        foreach ($appliedFixtures as $fixture) {
+        foreach ($this->_appliedFixtures as $fixture) {
             if (is_callable($fixture)) {
                 $fixture[1] .= 'Rollback';
                 if (is_callable($fixture)) {

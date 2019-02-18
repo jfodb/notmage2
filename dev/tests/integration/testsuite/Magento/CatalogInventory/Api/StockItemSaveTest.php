@@ -13,7 +13,6 @@ class StockItemSaveTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @magentoDbIsolation disabled
      */
     public function testSave()
     {

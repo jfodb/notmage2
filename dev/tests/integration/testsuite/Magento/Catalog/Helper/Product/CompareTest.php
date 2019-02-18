@@ -25,7 +25,6 @@ class CompareTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
-     * @magentoDbIsolation disabled
      */
     public function testGetListUrl()
     {
@@ -98,7 +97,6 @@ class CompareTest extends \PHPUnit\Framework\TestCase
      * getItemCount()
      * hasItems()
      * @magentoDataFixture Magento/Catalog/_files/multiple_products.php
-     * @magentoDbIsolation disabled
      */
     public function testCalculate()
     {

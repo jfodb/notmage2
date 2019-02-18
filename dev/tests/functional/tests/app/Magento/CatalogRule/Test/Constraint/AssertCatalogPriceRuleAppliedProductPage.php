@@ -11,8 +11,6 @@ use Magento\Customer\Test\Fixture\Customer;
 use Magento\Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep;
-use Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep;
 
 /**
  * Assert that Catalog Price Rule is applied on Product page.
@@ -40,11 +38,11 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     ) {
         if ($customer !== null) {
             $this->objectManager->create(
-                LoginCustomerOnFrontendStep::class,
+                \Magento\Customer\Test\TestStep\LoginCustomerOnFrontendStep::class,
                 ['customer' => $customer]
             )->run();
         } else {
-            $this->objectManager->create(LogoutCustomerOnFrontendStep::class)->run();
+            $this->objectManager->create(\Magento\Customer\Test\TestStep\LogoutCustomerOnFrontendStep::class)->run();
         }
 
         $cmsIndexPage->open();
@@ -54,18 +52,14 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
             $catalogCategoryViewPage->getListProductBlock()->getProductItem($product)->open();
 
             $catalogProductViewPage->getViewBlock()->waitLoader();
-            $productPriceBlock = $catalogProductViewPage->getViewBlock()->getPriceBlock($product);
+            $productPriceBlock = $catalogProductViewPage->getViewBlock()->getPriceBlock();
             $actualPrice['special'] = $productPriceBlock->getSpecialPrice();
             if ($productPrice[$key]['regular'] !== 'No') {
                 $actualPrice['regular'] = $productPriceBlock->getOldPrice();
                 $actualPrice['discount_amount'] = $actualPrice['regular'] - $actualPrice['special'];
-                $actualPrice['price_from'] = $productPriceBlock->getPriceFrom();
-                $actualPrice['price_to'] = $productPriceBlock->getPriceTo();
-                $actualPrice['old_price_from'] = $productPriceBlock->getOldPriceFrom();
-                $actualPrice['old_price_to'] = $productPriceBlock->getOldPriceTo();
             }
-            $diff = $this->verifyData($productPrice[$key], $actualPrice);
-            \PHPUnit\Framework\Assert::assertTrue(
+            $diff = $this->verifyData($actualPrice, $productPrice[$key]);
+            \PHPUnit_Framework_Assert::assertTrue(
                 empty($diff),
                 implode(' ', $diff)
             );
@@ -75,18 +69,18 @@ class AssertCatalogPriceRuleAppliedProductPage extends AbstractConstraint
     /**
      * Check if arrays have equal values.
      *
-     * @param array $fixtureData
      * @param array $formData
+     * @param array $fixtureData
      * @return array
      */
-    protected function verifyData(array $fixtureData, array $formData)
+    protected function verifyData(array $formData, array $fixtureData)
     {
         $errorMessage = [];
-        foreach ($fixtureData as $key => $value) {
-            if (isset($formData[$key]) && (float)$value !== (float)$formData[$key]) {
-                $errorMessage[] = "Value " . $key . " is not equal."
+        foreach ($formData as $key => $value) {
+            if ($value != $fixtureData[$key]) {
+                $errorMessage[] = "Data not equal."
                     . "\nExpected: " . $fixtureData[$key]
-                    . "\nActual: " . $value . "\n";
+                    . "\nActual: " . $value;
             }
         }
         return $errorMessage;

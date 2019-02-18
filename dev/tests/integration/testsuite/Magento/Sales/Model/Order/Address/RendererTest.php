@@ -36,9 +36,6 @@ class RendererTest extends \PHPUnit\Framework\TestCase
      */
     private $config;
 
-    /**
-     * Set up
-     */
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
@@ -49,7 +46,7 @@ class RendererTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @magentoDataFixture Magento/Sales/_files/order_fixture_store.php
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
     public function testFormat()

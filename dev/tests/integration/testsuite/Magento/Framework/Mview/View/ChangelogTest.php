@@ -126,14 +126,14 @@ class ChangelogTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, $this->model->getVersion());
         //the same that a table is empty
         $changelogName = $this->resource->getTableName($this->model->getName());
-        $testChangelogData = [
+        $testChengelogData = [
             ['version_id' => 1, 'entity_id' => 1],
             ['version_id' => 2, 'entity_id' => 1],
             ['version_id' => 3, 'entity_id' => 2],
             ['version_id' => 4, 'entity_id' => 3],
             ['version_id' => 5, 'entity_id' => 1],
         ];
-        foreach ($testChangelogData as $data) {
+        foreach ($testChengelogData as $data) {
             $this->connection->insert($changelogName, $data);
         }
         $this->assertEquals(5, $this->model->getVersion());

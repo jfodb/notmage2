@@ -17,7 +17,7 @@ class AssertCustomerRedirectToDashboard extends AbstractConstraint
     /**
      * Dashboard Message on account index page.
      */
-    const DASHBOARD_MESSAGE = 'My Account';
+    const DASHBOARD_MESSAGE = 'My Dashboard';
 
     /**
      * Constraint severeness
@@ -34,7 +34,7 @@ class AssertCustomerRedirectToDashboard extends AbstractConstraint
      */
     public function processAssert(CustomerAccountIndex $accountIndexPage)
     {
-        \PHPUnit\Framework\Assert::assertEquals(
+        \PHPUnit_Framework_Assert::assertEquals(
             self::DASHBOARD_MESSAGE,
             $accountIndexPage->getTitleBlock()->getTitle(),
             'Wrong dashboard title is displayed.'

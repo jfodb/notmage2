@@ -19,7 +19,7 @@ class AssertApiInfoTitleOnPage extends AbstractConstraint
      *
      * @var string
      */
-    protected $titleSelector = '.title';
+    protected $titleSelector = '.info_title';
 
     /**
      * Assert API info title on swagger page
@@ -29,7 +29,7 @@ class AssertApiInfoTitleOnPage extends AbstractConstraint
      */
     public function processAssert(SwaggerUiPage $swaggerPage)
     {
-        \PHPUnit\Framework\Assert::assertTrue(
+        \PHPUnit_Framework_Assert::assertTrue(
             $swaggerPage->isElementVisible($this->titleSelector),
             'REST API info title on swagger page.'
         );

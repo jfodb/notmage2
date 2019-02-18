@@ -12,11 +12,6 @@ $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(\Ma
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', true);
 
-/** @var \Magento\Catalog\Api\ProductRepositoryInterface $productRepository */
-$productRepository = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-    \Magento\Catalog\Api\ProductRepositoryInterface::class
-);
-
 /** @var $product \Magento\Catalog\Model\Product */
 $lastProductId = 0;
 foreach ($prices as $price) {
@@ -25,11 +20,10 @@ foreach ($prices as $price) {
         \Magento\Catalog\Model\Product::class
     );
     $productId = $lastProductId + 1;
-    try {
-        $product = $productRepository->get('simple-' . $productId, false, null, true);
-        $productRepository->delete($product);
-    } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-        //Product already removed
+    $product->load($productId);
+
+    if ($product->getId()) {
+        $product->delete();
     }
 
     $lastProductId++;

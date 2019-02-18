@@ -24,12 +24,13 @@ try {
     //already deleted
 }
 
-try {
-    /** @var $virtualProduct \Magento\Catalog\Model\Product */
-    $virtualProduct = $productRepository->get('virtual-product', false, null, true);
+/** @var $virtualProduct \Magento\Catalog\Model\Product */
+$virtualProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+    \Magento\Catalog\Model\Product::class
+);
+$virtualProduct->load(21);
+if ($virtualProduct->getId()) {
     $virtualProduct->delete();
-} catch (NoSuchEntityException $e) {
-    //already deleted
 }
 
 try {

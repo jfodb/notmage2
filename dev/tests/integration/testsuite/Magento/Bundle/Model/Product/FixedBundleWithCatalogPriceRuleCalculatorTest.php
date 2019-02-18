@@ -9,6 +9,7 @@ namespace Magento\Bundle\Model\Product;
 use \Magento\Bundle\Api\Data\LinkInterface;
 
 /**
+ * @magentoDataFixture Magento/Bundle/_files/PriceCalculator/fixed_bundle_product_with_catalog_rule.php
  * @magentoAppArea frontend
  */
 class FixedBundleWithCatalogPriceRuleCalculatorTest extends BundlePriceAbstract
@@ -18,8 +19,6 @@ class FixedBundleWithCatalogPriceRuleCalculatorTest extends BundlePriceAbstract
      * @param array $expectedResults
      * @dataProvider getTestCases
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Bundle/_files/PriceCalculator/fixed_bundle_product_with_catalog_rule.php
-     * @magentoDbIsolation disabled
      */
     public function testPriceForFixedBundle(array $strategyModifiers, array $expectedResults)
     {

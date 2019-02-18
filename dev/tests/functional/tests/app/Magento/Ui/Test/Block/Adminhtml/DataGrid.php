@@ -332,7 +332,7 @@ class DataGrid extends Grid
     }
 
     /**
-     * Perform action using the dropdown above the grid.
+     * Peform action using the dropdown above the grid.
      *
      * @param array|string $action [array -> key = value from first select; value => value from subselect]
      * @return void

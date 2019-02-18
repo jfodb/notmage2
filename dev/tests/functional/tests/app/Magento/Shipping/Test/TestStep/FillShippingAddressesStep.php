@@ -13,7 +13,7 @@ use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Magento\Shipping\Test\Constraint\AssertCityBasedShippingRateChanged;
 
 /**
- * Fill shipping addresses and assert rates reloading.
+ * Fill shipping addresses and assert rates relouding.
  */
 class FillShippingAddressesStep implements TestStepInterface
 {

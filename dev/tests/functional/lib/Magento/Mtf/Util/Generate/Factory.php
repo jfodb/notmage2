@@ -6,6 +6,9 @@
 
 namespace Magento\Mtf\Util\Generate;
 
+use Magento\Framework\App;
+use Magento\Framework\ObjectManagerInterface;
+
 /**
  * Factory classes generator.
  *
@@ -14,9 +17,23 @@ namespace Magento\Mtf\Util\Generate;
 class Factory extends AbstractGenerate
 {
     /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    protected $objectManager;
+
+    /**
+     * @constructor
+     * @param ObjectManagerInterface $objectManager
+     */
+    public function __construct(ObjectManagerInterface $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
+
+    /**
      * Generate Handlers.
      *
-     * @return bool
+     * @return \Magento\Framework\App\ResponseInterface
      */
     public function launch()
     {
@@ -26,7 +43,7 @@ class Factory extends AbstractGenerate
         $this->objectManager->create(\Magento\Mtf\Util\Generate\Factory\Page::class)->launch();
         $this->objectManager->create(\Magento\Mtf\Util\Generate\Factory\Repository::class)->launch();
 
-        return true;
+        return $this->objectManager->get(\Magento\Framework\App\ResponseInterface::class);
     }
 
     /**

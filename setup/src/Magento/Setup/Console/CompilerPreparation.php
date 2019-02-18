@@ -105,6 +105,7 @@ class CompilerPreparation
             'module:disable',
             'module:enable',
             'module:uninstall',
+            'deploy:mode:set'
         ];
     }
 

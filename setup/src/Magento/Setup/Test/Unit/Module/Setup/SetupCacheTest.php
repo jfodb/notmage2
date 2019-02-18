@@ -88,9 +88,6 @@ class SetupCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $this->object->has($table, $parentId, $rowId, $field));
     }
 
-    /**
-     * @return array
-     */
     public function hasDataProvider()
     {
         return [

@@ -21,9 +21,6 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected $coreSession;
 
-    /**
-     * Test setup
-     */
     protected function setUp()
     {
         parent::setUp();
@@ -34,9 +31,6 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->coreSession->setData('_form_key', 'formKey');
     }
 
-    /**
-     * test tearDown
-     */
     protected function tearDown()
     {
         $this->customerSession->setCustomerId(null);
@@ -64,7 +58,7 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
          * Check that success message
          */
         $this->assertSessionMessages(
-            $this->equalTo(['We have saved your subscription.']),
+            $this->equalTo(['We saved the subscription.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -74,7 +68,6 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testSaveActionRemoveSubscription()
     {
-
         $this->getRequest()
             ->setParam('form_key', 'formKey')
             ->setParam('is_subscribed', '0');
@@ -91,7 +84,7 @@ class ManageTest extends \Magento\TestFramework\TestCase\AbstractController
          * Check that success message
          */
         $this->assertSessionMessages(
-            $this->equalTo(['We have updated your subscription.']),
+            $this->equalTo(['We removed the subscription.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }

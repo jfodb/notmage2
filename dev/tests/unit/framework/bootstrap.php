@@ -11,6 +11,7 @@ if (!defined('TESTS_TEMP_DIR')) {
 }
 
 require_once __DIR__ . '/autoload.php';
+require BP . '/app/functions.php';
 
 setCustomErrorHandler();
 

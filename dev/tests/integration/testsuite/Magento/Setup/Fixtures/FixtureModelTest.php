@@ -118,7 +118,7 @@ class FixtureModelTest extends \Magento\TestFramework\Indexer\TestCase
 
         foreach ($this->entityAsserts as $entityAssert) {
             try {
-                $this->assertTrue($entityAssert->assert());
+                $entityAssert->assert();
             } catch (\AssertionError $assertionError) {
                 $this->assertTrue(false, $assertionError->getMessage());
             }

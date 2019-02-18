@@ -53,9 +53,9 @@ $invoices = [
     ],
 ];
 
-/** @var array $invoiceData */
+/** @var array $creditMemoData */
 foreach ($invoices as $invoiceData) {
-    /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+    /** @var \Magento\Sales\Model\Order\Creditmemo $creditMemo */
     $invoice = $objectManager->create(\Magento\Sales\Model\Order\Invoice::class);
     $invoice
         ->setData($invoiceData)

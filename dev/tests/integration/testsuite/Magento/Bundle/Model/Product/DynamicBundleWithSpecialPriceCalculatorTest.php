@@ -7,6 +7,7 @@
 namespace Magento\Bundle\Model\Product;
 
 /**
+ * @magentoDataFixture Magento/Bundle/_files/PriceCalculator/dynamic_bundle_product_with_special_price.php
  * @magentoAppArea frontend
  */
 class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
@@ -16,8 +17,6 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
      * @param array $expectedResults
      * @dataProvider getTestCases
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Bundle/_files/PriceCalculator/dynamic_bundle_product_with_special_price.php
-     * @magentoDbIsolation disabled
      */
     public function testPriceForDynamicBundle(array $strategyModifiers, array $expectedResults)
     {
@@ -28,11 +27,17 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
         $priceInfo = $bundleProduct->getPriceInfo();
         $priceCode = \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE;
 
+        $priceInfoFromIndexer = $this->productCollectionFactory->create()
+            ->addFieldToFilter('sku', 'bundle_product')
+            ->addPriceData()
+            ->load()
+            ->getFirstItem();
         $this->assertEquals(
             $expectedResults['minimalPrice'],
             $priceInfo->getPrice($priceCode)->getMinimalPrice()->getValue(),
             'Failed to check minimal price on product'
         );
+
         $this->assertEquals(
             $expectedResults['maximalPrice'],
             $priceInfo->getPrice($priceCode)->getMaximalPrice()->getValue(),
@@ -57,14 +62,9 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
             );
         }
 
-        $priceInfoFromIndexer = $this->productCollectionFactory->create()
-            ->addFieldToFilter('sku', 'bundle_product')
-            ->addPriceData()
-            ->load()
-            ->getFirstItem();
+        $this->assertEquals($expectedResults['indexerMinimalPrice'], $priceInfoFromIndexer->getMinimalPrice());
 
-        $this->assertEquals($expectedResults['minimalPrice'], $priceInfoFromIndexer->getMinimalPrice());
-        $this->assertEquals($expectedResults['maximalPrice'], $priceInfoFromIndexer->getMaxPrice());
+        $this->assertEquals($expectedResults['indexerMaximumPrice'], $priceInfoFromIndexer->getMaxPrice());
     }
 
     /**
@@ -82,6 +82,8 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
                     'minimalPrice' => 5,
                     // 0.5 * 10
                     'maximalPrice' => 5,
+                    'indexerMinimalPrice' => 10,
+                    'indexerMaximumPrice' => 10
                 ]
             ],
 
@@ -92,6 +94,8 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
                     'minimalPrice' => 10,
                     // 0.5 * 2 * 10
                     'maximalPrice' => 10,
+                    'indexerMinimalPrice' => 20,
+                    'indexerMaximumPrice' => 20
                 ]
 
             ],
@@ -106,6 +110,8 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
                     'minimalPrice' => 5,
                     // 0.5 * (1 * 10 + 3 * 30)
                     'maximalPrice' => 50,
+                    'indexerMinimalPrice' => 10,
+                    'indexerMaximumPrice' => 100
                 ]
             ],
 
@@ -119,6 +125,8 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
                     'minimalPrice' => 4.95,
                     // 0.5 * ( 1 * 9.9 +  2.5 * 4)
                     'maximalPrice' => 9.95,
+                    'indexerMinimalPrice' => 9.9,
+                    'indexerMaximumPrice' => 19.9
                 ]
             ],
 
@@ -133,6 +141,8 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
                     'regularMinimalPrice' => '10',
                     // 3 * 20 + (30 * 1 + 13 * 3)
                     'regularMaximalPrice' => '129',
+                    'indexerMinimalPrice' => 7.5,
+                    'indexerMaximumPrice' => 79
                 ]
             ],
 
@@ -143,6 +153,8 @@ class DynamicBundleWithSpecialPriceCalculatorTest extends BundlePriceAbstract
                     'minimalPrice' => 4.95,
                     // 0.5 * max(4 * 2.5, 1 * 9.9)
                     'maximalPrice' => 5,
+                    'indexerMinimalPrice' => 9.9,
+                    'indexerMaximumPrice' => 10
                 ]
             ],
         ];

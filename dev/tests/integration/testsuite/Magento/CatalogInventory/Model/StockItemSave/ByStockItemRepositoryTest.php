@@ -56,7 +56,6 @@ class ByStockItemRepositoryTest extends \PHPUnit\Framework\TestCase
      * Test stock item saving via stock item repository
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @magentoDbIsolation disabled
      */
     public function testSave()
     {

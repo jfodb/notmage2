@@ -43,7 +43,6 @@ class SpecialPriceIndexerTest extends \PHPUnit\Framework\TestCase
      *
      * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      * @magentoDataFixture Magento/Catalog/_files/enable_price_index_schedule.php
-     * @magentoDbIsolation disabled
      */
     public function testFullReindexIfChildHasSpecialPrice()
     {
@@ -80,7 +79,6 @@ class SpecialPriceIndexerTest extends \PHPUnit\Framework\TestCase
      * Use collection to check data in index
      *
      * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
-     * @magentoDbIsolation disabled
      */
     public function testOnSaveIndexationIfChildHasSpecialPrice()
     {

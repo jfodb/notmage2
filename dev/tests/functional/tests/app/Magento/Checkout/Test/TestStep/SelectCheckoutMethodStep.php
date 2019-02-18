@@ -91,10 +91,8 @@ class SelectCheckoutMethodStep implements TestStepInterface
      */
     public function run()
     {
-        sleep(20);
         $this->processLogin();
         $this->processRegister();
-        sleep(20);
     }
 
     /**

@@ -3,7 +3,6 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 namespace Magento\Config\Console\Command;
 
 use Magento\Config\Model\Config\Backend\Admin\Custom;
@@ -142,7 +141,7 @@ class ConfigSetCommandTest extends \PHPUnit\Framework\TestCase
      * @magentoDbIsolation enabled
      * @dataProvider runLockDataProvider
      */
-    public function testRunLockEnv($path, $value, $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
+    public function testRunLock($path, $value, $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT, $scopeCode = null)
     {
         $this->inputMock->expects($this->any())
             ->method('getArgument')
@@ -153,15 +152,15 @@ class ConfigSetCommandTest extends \PHPUnit\Framework\TestCase
         $this->inputMock->expects($this->any())
             ->method('getOption')
             ->willReturnMap([
-                [ConfigSetCommand::OPTION_LOCK_ENV, true],
+                [ConfigSetCommand::OPTION_LOCK, true],
                 [ConfigSetCommand::OPTION_SCOPE, $scope],
                 [ConfigSetCommand::OPTION_SCOPE_CODE, $scopeCode]
             ]);
         $this->outputMock->expects($this->exactly(2))
             ->method('writeln')
             ->withConsecutive(
-                ['<info>Value was saved in app/etc/env.php and locked.</info>'],
-                ['<info>Value was saved in app/etc/env.php and locked.</info>']
+                ['<info>Value was saved and locked.</info>'],
+                ['<info>Value was saved and locked.</info>']
             );
 
         /** @var ConfigSetCommand $command */
@@ -218,7 +217,7 @@ class ConfigSetCommandTest extends \PHPUnit\Framework\TestCase
             [ConfigSetCommand::OPTION_SCOPE, $scope],
             [ConfigSetCommand::OPTION_SCOPE_CODE, $scopeCode]
         ];
-        $optionsLock = array_merge($options, [[ConfigSetCommand::OPTION_LOCK_ENV, true]]);
+        $optionsLock = array_merge($options, [[ConfigSetCommand::OPTION_LOCK, true]]);
 
         /** @var ConfigPathResolver $resolver */
         $resolver = $this->objectManager->get(ConfigPathResolver::class);
@@ -234,8 +233,8 @@ class ConfigSetCommandTest extends \PHPUnit\Framework\TestCase
         );
         $this->assertSame(null, $this->arrayManager->get($configPath, $this->loadConfig()));
 
-        $this->runCommand($arguments, $optionsLock, '<info>Value was saved in app/etc/env.php and locked.</info>');
-        $this->runCommand($arguments, $optionsLock, '<info>Value was saved in app/etc/env.php and locked.</info>');
+        $this->runCommand($arguments, $optionsLock, '<info>Value was saved and locked.</info>');
+        $this->runCommand($arguments, $optionsLock, '<info>Value was saved and locked.</info>');
 
         $this->assertSame($value, $this->arrayManager->get($configPath, $this->loadConfig()));
     }
@@ -322,45 +321,45 @@ class ConfigSetCommandTest extends \PHPUnit\Framework\TestCase
             [
                 'test/test/test',
                 'value',
-                'The "test/test/test" path doesn\'t exist. Verify and try again.'
+                'The "test/test/test" path does not exist'
             ],
             //wrong scope or scope code
             [
                 Custom::XML_PATH_GENERAL_LOCALE_CODE,
                 'en_UK',
-                'A scope is missing. Enter a scope and try again.',
+                'Enter a scope before proceeding.',
                 ''
             ],
             [
                 Custom::XML_PATH_GENERAL_LOCALE_CODE,
                 'en_UK',
-                'A scope code is missing. Enter a code and try again.',
+                'Enter a scope code before proceeding.',
                 ScopeInterface::SCOPE_WEBSITE
             ],
             [
                 Custom::XML_PATH_GENERAL_LOCALE_CODE,
                 'en_UK',
-                'A scope code is missing. Enter a code and try again.',
+                'Enter a scope code before proceeding.',
                 ScopeInterface::SCOPE_STORE
             ],
             [
                 Custom::XML_PATH_GENERAL_LOCALE_CODE,
                 'en_UK',
-                'The "wrong_scope" value doesn\'t exist. Enter another value and try again.',
+                'The "wrong_scope" value doesn\'t exist. Enter another value.',
                 'wrong_scope',
                 'base'
             ],
             [
                 Custom::XML_PATH_GENERAL_LOCALE_CODE,
                 'en_UK',
-                'The "wrong_website_code" value doesn\'t exist. Enter another value and try again.',
+                'The "wrong_website_code" value doesn\'t exist. Enter another value.',
                 ScopeInterface::SCOPE_WEBSITE,
                 'wrong_website_code'
             ],
             [
                 Custom::XML_PATH_GENERAL_LOCALE_CODE,
                 'en_UK',
-                'The "wrong_store_code" value doesn\'t exist. Enter another value and try again.',
+                'The "wrong_store_code" value doesn\'t exist. Enter another value.',
                 ScopeInterface::SCOPE_STORE,
                 'wrong_store_code'
             ],

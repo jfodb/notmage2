@@ -9,7 +9,9 @@ namespace Magento\Catalog\Model\Layer\Filter\DataProvider;
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\DataProvider\Price.
  *
+ * @magentoDataFixture Magento/Catalog/_files/categories.php
  * @magentoAppIsolation enabled
+ * @magentoDbIsolation enabled
  */
 class PriceTest extends \PHPUnit\Framework\TestCase
 {
@@ -32,9 +34,6 @@ class PriceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/categories.php
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation disabled
      * @magentoConfigFixture current_store catalog/layered_navigation/price_range_calculation auto
      */
     public function testGetPriceRangeAuto()
@@ -43,9 +42,6 @@ class PriceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/categories.php
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation disabled
      * @magentoConfigFixture current_store catalog/layered_navigation/price_range_calculation manual
      * @magentoConfigFixture current_store catalog/layered_navigation/price_range_step 1.5
      */
@@ -55,11 +51,6 @@ class PriceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1.5, $this->_model->getPriceRange());
     }
 
-    /**
-     * @magentoDataFixture Magento/Catalog/_files/categories.php
-     * @magentoAppIsolation enabled
-     * @magentoDbIsolation disabled
-     */
     public function testGetMaxPriceInt()
     {
         $this->assertEquals(45.00, $this->_model->getMaxPrice());
@@ -79,8 +70,6 @@ class PriceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/_files/categories.php
-     * @magentoDbIsolation disabled
      * @dataProvider getRangeItemCountsDataProvider
      */
     public function testGetRangeItemCounts($inputRange, $expectedItemCounts)

@@ -58,7 +58,6 @@ class ByStockItemTest extends \PHPUnit\Framework\TestCase
      * Test saving of stock item by product data via product model (deprecated)
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @magentoDbIsolation disabled
      */
     public function testSave()
     {
@@ -76,7 +75,6 @@ class ByStockItemTest extends \PHPUnit\Framework\TestCase
      * product model (deprecated)
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @magentoDbIsolation disabled
      */
     public function testSaveManuallyCreatedStockItem()
     {
@@ -97,7 +95,6 @@ class ByStockItemTest extends \PHPUnit\Framework\TestCase
      * product repository (deprecated)
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
-     * @magentoDbIsolation disabled
      */
     public function testSaveManuallyUpdatedStockItem()
     {

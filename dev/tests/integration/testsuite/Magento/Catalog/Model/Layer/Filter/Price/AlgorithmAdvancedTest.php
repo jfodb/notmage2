@@ -10,14 +10,15 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Test class for \Magento\Catalog\Model\Layer\Filter\Price.
+ *
+ * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
  */
 class AlgorithmAdvancedTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture default/catalog/search/engine mysql
+     * @magentoConfigFixture current_store catalog/search/engine mysql
      * @covers \Magento\Framework\Search\Dynamic\Algorithm::calculateSeparators
      */
     public function testWithoutLimits()
@@ -87,10 +88,9 @@ class AlgorithmAdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Catalog/Model/Layer/Filter/Price/_files/products_advanced.php
-     * @magentoDbIsolation disabled
+     * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture default/catalog/search/engine mysql
+     * @magentoConfigFixture current_store catalog/search/engine mysql
      * @covers \Magento\Framework\Search\Dynamic\Algorithm::calculateSeparators
      */
     public function testWithLimits()
