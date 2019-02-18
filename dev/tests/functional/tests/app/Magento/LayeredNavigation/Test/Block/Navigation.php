@@ -36,15 +36,6 @@ class Navigation extends Block
      */
     protected $optionTitle = './/div[@class="filter-options-title" and contains(text(),"%s")]';
 
-    // @codingStandardsIgnoreStart
-    /**
-     * Locator value for corresponding filtered attribute option content.
-     *
-     * @var string
-     */
-    protected $optionContent = './/div[@class="filter-options-title" and contains(text(),"")]/following-sibling::div//a[contains(text(), \'SIZE\')]';
-    // @codingStandardsIgnoreEnd
-
     /**
      * Locator value for correspondent "Filter" link.
      *
@@ -102,23 +93,6 @@ class Navigation extends Block
     }
 
     /**
-     * Get all available filters.
-     *
-     * @return array
-     */
-    public function getFilterContents()
-    {
-        $this->waitForElementVisible($this->loadedNarrowByList);
-        $optionContents = $this->_rootElement->find($this->optionContent, Locator::SELECTOR_XPATH);
-        $data =[];
-        foreach ($optionContents as $optionContent) {
-            $data[] = trim(strtoupper($optionContent->getText()));
-        }
-
-        return $data;
-    }
-
-    /**
      * Apply Layered Navigation filter.
      *
      * @param string $filter
@@ -128,13 +102,8 @@ class Navigation extends Block
      */
     public function applyFilter($filter, $linkPattern)
     {
-        $expandFilterButton = sprintf($this->optionTitle, $filter);
         $links = sprintf($this->filterLink, $filter);
-
-        $this->waitForElementVisible($this->loadedNarrowByList);
-        if (!$this->_rootElement->find($links, Locator::SELECTOR_XPATH)->isVisible()) {
-            $this->_rootElement->find($expandFilterButton, Locator::SELECTOR_XPATH)->click();
-        }
+        $this->openFilterContainer($filter, $links);
 
         $links = $this->_rootElement->getElements($links, Locator::SELECTOR_XPATH);
         foreach ($links as $link) {
@@ -159,5 +128,48 @@ class Navigation extends Block
             sprintf($this->categoryName, $category->getName()) . sprintf($this->productQty, $qty),
             Locator::SELECTOR_XPATH
         )->isVisible();
+    }
+
+    /**
+     * Get Layered Navigation filter options.
+     *
+     * @param string $attributeLabel
+     * @return array
+     */
+    public function getFilterContents($attributeLabel)
+    {
+        $data = [];
+
+        if (trim($attributeLabel) === '') {
+            return $data;
+        }
+
+        $link = sprintf($this->filterLink, $attributeLabel);
+        $this->openFilterContainer($attributeLabel, $link);
+
+        $optionContents = $this->_rootElement->getElements($link, Locator::SELECTOR_XPATH);
+
+        foreach ($optionContents as $optionContent) {
+            $data[] = trim(strtoupper($optionContent->getText()));
+        }
+
+        return $data;
+    }
+
+    /**
+     * Open filter container.
+     *
+     * @param string $filter
+     * @param string $link
+     * @return void
+     */
+    private function openFilterContainer($filter, $link)
+    {
+        $expandFilterButton = sprintf($this->optionTitle, $filter);
+
+        $this->waitForElementVisible($this->loadedNarrowByList);
+        if (!$this->_rootElement->find($link, Locator::SELECTOR_XPATH)->isVisible()) {
+            $this->_rootElement->find($expandFilterButton, Locator::SELECTOR_XPATH)->click();
+        }
     }
 }
