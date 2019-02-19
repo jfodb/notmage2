@@ -7,8 +7,6 @@ $thankYouPage = $block->getCustomPage();
 
 <div class="checkout-success">
 
-
-
     <?php if(!empty($thankYouPage)): //If exists, display custom Thank You page ?>
     <div class="customthankyoupage">
 
@@ -23,19 +21,8 @@ $thankYouPage = $block->getCustomPage();
             ->toHtml();
         ?>
 
-
-
-
-
-
         <?php  else: ?>
         <div class="thankyoupage">
-
-
-
-
-
-
 
             <h1 class="ty">
                 <?php if ( $is_recurring ): ?>
@@ -51,7 +38,6 @@ $thankYouPage = $block->getCustomPage();
                 <?php  else: ?>
                     <?php echo __('%1, thank you for your support!', sprintf('%s', $_order->getCustomerFirstName())) ?>
                 <?php endif; // is guest ?>
-
 
             </h1>
             <?php if ($block->getOrderId()):?>
@@ -70,16 +56,11 @@ $thankYouPage = $block->getCustomPage();
                         ?></span>.</p>
                 <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('thankyousocial')->toHtml();?>
 
-
-
             <?php endif; ?>
 
             <?php endif; ?>
 
             <?php endif; ?>
-
-
-
 
             <?php
             if(!empty($block->hasGaData())){
