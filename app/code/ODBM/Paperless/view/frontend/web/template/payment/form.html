@@ -17,17 +17,25 @@
 
         </div>
         <form class="form" data-bind="attr: {'id': getCode() + '-form'}">
-            <!-- ko template: 'Magento_Payment/payment/cc-form' --><!-- /ko -->
-		</form>
+                <!-- ko template: 'Magento_Payment/payment/cc-form' --><!-- /ko -->
+        </form>
 
         <div class="checkout-agreements-block">
             <!-- ko foreach: $parent.getRegion('before-place-order') -->
             <!-- ko template: getTemplate() --><!-- /ko -->
             <!--/ko-->
         </div>
+
+        
+        <div class="currencyDisclaimer"
+        data-bind="html: getcurrencyDisclaimerHtml(),
+        visible: isPlaceOrderActionAllowed()">
+        </div>
+
         <div class="actions-toolbar">
             <div class="primary">
                 <button class="action primary checkout"
+                        id="submitDonationButton"
                         type="submit"
                         data-bind="
                         click: placeOrder,
@@ -40,5 +48,11 @@
                 </button>
             </div>
         </div>
+
+        <div class="termsDisclaimer"
+        data-bind="html: getTermsAndConditionsHtml(),
+        visible: isPlaceOrderActionAllowed()">
+    </div>
+
     </div>
 </div>

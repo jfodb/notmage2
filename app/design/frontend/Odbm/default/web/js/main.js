@@ -1,85 +1,5 @@
 require(['jquery', 'jquery/ui'], function($) {
-	 	$('.overlay').appendTo('body');
-
-	 		$('.nav-toggle').click( function(e) {
-				$('html').removeClass('nav-before-open nav-open');
-				$('.page-header .panel.wrapper, .overlay').toggleClass('active');
-
-				if ( $('.page-header .panel.wrapper').hasClass('active') ) {
-					$('.overlay').click(closeMenu);
-				} else {
-					closeMenu();
-				}
-
-				e.preventDefault();
-			});
-
-	 	$('.has-submenu a').click( function(e) {
-	 		var $submenuLi = $(this).closest('.has-submenu');
-	 		$submenuLi.find( '.submenu' ).toggleClass('active');
-
-	 		$submenuLi.toggleClass('active');
-	 		$submenuLi.find( '.submenu-arrow' ).toggleClass('icon-chevron_left icon-chevron_right')
-
-	 		if ( $submenuLi.find( '.submenu' ).hasClass('active') ) {
-	 			$('.overlay').addClass('has-submenu');
-	 		} else {
-	 			$('.overlay').removeClass('has-submenu');
-	 		}
-
-	 		e.preventDefault();
-	 	});
-
-		// Hide Header on on scroll down
-		var didScroll;
-		var lastScrollTop = 0;
-		var delta = 5;
-		var navbarHeight = $('header').outerHeight();
-
-		$(window).scroll(function(event){
-		    didScroll = true;
-		});
-
-		setInterval(function() {
-		    if (didScroll) {
-		        hasScrolled();
-		        didScroll = false;
-		    }
-		}, 250);
-
-		function hasScrolled() {
-		    var scrollTop = $(this).scrollTop();
-
-		    // Make sure they scroll more than delta
-		    if( Math.abs(lastScrollTop - scrollTop) <= delta )
-		     	return;
-
-		    if ( scrollTop > lastScrollTop && scrollTop > navbarHeight ){
-		        // Scroll Down
-		        $('header').removeClass('nav-down').addClass('nav-up');
-		    } else {
-		        // Scroll Up
-		        if( scrollTop + $(window).height() < $(document).height() ) {
-		           $('header').removeClass('nav-up').addClass('nav-down');
-		        }
-		    }
-
-		    lastScrollTop = scrollTop;
-		}
-
-		//If donation is one time only, then show payment methods immediately
-		if($('.oneTimeOnly').length){
-			$('.box-tocart').show();
-			$('.dntpmtoptbx').removeClass('hidden');
-		}
-
-		function closeMenu() {
-			$('.page-header .panel.wrapper, .overlay, .submenu, .has-submenu').removeClass('active');
-			$('.overlay').removeClass('has-submenu');
-			$('.submenu-arrow').removeClass('icon-chevron_right');
-			$('.submenu-arrow').addClass('icon-chevron_left');
-		}
-
+	$(document).ready( function() {
 		$('.radio--button').click(function(){
 			//cleanup
 			amount = $('#amount').val();
@@ -122,7 +42,87 @@ require(['jquery', 'jquery/ui'], function($) {
 			$(this).siblings('.radio--button').removeClass('checked');
 		});
 
+		$('.overlay').appendTo('body');
 
+		$('.nav-toggle').click( function(e) {
+			$('html').removeClass('nav-before-open nav-open');
+			$('.page-header .panel.wrapper, .overlay').toggleClass('active');
+
+			if ( $('.page-header .panel.wrapper').hasClass('active') ) {
+				$('.overlay').click(closeMenu);
+			} else {
+				closeMenu();
+			}
+
+			e.preventDefault();
+		});
+
+		$('.has-submenu a').click( function(e) {
+			var $submenuLi = $(this).closest('.has-submenu');
+			$submenuLi.find( '.submenu' ).toggleClass('active');
+
+			$submenuLi.toggleClass('active');
+			$submenuLi.find( '.submenu-arrow' ).toggleClass('icon-chevron_left icon-chevron_right')
+
+			if ( $submenuLi.find( '.submenu' ).hasClass('active') ) {
+				$('.overlay').addClass('has-submenu');
+			} else {
+				$('.overlay').removeClass('has-submenu');
+			}
+
+			e.preventDefault();
+		});
+
+		// Hide Header on on scroll down
+		var didScroll;
+		var lastScrollTop = 0;
+		var delta = 5;
+		var navbarHeight = $('header').outerHeight();
+
+		function hasScrolled() {
+		    var scrollTop = $(this).scrollTop();
+
+		    // Make sure they scroll more than delta
+		    if( Math.abs(lastScrollTop - scrollTop) <= delta )
+		     	return;
+
+		    if ( scrollTop > lastScrollTop && scrollTop > navbarHeight ){
+		        // Scroll Down
+		        $('header').removeClass('nav-down').addClass('nav-up');
+		    } else {
+		        // Scroll Up
+		        if( scrollTop + $(window).height() < $(document).height() ) {
+		           $('header').removeClass('nav-up').addClass('nav-down');
+		        }
+		    }
+
+		    lastScrollTop = scrollTop;
+		}
+
+		$(window).scroll(function(event){
+			didScroll = true;
+		});
+
+		setInterval(function() {
+			if (didScroll) {
+				hasScrolled();
+				didScroll = false;
+			}
+		}, 250);
+
+		//If donation is one time only, then show payment methods immediately
+		if($('.oneTimeOnly').length){
+			$('.box-tocart').show();
+			$('.dntpmtoptbx').removeClass('hidden');
+		}
+	});
+
+		function closeMenu() {
+			$('.page-header .panel.wrapper, .overlay, .submenu, .has-submenu').removeClass('active');
+			$('.overlay').removeClass('has-submenu');
+			$('.submenu-arrow').removeClass('icon-chevron_right');
+			$('.submenu-arrow').addClass('icon-chevron_left');
+		}
 
 	});
 
@@ -168,15 +168,20 @@ function filter_money_amount(amount) {
     num = num.replace(/[jkl;>\/]/, '.');
     matches = /([0-9,\.]+)/.exec(num);
 
-    newnum = matches[1];
-    if(/,[0-9][0-9]$/.test(newnum)) {
-    	len = newnum.length;
-        newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
-    }
-    if(newnum.indexOf(',') > 0)
-        newnum = newnum.replace(',', '');
-
-    return newnum;
+	//check for null
+	if(matches) {
+		newnum = matches[1];
+		if(/,[0-9][0-9]$/.test(newnum)) {
+			len = newnum.length;
+			newnum = newnum.substr(0, len-3).replace('.', '') + '.' + newnum.substr(len-2, 2);
+		}
+		if(newnum.indexOf(',') > 0)
+			newnum = newnum.replace(',', '');
+		
+			return newnum;
+		
+		}
+	return amount;
 }
 
 //prevent fatal errors caused by adblocking faults

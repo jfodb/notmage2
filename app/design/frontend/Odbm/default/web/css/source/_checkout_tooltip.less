@@ -1,0 +1,53 @@
+    //resolves close tooltip issue on iOS
+    @supports (-webkit-overflow-scrolling: touch) {
+    body{ 
+         cursor:pointer; 
+         // Prevent any flashes
+        -webkit-tap-highlight-color: transparent;
+        }
+     }
+
+    .checkout-tooltip-left {
+        .lib-tooltip(left);
+        position: absolute !important;
+        cursor: help;
+        right: 0;
+        top: 3px;
+    }
+    
+    .checkout-tooltip-left .tooltip-content:after {
+        border: 10px solid transparent;
+        border-left-color: #f4f4f4;
+    }
+
+    .checkout-tooltip-left .tooltip-content:before {
+    margin-top: -10px;
+    top:18px;
+    border-width: 12px;
+    }
+
+    .checkout-tooltip-left .tooltip-toggle:before {
+    line-height: inherit;
+    color: #555;
+    content: '\e623';
+    font-family: 'icons-blank-theme';
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: normal;
+    font-size: 24px;
+    text-align: center;
+    overflow: hidden;
+    z-index:2;
+    }  
+    
+    .checkout-tooltip-left .tooltip-content {
+        background:#f4f4f4;
+        border: 1px solid #999999;
+        right: 28px;
+        top: -4px;
+    }
+
+    .checkout-tooltip-left .tooltip-toggle {
+        display: inline-block;
+        text-decoration: none;
+    }
