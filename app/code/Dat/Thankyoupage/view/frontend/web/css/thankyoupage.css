@@ -1,13 +1,8 @@
 @charset "UTF-8";
 /* CSS Document */
+#maincontent.page-main {background-color: #555555;}
+.thankyoupage {background-color: #ffffff; padding: 0px; max-width: 640px; margin-left: auto; margin-right: auto; width: 100%; box-sizing: border-box; margin-top: 40px;}
 .thankyoupage p, .thankyoupage .giftdetails {color: #808080; font-size: 1.4em;}
-.thankyoupage .giftdetailslabel {color: #808080; font-size: 1.6em; text-align: center; font-weight: bold; margin-top: 30px;}
-.thankyoupage .giftdetails .lc {text-align: right; padding-right: 10px; font-style: italic;}
-.thankyoupage .giftdetails .rc {font-weight: bold;}
-.thankyoupage h1.ty {font-family: 'Times New Roman', Times, serif; margin-bottom: 20px;}
-.thankyoupage .rickphoto {border-radius: 50%; max-width: 100%; height: auto; vertical-align: middle;}
-.thankyoupage .photocolumn {box-sizing: border-box; flex-grow: 1; padding: 0.8em 1.2em; overflow: hidden; list-style: none;  width: 30%;}
-.thankyoupage .sigcolumn {box-sizing: border-box; flex-grow: 1; padding: 0.8em 1.2em; overflow: hidden; list-style: none;  width: 70%;}
-.thankyoupage .ricksig {max-width: 100%; width: 50%;}
-.thankyoupage .highlight {color: #60b3e4;}
-.thankyoupage .columnholder {display: flex;}
+.thankyoupage .giftdetailslabel {color: #333333; font-size: 1.4em; text-align: center; margin: 30px 20px;}
+.thankyoupage h1.ty {background-color: #60b3e5; text-align: center; font-size: 24px; color: #ffffff; padding: 25px 10px;}
+.thankyoupage .highlight {color: #60b3e4; font-weight: bold;}

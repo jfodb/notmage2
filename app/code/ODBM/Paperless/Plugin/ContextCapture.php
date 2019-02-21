@@ -12,15 +12,30 @@ namespace ODBM\Paperless\Plugin;
 class ContextCapture
 {
 	protected $encryptor;
+	protected $logger;
 
 	public function __construct(
-		\Magento\Framework\Encryption\EncryptorInterface $encryptor
-	) {
+		\Magento\Framework\Encryption\EncryptorInterface $encryptor,
+		\Psr\Log\LoggerInterface $logger
+	)
+	{
 		$this->encryptor = $encryptor;
-
+		$this->logger = $logger;
 	}
 
+	/*public function beforeOrder($adapter, $payment, $amount){
+		$this->logger->alert("called Order on URL: ".$_SERVER['REQUEST_URI']);
+		return [$payment, $amount];
+	}
+
+	public function beforeAuthorize($adapter, $payment, $amount){
+		$this->logger->alert("called Authorize on URL: ".$_SERVER['REQUEST_URI']);
+		return [$payment, $amount];
+	}*/
+
 	public function beforeCapture( $adapter,  $payment, $amount) {
+		$this->logger->alert("called Capture on URL: ".$_SERVER['REQUEST_URI']);
+
 		if(!isset($GLOBALS['_FLAGS'])){
 			$GLOBALS['_FLAGS'] = array('payment'=>array());
 		}

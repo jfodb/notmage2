@@ -26,6 +26,10 @@ define(
                 return 'odbm_paperless';
             },
 
+            getDisposableTerminalKey: function() {
+                return window.checkoutConfig.payment.odbm_paperless.disposableTerminalKey;
+            },
+
             getCcAvailableTypes: function() {
                 return window.checkoutConfig.payment.odbm_paperless.availableTypes;
             },

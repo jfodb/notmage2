@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
--->
+-->           
 
 <fieldset data-bind="fadeVisible: isVisible(), attr: {class: 'fieldset payment items ccard ' + getCode(), id: 'payment_form_' + getCode()}">
   <h2 class="paymentdetails"><!-- ko i18n: 'Payment Details'--><!-- /ko --></h2>
@@ -13,124 +13,400 @@
     <span><!-- ko i18n: 'Credit Card Information'--><!-- /ko --></span>
   </legend><br />
   <!-- /ko -->
-  <div class="field number required">
-    <div class="field type">
-      <div class="control">
-        <ul class="credit-card-types">
-          <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
-          <li class="item" data-bind="css: {
-          _active: $parent.selectedCardType() == item.value,
-          _inactive: $parent.selectedCardType() != null && $parent.selectedCardType() != item.value
-        } ">
-        <!--ko if: $parent.getIcons(item.value) -->
-        <img data-bind="attr: {
-        'src': $parent.getIcons(item.value).url,
-        'alt': item.type,
-        'width': $parent.getIcons(item.value).width,
-        'height': $parent.getIcons(item.value).height
-      }">
-      <!--/ko-->
-    </li>
-    <!--/ko-->
-  </ul>
-  <input type="hidden"
-  name="payment[cc_type]"
-  class="input-text"
-  value=""
-  data-bind="attr: {id: getCode() + '_cc_type', 'data-container': getCode() + '-cc-type'},
-  value: creditCardType
-  ">
-</div>
-</div>
+    
+  <!-- ko if: isiFrame() -->
+  <script src="https://injector.paperlesstrans.com/v1.1.min.js" type="text/javascript"></script>
+  <div id="card-form" data-bind="afterRender:afterFormRenders"></div>
 
-<label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
-  <span><!-- ko i18n: 'Credit Card Number'--><!-- /ko --></span>
-</label>
-<div class="control">
-  <input type="number" name="payment[cc_number]" class="input-text ccno" value=""
-  data-bind="attr: {
-  autocomplete: off,
-  id: getCode() + '_cc_number',
-  placeholder: $t('Card Number'),
-  title: $t('Credit Card Number'),
-  'data-container': getCode() + '-cc-number',
-  'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
-  enable: isActive($parents),
-  value: creditCardNumber,
-  valueUpdate: 'keyup' "
-  />
-</div>
-</div>
-<div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
-  <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
-    <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
-  </label>
-  <div class="control">
-    <div class="fields group group-2">
-      <div class="field no-label month">
-        <div class="control">
-          <select  name="payment[cc_exp_month]"
-          class="select select-month"
-          data-bind="attr: {id: getCode() + '_expiration', 'data-container': getCode() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCode() + '_expiration_yr'})},
-          enable: isActive($parents),
-          options: getCcMonthsValues(),
-          optionsValue: 'value',
-          optionsText: 'month',
-          optionsCaption: $t('Month'),
-          value: creditCardExpMonth">
-        </select>
+  <ul class="errors">
+      <li id="cardNumber_required">
+          Card Number Required
+      </li>
+      <li id="cardNumber_invalid">
+          Invalid Card Number
+      </li>
+      <li id="cvv_required">
+          CVV Required
+      </li>
+      <li id="cvv_invalid">
+          Invalid CVV
+      </li>
+
+      <li id="expirationMonth_required">
+        Expiration Month Required
+        </li>
+        <li id="expirationMonth_invalid">
+        Expiration Month Invalid
+        </li>
+        <li id="expirationYear_required">
+        Expiration Year Required
+        </li>
+        <li id="expirationYear_invalid">
+        Expiration Year Invalid
+        </li>  
+  </ul>
+
+  <style id="card-styles">
+
+    #card-form {
+        width:100%;
+        padding-top:10px;
+    }
+    #ptc_payment_info{
+            height:100%;
+        }
+
+
+    #cardNumber_field.valid, #cvv_field.valid, #expirationMonth_field.valid, #expirationYear_field.valid  {
+       border-left: solid 5px limegreen !important;
+   }
+
+   input.invalid.touched {
+       background: pink;
+   }
+
+   #cardNumber_field, #cvv_field, #expirationMonth_field, #expirationYear_field  {
+    padding: 0 8px;
+   }
+
+   #cardNumber_field:focus, #cvv_field:focus, #expirationMonth_field:focus, #expirationYear_field:focus  {
+    box-shadow: 0 0 3px 1px #68a8e0;
+    outline-color: transparent;
+    outline-style: none;
+    outline-offset: 0px;
+   }
+
+   #cardNumber_field, #cvv_field {
+    border: 1px solid rgb(166, 166, 166);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.25);
+    }
+
+   #expirationMonth_field, #expirationYear_field {
+    border: 1px solid rgb(166, 166, 166);
+    box-shadow: 0 0 5px 0 rgba(0,0,0,0.25);
+    background-color: white;
+    background-image: url(https://donations.ourdailybread.org/static/version1545852762/frontend/Odbm/default/en_US/images/arrow-down.svg);
+    background-position: 96% 50%;
+    background-size: 18px 12px;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;   
+    text-indent: 1px;
+    text-overflow: '';
+    -webkit-border-radius: 0;  /* Safari 3-4, iOS 1-3.2, Android 1.6- */    
+    -moz-border-radius: 0;  /* Firefox 1-3.6 */     
+    border-radius: 0; 
+   }
+
+   .checkout-payment-method .actions-toolbar div.primary {
+    padding-top: 25px !important;
+}
+
+
+  /* Set IFrame min-height */
+    @media all and (min-width: 879px) {
+        #ptc_payment_info{
+            min-height:160px;
+        }
+    }
+
+    @media all and (min-width: 768px) and (max-width: 878px){
+        #ptc_payment_info{
+            min-height:315px;
+        }
+    }
+    @media all and (min-width: 481px) and (max-width: 767px){
+        #ptc_payment_info{
+            min-height:160px;
+        }
+    }
+   @media all and (max-width: 480px) {
+        #ptc_payment_info{
+            min-height:315px;
+        }
+    }
+
+    /* Set standard font */
+    #expirationMonth_field, #expirationYear_field, #cvv_field, #expirationMonth_label, #expirationYear_label, #cvv_label, #cardNumber_label, #cardNumber_field {
+        font-family: 'PT Sans',sans-serif;
+    }
+
+    
+    @media all and (min-width: 768px) {
+        #expirationMonth_field, #expirationYear_field, #cvv_field, #expirationMonth_label, #expirationYear_label, #cvv_label, #cardNumber_label, #cardNumber_field {
+        font-size:20px;
+        }
+    }
+
+    @media all and (max-width: 767px) {
+        #expirationMonth_field, #expirationYear_field, #cvv_field, #expirationMonth_label, #expirationYear_label, #cvv_label, #cardNumber_label, #cardNumber_field {
+        font-size:16px;
+        }
+    }
+
+   @media all and (min-width: 906px) {
+    #expirationMonth.field-wrapper, #expirationYear.field-wrapper, #cvv.field-wrapper{
+            display: inline-block;
+            width:32.5%;
+            
+        }
+
+        #expirationYear.field-wrapper {
+            margin-left:1.25%;
+            margin-right:1.25%;
+        }
+
+        .amex::after, .visa::after, .mastercard::after, .discover::after {
+            top:24px;
+        }  
+    }
+
+@media all and (min-width: 713px) and (max-width: 905px){
+        #expirationMonth.field-wrapper, #expirationYear.field-wrapper,#cvv.field-wrapper{
+            display: block;
+        }
+
+        .amex::after, .visa::after, .mastercard::after, .discover::after {
+            top:47px;
+        }
+
+   }
+
+   @media all and (min-width: 426px) and (max-width: 712px) {
+        #expirationMonth.field-wrapper, #expirationYear.field-wrapper, #cvv.field-wrapper{
+            display: inline-block;
+            width:32.5%;
+            
+        }
+
+        #expirationYear.field-wrapper {
+            margin-left:1.25%;
+            margin-right:1.25%;
+        }
+        
+        .amex::after, .visa::after, .mastercard::after, .discover::after {
+            top:29px;
+        }  
+
+    }   
+
+@media all and (max-width: 425px) {
+        #expirationMonth.field-wrapper, #expirationYear.field-wrapper,#cvv.field-wrapper{
+            display: block;
+        }
+
+        .amex::after, .visa::after, .mastercard::after, .discover::after {
+            top:29px;
+        }
+
+   }
+   
+   #expirationMonth_field, #expirationYear_field, #cvv_field, #cardNumber_field{
+    margin-top:6px;
+    height:40px;
+   }
+
+   #expirationMonth_label, #expirationYear_label,  #cvv_label, #cardNumber_label{
+     color: #004A97;
+     letter-spacing: 2.29px;
+     line-height: 5px;
+     font-weight: bold;
+   }
+
+   .amex::after,
+   .visa::after,
+   .mastercard::after,
+   .discover::after {
+       color: limegreen;
+       font-size: 85%;
+       font-weight: bold;
+       position: absolute;
+       right: 15px;
+   }
+
+   @media all and (max-width: 234px){
+    .amex::after, .visa::after, .mastercard::after, .discover::after {
+        right:4px;
+    }
+   }
+
+   @media all and (max-width: 220px){
+    .amex::after, .visa::after, .mastercard::after, .discover::after {
+        display:none;
+    }
+   }
+
+   .amex::after {
+       /*content: "AMEX  \2713";*/
+       content: url('https://donations.ourdailybread.org/static/frontend/Odbm/default/en_US/Magento_Payment/images/cc/ae.png');
+   }
+
+   .visa::after {
+       /*content: "VISA  \2713";*/
+       content: url('https://donations.ourdailybread.org/static/frontend/Odbm/default/en_US/Magento_Payment/images/cc/vi.png');
+   }
+
+   .mastercard::after {
+       /*content: "MASTERCARD  \2713";*/
+       content: url('https://donations.ourdailybread.org/static/frontend/Odbm/default/en_US/Magento_Payment/images/cc/mc.png');
+   }
+
+   .discover::after {
+       /*content: "DISCOVER  \2713";*/
+       content: url('https://donations.ourdailybread.org/static/frontend/Odbm/default/en_US/Magento_Payment/images/cc/di.png');
+   }
+
+   * {
+ box-sizing: border-box;
+   }
+
+   ul {
+       padding: 0;
+   }
+
+   li {
+       margin-bottom: 5px;
+   }
+
+   .errors {
+     margin-top: -1rem;
+   }
+
+   .errors li {
+       color: red;
+       display: none;
+   }
+
+   .errors li::before {
+       content: "\26A0";
+   }
+</style>
+<!-- /ko -->
+            
+<!-- ko ifnot: isiFrame() -->
+<div class="field number required">
+        <div class="field type">
+          <div class="control">
+            <ul class="credit-card-types">
+              <!-- ko foreach: {data: getCcAvailableTypesValues(), as: 'item'} -->
+              <li class="item" data-bind="css: {
+              _active: $parent.selectedCardType() == item.value,
+              _inactive: $parent.selectedCardType() != null && $parent.selectedCardType() != item.value
+            } ">
+            <!--ko if: $parent.getIcons(item.value) -->
+            <img data-bind="attr: {
+            'src': $parent.getIcons(item.value).url,
+            'alt': item.type,
+            'width': $parent.getIcons(item.value).width,
+            'height': $parent.getIcons(item.value).height
+          }">
+          <!--/ko-->
+        </li>
+        <!--/ko-->
+      </ul>
+      <input type="hidden"
+      name="payment[cc_type]"
+      class="input-text"
+      value=""
+      data-bind="attr: {id: getCode() + '_cc_type', 'data-container': getCode() + '-cc-type'},
+      value: creditCardType
+      ">
+    </div>
+    </div>
+    
+    <label data-bind="attr: {for: getCode() + '_cc_number'}" class="label">
+      <span><!-- ko i18n: 'Credit Card Number'--><!-- /ko --></span>
+    </label>
+    <div class="control">
+      <input type="number" name="payment[cc_number]" class="input-text ccno" value=""
+      data-bind="attr: {
+      autocomplete: off,
+      id: getCode() + '_cc_number',
+      placeholder: $t('Card Number'),
+      title: $t('Credit Card Number'),
+      'data-container': getCode() + '-cc-number',
+      'data-validate': JSON.stringify({'required-number':true, 'validate-card-type':getCcAvailableTypesValues(), 'validate-card-number':'#' + getCode() + '_cc_type', 'validate-cc-type':'#' + getCode() + '_cc_type'})},
+      enable: isActive($parents),
+      value: creditCardNumber,
+      valueUpdate: 'keyup' "
+      />
+    </div>
+    </div>
+    <div class="field date required" data-bind="attr: {id: getCode() + '_cc_type_exp_div'}">
+      <label data-bind="attr: {for: getCode() + '_expiration'}" class="label">
+        <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
+      </label>
+      <div class="control">
+        <div class="fields group group-2">
+          <div class="field no-label month">
+            <div class="control">
+              <select  name="payment[cc_exp_month]"
+              class="select select-month"
+              data-bind="attr: {id: getCode() + '_expiration', 'data-container': getCode() + '-cc-month', 'data-validate': JSON.stringify({required:true, 'validate-cc-exp':'#' + getCode() + '_expiration_yr'})},
+              enable: isActive($parents),
+              options: getCcMonthsValues(),
+              optionsValue: 'value',
+              optionsText: 'month',
+              optionsCaption: $t('Month'),
+              value: creditCardExpMonth">
+            </select>
+          </div>
+        </div>
+        <div class="field no-label year">
+          <div class="control">
+            <select name="payment[cc_exp_year]"
+            class="select select-year"
+            data-bind="attr: {id: getCode() + '_expiration_yr', 'data-container': getCode() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
+            enable: isActive($parents),
+            options: getCcYearsValues(),
+            optionsValue: 'value',
+            optionsText: 'year',
+            optionsCaption: $t('Year'),
+            value: creditCardExpYear">
+          </select>
+        </div>
       </div>
     </div>
-    <div class="field no-label year">
-      <div class="control">
-        <select name="payment[cc_exp_year]"
-        class="select select-year"
-        data-bind="attr: {id: getCode() + '_expiration_yr', 'data-container': getCode() + '-cc-year', 'data-validate': JSON.stringify({required:true})},
-        enable: isActive($parents),
-        options: getCcYearsValues(),
-        optionsValue: 'value',
-        optionsText: 'year',
-        optionsCaption: $t('Year'),
-        value: creditCardExpYear">
-      </select>
     </div>
-  </div>
-</div>
-</div>
-</div>
-<!-- ko if: (hasVerification())-->
-<div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
-  <label data-bind="attr: {for: getCode() + '_cc_cid'}" class="label">
-    <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
-  </label>
-  <div class="control _with-tooltip">
-    <input type="number"
-      autocomplete="off"
-      class="input-text cvv"
-      name="payment[cc_cid]"
-      value=""
-      data-bind="attr: {id: getCode() + '_cc_cid',
-      placeholder: $t('CVV'),
-      title: $t('Card Verification Number'),
-      'data-container': getCode() + '-cc-cvv',
-      'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
-      enable: isActive($parents),
-      value: creditCardVerificationNumber" 
-      min="0"
-      max="9999"
-    />
-    <div class="field-tooltip toggle">
-      <span class="field-tooltip-action action-cvv"
-      tabindex="0"
-      data-toggle="dropdown"
-      data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
-      <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
-    </span>
-    <div class="field-tooltip-content"
-    data-target="dropdown"
-    data-bind="html: getCvvImageHtml()"></div>
-  </div>
-</div>
+    </div>
+    <!-- ko if: (hasVerification())-->
+    <div class="field cvv required" data-bind="attr: {id: getCode() + '_cc_type_cvv_div'}">
+      <label data-bind="attr: {for: getCode() + '_cc_cid'}" class="label">
+        <span><!-- ko i18n: 'Card Verification Number'--><!-- /ko --></span>
+      </label>
+      <div class="control _with-tooltip">
+        <input type="number"
+          autocomplete="off"
+          class="input-text cvv"
+          name="payment[cc_cid]"
+          value=""
+          data-bind="attr: {id: getCode() + '_cc_cid',
+          placeholder: $t('CVV'),
+          title: $t('Card Verification Number'),
+          'data-container': getCode() + '-cc-cvv',
+          'data-validate': JSON.stringify({'required-number':true, 'validate-card-cvv':'#' + getCode() + '_cc_type'})},
+          enable: isActive($parents),
+          value: creditCardVerificationNumber" 
+          min="0"
+          max="9999"
+        />
+        <div class="field-tooltip toggle">
+          <span class="field-tooltip-action action-cvv"
+          tabindex="0"
+          data-toggle="dropdown"
+          data-bind="attr: {title: $t('What is this?')}, mageInit: {'dropdown':{'activeClass': '_active'}}">
+          <span><!-- ko i18n: 'What is this?'--><!-- /ko --></span>
+        </span>
+        <div 
+            class="field-tooltip-content"
+            data-target="dropdown"
+            data-bind="html: getCvvImageHtml()">
+        </div>
+      </div>
+    </div>
 </div>
 <!-- /ko -->
+<!-- /ko -->
+
 </fieldset>

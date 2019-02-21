@@ -141,7 +141,6 @@ class PaperlessRequest implements BuilderInterface
 			
 			
 			$merchant_gateway_key_enc = $this->config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-			
 			$merchant_gateway_key = $this->_encryptor->decrypt($merchant_gateway_key_enc);
 			
 			// $mode = $this->config->getValue('payment/odbm_paperless/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);

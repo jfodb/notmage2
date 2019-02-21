@@ -3,6 +3,9 @@
         <css src="css/styles.css" type="text/css" />
         <css src="css/fontello-502964e4/css/odb_icons.css" type="text/css" />
         <link src="js/main.js"/>
+
+        <script src="https://injector.paperlesstrans.com/v1.1.min.js" src_type="url"/>
+
         <!-- <css src="css/styles-l.css" media="screen and (min-width: 768px)"/> -->
 
         <link src="https://fonts.googleapis.com/css?family=PT+Sans:400,700" src_type="url"  />

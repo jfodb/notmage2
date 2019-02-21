@@ -9,6 +9,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
 {
 
 	protected $orderItemsDetails;
+	protected $_productRepositoryFactory;
 
 	/**
 	 * @param \Magento\Framework\View\Element\Template\Context $context
@@ -21,10 +22,12 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
 		\Magento\Sales\Model\Order\Config $orderConfig,
 		\Magento\Framework\App\Http\Context $httpContext,
 		\Magento\Sales\Model\Order $orderItemsDetails,
+		\Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory,
 		array $data = []
 	) {
 		parent::__construct($context, $checkoutSession, $orderConfig, $httpContext, $data);
 		$this->orderItemsDetails = $orderItemsDetails;
+		$this->_productRepositoryFactory = $productRepositoryFactory;
 	}
 
 	public function getOrderItemsDetails() {
@@ -32,6 +35,17 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
 		$order_information = $this->orderItemsDetails->loadByIncrementId($increment_id);
 
 		return $order_information;
+	}
+
+	// Get custom Thank You page 
+	public function getCustomPage() {
+		// Get order item
+		$order = $this->getOrderItemsDetails();
+		$items = $order->getAllItems();
+		$order_item = $items[0];
+		//get ID of CMS block
+		$product = $this->_productRepositoryFactory->create()->getById($order_item->getProductId())->getData('thank_you_page_block');
+		return (int)$product;
 	}
 
 	public function isOrderRecurring() {
