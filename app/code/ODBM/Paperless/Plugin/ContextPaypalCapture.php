@@ -13,7 +13,7 @@ class ContextPaypalCapture
 {
 	protected $logger;
 
-	public function __construct(//\Psr\Log\LoggerInterface $logger)
+	public function __construct(/*\Psr\Log\LoggerInterface $logger*/)
 	{
 		//$this->logger = $logger;
 	}
