@@ -41,11 +41,9 @@
     <type name="Magento\Payment\Model\Method\Adapter">
         <plugin name="context_markers_capture" type="ODBM\Paperless\Plugin\ContextCapture" sortOrder="1" />
     </type>
-
     <type name="Magento\Paypal\Model\Express">
         <plugin name="context_markers_capture_paypal" type="ODBM\Paperless\Plugin\ContextPaypalCapture" sortOrder="1" />
     </type>
-
     <type name="ODBM\Paperless\Gateway\Request\CaptureRequest">
         <plugin name="pre_profile_recurring" type="ODBM\Paperless\Plugin\ProfileCapture" sortOrder="1" />
     </type>
