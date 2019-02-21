@@ -23,7 +23,7 @@ class ContextCapture
 		$this->logger = $logger;
 	}
 
-	public function beforeOrder($adapter, $payment, $amount){
+	/*public function beforeOrder($adapter, $payment, $amount){
 		$this->logger->alert("called Order on URL: ".$_SERVER['REQUEST_URI']);
 		return [$payment, $amount];
 	}
@@ -31,7 +31,7 @@ class ContextCapture
 	public function beforeAuthorize($adapter, $payment, $amount){
 		$this->logger->alert("called Authorize on URL: ".$_SERVER['REQUEST_URI']);
 		return [$payment, $amount];
-	}
+	}*/
 
 	public function beforeCapture( $adapter,  $payment, $amount) {
 		$this->logger->alert("called Capture on URL: ".$_SERVER['REQUEST_URI']);
