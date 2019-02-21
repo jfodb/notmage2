@@ -13,14 +13,12 @@ class ContextPaypalCapture
 {
 	protected $logger;
 
-	public function __construct(
-			\Psr\Log\LoggerInterface $logger
-	)
+	public function __construct(//\Psr\Log\LoggerInterface $logger)
 	{
-		$this->logger = $logger;
+		//$this->logger = $logger;
 	}
 
-	public function beforeOrder($adapter, $payment, $amount){
+	/*public function beforeOrder($adapter, $payment, $amount){
 		$this->logger->alert("called Paypal Order on URL: ".$_SERVER['REQUEST_URI']);
 		return [$payment, $amount];
 	}
@@ -28,10 +26,10 @@ class ContextPaypalCapture
 	public function beforeAuthorize($adapter, $payment, $amount){
 		$this->logger->alert("called Paypal Authorize on URL: ".$_SERVER['REQUEST_URI']);
 		return [$payment, $amount];
-	}
+	} */
 
 	public function beforeCapture( $adapter,  $payment, $amount) {
-		$this->logger->alert("called Paypal Capture on URL: ".$_SERVER['REQUEST_URI']);
+		//$this->logger->alert("called Paypal Capture on URL: ".$_SERVER['REQUEST_URI']);
 
 		if(!isset($GLOBALS['_FLAGS'])){
 			$GLOBALS['_FLAGS'] = array('payment'=>array('capture'=>true, 'method'=>'paypal'));
