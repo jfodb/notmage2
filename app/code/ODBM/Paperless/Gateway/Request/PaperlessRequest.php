@@ -213,7 +213,6 @@ class PaperlessRequest implements BuilderInterface
 			*/
 			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 		}
-
 		public function improptu_profile($paymentDO) {
 			require_once (__DIR__.'/ProfileRequest.php');
 

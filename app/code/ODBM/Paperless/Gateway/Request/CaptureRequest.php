@@ -25,7 +25,7 @@ class CaptureRequest extends PaperlessRequest
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 	}
-
+        /* Payment system catch Step 9 */
 	$base_req = parent::build($buildSubject);
 	$base_req['req']['uri'] = '/transactions/capture';
 
@@ -112,4 +112,6 @@ class CaptureRequest extends PaperlessRequest
 
 		return array_merge($base_req, $additional);
 	}
+
+
 }
