@@ -34,7 +34,7 @@ class DataAssignObserver extends AbstractDataAssignObserver
 		$paymentModel = $this->readPaymentModelArgument($observer);
 
 		$paymentModel->setAdditionalInformation(
-			$additionalData
+			'cc_token', $additionalData['cc_token']
 		);
 	}
 }
