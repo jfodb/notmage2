@@ -27,7 +27,7 @@ class ToOrderItem
         $additionalOptions = $item->getOptionByCode('additional_options');
 
         // Check if there is any additional options in Quote Item
-        if (count($additionalOptions) > 0) {
+        if (!empty($additionalOptions) && count($additionalOptions) > 0) {
             // Get Order Item's other options
             $options = $orderItem->getProductOptions();
             // Set additional options to Order Item
