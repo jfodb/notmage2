@@ -33,11 +33,11 @@ class ContextCapture
 		return [$payment, $amount];
 	}*/
 
-	public function beforeCapture( $adapter,  $payment, $amount) {
+	public function beforeCapture($adapter,  $payment, $amount) {
 		$this->logger->alert("called Capture on URL: ".$_SERVER['REQUEST_URI']);
 
 		if(!isset($GLOBALS['_FLAGS'])){
-			$GLOBALS['_FLAGS'] = array('payment'=>array());
+			$GLOBALS['_FLAGS'] = array('payment'=>array('capture'=>true));
 		}
 		if(!isset($GLOBALS['_FLAGS']['payment']))
 			$GLOBALS['_FLAGS']['payment'] = array('capture'=>true);
