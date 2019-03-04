@@ -7,8 +7,8 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
         <type name="Magento\Ui\Component\Wysiwyg\ConfigInterface">
-            <plugin name="psuedo_customtinymce_config"
-                    type="Psuedo\Customtinymce\Plugin\Config"
+            <plugin name="odbm_customtinymce_config"
+                    type="ODBM\Customtinymce\Plugin\Config"
                     sortOrder="10"/>
         </type>
 </config>

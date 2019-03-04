@@ -4,7 +4,7 @@
  * Date: 2019-02-27
  */
 
-namespace Psuedo\Customtinymce\Plugin;
+namespace ODBM\Customtinymce\Plugin;
 
 class Config
 {

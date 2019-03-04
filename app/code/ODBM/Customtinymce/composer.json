@@ -1,5 +1,5 @@
 {
-  "name": "psuedo/module-customtinymce",
+  "name": "odbm/module-customtinymce",
   "description": "N/A",
   "require": {
     "magento/framework": "101.0.*"
@@ -14,7 +14,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "Psuedo\\Customtinymce\\": ""
+      "ODBM\\Customtinymce\\": ""
     }
   }
 }
