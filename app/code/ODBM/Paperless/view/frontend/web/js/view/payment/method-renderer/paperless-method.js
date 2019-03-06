@@ -27,7 +27,7 @@ define(
             },
 
             getDisposableTerminalKey: function() {
-                return window.checkoutConfig.payment.odbm_paperless.disposableTerminalKey;
+                return window.checkoutConfig.payment.odbm_paperless.disposableTerminalKey.authenticationKey;
             },
 
             getCcAvailableTypes: function() {
