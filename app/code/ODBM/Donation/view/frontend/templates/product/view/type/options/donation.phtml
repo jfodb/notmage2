@@ -1,4 +1,4 @@
-<?php /* @var $block \Experius\DonationProduct\Block\Product\Type\Donation */ ?>
+<?php /* @var $block \ODBM\Donation\Block\Product\Type\OdbDonation */ ?>
 
 <div class="product-options-wrapper" id="product-options-wrapper">
 	<div class="fieldset">
@@ -41,8 +41,8 @@
 						<input 
 							name="amount" 
 							id="amount" 
-							title="amount" 
-							placeholder="<?php echo __('Amount'); ?>" 
+							title="Amount"
+							placeholder="<?php echo __('Amount').(' (').$block->getCurrentCurrencyCode().(')'); ?>"
 							class="input-text validate-number" type="text" 
 							data-msg-required="Please Enter a Valid Donation Amount"
 							data-msg-number="Please Enter a Valid Donation Amount" 
