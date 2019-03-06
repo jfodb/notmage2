@@ -41,10 +41,18 @@ class PaperlessRequest implements BuilderInterface
 
 		}
 		
+		/**
+		 * 
+		 */
 		public function is_tokenized($payment) {
-			return $payment->getCcStatusDescription();
+			$is_tokenized = false;
+			$token = $payment->getAdditionalInformation('cc_token');
 
-			//return false;
+			if ( !empty($token) && $token !== 'false' ) {
+				$is_tokenized = json_decode($token);
+			}
+
+			return $is_tokenized;
 		}
 		
 		public function is_recurring($paymentDO) {
@@ -230,7 +238,7 @@ class PaperlessRequest implements BuilderInterface
 			$request_details = $data['req'];
 			unset($data['req']);
 
-			$domain = /*from configs*/ 'https://api.paperlesstrans.com';
+			$domain = /*from configs*/ 'https://staging-api.paperlesstrans.com';
 			$url = $domain . $request_details['uri'];
 
 			$headrs = [
