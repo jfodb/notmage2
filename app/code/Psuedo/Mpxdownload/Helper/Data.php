@@ -769,6 +769,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					}
 
 					$OrderRow["CardholderName"] = $order_grid['billing_name'];
+
+					if(!empty($payment['cc_status_description']))
+						$OrderRow['cardprofile'] = $payment['cc_status_description'];
+
+
+
+
+
 				}
 				else
 				{
@@ -821,7 +829,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
-					$addrline["OrganizationName"] = trim($row['company']);
 					if(is_array($row['street'])){
 						for($z=0; $z<count($row['street']); $z++) {
 							$addrline["Address" . ($z+1) ] = $row['street'][$z];
@@ -1006,6 +1013,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				$OrderLines = array();
 
+				$productisrecurring = false;
 				foreach ($items as $lineitem)
 				{
 					$quant = intval($lineitem['qty_ordered']);
@@ -1025,6 +1033,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$li["SourcePriceCode"] = "Internet";
 
 
+
 					//all discounts remain positive!
 					if($lineitem['base_discount_amount'] != 0)
 						$lineitem['base_discount_amount'] = abs($lineitem['base_discount_amount']);
@@ -1040,6 +1049,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						else
 							$attr = false;
 					}
+
+
+
+					//is product recurring???
+					if(!empty($original)) {
+						$p_options = $original->getProductOptionByCode('info_buyRequest');
+
+						$productisrecurring = $p_options['_recurring'] ?? false;
+						$productisrecurring = !empty( $productisrecurring ) && ($productisrecurring !== 'false');
+
+						if($productisrecurring && !empty($p_options['_recurmotivation']))
+							$recurMotivationCode = $p_options['_recurmotivation'];
+						else
+							$recurMotivationCode = false;
+					}
+
+
 
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
@@ -1126,6 +1152,32 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$li['SourceProductType'] = ucfirst(strtolower($attr)); //camelcase
 					else
 						$li['SourceProductType'] = 'Sale';
+
+
+
+
+					//back to payment data:
+					if(!empty($payment)) {
+
+
+						if(empty($recurMotivationCode))
+							$recurMotivationCode = 'INR1';  //default motivation code
+
+						if ($productisrecurring) {
+							$OrderRow['JobDetailRecurringGifts'] = [
+								'MotivationCode' => $recurMotivationCode,
+								'SourcePaymentType' => $payment['cc_type'],
+								'GiftAmount' => $OrderRow["GiftAmount"],
+								'ProfileNumber' => $OrderRow['cardprofile'],
+								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
+								'ExpirationDate' => $OrderRow['ExpirationDate'],
+								'CardholderName' => $OrderRow["CardholderName"],
+								'RecurrenceType' => 'monthly'  //presently fixed at monthly
+							];
+						}
+
+						$productisrecurring = false;  //wipe it for next iteration
+					}
 
 
 					$OrderLines[] = $li;

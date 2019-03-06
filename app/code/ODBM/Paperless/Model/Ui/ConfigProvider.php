@@ -78,8 +78,8 @@ final class ConfigProvider implements ConfigProviderInterface
 		$url = '/util/keygen';
 
 		$headers = [
-			'Content-Type' => 'application/json',
-			'TerminalKey'  => $terminal_key
+			'Content-Type: application/json',
+			'TerminalKey: ' . $terminal_key
 		];
 
 		$token = '';

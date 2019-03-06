@@ -26,8 +26,6 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 	public function execute(
 		\Magento\Framework\Event\Observer $observer
 	) {
-
-		$this->logger->alert("Order Cache activated for ".$_SERVER['REQUEST_URI']);
 		//not a capture/payment event.
 		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment']) || empty($GLOBALS['_FLAGS']['payment']['capture'])) {
 			$this->logger->alert("Not presently a payment-capture so not caching");

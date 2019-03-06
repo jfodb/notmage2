@@ -11,7 +11,7 @@ namespace ODBM\Paperless\Gateway\Request;
 use Magento\Payment\Gateway\ConfigInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectInterface;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Framework;
+use Magento\Framework\Phrase;
 
 class PaperlessRequest implements BuilderInterface
 {
@@ -213,7 +213,6 @@ class PaperlessRequest implements BuilderInterface
 			*/
 			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 		}
-
 		public function improptu_profile($paymentDO) {
 			require_once (__DIR__.'/ProfileRequest.php');
 
@@ -233,38 +232,45 @@ class PaperlessRequest implements BuilderInterface
 			$domain = /*from configs*/ 'https://api.paperlesstrans.com';
 			$url = $domain . $request_details['uri'];
 
+			$jsondata = json_encode($data);
 			$headrs = [
-				'Content-Type' => 'application/json',
-				'TerminalKey'  => $request_details['Token']['TerminalKey']
+				'Content-Type: application/json',
+				'Content-Length: ' . strlen($jsondata),
+				'TerminalKey: '  . $request_details['Token']['TerminalKey'],
+
 			];
 
 			if( !empty( $request_details['TestMode'] ) ) {
 				$headrs['TestFlag'] = 'true';
 			}
 
-			$selfconnect = curl_init($url);
-			curl_setopt($selfconnect, CURLOPT_HTTPHEADER, $headrs);
-			curl_setopt($selfconnect, CURLOPT_POST, true);
-			curl_setopt($selfconnect, CURLOPT_POSTFIELDS, json_encode($data));
-			curl_setopt($selfconnect, CURLOPT_RETURNTRANSFER, true);
 
-			curl_setopt($selfconnect, CURLOPT_CONNECTTIMEOUT, 10);
-			curl_setopt($selfconnect, CURLOPT_TIMEOUT, 40);
+			$selfconnect = curl_init($url);
+			curl_setopt_array($selfconnect, [
+				CURLOPT_POST        	=>	true,
+				CURLOPT_POSTFIELDS  	=>	$jsondata,
+				CURLOPT_CUSTOMREQUEST	=>	'POST',
+				CURLOPT_HTTPHEADER  	=>	$headrs,
+				CURLOPT_RETURNTRANSFER	=>	true,
+				CURLOPT_CONNECTTIMEOUT	=>	10,
+				CURLOPT_TIMEOUT     	=>	40
+			]);
 
 
 			$response = curl_exec($selfconnect);
 			$responseInfo = curl_getinfo($selfconnect);
 			curl_close($selfconnect);
 
+
 			if($responseInfo['http_code'] == 0 ){
 				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"));
 			}
 
 			$resp = json_decode($response, true);
-			$payment = $payment = $paymentDO->getPayment();
+			$payment = $paymentDO->getPayment();
 
 
-			if($responseInfo['http_code'] != 200 || empty($resp['profile']) || empty($resp['profile']['profileNumber'])){
+			if($responseInfo['http_code'] != 200 || empty($resp) || empty($resp['profile']) || empty($resp['profile']['profileNumber'])){
 				$payment->setEcheckAccountType($response);  //cc_debug_response_serialized, but its only 32 chars!!
 				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"));
 			}

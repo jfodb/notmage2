@@ -37,8 +37,8 @@ class TransferFactory implements TransferFactoryInterface
 		$url = $domain . $request_details['uri'];
 
 		$headrs = [
-			'Content-Type' => 'application/json',
-			'TerminalKey'  => $request_details['Token']['TerminalKey']
+			'Content-Type: application/json',
+			'TerminalKey: ' . $request_details['Token']['TerminalKey']
 		];
 
 		if( !empty( $request_details['TestMode'] ) ) {

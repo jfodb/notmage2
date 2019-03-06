@@ -1,61 +1,20 @@
 require(['jquery', 'jquery/ui'], function($) {
 	$(document).ready( function() {
-		$('.radio--button').click(function(){
-			//cleanup
-			amount = $('#amount').val();
-			tmpvar = filter_money_amount(amount);
-			if(tmpvar != amount)
-				$('#amount').val(tmpvar);
-			amount = tmpvar;
-			
-            
-			//no value set yet
-			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
-				$('#amount').focus();
-				return false;
-			} 
-			
-			$('.box-tocart').show();
-            
-			if ($(this).children('input').is(':checked')) {
-				$(this).addClass('checked');
-				$('.actions.hidden').removeClass('hidden');
-			}
-			if ($(this).children('input').attr('id') === "_recurring-yes") {
-				$('.paypal').addClass('hidden');
-				$('.dntpmtoptbx').addClass('recurring');
-
-				var sku = document.getElementsByName('_motivation_code')[0].value;
-
-				if ( document.getElementById('_recurring-yes').checked ) {
-					$('.box-tocart').hide();
-
-					window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
-
-					e.preventDefault();
-					return false;
-				}
-			} else {
-				$('.paypal').removeClass('hidden');
-				$('.dntpmtoptbx').removeClass('recurring');
-			}
-			$(this).siblings('.radio--button').removeClass('checked');
-		});
 
 		$('.overlay').appendTo('body');
 
-		$('.nav-toggle').click( function(e) {
-			$('html').removeClass('nav-before-open nav-open');
-			$('.page-header .panel.wrapper, .overlay').toggleClass('active');
+			$('.nav-toggle').click( function(e) {
+				$('html').removeClass('nav-before-open nav-open');
+				$('.page-header .panel.wrapper, .overlay').toggleClass('active');
 
-			if ( $('.page-header .panel.wrapper').hasClass('active') ) {
-				$('.overlay').click(closeMenu);
-			} else {
-				closeMenu();
-			}
+				if ( $('.page-header .panel.wrapper').hasClass('active') ) {
+					$('.overlay').click(closeMenu);
+				} else {
+					closeMenu();
+				}
 
-			e.preventDefault();
-		});
+				e.preventDefault();
+			});
 
 		$('.has-submenu a').click( function(e) {
 			var $submenuLi = $(this).closest('.has-submenu');
@@ -79,6 +38,17 @@ require(['jquery', 'jquery/ui'], function($) {
 		var delta = 5;
 		var navbarHeight = $('header').outerHeight();
 
+		$(window).scroll(function(event){
+			didScroll = true;
+		});
+
+		setInterval(function() {
+			if (didScroll) {
+				hasScrolled();
+				didScroll = false;
+			}
+		}, 250);
+
 		function hasScrolled() {
 		    var scrollTop = $(this).scrollTop();
 
@@ -99,23 +69,12 @@ require(['jquery', 'jquery/ui'], function($) {
 		    lastScrollTop = scrollTop;
 		}
 
-		$(window).scroll(function(event){
-			didScroll = true;
-		});
-
-		setInterval(function() {
-			if (didScroll) {
-				hasScrolled();
-				didScroll = false;
-			}
-		}, 250);
-
 		//If donation is one time only, then show payment methods immediately
 		if($('.oneTimeOnly').length){
 			$('.box-tocart').show();
 			$('.dntpmtoptbx').removeClass('hidden');
 		}
-	});
+
 
 		function closeMenu() {
 			$('.page-header .panel.wrapper, .overlay, .submenu, .has-submenu').removeClass('active');
@@ -124,9 +83,54 @@ require(['jquery', 'jquery/ui'], function($) {
 			$('.submenu-arrow').addClass('icon-chevron_left');
 		}
 
+
+
+		$('.radio--button').click(function(){
+			//cleanup
+			amount = $('#amount').val();
+			tmpvar = filter_money_amount(amount);
+			if(tmpvar != amount)
+				$('#amount').val(tmpvar);
+			amount = tmpvar;
+
+
+			//no value set yet
+			if( (typeof $('#amount').valid === 'function') && !$('#amount').valid()) {
+				$('#amount').focus();
+				return false;
+			}
+
+			$('.box-tocart').show();
+
+			if ($(this).children('input').is(':checked')) {
+				$(this).addClass('checked');
+				$('.actions.hidden').removeClass('hidden');
+			}
+			if ($(this).children('input').attr('id') === "_recurring-yes") {
+				$('.paypal').addClass('hidden');
+				$('.dntpmtoptbx').addClass('recurring');
+
+				var sku = document.getElementsByName('_motivation_code')[0].value;
+
+				/*if ( document.getElementById('_recurring-yes').checked ) {
+					$('.box-tocart').hide();
+
+					window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
+
+					e.preventDefault();
+					return false;
+				}*/
+			} else {
+				$('.paypal').removeClass('hidden');
+				$('.dntpmtoptbx').removeClass('recurring');
+			}
+			$(this).siblings('.radio--button').removeClass('checked');
+		});
+
+
+
 	});
-
-
+});
 
 
 //make globally available
