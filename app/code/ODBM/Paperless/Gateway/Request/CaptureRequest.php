@@ -52,12 +52,26 @@ class CaptureRequest extends PaperlessRequest
 		if(!empty((string)$payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
+
 			if ($token = $this->is_tokenized($payment)) {
 				//insert vault access here
 				if($token === true)
-					$additional['source'] = ['profileNumber' => $payment->getCcStatusDescription()];
-				else
-					$additional['source'] = ['profileNumber' => $token];
+					$token = $payment->getCcStatusDescription();
+
+				$cardname = $payment->getCcOwner();
+				
+				if(empty($cardname))
+					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+
+				$additional['source'] = [
+					'card' => [
+						'accountNumber' => '',
+						'nameOnAccount' => $cardname,
+						'expiration' => ''
+					],
+					'token' => $token
+				];
+
 				$additional['metadata'] = $this->customfields;
 			} else if($this->is_recurring($paymentDO)){
 				$base_req['_recurring'] = true;
