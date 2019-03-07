@@ -33,7 +33,7 @@ class TransferFactory implements TransferFactoryInterface
 		$request_details = $request['req'];
 		unset($request['req']);
 
-		$domain = /*from configs*/ 'https://api.paperlesstrans.com';
+		$domain = /*from configs*/ 'https://staging-api.paperlesstrans.com';
 		$url = $domain . $request_details['uri'];
 
 		$headrs = [
@@ -44,7 +44,6 @@ class TransferFactory implements TransferFactoryInterface
 		if( !empty( $request_details['TestMode'] ) ) {
 			$headrs[] = 'TestFlag: true';
 		}
-
 
 		return $this->transferBuilder
 			->setUri($url)

@@ -66,7 +66,7 @@ final class ConfigProvider implements ConfigProviderInterface
 	 * @todo    Remove the staging url, once Paperless goes live.
 	 * @return  string $token The temporary token to authenicate with.
 	 */
-	private function getTemporaryToken() {
+	private function getTemporaryToken() {		
 		// Token is false if we are not using an iframe
 		if ( !$this->getIsPaperlessiFrame() )
 			return false;
@@ -95,15 +95,20 @@ final class ConfigProvider implements ConfigProviderInterface
 			$response = $client->request();	
 			$response_body = $response->getBody();
 
-			if( is_array($response_body) )
-				$token = $response_body;
-			else
-				$token = json_decode($response_body, true);
-
-			// 202: Accepted
-			if ( $response->getStatus() !== 202 ) {
+			// Should be 202: Accepted or 200: OK
+			$status = $response->getStatus();
+			if ( !( $status === 202 || $status === 200 ) ) {
+				// Should throw exception here?
 				return false;
 			}
+
+			if( is_array($response_body) )
+				$body = $response_body;
+			else
+				$body = json_decode($response_body, true);
+
+			$token = $body['authenticationKey'];
+			$token = $body;
 
 			if ( empty($token) ) {
 				throw new \Exception( 'Could not get Paperless token: no token data.' );

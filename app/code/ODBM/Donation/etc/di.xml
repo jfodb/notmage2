@@ -18,6 +18,10 @@
         for="ODBM\Donation\Api\OdbDonationInterface"
         type="ODBM\Donation\Model\OdbDonation"
 	/>
+    <preference
+            for="Experius\DonationProduct\Block\Product\Type\Donation"
+            type="ODBM\Donation\Block\Product\Type\OdbDonation"
+    />
 	<!-- Always make Paypal save address -->
 	<preference for="Magento\Paypal\Model\Express\Checkout" type="ODBM\Donation\Model\Paypal\Express\Checkout" />
     <!-- Admin theme. Start -->
