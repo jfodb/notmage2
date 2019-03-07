@@ -201,7 +201,7 @@ class PaperlessRequest implements BuilderInterface
 
 			// Only set test flag if it is being used
 			if ( !empty($debug) && $debug != '0' ) {
-				$fields['req']['TestMode'] = true;
+				$fields['req'][] = 'TestMode: true';
 			}
 				
 			return $fields;
