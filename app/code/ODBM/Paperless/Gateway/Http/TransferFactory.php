@@ -42,7 +42,7 @@ class TransferFactory implements TransferFactoryInterface
 		];
 
 		if( !empty( $request_details['TestMode'] ) ) {
-			$headrs['TestFlag'] = 'true';
+			$headrs[] = 'TestFlag: true';
 		}
 
 
