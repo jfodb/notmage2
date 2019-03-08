@@ -1056,13 +1056,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if(!empty($original)) {
 						$p_options = $original->getProductOptionByCode('info_buyRequest');
 
-						$productisrecurring = $p_options['_recurring'] ?? false;
-						$productisrecurring = !empty( $productisrecurring ) && ($productisrecurring !== 'false');
+						if(!empty($p_options)) {
+							$productisrecurring = $p_options['_recurring'] ?? false;
+							$productisrecurring = !empty($productisrecurring) && ($productisrecurring !== 'false'); //just in case of a string
 
-						if($productisrecurring && !empty($p_options['_recurmotivation']))
-							$recurMotivationCode = $p_options['_recurmotivation'];
-						else
-							$recurMotivationCode = false;
+							if ($productisrecurring && !empty($p_options['_recurmotivation']))
+								$recurMotivationCode = $p_options['_recurmotivation'];
+							else
+								$recurMotivationCode = false;
+						}
 					}
 
 
