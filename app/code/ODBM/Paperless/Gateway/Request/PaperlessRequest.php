@@ -22,6 +22,7 @@ class PaperlessRequest implements BuilderInterface
 	protected $_subjectReader;
 	protected $_rawsource;
 	protected $_internalpost;
+	protected $_config;
 	
 	/**
 	* @param ConfigInterface $config
@@ -30,7 +31,7 @@ class PaperlessRequest implements BuilderInterface
 		\Magento\Framework\App\Config\ScopeConfigInterface $config,
 		\Magento\Framework\Encryption\EncryptorInterface $encryptor
 		) {
-			$this->config = $config;
+			$this->_config = $config;
 			$this->_encryptor = $encryptor;
 			
 			if(!isset($GLOBALS['_FLAGS'])){
@@ -150,28 +151,28 @@ class PaperlessRequest implements BuilderInterface
 			}
 			
 			
-			$merchant_gateway_key_enc = $this->config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			$merchant_gateway_key_enc = $this->_config->getValue('payment/odbm_paperless/merchant_gateway_key',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 			$merchant_gateway_key = $this->_encryptor->decrypt($merchant_gateway_key_enc);
 			
-			// $mode = $this->config->getValue('payment/odbm_paperless/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			// $mode = $this->_config->getValue('payment/odbm_paperless/sandbox', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 			
 			// if(!empty($mode) && ( $mode == 'Production' ||  )) {
-			// 	//$terminal = $this->config->getValue('MerchantID', $order->getStoreId());
+			// 	//$terminal = $this->_config->getValue('MerchantID', $order->getStoreId());
 			// 	$test = 'False';
 			// } else {
-			// 	//$terminal = $this->config->getValue('test_MerchantID', $order->getStoreId());
+			// 	//$terminal = $this->_config->getValue('test_MerchantID', $order->getStoreId());
 			// 	$test = 'True';
 			// }
 			
-			$debug = $this->config->getValue('payment/odbm_paperless/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			$debug = $this->_config->getValue('payment/odbm_paperless/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		
 			$d = $_SERVER['HTTP_HOST'];
 			
-			//$auto_type = $this->config->getValue('jobtype', $order->getStoreId());
+			//$auto_type = $this->_config->getValue('jobtype', $order->getStoreId());
 			$tmp = 'psuedo_mpxdownload/runtime/motivation_code/jobtype/'.$d;
-			$auto_type = $this->config->getValue('psuedo_mpxdownload/runtime/jobtype/'.$d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			$auto_type = $this->_config->getValue('psuedo_mpxdownload/runtime/jobtype/'.$d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 			if(empty($auto_type))
-			$auto_type = $this->config->getValue($tmp = 'psuedo_mpxdownload/runtime/jobtype/store_'.$storid, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			$auto_type = $this->_config->getValue($tmp = 'psuedo_mpxdownload/runtime/jobtype/store_'.$storid, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 			
 			if(!empty($auto_type)) {
 				$this->customfields[] = [
@@ -228,7 +229,7 @@ class PaperlessRequest implements BuilderInterface
 
 
 
-			$profileData = new ProfileRequest($this->config, $this->_encryptor);
+			$profileData = new ProfileRequest($this->_config, $this->_encryptor);
 
 			$data = $profileData->build(['payment' => $paymentDO]);
 
@@ -239,7 +240,7 @@ class PaperlessRequest implements BuilderInterface
 			$request_details = $data['req'];
 			unset($data['req']);
 
-			$config_value = $this->config->getValue('payment/odbm_paperless/payment_domain', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			$config_value = $this->_config->getValue('payment/odbm_paperless/payment_domain', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 			if(!empty($config_value))
 				$domain = $config_value;
 			else
