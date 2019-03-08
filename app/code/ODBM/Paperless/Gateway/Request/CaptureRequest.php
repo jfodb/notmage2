@@ -52,12 +52,34 @@ class CaptureRequest extends PaperlessRequest
 		if(!empty((string)$payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
-			if ($token = $this->is_tokenized($payment)) {
-				//insert vault access here
-				if($token === true)
+			if ($profile = $this->is_profiled($payment)){
+				if($profile === true)
 					$additional['source'] = ['profileNumber' => $payment->getCcStatusDescription()];
 				else
-					$additional['source'] = ['profileNumber' => $token];
+					$additional['source'] = ['profileNumber' => $profile];
+
+				$additional['metadata'] = $this->customfields;
+			}
+			else
+			if ($token = $this->is_tokenized($payment)) {
+				$token = $payment->getAdditionalInformation('cc_token');
+				if(preg_match('/^[\'"]".*[\'"]$/', $token))
+					$token = json_decode($token);
+				$cardname = $payment->getCcOwner();
+
+				if(empty($cardname)) {
+					$address = $order->getBillingAddress();
+					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+				}
+				$additional['source'] = [
+					'card' => [
+						'accountNumber' => '',
+						'nameOnAccount' => $cardname,
+						'expiration' => ''
+					],
+					'token' => $token
+				];
+
 				$additional['metadata'] = $this->customfields;
 			} else if($this->is_recurring($paymentDO)){
 				$base_req['_recurring'] = true;

@@ -41,11 +41,21 @@ class PaperlessRequest implements BuilderInterface
 
 		}
 		
-		public function is_tokenized($payment) {
-			return $payment->getCcStatusDescription();
+	public function is_profiled($payment) {
+		return $payment->getCcStatusDescription();
 
-			//return false;
+		//return false;
+	}
+
+	public function is_tokenized($payment) {
+		$is_tokenized = false;
+		$token = $payment->getAdditionalInformation('cc_token');
+
+		if ( !empty($token) && $token !== 'false' ) {
+			$is_tokenized = json_decode($token);
 		}
+		return $is_tokenized;
+	}
 		
 		public function is_recurring($paymentDO) {
 			if (!isset($paymentDO) || !$paymentDO instanceof PaymentDataObjectInterface) {
@@ -229,7 +239,11 @@ class PaperlessRequest implements BuilderInterface
 			$request_details = $data['req'];
 			unset($data['req']);
 
-			$domain = /*from configs*/ 'https://api.paperlesstrans.com';
+			$config_value = $this->config->getValue('payment/odbm_paperless/payment_domain', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+			if(!empty($config_value))
+				$domain = $config_value;
+			else
+				$domain = 'https://api.paperlesstrans.com';
 			$url = $domain . $request_details['uri'];
 
 			$jsondata = json_encode($data);
