@@ -74,7 +74,11 @@ final class ConfigProvider implements ConfigProviderInterface
 		$terminal_key_enc = $this->_config->getValue('payment/odbm_paperless/merchant_gateway_key', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 		$terminal_key = $this->_encryptor->decrypt($terminal_key_enc);
 
-		$domain = /*from configs*/ 'https://api.paperlesstrans.com';
+		$config_value = $this->_config->getValue('payment/odbm_paperless/payment_domain', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		if(!empty($config_value))
+			$domain = $config_value;
+		else
+			$domain = 'https://api.paperlesstrans.com';
 		$url = '/util/keygen';
 
 		$headers = [
