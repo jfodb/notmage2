@@ -212,7 +212,7 @@ class PaperlessRequest implements BuilderInterface
 
 			// Only set test flag if it is being used
 			if ( !empty($debug) && $debug != '0' ) {
-				$fields['req'][] = 'TestMode: true';
+				$fields['req']['TestMode'] = 'true';
 			}
 				
 			return $fields;
@@ -256,8 +256,9 @@ class PaperlessRequest implements BuilderInterface
 			];
 
 			if( !empty( $request_details['TestMode'] ) ) {
-				$headrs['TestFlag'] = 'true';
+				$headrs[] = 'TestFlag: true';
 			}
+
 
 
 			$selfconnect = curl_init($url);
