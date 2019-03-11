@@ -25,13 +25,13 @@ class CaptureRequest extends PaperlessRequest
 		) {
 			throw new \InvalidArgumentException('Payment data object should be provided');
 	}
-        /* Payment system catch Step 9 */
+
 	$base_req = parent::build($buildSubject);
 	$base_req['req']['uri'] = '/transactions/capture';
 
 	$GLOBALS['_FLAGS']['payment']['method'] = 'paperless';
 
-	$payment_action = $this->config->getValue('payment/odbm_paperless/payment_action',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+	//$payment_action = $this->_config->getValue('payment/odbm_paperless/payment_action',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 	/** @var PaymentDataObjectInterface $paymentDO */
 	$paymentDO = $buildSubject['payment'];
