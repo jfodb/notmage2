@@ -1013,9 +1013,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				$OrderLines = array();
 
-				$productisrecurring = false;
+
 				foreach ($items as $lineitem)
 				{
+					$original = false;
+					$productisrecurring = false;
+					$recurMotivationCode = false;
+
 					$quant = intval($lineitem['qty_ordered']);
 					if ($quant <= 0)
 						continue;  //BV Commerce throwback... they could order 0 of something
@@ -1039,11 +1043,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$lineitem['base_discount_amount'] = abs($lineitem['base_discount_amount']);
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
 
-					$original = $this->productModel->load($lineitem['product_id']);
+
 					if(!empty($lineitem['attr'])) {
 						$attr = $lineitem['attr'];
 					} else {
-						
+						$original = $this->productModel->load($lineitem['product_id']);
 						if ($original->getResource()->getAttribute('productoffertype'))
 							$attr = $original->getAttributeText('productoffertype');
 						else
@@ -1051,20 +1055,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					}
 
 
-
 					//is product recurring???
-					if(!empty($original)) {
-						$p_options = $original->getProductOptionByCode('info_buyRequest');
+					if(!empty($lineitem['recurring'])){
+						//cached item record
+						$productisrecurring = true;
 
-						if(!empty($p_options)) {
-							$productisrecurring = $p_options['_recurring'] ?? false;
-							$productisrecurring = !empty($productisrecurring) && ($productisrecurring !== 'false'); //just in case of a string
+						if(!empty($lineitem['recurmotivation']))
+							$recurMotivationCode = $lineitem['recurmotivation'];
+					} else if(!empty($product_options['info_buyRequest'])){
+						//database item record
+						$product_options = $lineitem['product_options'];
+						if(is_string($product_options))
+							$product_options = json_decode($product_options, true);
 
-							if ($productisrecurring && !empty($p_options['_recurmotivation']))
-								$recurMotivationCode = $p_options['_recurmotivation'];
-							else
-								$recurMotivationCode = false;
-						}
+						if(!empty($product_options['info_buyRequest']['_recurring']) && $product_options['info_buyRequest']['_recurring'] !== false)
+							$productisrecurring = true;
+
+						if(!empty($product_options['info_buyRequest']['_recurmotivation']))
+							$recurMotivationCode = $product_options['info_buyRequest']['_recurmotivation'];
 					}
 
 
@@ -1094,7 +1102,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								$li["DiscountAmount"] = '0.00';
 							}
 							else {
-
+								if(empty($original))
+									$original = $this->productModel->load($lineitem['product_id']);
 								$price = $original->getPrice();
 
 								//Mage ::log("Ordering $quant of {$lineitem['sku']} with a discount");
@@ -1137,12 +1146,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					//check to see if product was already loaded in object form from DB
 					//if(empty($original)) {
 					//	$original = Mage ::getModel('catalog/product')->setStoreId($this->store)->load();
-					$original = $this->productModel->load($lineitem['product_id']);
+
 
 
 					//fetch set product type if available
 					if(empty($attr)) {
 						if(empty($lineitem['attr'])) {
+							if(empty($original))
+								$original = $this->productModel->load($lineitem['product_id']);
 							if ($original->getResource()->getAttribute('productoffertype'))
 								$attr = $original->getAttributeText('productoffertype');
 							else $attr = false;
