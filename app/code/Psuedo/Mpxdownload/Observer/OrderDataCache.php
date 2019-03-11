@@ -50,6 +50,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			'cc_trans_id' => $payment->getCcTransId(),
 			'last_trans_id' => $payment->getLastTransId(),
 			'cc_approval' => $payment->getCcApproval(),
+			'cc_status_description' => $payment->getCcStatusDescription(),
 			'additional_information' => $payment->getAdditionalInformation()
 		];
 		
