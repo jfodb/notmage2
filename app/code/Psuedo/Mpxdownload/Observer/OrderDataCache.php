@@ -127,7 +127,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 
 			if(/*empty($itm_data['_recurring']) && */ !empty($itm_data['info']['_recurring']) && $itm_data['info']['_recurring'] !== 'false')
 				$itm_data['recurring'] = true;
-			if($itm_data['recurring'] && !empty($itm_data['info']['_recurmotivation']))
+			if(!empty($itm_data['recurring']) && !empty($itm_data['info']['_recurmotivation']))
 				$item_data['recurmotivation'] = $itm_data['info']['_recurmotivation'];
 			
 			$item_data[] = $itm_data;
