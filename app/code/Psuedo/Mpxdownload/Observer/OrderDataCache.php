@@ -118,11 +118,17 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				'base_discount_amount' => $itm->getBaseDiscountAmount(),
 				'price' => $itm->getPrice(),
 				'original_price' => $itm->getOriginalPrice(),
-				'attr' => $itm->getProductType()
+				'attr' => $itm->getProductType(),
+				'info' => $itm->getProductOptionByCode('info_buyRequest')
 			];
 			
 			if(empty($itm_data['attr']) && $itm->getResource()->getAttribute('productoffertype'))
 				 $itm_data['attr'] = $itm->getResource()->getAttribute('productoffertype');
+
+			if(/*empty($itm_data['_recurring']) && */ !empty($itm_data['info']['_recurring']) && $itm_data['info']['_recurring'] !== 'false')
+				$itm_data['recurring'] = true;
+			if($itm_data['recurring'] && !empty($itm_data['info']['_recurmotivation']))
+				$item_data['recurmotivation'] = $itm_data['info']['_recurmotivation'];
 			
 			$item_data[] = $itm_data;
 		}
