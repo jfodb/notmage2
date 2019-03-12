@@ -1176,6 +1176,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if(empty($recurMotivationCode))
 							$recurMotivationCode = 'INR1';  //default motivation code
 
+						if(!isset($payment['cc_type']))
+							$payment['cc_type'] = ''; //don't let no-found exception take us down
+
 						if ($productisrecurring) {
 							$OrderRow['JobDetailRecurringGifts'] = [
 								'MotivationCode' => $recurMotivationCode,
