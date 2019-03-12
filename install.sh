@@ -23,9 +23,7 @@ echo "tail -200 /usr/share/nginx/html/magento/var/log/system.log | less" >> /hom
 echo "rm -rf var/page_cache/* var/cache/*" >> /home/ec2-user/.bash_history
 echo "/usr/share/nginx/html/magento" >> /home/ec2-user/.bash_history
 echo "grep " 400\|500 " /usr/share/nginx/html/magento-access.log | grep -v "CloudFront" | less" >> /home/ec2-user/.bash_history
-echo "" >> /home/ec2-user/.bash_history
-echo "" >> /home/ec2-user/.bash_history
-echo "" >> /home/ec2-user/.bash_history
+
 
 #make a rebuild script outside of the magento html dir
 echo "sudo rm -rf magento/pub/static/*" >> /usr/share/nginx/html/magentorebuild.sh
