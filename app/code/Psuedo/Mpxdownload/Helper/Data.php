@@ -1176,13 +1176,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if(empty($recurMotivationCode))
 							$recurMotivationCode = 'INR1';  //default motivation code
 
-						if(!isset($payment['cc_type']))
-							$payment['cc_type'] = ''; //don't let no-found exception take us down
+						if(empty($payment['cc_type']))
+							$card_type = ''; //don't let no-found exception take us down
+						else {
+							switch ($payment['cc_type']){
+								case 'MC': $card_type = 'CARD_MASTER';
+								break;
+								case 'VI': $card_type = 'CARD_VISA';
+								break;
+								case 'AE': $card_type = 'CARD_AMEX';
+								break;
+								case 'DI': $card_type = 'CARD_DISCOVER';
+								break;
+								default:
+									$card_type = 'CARD_UNKNOWN';
+							}
+						}
 
 						if ($productisrecurring) {
 							$OrderRow['JobDetailRecurringGifts'] = [
 								'MotivationCode' => $recurMotivationCode,
-								'SourcePaymentType' => $payment['cc_type'],
+								'SourcePaymentType' => $card_type,
 								'GiftAmount' => $OrderRow["GiftAmount"],
 								'ProfileNumber' => $OrderRow['cardprofile'],
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
