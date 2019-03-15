@@ -27,38 +27,37 @@ $thankYouPage = $block->getCustomPage();
             <h1 class="ty">
                 <?php if ( $is_recurring ): ?>
                     <?php if ($_order->getCustomerIsGuest()) :?>
-                        <?php echo __('%1, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
+                            <?php echo __('%1, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
                     <?php  else: ?>
-                        <?php echo __('%1, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getCustomerFirstName())) ?>
+                            <?php echo __('%1, thank you for becoming a Monthly Partner!', sprintf('%s', $_order->getCustomerFirstName())) ?>
                     <?php endif; // is guest ?>
                 <?php else: ?>
 
-                <?php if ($_order->getCustomerIsGuest()) :?>
-                    <?php echo __('%1, thank you for your support!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
-                <?php  else: ?>
-                    <?php echo __('%1, thank you for your support!', sprintf('%s', $_order->getCustomerFirstName())) ?>
-                <?php endif; // is guest ?>
+                    <?php if ($_order->getCustomerIsGuest()) :?>
+                        <?php echo __('%1, thank you for your support!', sprintf('%s', $_order->getBillingAddress()->getFirstname())) ?>
+                    <?php  else: ?>
+                        <?php echo __('%1, thank you for your support!', sprintf('%s', $_order->getCustomerFirstName())) ?>
+                    <?php endif; // is guest ?>
+                <?php endif; ?>
 
             </h1>
-            <?php if ($block->getOrderId()):?>
-                <p class="giftdetailslabel">We appreciate your generous one-time gift of <span class="highlight"><?php echo $_order->formatPrice($_order->getGrandTotal()); ?></span> given by <span class="highlight"><?php echo $_order->getPayment()->getMethodInstance()->getTitle(); ?></span>.</p>
-                <p class="giftdetailslabel">Your transaction number is <span class="highlight"><?php
-                        if ($block->getCanViewOrder()) {
-                            echo __(
-                                '%1',
-                                sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>',
-                                    $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId())
-                                )
-                            );
-                        } else {
-                            echo $block->escapeHtml($block->getOrderId());
-                        }
-                        ?></span>.</p>
+                        <?php if ($block->getOrderId()):?>
+                            <p class="giftdetailslabel">We appreciate your generous <?php if ( $is_recurring ) {echo 'monthly';}else{echo 'one-time';} ?> gift of <span class="highlight"><?php echo $_order->formatPrice($_order->getGrandTotal()); ?></span> given by <span class="highlight"><?php echo $_order->getPayment()->getMethodInstance()->getTitle(); ?></span>.</p>
+                            <p class="giftdetailslabel">Your transaction number is <span class="highlight">
+                                    <?php if ($block->getCanViewOrder()) {
+                                        echo __(
+                                            '%1',
+                                            sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>',
+                                                $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId())
+                                            )
+                                        );
+                                    } else {
+                                        echo $block->escapeHtml($block->getOrderId());
+                                    }
+                                    ?></span>.</p>
                 <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('thankyousocial')->toHtml();?>
 
-            <?php endif; ?>
-
-            <?php endif; ?>
+                        <?php endif; ?>
 
             <?php endif; ?>
 
