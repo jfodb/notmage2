@@ -71,7 +71,6 @@ class Template extends \Magento\Config\Model\Config\Source\Email\Template
         }
         $options = $collection->toOptionArray();
         $templateId = $this->getPath();
-        // $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
         $templateLabel = __('Please select an email template');
         array_unshift($options, ['value' => $templateId, 'label' => $templateLabel]);
         return $options;
