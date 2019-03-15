@@ -34,6 +34,28 @@ class Template extends \Magento\Config\Model\Config\Source\Email\Template
         $this->_templatesFactory = $templatesFactory;
         $this->_emailConfig = $emailConfig;
     }
+
+    /**
+     * Generate list of email templates
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        /** @var $collection \Magento\Email\Model\ResourceModel\Template\Collection */
+        if (!($collection = $this->_coreRegistry->registry('config_system_email_template'))) {
+            $collection = $this->_templatesFactory->create();
+            $collection->load();
+            $this->_coreRegistry->register('config_system_email_template', $collection);
+        }
+        $options = $collection->toOptionArray();
+        $templateId = str_replace('/', '_', $this->getPath());
+        $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
+        $templateLabel = __('%1 (Default)', $templateLabel);
+        array_unshift($options, ['value' => $templateId, 'label' => $templateLabel]);
+        return $options;
+    }
+
     /**
      * Generate list of email templates
      *
