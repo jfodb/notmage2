@@ -1,0 +1,553 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject Thank You for Becoming a Monthly Partner! @-->
+<!--@vars {
+"var formattedBillingAddress|raw":"Billing Address",
+"var order.getEmailCustomerNote()":"Email Order Note",
+"var order.getBillingAddress().getName()":"Guest Customer Name",
+"var order.getCreatedAtFormatted(2)":"Order Created At (datetime)",
+"var order.increment_id":"Order Id",
+"layout handle=\"sales_email_order_items\" order=$order":"Order Items Grid",
+"var payment_html|raw":"Payment Details",
+"var formattedShippingAddress|raw":"Shipping Address",
+"var order.getShippingDescription()":"Shipping Description",
+"var shipping_msg":"Shipping message"
+} @-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+    <title>Our Daily Bread Ministries</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i" rel="stylesheet">
+    <style type="text/css">
+        {{var template_styles|raw}}
+
+        {{css file="css/email.css"}}
+    </style>
+
+
+
+
+
+    <style type="text/css">.Dop html
+    {
+        width: 100%;
+    }
+
+    .Dop ::-moz-selection{background:#fefac7;color:#323437;}
+    .Dop ::selection{background:#fefac7;color:#323437;}
+
+    .Dop body {
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+    }
+
+    .Dop .ReadMsgBody
+    {
+        width: 100%;
+        background-color: #f9f9f9;
+    }
+    .Dop .ExternalClass
+    {
+        width: 100%;
+        background-color: #f9f9f9;
+    }
+
+    .Dop a {
+        color:#274b8d;
+        text-decoration:none;
+        font-weight:300;
+        font-style: normal;
+    }
+    .Dop a:hover {color:#496daf;
+        text-decoration:none;
+        font-weight:300;
+        font-style: normal;
+        transition: all .25s ease-in-out;
+
+    }
+
+    .Dop a.heading-link {
+        text-decoration:none;
+        font-weight:300;
+        font-style: normal;
+    }
+
+    .Dop a.heading-link:hover {
+        text-decoration:none;
+        font-weight:300;
+        font-style: normal;
+    }
+
+    strong {font-weight: 700;}
+
+    .Dop p,
+    .Dop div {
+        margin: 0 !important;
+    }
+    .Dop table {
+        border-collapse: collapse;
+    }
+
+
+
+    @media only screen and (max-width: 640px)  {
+        body { width: auto !important; padding: 0px 20px !important;}
+        body table table{width:100% !important; }
+        body table[class="table-wrapper"] {width: 100% !important; margin: 0 auto !important;}
+        body table[class="table-inner"] {width: 100% !important; margin: 0 auto !important;}
+        body table[class="full"] {width: 100% !important; margin: 0 auto !important;}
+        body td[class="center"] {text-align: center !important;}
+        body td[class="rewrite_padding"] {padding:30px !important;}
+
+        body img[class="img_scale"] {width: 100% !important; height: auto !Important;}
+        body img[class="divider"] {width: 100% !important; height: 1px !Important;}
+
+    }
+
+
+    @media only screen and (max-width: 479px)  {
+        body { width: auto !important; padding: 0px 20px !important;}
+        body table table{width:100% !important; }
+        body table[class="table-wrapper"] {width: 100% !important; margin: 0 auto !important;}
+        body table[class="table-inner"] {width: 100% !important; margin: 0 auto !important;}
+        body table[class="full"] {width: 100% !important; margin: 0 auto !important;}
+        body td[class="center"] {text-align: center !important;}
+        body td[class="rewrite_padding"] {padding:30px !important;}
+
+        body img[class="img_scale"] {width: 100% !important; height: auto !Important;}
+        body img[class="divider"] {width: 100% !important; height: 1px !Important;}
+
+    }
+    </style>
+</head>
+<body bgcolor="#F9F9F9" class="Dop" style="background-color:#ffffff; margin:0; padding:0;">
+{{inlinecss file="css/email-inline.css"}}
+<p style="padding-top:10px; text-align: center; color: #999999;font-family: PT Sans, Arial, sans-serif;">You made our day!</p>
+<!-- START Header -->
+
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); " width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top">
+            <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td style="padding: 0px 30px; color: rgb(139, 134, 134);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(139, 134, 134);" width="580">
+
+                            <tr style="color: rgb(139, 134, 134);">
+                                <td style="padding: 30px 0px; color: rgb(139, 134, 134);" valign="top">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="275">
+
+                                        <tr style="color: rgb(139, 134, 134);">
+                                            <td align="left" class="center" style="margin: 0px; padding: 0px; font-size: 14px; color: rgb(139, 134, 134); font-family: PT Sans, Arial, sans-serif; line-height: 20px;" valign="middle"><span style="color: rgb(139, 134, 134);"><a class="tea14-content-editable" href="http://ourdailybread.org" name="odbdotorg" style="color: rgb(0, 74, 151); border-color: rgb(0, 74, 151);" xt="SPCLICK"><img alt="Our Daily Bread Ministries" border="0" name="odblogolink" src="http://web001.rbc.org/enews/2016/odbm/odbmlogotop.png" style="display: inline-block; padding-top: 7px; width: 100%; max-width: 270px;" /></a></span></td>
+                                        </tr>
+
+                                    </table>
+
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="1">
+
+                                        <tr style="color: rgb(139, 134, 134);">
+                                            <td height="30" style="line-height: 0; color: rgb(139, 134, 134);" width="100%">&nbsp;</td>
+                                        </tr>
+
+                                    </table>
+
+                                    <table align="right" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="275">
+
+                                        <tr style="color: rgb(139, 134, 134);">
+                                            <td align="right" class="center" style="margin: 0px; padding-top: 5px; font-size: 14px; color: rgb(139, 134, 134); font-family: PT Sans, Arial, sans-serif; line-height: 30px;" valign="middle"><span style="color: rgb(139, 134, 134);"><a class="tea14-content-editable" href="https://www.facebook.com/ourdailybread" name="headerfacebooklink" style="color: rgb(0, 74, 151); text-decoration: none; border-color: rgb(0, 74, 151);" xt="SPCLICK"><img alt="Facebook" border="0" name="headerfacebook" src="https://s3.amazonaws.com/cdn.utmost.org/enews/2016/fallintodevotion/fbico.png" style="display: inline-block; border-color: rgb(0, 74, 151); color: rgb(0, 74, 151);  padding: 5px 10px 0px 10px;" /></a> &nbsp;&nbsp; <a class="tea14-content-editable" href="http://www.instagram.com/ourdailybread/" name="headerinstagramlink" style="color: rgb(0, 74, 151); text-decoration: none; border-color: rgb(0, 74, 151);" xt="SPCLICK"><img alt="Instagram" border="0" name="headerinstagram" src="https://s3.amazonaws.com/cdn.utmost.org/enews/2016/fallintodevotion/instico.png" style="display: inline-block; border-color: rgb(0, 74, 151); color: rgb(0, 74, 151); padding: 0px 20px 0px 10px;" /></a> &nbsp;&nbsp; <span style="display: inline-block; vertical-align: text-bottom;"><a href="https://donations.ourdailybread.org" name="headerdonate" style="display: block; font-family: 'PT Sans', Arial, Helvetica, sans-serif; color: #ffffff; font-size: 15px; background: #FAB432; border: solid #FAB432 1px; text-decoration: none;" xt="SPCLICK"><span style="padding: 6px 15px;"><strong>Donate</strong></span></a></span></span></td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+<!-- START 1/1 Column top image -->
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top">
+            <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134); background-color: #ffffff;" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td style="padding: 0px 30px; color: rgb(139, 134, 134);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(139, 134, 134);" width="580">
+
+                            <tr style="color: rgb(139, 134, 134);">
+                                <td style="padding: 0px; color: rgb(139, 134, 134);" valign="top">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="580">
+
+                                        <tr class="ds-remove" data-remove="ds-remove-78" style="color: rgb(139, 134, 134);">
+                                            <td align="center" style="padding-top: 20px; color: rgb(139, 134, 134);" valign="top">
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0px auto; color: rgb(139, 134, 134);">
+
+                                                    <tr class="ds-remove" data-remove="ds-remove-77" style="color: #555555;">
+                                                        <td align="left" style="margin: 0px; padding: 0px; font-size: 16px; font-weight: 300; color: #555555; font-family: 'PT Sans', Helvetica, Arial, sans-serif; line-height: 1.5em;" valign="middle">
+                                                            <h1 style="color: #004A97; font-size: 1.5em;">Your generosity and faithfulness are humbling.</h1>
+                                                            <p class="tea14-content-editable" style="color: #555555; padding-bottom: 15px;line-height: 1.5em; font-size: 1em;">Because of your support, lives are being changed and hearts are being transformed by God’s Word. More families will be strengthened, more prisoners will find hope, and more people will be encouraged to keep trusting the Lord in the midst of life’s challenges. It is the prayers and support of friends like you who allow us to continue reaching people around the world with the message of God’s love.</p>
+                                                            <p class="tea14-content-editable" style="color: #555555; padding-bottom: 15px;line-height: 1.5em; font-size: 1em;">The donation amount you designated will be charged automatically to your credit card each month. If this was not your intention, please contact us at 616-974-2210. One of our Ministry Service Representatives will be happy to help you.</p>
+                                                            <p class="tea14-content-editable" style="color: #555555; padding-bottom: 15px;line-height: 1.5em; font-size: 1em;">Thank you so much. You are a blessing to us and to millions around the world!</p>
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- END BUTTON-->
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top">
+            <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134); background-color: #ffffff;" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td style="padding: 0px 30px; color: rgb(139, 134, 134);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(139, 134, 134);" width="580">
+
+                            <tr style="color: rgb(139, 134, 134);">
+                                <td style="padding: 0px; color: rgb(139, 134, 134);" valign="top">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="580"><!-- START OF HEADING--><!-- END OF HEADING--><!-- START OF TEXT--><!-- END OF TEXT-->
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <!-- START OF VERTICAL SPACER-->
+                <tr style="color: rgb(139, 134, 134);">
+                    <td height="10" style="padding: 0px; line-height: 0; color: rgb(139, 134, 134);">&nbsp;</td>
+                </tr>
+                <!-- END OF VERTICAL SPACER-->
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top">
+            <table align="center" bgcolor="#f1f1f1" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134); background-color: #f1f1f1;" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td style="padding: 0px 30px; color: rgb(139, 134, 134);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(139, 134, 134);" width="580">
+
+                            <tr style="color: rgb(139, 134, 134);">
+                                <td style="padding: 0px; color: rgb(139, 134, 134);" valign="top">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="580">
+
+                                        <tr class="ds-remove" data-remove="ds-remove-78" style="color: rgb(139, 134, 134);">
+                                            <td align="center" style="padding-top: 20px; color: rgb(139, 134, 134);" valign="top">
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0px auto; color: rgb(139, 134, 134); padding-bottom: 20px;">
+
+                                                    <tr class="ds-remove" data-remove="ds-remove-77" style="color: #555555;">
+                                                        <td align="center" style="margin: 0px; padding: 0px; font-size: 16px; font-weight: 300; color: #555555; font-family: 'PT Sans', Helvetica, Arial, sans-serif; line-height: 1.5em;" valign="middle">
+                                                            <h1 style="color: #004A97; font-size: 1.3em;">Gift Details</h1>
+                                                            <p class="tea14-content-editable" style="color: #555555; padding-bottom: 15px;line-height: 1.5em; font-size: 1em;">Your gift is helping to change the lives of people around the world.</p>
+
+
+
+
+
+                                                            {{depend order.getEmailCustomerNote()}}
+                                                            <table class="message-info">
+                                                                <tr>
+                                                                    <td>
+                                                                        {{var order.getEmailCustomerNote()|escape|nl2br}}
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                            {{/depend}}
+                                                            <div id="salesitems" style="border-bottom: solid 1px #cccccc;">
+                                                                {{layout handle="sales_email_order_items" order=$order area="frontend"}}
+                                                            </div>
+                                                            <p style="padding-top: 15px;"><strong>{{trans 'Reference number: <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}</strong></p>
+                                                            <p style="padding-bottom: 15px;">{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$order.getCreatedAtFormatted(1) |raw}}</p>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <!-- END BUTTON-->
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top">
+            <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134); background-color: #ffffff;" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td style="padding: 0px 30px; color: rgb(139, 134, 134);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(139, 134, 134);" width="580">
+
+                            <tr style="color: rgb(139, 134, 134);">
+                                <td style="padding: 0px; color: rgb(139, 134, 134);" valign="top">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="580"><!-- START OF HEADING--><!-- END OF HEADING--><!-- START OF TEXT--><!-- END OF TEXT-->
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <!-- START OF VERTICAL SPACER-->
+                <tr style="color: rgb(139, 134, 134);">
+                    <td height="10" style="padding: 0px; line-height: 0; color: rgb(139, 134, 134);">&nbsp;</td>
+                </tr>
+                <!-- END OF VERTICAL SPACER-->
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(0, 0, 0);">
+        <td align="center" style="color: rgb(0, 0, 0);" valign="top">
+            <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" width="640">
+
+                <tr style="color: rgb(0, 0, 0);">
+                    <td style="padding: 0px 30px; color: rgb(0, 0, 0);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(0, 0, 0);" width="580">
+
+                            <tr style="color: rgb(0, 0, 0);">
+                                <td style="padding: 0px; color: rgb(0, 0, 0);" valign="top"><!-- START OF LEFT COLUMN-->
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(0, 0, 0);" width="174"><!-- START OF IMAGE-->
+
+                                        <tr style="color: rgb(0, 0, 0);">
+                                            <td align="center" style="margin: 0px; padding: 0px; text-transform: uppercase; font-size: 16px; font-weight: 300; color: rgb(0, 0, 0); font-family: 'Raleway', Arial, sans-serif; line-height: 26px;" valign="middle"><span style="color: rgb(0, 0, 0);"><img alt="" class="img_scale" name="Cont_0" src="http://cdn.rbc.org/enews/rbc/2014/thanks/rickd.png" style="display: block; border-color: rgb(0, 74, 151); color: rgb(0, 74, 151); max-width: 250px; padding-top: 15px;" width="174" /></span></td>
+                                        </tr>
+                                        <!-- END OF IMAGE-->
+
+                                    </table>
+                                    <!-- END OF LEFT COLUMN--><!-- START OF SPACER-->
+
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; color: rgb(0, 0, 0);" width="1">
+
+                                        <tr style="color: rgb(0, 0, 0);">
+                                            <td height="30" style="line-height: 0; color: rgb(0, 0, 0);" width="100%">&nbsp;</td>
+                                        </tr>
+
+                                    </table>
+                                    <!-- END OF SPACER--><!-- START OF RIGHT COLUMN-->
+
+                                    <table align="right" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(0, 0, 0);" width="376"><!-- START OF HEADING-->
+
+                                        <!-- START OF TEXT-->
+                                        <tr class="ds-remove" data-remove="ds-remove-103" style="color: rgb(0, 0, 0);">
+                                            <td align="left" style="margin: 0px; padding: 0px; font-size: 14px; font-weight: 300; color: rgb(60, 60, 60); font-family: 'Raleway', Arial, sans-serif; line-height: 24px; padding-top: 15px;" valign="middle">
+                                                <p>With appreciation,</p>
+                                                <p>&nbsp;</p>
+                                                <p><img src="https://d1aeh7hxqn8xf9.cloudfront.net/wp-content/uploads/2017/12/ricksig.png" name="Cont_0" width="150" id="Cont_0" style="max-width: 150px;" /></p>
+                                                <p>Rick DeHaan, President<br />
+                                                    Our Daily Bread Ministries</p>
+                                            </td>
+                                        </tr>
+                                        <!-- END OF TEXT--><!-- START BUTTON--><!-- END BUTTON-->
+
+                                    </table>
+                                    <!-- END OF RIGHT COLUMN--></td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <!-- START OF VERTICAL SPACER-->
+                <tr style="color: rgb(0, 0, 0);">
+                    <td height="60" style="padding: 0px; line-height: 0; color: rgb(0, 0, 0);">&nbsp;</td>
+                </tr>
+                <!-- END OF VERTICAL SPACER-->
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="padding: 0; margin: 0;" width="100%">
+
+    <tr>
+        <td align="center" valign="top">
+            <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" width="640">
+
+                <tr>
+                    <td style="padding: 0px 30px;" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" width="580">
+
+                            <tr>
+                                <td style="padding: 0px;" valign="top"><!-- START OF LEFT COLUMN-->
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="173"><!-- START OF IMAGE-->
+
+                                        <tr>
+                                            <td align="center" style="margin: 0; padding-bottom: 20px; text-transform: uppercase; font-size:16px ; font-weight: 400; color:#000000; font-family: 'PT Sans', Helvetica, Arial, sans-serif; line-height: 20px; " valign="middle"><span> <a href="http://ourdailybread.org" name="odbm_logo" style="color:#3dc9b3;" xt="SPCLICK"> <img alt="Our Daily Bread Ministries" name="Cont_0" src="http://web001.rbc.org/enews/2016/odbm/odbmlogofooter.png" style="display:inline-block;" width="173" /> </a> </span></td>
+                                        </tr>
+                                        <!-- END OF IMAGE-->
+
+                                    </table>
+                                    <!-- END OF LEFT COLUMN--><!-- START OF MIDDLE COLUMN-->
+
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="206"><!-- START OF IMAGE-->
+
+                                        <tr>
+                                            <td align="center" style="margin: 0; padding-bottom: 20px; text-transform: uppercase; font-size:16px ; font-weight: 400; color:#000000; font-family: 'PT Sans', Helvetica, Arial, sans-serif; line-height: 26px; " valign="middle" width="206"><a href="https://www.facebook.com/ourdailybread" name="odbm_facebook" style="color:#3dc9b3;" xt="SPCLICK"><img alt="Facebook" name="Cont_6" src="http://web001.rbc.org/enews/2016/dtw/ico_nfb.png" style="display:inline-block; padding: 0px 15px;" /></a> <a href="https://www.instagram.com/ourdailybread/" name="odbm_instagram" style="color:#3dc9b3;" xt="SPCLICK"><img alt="Instagram" name="Cont_7" src="http://web001.rbc.org/enews/2016/dtw/ico_ninst.png" style="display:inline-block;" /></a></td>
+                                        </tr>
+                                        <!-- END OF IMAGE-->
+
+                                    </table>
+                                    <!-- END OF MIDDLE COLUMN--><!-- START OF RIGHT COLUMN-->
+
+                                    <table align="right" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="187"><!-- START OF IMAGE-->
+
+                                        <tr>
+                                            <td align="center" style="margin: 0; padding-bottom: 20px; text-transform: uppercase; font-size:16px ; font-weight: 400; color:#000000; font-family: 'PT Sans', Helvetica, Arial, sans-serif; line-height: 26px; " valign="middle"></td>
+                                        </tr>
+                                        <!-- END OF IMAGE-->
+
+                                    </table>
+                                    <!-- END OF RIGHT COLUMN--></td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+<!-- END OF 1/3 COLUMN--><!-- START 1/1 Column top image -->
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top">
+            <table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td style="padding: 0px 30px; color: rgb(139, 134, 134);" width="640">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-inner" style="color: rgb(139, 134, 134);" width="580">
+
+                            <tr style="color: rgb(139, 134, 134);">
+                                <td style="padding: 0px; color: rgb(139, 134, 134);" valign="top">
+                                    <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse: collapse; color: rgb(139, 134, 134);" width="580"><!-- START OF HEADING--><!-- END OF HEADING--><!-- START OF TEXT-->
+
+                                        <tr class="ds-remove" data-remove="ds-remove-77" style="color: #555555;">
+                                            <td align="left" style="margin: 0px; padding: 0px; font-size: 12px; font-weight: 300; color: #555555; font-family: 'PT Sans', Helvetica, Arial, sans-serif; line-height: 16px; margin-top: 15px; padding-top: 15px; border-top: solid 1px #999999; " valign="middle">
+                                                <p><strong>Our mission</strong> is to make the life-changing wisdom of the Bible understandable and accessible to all.</p>
+
+                                                <p><br />
+                                                    <strong>Our vision</strong> is to see people of all nations experiencing a personal relationship with Christ, growing to be more like Him, and serving in a local body of His family.</p>
+                                            </td>
+                                        </tr>
+                                        <!-- END OF TEXT-->
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+                <!-- START OF VERTICAL SPACER-->
+                <tr style="color: rgb(139, 134, 134);">
+                    <td height="20" style="padding: 0px; line-height: 0; color: rgb(139, 134, 134);">&nbsp;</td>
+                </tr>
+                <!-- END OF VERTICAL SPACER-->
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+<!-- END 1/1 Column top image --><!-- START 1/1 Column top image --><!-- START OF 1/3 COLUMN-->
+
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="padding: 0; margin: 0;" width="100%">
+
+    <tr>
+        <td align="center" valign="top">
+            <table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" width="640">
+
+                <tr>
+                    <td style="padding: 0px 30px;" width="640">
+
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<table align="center" bgcolor="#F9F9F9" border="0" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px; color: rgb(139, 134, 134); background-color: rgb(255, 255, 255);" width="100%">
+
+    <tr style="color: rgb(139, 134, 134);">
+        <td align="center" style="color: rgb(139, 134, 134);" valign="top"><!-- START OF VERTICAL SPACER-->
+            <table align="center" border="0" cellpadding="0" cellspacing="0" class="table-wrapper" style="color: rgb(139, 134, 134);" width="640">
+
+                <tr style="color: rgb(139, 134, 134);">
+                    <td height="40" style="color: rgb(139, 134, 134);" width="100%">&nbsp;</td>
+                </tr>
+
+            </table>
+            <!-- END OF VERTICAL SPACER--></td>
+    </tr>
+
+</table>
+<!-- END Sub footer for logo --></body>
+</html>
