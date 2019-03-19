@@ -23,7 +23,8 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         \Magento\Sales\Model\ResourceModel\Order $orderResource,
         \Magento\Framework\App\Config\ScopeConfigInterface $globalConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory
+        \Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->templateContainer = $templateContainer;
 
@@ -40,6 +41,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         );
 
         $this->_productRepositoryFactory = $productRepositoryFactory;
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function send(\Magento\Sales\Model\Order $order, $forceSyncMode = false)
@@ -59,12 +61,12 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         }
 
         // if recurring donation, change default template
-        // hard coded [table]email_template  [column]template_id
-        // TODO: develop a dropdown to make this field a select box in the system configuration and changeable by store
         $product_options = $orderItems[0]->getProductOptionByCode('info_buyRequest');
         $is_recurring = $product_options['_recurring'] ?? false;
         if ($is_recurring==='true') {
-            $customTemplate = 11;
+            // TODO: If we add log-in functionality, create a guest version and assign it here
+            // $customTemplate = 'sales_email_order_recurring_template';
+            $customTemplate = $this->scopeConfig->getValue('sales_email/order/recurring_template', \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ?? 'sales_email_order_recurring_template';
         }
 
         // set templateContainer's customTemplateId
