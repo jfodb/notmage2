@@ -24,13 +24,31 @@ class AdditionalConfigProvider implements \Magento\Checkout\Model\ConfigProvider
     public function isRecurring() {
         $is_recurring = false;
 
-        $items = $this->_session->getQuote()->getAllVisibleItems();
+        $mainitems = $this->_session->getQuote()->getAllItems();
+        //$items = $this->_session->getQuote()->getAllVisibleItems();
 
-        foreach( $items as $item ) {
-            $product_options = $item->getProductOptionByCode('info_buyRequest');
-            $is_recurring = $product_options['_recurring'] ?? $is_recurring;
+        foreach ($mainitems as $mitem) {
+        	//->getProductOptionByCode('info_buyRequest')  is not set, so the request gets dumped go get() _data['product_options_by_code']
+
+	        //root out the product to get the details
+	        $product = $mitem->getProduct();
+	        if(!empty($product)) {
+		        //get product options
+		        $options_deep = $product->getCustomOptions();
+		        if (isset($options_deep['info_buyRequest'])) {
+			        $json = $options_deep['info_buyRequest']->getData('value');
+			        if ($json) {
+				        $fields = json_decode($json, true);
+				        if (!empty($fields['_recurring']) && $fields['_recurring'] == 'true') {
+					        $is_recurring = true;
+					        break;
+				        }
+			        }
+		        }
+	        }
         }
-     
+
+
         return $is_recurring;
     }
 }
