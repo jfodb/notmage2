@@ -52,7 +52,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
 		// Get order item
 		$order = $this->getOrderItemsDetails();
 		$items = $order->getAllItems();
-		$order_item = $items[0];
+		//$order_item = $items[0];
 
 		$is_recurring = false;
 
