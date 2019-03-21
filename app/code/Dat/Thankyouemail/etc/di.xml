@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+        <preference for="Magento\Sales\Model\Order\Email\SenderBuilder" type="Dat\Thankyouemail\Model\Order\Email\SenderBuilder" />
+        <preference for="Magento\Sales\Model\Order\Email\Container\Template" type="Dat\Thankyouemail\Model\Order\Email\Container\Template" />
+        <preference for="Magento\Sales\Model\Order\Email\Sender\OrderSender" type="Dat\Thankyouemail\Model\Order\Email\Sender\OrderSender"/>
+        <preference for="Magento\Config\Model\Config\Source\Email\Template" type="Dat\Thankyouemail\Model\Config\Source\Email\Template"/>
+</config>

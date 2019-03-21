@@ -875,16 +875,16 @@
         },
         {
             "name": "donatj/phpuseragentparser",
-            "version": "v0.11.1",
+            "version": "v0.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/donatj/PhpUserAgent.git",
-                "reference": "0eab93a89a1a73a087e795abc96d5777c3d48b64"
+                "reference": "b75e4e63a6e15d3c14262a400aeb698cf33316fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/0eab93a89a1a73a087e795abc96d5777c3d48b64",
-                "reference": "0eab93a89a1a73a087e795abc96d5777c3d48b64",
+                "url": "https://api.github.com/repos/donatj/PhpUserAgent/zipball/b75e4e63a6e15d3c14262a400aeb698cf33316fa",
+                "reference": "b75e4e63a6e15d3c14262a400aeb698cf33316fa",
                 "shasum": ""
             },
             "require": {
@@ -922,7 +922,7 @@
                 "user agent",
                 "useragent"
             ],
-            "time": "2018-10-25T20:22:53+00:00"
+            "time": "2019-02-22T19:34:21+00:00"
         },
         {
             "name": "dotmailer/dotmailer-magento2-extension",
@@ -9514,16 +9514,16 @@
         },
         {
             "name": "mageplaza/module-core",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mageplaza/module-core.git",
-                "reference": "7e9081781ed3a28e011db68a8df01fe19249aac0"
+                "reference": "19fcf838306acb4632972b2c31d5a2d283ddead8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mageplaza/module-core/zipball/7e9081781ed3a28e011db68a8df01fe19249aac0",
-                "reference": "7e9081781ed3a28e011db68a8df01fe19249aac0",
+                "url": "https://api.github.com/repos/mageplaza/module-core/zipball/19fcf838306acb4632972b2c31d5a2d283ddead8",
+                "reference": "19fcf838306acb4632972b2c31d5a2d283ddead8",
                 "shasum": ""
             },
             "type": "magento2-module",
@@ -9548,7 +9548,7 @@
                 }
             ],
             "description": "Mageplaza Core for Magento 2",
-            "time": "2018-11-06T12:00:59+00:00"
+            "time": "2019-02-19T03:17:17+00:00"
         },
         {
             "name": "mageplaza/module-smtp",
@@ -12226,16 +12226,16 @@
         },
         {
             "name": "zendframework/zend-db",
-            "version": "2.9.3",
+            "version": "2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-db.git",
-                "reference": "5b4f2c42f94c9f7f4b2f456a0ebe459fab12b3d9"
+                "reference": "77022f06f6ffd384fa86d22ab8d8bbdb925a1e8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-db/zipball/5b4f2c42f94c9f7f4b2f456a0ebe459fab12b3d9",
-                "reference": "5b4f2c42f94c9f7f4b2f456a0ebe459fab12b3d9",
+                "url": "https://api.github.com/repos/zendframework/zend-db/zipball/77022f06f6ffd384fa86d22ab8d8bbdb925a1e8e",
+                "reference": "77022f06f6ffd384fa86d22ab8d8bbdb925a1e8e",
                 "shasum": ""
             },
             "require": {
@@ -12246,7 +12246,7 @@
                 "phpunit/phpunit": "^5.7.25 || ^6.4.4",
                 "zendframework/zend-coding-standard": "~1.0.0",
                 "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
-                "zendframework/zend-hydrator": "^1.1 || ^2.1",
+                "zendframework/zend-hydrator": "^1.1 || ^2.1 || ^3.0",
                 "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
             },
             "suggest": {
@@ -12280,7 +12280,7 @@
                 "db",
                 "zf"
             ],
-            "time": "2018-04-09T13:21:36+00:00"
+            "time": "2019-02-25T11:37:45+00:00"
         },
         {
             "name": "zendframework/zend-di",
@@ -13850,16 +13850,16 @@
         },
         {
             "name": "zendframework/zend-uri",
-            "version": "2.6.1",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-uri.git",
-                "reference": "3b6463645c6766f78ce537c70cb4fdabee1e725f"
+                "reference": "b2785cd38fe379a784645449db86f21b7739b1ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-uri/zipball/3b6463645c6766f78ce537c70cb4fdabee1e725f",
-                "reference": "3b6463645c6766f78ce537c70cb4fdabee1e725f",
+                "url": "https://api.github.com/repos/zendframework/zend-uri/zipball/b2785cd38fe379a784645449db86f21b7739b1ee",
+                "reference": "b2785cd38fe379a784645449db86f21b7739b1ee",
                 "shasum": ""
             },
             "require": {
@@ -13874,8 +13874,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev",
-                    "dev-develop": "2.7.x-dev"
+                    "dev-master": "2.7.x-dev",
+                    "dev-develop": "2.8.x-dev"
                 }
             },
             "autoload": {
@@ -13893,7 +13893,7 @@
                 "uri",
                 "zf"
             ],
-            "time": "2018-04-30T13:40:08+00:00"
+            "time": "2019-02-27T21:39:04+00:00"
         },
         {
             "name": "zendframework/zend-validator",

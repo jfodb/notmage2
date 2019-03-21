@@ -769,6 +769,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					}
 
 					$OrderRow["CardholderName"] = $order_grid['billing_name'];
+
+					if(!empty($payment['cc_status_description']))
+						$OrderRow['cardprofile'] = $payment['cc_status_description'];
+
+
+
+
+
 				}
 				else
 				{
@@ -821,7 +829,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
-					$addrline["OrganizationName"] = trim($row['company']);
 					if(is_array($row['street'])){
 						for($z=0; $z<count($row['street']); $z++) {
 							$addrline["Address" . ($z+1) ] = $row['street'][$z];
@@ -1006,8 +1013,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				$OrderLines = array();
 
+
 				foreach ($items as $lineitem)
 				{
+					$original = false;
+					$productisrecurring = false;
+					$recurMotivationCode = false;
+
 					$quant = intval($lineitem['qty_ordered']);
 					if ($quant <= 0)
 						continue;  //BV Commerce throwback... they could order 0 of something
@@ -1025,21 +1037,45 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$li["SourcePriceCode"] = "Internet";
 
 
+
 					//all discounts remain positive!
 					if($lineitem['base_discount_amount'] != 0)
 						$lineitem['base_discount_amount'] = abs($lineitem['base_discount_amount']);
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
 
-					$original = $this->productModel->load($lineitem['product_id']);
+
 					if(!empty($lineitem['attr'])) {
 						$attr = $lineitem['attr'];
 					} else {
-						
+						$original = $this->productModel->load($lineitem['product_id']);
 						if ($original->getResource()->getAttribute('productoffertype'))
 							$attr = $original->getAttributeText('productoffertype');
 						else
 							$attr = false;
 					}
+
+
+					//is product recurring???
+					if(!empty($lineitem['recurring'])){
+						//cached item record
+						$productisrecurring = true;
+
+						if(!empty($lineitem['recurmotivation']))
+							$recurMotivationCode = $lineitem['recurmotivation'];
+					} else if(!empty($product_options['info_buyRequest'])){
+						//database item record
+						$product_options = $lineitem['product_options'];
+						if(is_string($product_options))
+							$product_options = json_decode($product_options, true);
+
+						if(!empty($product_options['info_buyRequest']['_recurring']) && $product_options['info_buyRequest']['_recurring'] !== false)
+							$productisrecurring = true;
+
+						if(!empty($product_options['info_buyRequest']['_recurmotivation']))
+							$recurMotivationCode = $product_options['info_buyRequest']['_recurmotivation'];
+					}
+
+
 
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
@@ -1066,7 +1102,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								$li["DiscountAmount"] = '0.00';
 							}
 							else {
-
+								if(empty($original))
+									$original = $this->productModel->load($lineitem['product_id']);
 								$price = $original->getPrice();
 
 								//Mage ::log("Ordering $quant of {$lineitem['sku']} with a discount");
@@ -1109,12 +1146,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					//check to see if product was already loaded in object form from DB
 					//if(empty($original)) {
 					//	$original = Mage ::getModel('catalog/product')->setStoreId($this->store)->load();
-					$original = $this->productModel->load($lineitem['product_id']);
+
 
 
 					//fetch set product type if available
 					if(empty($attr)) {
 						if(empty($lineitem['attr'])) {
+							if(empty($original))
+								$original = $this->productModel->load($lineitem['product_id']);
 							if ($original->getResource()->getAttribute('productoffertype'))
 								$attr = $original->getAttributeText('productoffertype');
 							else $attr = false;
@@ -1126,6 +1165,49 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$li['SourceProductType'] = ucfirst(strtolower($attr)); //camelcase
 					else
 						$li['SourceProductType'] = 'Sale';
+
+
+
+
+					//back to payment data:
+					if(!empty($payment)) {
+
+
+						if(empty($recurMotivationCode))
+							$recurMotivationCode = 'INR1';  //default motivation code
+
+						if(empty($payment['cc_type']))
+							$card_type = ''; //don't let no-found exception take us down
+						else {
+							switch ($payment['cc_type']){
+								case 'MC': $card_type = 'CARD_MASTER';
+								break;
+								case 'VI': $card_type = 'CARD_VISA';
+								break;
+								case 'AE': $card_type = 'CARD_AMEX';
+								break;
+								case 'DI': $card_type = 'CARD_DISCOVER';
+								break;
+								default:
+									$card_type = 'CARD_UNKNOWN';
+							}
+						}
+
+						if ($productisrecurring) {
+							$OrderRow['JobDetailRecurringGifts'] = [
+								'MotivationCode' => $recurMotivationCode,
+								'SourcePaymentType' => $card_type,
+								'GiftAmount' => $OrderRow["GiftAmount"],
+								'ProfileNumber' => $OrderRow['cardprofile'],
+								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
+								'ExpirationDate' => $OrderRow['ExpirationDate'],
+								'CardholderName' => $OrderRow["CardholderName"],
+								'RecurrenceType' => 'monthly'  //presently fixed at monthly
+							];
+						}
+
+						$productisrecurring = false;  //wipe it for next iteration
+					}
 
 
 					$OrderLines[] = $li;

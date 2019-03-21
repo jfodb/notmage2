@@ -26,8 +26,6 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 	public function execute(
 		\Magento\Framework\Event\Observer $observer
 	) {
-
-		$this->logger->alert("Order Cache activated for ".$_SERVER['REQUEST_URI']);
 		//not a capture/payment event.
 		if(empty($GLOBALS['_FLAGS']) || empty($GLOBALS['_FLAGS']['payment']) || empty($GLOBALS['_FLAGS']['payment']['capture'])) {
 			$this->logger->alert("Not presently a payment-capture so not caching");
@@ -52,6 +50,8 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			'cc_trans_id' => $payment->getCcTransId(),
 			'last_trans_id' => $payment->getLastTransId(),
 			'cc_approval' => $payment->getCcApproval(),
+			'cc_status_description' => $payment->getCcStatusDescription(),
+			'cc_type' => $payment->getCcType(),
 			'additional_information' => $payment->getAdditionalInformation()
 		];
 		
@@ -119,11 +119,17 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				'base_discount_amount' => $itm->getBaseDiscountAmount(),
 				'price' => $itm->getPrice(),
 				'original_price' => $itm->getOriginalPrice(),
-				'attr' => $itm->getProductType()
+				'attr' => $itm->getProductType(),
+				'info' => $itm->getProductOptionByCode('info_buyRequest')
 			];
 			
 			if(empty($itm_data['attr']) && $itm->getResource()->getAttribute('productoffertype'))
 				 $itm_data['attr'] = $itm->getResource()->getAttribute('productoffertype');
+
+			if(/*empty($itm_data['_recurring']) && */ !empty($itm_data['info']['_recurring']) && $itm_data['info']['_recurring'] !== 'false')
+				$itm_data['recurring'] = true;
+			if(!empty($itm_data['recurring']) && !empty($itm_data['info']['_recurmotivation']))
+				$item_data['recurmotivation'] = $itm_data['info']['_recurmotivation'];
 			
 			$item_data[] = $itm_data;
 		}
