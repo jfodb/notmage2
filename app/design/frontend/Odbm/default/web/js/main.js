@@ -128,6 +128,15 @@ require(['jquery', 'jquery/ui'], function($) {
 		});
 
 
+		$('input[name=_recurring]').change(function () {
+			if($('#_recurring-yes').is(':checked')) {
+				$('.ot').css('display', 'none');
+				$('.rc').css('display','inline-block');
+			} else {
+				$('.ot').css('display', 'inline-block');
+				$('.rc').css('display','none');
+			}
+		});
 
 	});
 });
