@@ -1,5 +1,4 @@
 
-
 function check4block() {
     
     if(document.cookie.indexOf('notified') > 0){
