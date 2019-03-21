@@ -12,4 +12,5 @@ function check4block() {
     }
 }
 
-setTimeout(check4block, 2000);
+// disable adBlocker check and alert
+// setTimeout(check4block, 2000);
