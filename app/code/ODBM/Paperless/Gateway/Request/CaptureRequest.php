@@ -31,7 +31,7 @@ class CaptureRequest extends PaperlessRequest
 
 	$GLOBALS['_FLAGS']['payment']['method'] = 'paperless';
 
-	$payment_action = $this->config->getValue('payment/odbm_paperless/payment_action',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+	//$payment_action = $this->_config->getValue('payment/odbm_paperless/payment_action',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 	/** @var PaymentDataObjectInterface $paymentDO */
 	$paymentDO = $buildSubject['payment'];
@@ -52,17 +52,25 @@ class CaptureRequest extends PaperlessRequest
 		if(!empty((string)$payment->getCcApproval())){
 			$additional['source'] = ['approvalNumber' => $payment->getCcApproval()];
 		} else {
+			if ($profile = $this->is_profiled($payment)){
+				if($profile === true)
+					$additional['source'] = ['profileNumber' => $payment->getCcStatusDescription()];
+				else
+					$additional['source'] = ['profileNumber' => $profile];
 
+				$additional['metadata'] = $this->customfields;
+			}
+			else
 			if ($token = $this->is_tokenized($payment)) {
-				//insert vault access here
-				if($token === true)
-					$token = $payment->getCcStatusDescription();
-
+				$token = $payment->getAdditionalInformation('cc_token');
+				if(preg_match('/^[\'"]".*[\'"]$/', $token))
+					$token = json_decode($token);
 				$cardname = $payment->getCcOwner();
-				
-				if(empty($cardname))
-					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
 
+				if(empty($cardname)) {
+					$address = $order->getBillingAddress();
+					$cardname = $address->getFirstname() . ' ' . $address->getLastname();
+				}
 				$additional['source'] = [
 					'card' => [
 						'accountNumber' => '',
@@ -126,4 +134,6 @@ class CaptureRequest extends PaperlessRequest
 
 		return array_merge($base_req, $additional);
 	}
+
+
 }
