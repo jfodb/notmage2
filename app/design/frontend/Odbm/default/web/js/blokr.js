@@ -1,5 +1,4 @@
 
-
 function check4block() {
     
     if(document.cookie.indexOf('notified') > 0){
@@ -12,4 +11,5 @@ function check4block() {
     }
 }
 
-setTimeout(check4block, 2000);
+// disable adBlocker check and alert
+// setTimeout(check4block, 2000);
