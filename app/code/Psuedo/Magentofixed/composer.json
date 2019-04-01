@@ -1,0 +1,22 @@
+{
+  "name": "psuedo/module-magentofixed",
+  "description": "Magento has problems that they won't admit to. Lets fix them so we can continue running.",
+  "type": "magento2-module",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "email": "peter.postma@odb.org",
+      "name": "Peter"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "Psuedo\\Magentofixed\\": ""
+    },
+    "files": [
+      "registration.php"
+    ]
+  }
+}
