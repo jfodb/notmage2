@@ -19,7 +19,8 @@ class Load extends \Magento\Customer\Controller\Section\Load
     /**
      * @var \Magento\Framework\Escaper
      */
-    private $escaper;
+    protected $_logger;
+    protected $escaper;
 
     /**
      * @param Context $context
@@ -33,12 +34,12 @@ class Load extends \Magento\Customer\Controller\Section\Load
         JsonFactory $resultJsonFactory,
         Identifier $sectionIdentifier,
         SectionPoolInterface $sectionPool,
+        \Psr\Log\LoggerInterface $log,
         \Magento\Framework\Escaper $escaper = null
     ) {
-        parent::__construct($context);
-        $this->resultJsonFactory = $resultJsonFactory;
-        $this->sectionIdentifier = $sectionIdentifier;
-        $this->sectionPool = $sectionPool;
+	    parent::__construct($context, $resultJsonFactory, $sectionIdentifier, $sectionPool);
+
+        $this->_logger = $log;
         $this->escaper = $escaper ?: $this->_objectManager->get(\Magento\Framework\Escaper::class);
     }
 
@@ -62,10 +63,14 @@ class Load extends \Magento\Customer\Controller\Section\Load
             $response = $this->sectionPool->getSectionsData($sectionNames, (bool)$updateSectionId);
         } catch (\Exception $e) {
             $resultJson->setStatusHeader(
-                \Zend\Http\Response::STATUS_CODE_400,
+                //we just caught general exception in database operations, lets not blame the browser below.
+                \Zend\Http\Response::STATUS_CODE_500,
                 \Zend\Http\AbstractMessage::VERSION_11,
-                'Bad Request'
+                'Internal Server Error'
             );
+            //don't hide that this happened, report it
+            $this->_logger->critical("ERR loading Customer Section");
+            $this->_logger->critical($e);
             $response = ['message' => $this->escaper->escapeHtml($e->getMessage())];
         }
 

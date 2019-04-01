@@ -28,22 +28,22 @@ class Render extends \Magento\Ui\Controller\Adminhtml\Index\Render
 	/**
 	 * @var \Magento\Ui\Model\UiComponentTypeResolver
 	 */
-	private $contentTypeResolver;
+	protected $contentTypeResolver;
 
 	/**
 	 * @var JsonFactory
 	 */
-	private $resultJsonFactory;
+	protected $resultJsonFactory;
 
 	/**
 	 * @var Escaper
 	 */
-	private $escaper;
+	protected $escaper;
 
 	/**
 	 * @var LoggerInterface
 	 */
-	private $logger;
+	protected $logger;
 
 	/**
 	 * @param Context $context
@@ -62,7 +62,7 @@ class Render extends \Magento\Ui\Controller\Adminhtml\Index\Render
 		LoggerInterface $logger = null
 	)
 	{
-		parent::__construct($context, $factory);
+		parent::__construct($context, $factory, $contentTypeResolver, $resultJsonFactory, $escaper, $logger);
 		$this->contentTypeResolver = $contentTypeResolver;
 		$this->resultJsonFactory = $resultJsonFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
 			->get(\Magento\Framework\Controller\Result\JsonFactory::class);
@@ -93,17 +93,18 @@ class Render extends \Magento\Ui\Controller\Adminhtml\Index\Render
 				$this->getResponse()->setHeader('Content-Type', $contentType, true);
 			}
 		} catch (\Magento\Framework\Exception\LocalizedException $e) {
-			$this->logger->critical($e);
+			$this->logger->critical($e);  //good
 			$result = [
 				'error' => $this->escaper->escapeHtml($e->getMessage()),
 				'errorcode' => $this->escaper->escapeHtml($e->getCode())
 			];
 			/** @var \Magento\Framework\Controller\Result\Json $resultJson */
 			$resultJson = $this->resultJsonFactory->create();
+			//we're not filtering input here, this has something to do with the server's internals
 			$resultJson->setStatusHeader(
-				\Zend\Http\Response::STATUS_CODE_400,
+				\Zend\Http\Response::STATUS_CODE_500,
 				\Zend\Http\AbstractMessage::VERSION_11,
-				'Bad Request'
+				'Internal Server Error'
 			);
 
 			return $resultJson->setData($result);
@@ -115,10 +116,11 @@ class Render extends \Magento\Ui\Controller\Adminhtml\Index\Render
 			];
 			/** @var \Magento\Framework\Controller\Result\Json $resultJson */
 			$resultJson = $this->resultJsonFactory->create();
+			//same here, this is not the browsers fault.
 			$resultJson->setStatusHeader(
-				\Zend\Http\Response::STATUS_CODE_400,
+				\Zend\Http\Response::STATUS_CODE_500,
 				\Zend\Http\AbstractMessage::VERSION_11,
-				'Bad Request'
+				'Internal Server Error'
 			);
 
 			return $resultJson->setData($result);

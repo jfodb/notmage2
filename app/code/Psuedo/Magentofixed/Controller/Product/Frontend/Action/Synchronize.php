@@ -12,17 +12,17 @@ namespace Psuedo\Magentofixed\Controller\Product\Frontend\Action;
 class Synchronize
 {
 
-	private $context;
+	protected $context;
 
 	/**
 	 * @var Synchronizer
 	 */
-	private $synchronizer;
+	protected $synchronizer;
 
 	/**
 	 * @var JsonFactory
 	 */
-	private $jsonFactory;
+	protected $jsonFactory;
 
 	/**
 	 * @param Context $context
@@ -66,9 +66,10 @@ class Synchronize
 			$this->synchronizer->syncActions($productsData, $typeId);
 		} catch (\Exception $e) {
 			$resultJson->setStatusHeader(
-				\Zend\Http\Response::STATUS_CODE_400,
+				//error in exection is a code fault, lets take responsibility for our actions, not blame the user
+				\Zend\Http\Response::STATUS_CODE_500,
 				\Zend\Http\AbstractMessage::VERSION_11,
-				'Bad Request'
+				'Internal Server Error'
 			);
 		}
 

@@ -4,4 +4,5 @@
 	<preference for="Magento\Customer\Controller\Section\Load" type="Psuedo\Magentofixed\Controller\Customer\Section\Load" />
 	<preference for="Magento\Catalog\Controller\Product\Frontend\Action\Synchronize" type="Psuedo\Magentofixed\Controller\Product\Frontend\Action\Synchronize" />
 	<preference for="Magento\Ui\Controller\Adminhtml\Index\Render" type="Psuedo\Magentofixed\Controller\Adminhtml\Index\Render" />
+	<preference for="Magento\Webapi\Model\Rest\Generator" type="Psuedo\Magentofixed\Model\Webapi\Rest\Swagger\Generator" />
 </config>
