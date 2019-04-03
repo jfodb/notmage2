@@ -1,6 +1,6 @@
 // Color theme
-@odb-blue: #4C99E1; 
-@odb-dark-blue: #164F83;
+@odb-blue: #2279CB; 
+@odb-dark-blue: #1E375F;
 @odb-yellow: #fab432;
 @odb-gray: #878787;
 @odb-gray-secondary: #555;
@@ -192,7 +192,7 @@ button.action.primary.checkout.disabled, .opc-wrapper .actions-toolbar > .primar
 	background-color: #fff;
 }
 .control .restrain {
-	max-width: 293px;
+	max-width: 348px;
 	width: 100%;
 	margin: 0 auto;
 	padding: 0;
@@ -200,10 +200,11 @@ button.action.primary.checkout.disabled, .opc-wrapper .actions-toolbar > .primar
 }
 .restrain .currency {
 	color: @odb-blue;
-	font-size: 25px;
+	font-size: 24px;
 	position: absolute;
 	top: 10%;
 	left: 9px;
+	font-weight: bold;
 }
 input#amount {
 	height: 45px;
@@ -228,27 +229,26 @@ input#amount::placeholder {
 	text-align: center;
 	color: @odb-blue;
 	font-family: @odb-font;
-	font-size: 20px;
+	font-size: 15px;
 	display: inline-flex;
 	flex-direction: column;
 	justify-content: center;
 	margin: 10px 2px;
-	width: 143px;
-	height: 45px;
-	box-shadow: inset 0 1px 4px 0 rgba(0,0,0,0.20);
-	border-radius: 3px;
 	cursor: pointer;
+	border-radius: 22.5px 22.5px 22.5px 22.5px;
+	height: 38px;
+	width: 170px;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 3px;
 }
 .radio--button label {
 	cursor: pointer;
 }
 .radio--button:focus-within,
 .radio--button.checked, .radio--button:hover {
-	background-color: @odb-blue;
-	background-image: linear-gradient(@odb-blue,@odb-dark-blue);
-	color: #fff;
-	box-shadow: 0 1px 4px 0 rgba(0,0,0,0.20);
-	border: none;
+	opacity: .8;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
 	padding: 1px;
 }
 .checkout-index-index input[type="text"]::-webkit-input-placeholder, 
@@ -280,14 +280,13 @@ input#amount::placeholder {
 	height: 50px;
 	font-size: 28px!important;
     background-color: @odb-blue;
-    background-image: linear-gradient(@odb-blue,@odb-dark-blue);
     color: #fff;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.20);
     border: none;
 	padding: 1px;
 	display: block;
 	margin: auto;
 	float: none;
+	text-transform: uppercase;
 }
 .field .control._with-tooltip input {
 	width: 100%;
@@ -314,14 +313,64 @@ input#amount::placeholder {
 .dntpmtoptbx p {
 	color: @odb-dark-blue; padding-bottom: 4px;
 }
-.product-info-main .box-tocart .action
- {
-    width: 171px;
-    margin: 15px;
-    padding: 0px!important;
-    font-size: 20px!important;
-	height: 48px;
-	border-color: #d5d5d5;
+/**
+Donation Product Page Styles
+**/
+.title-box {
+	text-align: center;
+}
+.title-box h2 {
+	font-weight: bold;
+	font-size: 28px;
+	color: #fff;
+	letter-spacing: 0.78px;
+	text-align: center;
+	line-height: 29px;
+}
+.title-box h1 {
+	font-weight: bold;
+	font-size: 48px;
+	color: #fff;
+	letter-spacing: 0.78px;
+	text-align: center;
+	line-height: 29px;
+}
+.description-inner {
+	background-color: rgba(255,255,255,.9);
+    margin: 15px auto;
+	overflow: hidden;
+	max-height: 1000px;
+	transition: max-height .2s ease-in-out;
+	box-sizing: content-box;
+	max-width: 400px;
+	padding: 0;
+}
+.description-inner-content {
+	padding: 20px;
+}
+.description-inner.hidden {
+	max-height: 0;
+	display: block!important;
+}
+.page-layout-1column.page-product-donation .product-info-main {
+	width: 100%;
+	padding-left: 0;
+}
+.page-layout-1column.page-product-donation .product-info-main .donation-product {
+	text-align: center;
+	min-height: ~"calc( 100vh - @{odb-header-height} )";
+	padding: 45px;
+}
+a.description-toggle {
+    font-size: 16px;
+    color: #fff;
+	font-weight: bold;
+	text-decoration: underline;
+}
+.page-product-donation .page-main {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;	
 }
 .page-product-donation .box-tocart {
 	background: #FFFFFF;
@@ -362,12 +411,33 @@ input#amount::placeholder {
 .action.primary {
 	background-color: #fff;
 	color: @odb-dark-blue;
-	border: solid 1px @odb-blue;
-	text-transform: none;
+	border: solid 1px @odb-dark-blue;
+	text-transform: uppercase;
+	border-radius: 22.5px 22.5px 22.5px 22.5px;
+	min-height: 38px;
+	height: auto;
+	width: 170px;
+	font-weight: bold;
+	letter-spacing: 3px;
+}
+.product-info-main .box-tocart .action.tocart{
+	padding : 0;
+	font-size: 15px;
+	text-transform: uppercase;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+.tocart img.btnicon {
+    vertical-align: middle;
+    height: 11px;
+    /* padding-bottom: 4px; */
+    padding-right: 4px;
 }
 .action.primary:focus, .action.primary:active, .action.primary:hover {
 	background-color: #fff;
 	color: @odb-dark-blue;
+	border-color: @odb-dark-blue;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
 }
 .paypal.before:before {
     content: '';
@@ -735,14 +805,25 @@ input.cvv, input.ccno {
 
 @media (max-width: 767px) {
 	.product-info-main .box-tocart .actions .action.tocart {
-		width: 135px;
+		width: 137px;
 		margin: 5px;
+		text-align: left;
+		display: flex;
+		align-items: center;
+	}
+	.page-layout-1column.page-product-donation .product-info-main .donation-product {
+		padding: ~"calc( (100vw - 295px) / 2 )";
+	}
+	.radio--button {
+		width: 141px;
 	}
 	.product-info-main .box-tocart .actions .action.tocart> img.btnicon{ 
 		width: 20px;
-	}
-	.product-info-main .box-tocart .action {
-		font-size: 18px!important;
+		height: auto;
+		padding-bottom: 0!important;
+		padding-left: 15px;
+		padding-right: 8px;
+		
 	}
 	.paypal.checkout.before.paypal-logo {
 		padding: 9px 12px;
