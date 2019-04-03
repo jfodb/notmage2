@@ -1299,7 +1299,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$json = json_encode($JsonBuild);
 
-		@file_put_contents($file_cache, $json);
+		//do not cache minor pulls. We may have some stragglers.
+		if($JsonBuild["row_count"] > 20)
+			@file_put_contents($file_cache, $json);
 		
 		if ($PROCESSED_ROWS == count($orderRows))
 			$status = 200;
