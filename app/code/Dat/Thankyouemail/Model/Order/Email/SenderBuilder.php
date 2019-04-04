@@ -66,9 +66,9 @@ class SenderBuilder extends \Magento\Sales\Model\Order\Email\SenderBuilder
      */
     protected function configureEmailTemplate()
     {
-        // get the customTemplateId from the templateContainer
-        $customTemplateId = $this->templateContainer->getCustomTemplateId();
-        // set the transportBuilder's template with the customTemplateId
+        // if exists, get the customTemplateId from the templateContainer
+        $customTemplateId = empty($this->templateContainer->getCustomTemplateId())?$this->templateContainer->getTemplateId():$this->templateContainer->getCustomTemplateId();
+        // set the transportBuilder's template
         $this->transportBuilder->setTemplateIdentifier($customTemplateId);
         $this->transportBuilder->setTemplateOptions($this->templateContainer->getTemplateOptions());
         $this->transportBuilder->setTemplateVars($this->templateContainer->getTemplateVars());

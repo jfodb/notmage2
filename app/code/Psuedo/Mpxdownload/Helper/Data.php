@@ -60,7 +60,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		//read-configs
 		$ipstring = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/trustedips", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-		$this->timeoffset = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/timezone", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+		//pull the cut off time from admin configs
+		$tmpcutoff = $this->scopeConfig->getValue('mpxdownloads/general/cutoff_time', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		if(!empty($tmpcutoff) && is_string($tmpcutoff) && preg_match('/^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$/', $tmpcutoff)){
+			$this->timeoffset = $tmpcutoff;
+		}
+
+		//fallback to xml configs
+		if(empty($this->timeoffset))
+			$this->timeoffset = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/timezone", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		//fallback to hard number
 		if (empty($this->timeoffset))
 			$this->timeoffset = "07:00:05";
 
@@ -1289,7 +1299,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$json = json_encode($JsonBuild);
 
-		@file_put_contents($file_cache, $json);
+		//do not cache minor pulls. We may have some stragglers.
+		if($JsonBuild["row_count"] > 20)
+			@file_put_contents($file_cache, $json);
 		
 		if ($PROCESSED_ROWS == count($orderRows))
 			$status = 200;
