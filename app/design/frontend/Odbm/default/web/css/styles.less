@@ -212,6 +212,7 @@ input#amount {
 	border-radius: 3px;
 	padding-left: 30px;
 	font-size: 20px;
+	width: ~"calc( 100% - 5px )";
 }
 input#amount::placeholder {
 	color: @placeholder-gray;
@@ -316,7 +317,7 @@ h4 {
 .hidden {
 	display: none !important;
 }
-#product-addtocart-button span, #product-addtocart-button img {
+#product-addtocart-button span {
     vertical-align: middle;
 }
 .dntpmtoptbx {
@@ -389,12 +390,18 @@ button:active,
 }
 .description-inner .icon-close.description-toggle {
 	position: absolute;
-    font-size: 24px;
+    font-size: 20px;
     right: 4px;
     top: 4px;
 }
 .description-inner-content {
-    padding: 25px 35px;
+	padding: 15px;
+	padding-bottom: 0;
+}
+.description-inner-content h4 {
+	padding-left: 25px;
+	padding-right: 25px;
+	margin-top: 0;
 }
 .description-inner.hidden {
 	max-height: 0;
@@ -489,9 +496,9 @@ a.description-toggle {
 }
 .tocart img.btnicon {
     vertical-align: middle;
-    height: 11px;
-    /* padding-bottom: 4px; */
-    padding-right: 4px;
+	height: 12px;
+	padding-bottom: 2px;
+    padding-right: 8px;
 }
 .action.primary:focus, 
 .action.primary:active, 
