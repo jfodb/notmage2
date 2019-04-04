@@ -240,7 +240,7 @@ input#amount::placeholder {
 	width: 170px;
 	text-transform: uppercase;
 	font-weight: bold;
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 }
 .radio--button label {
 	cursor: pointer;
@@ -452,19 +452,18 @@ a.description-toggle {
     border: solid 1px #d5d5d5;
     padding: 0;
     box-sizing: border-box;
-    margin: 15px;
+    margin: 10px;
     background-color: #fff;
     color: #1e375f;
     border: solid 1px #1e375f;
     text-transform: uppercase;
     border-radius: 22.5px 22.5px 22.5px 22.5px;
-    min-height: 38px;
-    height: auto;
     width: 170px;
     font-weight: bold;
     letter-spacing: 3px;
     height: 38px;
-    padding-top: 7px;
+	padding-top: 7px;
+	line-height: 1;
 }
 .paypal.checkout.before.paypal-logo input {
 	width: 82px;
@@ -475,11 +474,11 @@ a.description-toggle {
 	border: solid 1px @odb-dark-blue;
 	text-transform: uppercase;
 	border-radius: 22.5px 22.5px 22.5px 22.5px;
-	min-height: 38px;
-	height: auto;
+	height: 38px;
+	line-height: 1;
 	width: 170px;
 	font-weight: bold;
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 }
 .product-info-main .box-tocart .action.tocart{
 	padding : 0;
@@ -871,6 +870,7 @@ input.cvv, input.ccno {
 		text-align: left;
 		display: flex;
 		align-items: center;
+		line-height: 1;
 	}
 	.page-layout-1column.page-product-donation .product-info-main .donation-product {
 		padding: ~"calc( (100vw - 295px) / 2 )";
