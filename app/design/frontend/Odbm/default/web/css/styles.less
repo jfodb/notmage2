@@ -245,10 +245,25 @@ input#amount::placeholder {
 .radio--button label {
 	cursor: pointer;
 }
-.radio--button:focus-within,
-.radio--button.checked, .radio--button:hover {
-	opacity: .8;
+h4 {
+	color: @odb-dark-blue;
+	font-family: @odb-font;
+	font-size: 20px;
+	font-weight: bold;
+}
+.description-inner-content {
+	color: #222222;
+	font-size: 16px;
+	font-weight: normal;
+	letter-spacing: 0;
+	line-height: 24px;
+}
+.radio--button:focus-within,.radio--button:hover {
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+.radio--button.checked {
+	background-color: @odb-blue;
+	color: #fff;
 }
 .checkout-index-index input[type="text"]::-webkit-input-placeholder, 
 .checkout-index-index input[type="password"]::-webkit-input-placeholder, 
@@ -338,18 +353,46 @@ Donation Product Page Styles
     line-height: 1.2;
     margin: auto;
 }
+button, .radio--button, .action.primary {
+	transition: background 0.8s;
+}
+.action.primary:hover, 
+button:hover, 
+.radio--button:hover {
+	background: #f8f8f8 radial-gradient(circle, transparent 1%, #f8f8f8 1%) center/15000%;
+}
+.radio--button.checked:hover {
+	background: #2a90f1 radial-gradient(circle, transparent 1%, #2a90f1 1%) center/15000%;
+	border-color: #2a90f1;
+}
+.action.primary:active, 
+button:active, 
+.radio--button:active {
+	background-color: #6eb9f7;
+	background-size: 100%;
+	transition: background 0s;
+  }
 .description-inner {
-	background-color: rgba(255,255,255,.9);
+	background-color: #fff;
     margin: 15px auto;
-	overflow: hidden;
-	max-height: 1000px;
-	transition: max-height .2s ease-in-out;
-	box-sizing: content-box;
-	max-width: 400px;
-	padding: 0;
+    overflow: hidden;
+    max-height: 1000px;
+    transition: max-height 0.2s ease-in-out;
+    box-sizing: content-box;
+    max-width: 348px;
+    padding: 0;
+    border-radius: 4px;
+	width: 100%;
+	position: relative;
+}
+.description-inner .icon-close.description-toggle {
+	position: absolute;
+    font-size: 24px;
+    right: 4px;
+    top: 4px;
 }
 .description-inner-content {
-	padding: 20px;
+    padding: 25px 35px;
 }
 .description-inner.hidden {
 	max-height: 0;
@@ -805,8 +848,8 @@ input.cvv, input.ccno {
 	cursor: pointer;
 }
 
-
 @media (max-width: 767px) {
+
 	.product-info-main .box-tocart .actions .action.tocart {
 		width: 137px;
 		margin: 5px;
@@ -816,6 +859,10 @@ input.cvv, input.ccno {
 	}
 	.page-layout-1column.page-product-donation .product-info-main .donation-product {
 		padding: ~"calc( (100vw - 295px) / 2 )";
+	}
+	.page-layout-1column.page-product-donation .product-info-main .donation-product .description-inner {
+		margin-left: ~"calc( 0px - (100vw - 295px) / 2 )";
+		width: 100vw;
 	}
 	.radio--button {
 		width: 141px;
@@ -1007,8 +1054,6 @@ input.cvv, input.ccno {
 	.fieldset > .field:not(.choice) > .control {
 		width: 100%;
 	}
-
-
 }
 
 

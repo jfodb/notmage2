@@ -3,7 +3,7 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		$('.overlay').appendTo('body');
 
-		$('a.description-toggle').click(function(e) {
+		$('.description-toggle').click(function(e) {
 			e.preventDefault();
 
 			$(this).closest('.description-box').find('.description-inner').toggleClass('hidden');
