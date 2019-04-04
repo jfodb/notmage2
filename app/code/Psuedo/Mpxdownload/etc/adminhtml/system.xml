@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+	<system>
+
+
+		<section id="mpxdownloads" translate="label" sortOrder="140" showInDefault="1" showInWebsite="0" showInStore="0">
+			<class>separator-top</class>
+			<label>MPX Settings</label>
+			<tab>odbmdonations</tab>
+			<resource>Psuedo_Mpxdownload::config</resource>
+			<group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+				<field id="cutoff_time" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+					<label>Cut off time</label>
+					<comment>Enter the cut off time for orders from GMT: hh:mm:ss</comment>
+				</field>
+			</group>
+		</section>
+	</system>
+</config>
