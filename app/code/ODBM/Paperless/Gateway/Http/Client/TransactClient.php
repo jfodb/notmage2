@@ -13,16 +13,20 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 
 	protected $clientFactory;
 	protected $converter;
+	protected $logger;
 
 	public function __construct(
 		\Magento\Framework\HTTP\ZendClientFactory $clientFactory,
-		Logger $logger,
+		\Psr\Log\LoggerInterface $mylogger,
+		Logger $theirlogger,
 		\Magento\Payment\Gateway\Http\ConverterInterface $converter = null
 	) {
 		$this->clientFactory = $clientFactory;
 		$this->converter = $converter;
+		$this->logger = $mylogger;
 
-		parent::__construct($clientFactory, $logger, $converter);
+
+		parent::__construct($clientFactory, $theirlogger, $converter);
 	}
 
 	public function placeRequest(TransferInterface $transferObject)
@@ -57,10 +61,17 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			$result['httpcode'] = $response->getStatus();
 
 		} catch (\Zend_Http_Client_Exception $e) {
+			$this->logger->critical("Payment Gateway Error HTTP Client Exception");
+			$this->logger->critical($e);
 			throw new \Magento\Payment\Gateway\Http\ClientException(
 				__($e->getMessage())
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
+			$this->logger->critical("Payment Gateway Error HTTP Client Converter");
+			$this->logger->critical($e);
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->critical("Paperless transacton general exception");
 			throw $e;
 		}
 
