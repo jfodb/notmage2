@@ -136,8 +136,6 @@ require(['jquery', 'jquery/ui'], function($) {
 				$('.ot').css('display', 'inline-block');
 				$('.rc').css('display','none');
 			}
-			if(false)
-				alert('hahaha');
 		});
 
 	});
