@@ -20,6 +20,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Webapi\Exception as WebapiException;
+use Magento\Framework\Exception\InputException;
 
 
 class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
@@ -40,6 +41,9 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 				|| ($exception instanceof AuthenticationException)
 			) {
 				$httpCode = WebapiException::HTTP_UNAUTHORIZED;
+			} else if($exception instanceof InputException) {
+				$httpCode = WebapiException::HTTP_BAD_REQUEST;
+
 			} else {
 				// Input, Expired, InvalidState exceptions will fall to here
 				$httpCode = 409;  //Conflict, please retry.
@@ -50,6 +54,17 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 				$this->_logger->notice($exception->getFile() .':'. $exception->getLine());
 				$this->_logger->notice($exception->getTraceAsString());
 
+				if(method_exists($exception, 'getPrevious')){
+					$internalException = $exception->getPrevious();
+					if(!empty($internalException)){
+						$this->_logger->notice("Internalizing");
+						$this->_logger->notice(get_class($internalException));
+						$this->_logger->notice($internalException->getMessage());
+						$this->_logger->notice($internalException->getFile() .':'. $internalException->getLine());
+						$this->_logger->notice($internalException->getTraceAsString());
+					}
+				}
+
 				$tmp = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 				ob_start();
 				print_r($tmp);
@@ -58,7 +73,7 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 				$this->_logger->notice("end 400 error in processor");
 
 			}
-			$this->_logger->alert($exception);  //but there is nothing logged here...
+			//$this->_logger->alert($exception);  //but there is nothing logged here...
 
 			if ($exception instanceof AggregateExceptionInterface) {
 				$errors = $exception->getErrors();
