@@ -144,8 +144,34 @@ require(['jquery', 'jquery/ui'], function($) {
 			}
 		});
 
+
+		setInterval(delivermessage, 300);
+
 	});
 });
+
+
+function delivermessage() {
+	require([
+		'Magento_Ui/js/modal/alert',
+		'jquery', 'jquery/ui'
+	], function (alert) { // Variable that represents the `alert` function
+
+		if ((targetx = jQuery('input.usermessage')).val()) {
+			alert({
+				title: 'User Message:',
+				content: targetx.val(),
+				actions: {
+					always: function () {
+					}
+				}
+			});
+
+			targetx.val('');
+		}
+
+	});
+}
 
 
 //make globally available
