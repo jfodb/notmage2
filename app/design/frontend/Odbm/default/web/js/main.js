@@ -157,17 +157,22 @@ function delivermessage() {
 		'jquery', 'jquery/ui'
 	], function (alert) { // Variable that represents the `alert` function
 
-		if ((targetx = jQuery('input.usermessage')).val()) {
+		if ((targetx = jQuery('input.usermessage').first()).val()) {
+			if(pausemessages)
+				return;
+			pausemessages = true;
 			alert({
 				title: 'User Message:',
 				content: targetx.val(),
 				actions: {
 					always: function () {
+						targetx.remove();
+						pausemessages = false;
 					}
 				}
 			});
 
-			targetx.remove();
+
 		}
 
 	});
@@ -235,3 +240,5 @@ if(typeof require != 'undefined') {
         console.error("RequireJS Error", e);
     }
 }
+
+var pausemessages = false;
