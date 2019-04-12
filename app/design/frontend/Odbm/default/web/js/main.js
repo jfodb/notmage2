@@ -167,7 +167,7 @@ function delivermessage() {
 				}
 			});
 
-			targetx.val('');
+			targetx.remove();
 		}
 
 	});
