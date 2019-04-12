@@ -40,6 +40,20 @@ class OdbDonation extends AbstractProduct
         );
     }
 
+	public function getBackgroundImage() {
+		$product = $this->getProduct();
+		$image = $product->getData('image');
+
+		$imageUrl = $this->_imageHelper
+			->init($product, 'product_page_image_large')
+			->setImageFile($product->getFile())
+			->getUrl();
+
+		$image = $product->getImage();
+
+		return $imageUrl;
+    }
+    
     /**
      * @return int
      */
