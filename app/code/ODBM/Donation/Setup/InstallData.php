@@ -81,7 +81,7 @@ class InstallData implements InstallDataInterface
 				'type' => 'int',
 				'backend' => '',
 				'frontend' => '',
-				'label' => 'Use in Pool',
+				'label' => 'Use Custom Template',
 				'input' => 'boolean',
 				'note'  => 'Are you overriding the template with a CMS Block?',
 				'class' => '',
