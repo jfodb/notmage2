@@ -16,7 +16,7 @@ $storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAl
 $welcome_text = $block->getWelcome();
 ?>
 
-<div class="header-logo">
+<div class="header-logo <?php echo !empty($welcome_text) ? 'has-tagline' : '' ;?>">
 	<?php if ($block->isHomePage()):?>
 		<strong class="logo">
 		<?php else: ?>
@@ -37,5 +37,7 @@ $welcome_text = $block->getWelcome();
 	<span class="action nav-toggle icon-hamburger"><span><?= /* @escapeNotVerified */ __('Toggle Nav') ?></span></span>
 </div>
 
-	<div class="header-tagline mobile-only"> <?= $welcome_text; ?> </div>
+	<?php if ( !empty($welcome_text) ): ?>
+		<div class="header-tagline mobile-only"> <?= $welcome_text; ?> </div>
+	<?php endif; ?>
 
