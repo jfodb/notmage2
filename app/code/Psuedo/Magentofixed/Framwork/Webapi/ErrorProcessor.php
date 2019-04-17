@@ -31,6 +31,14 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 		$isDevMode = $this->_appState->getMode() === State::MODE_DEVELOPER;
 		$stackTrace = $isDevMode ? $exception->getTraceAsString() : null;
 
+		//Could-not-save wraps a parent exception that contains the details we need to work with.
+		if($exception instanceof \Magento\Framework\Exception\CouldNotSaveException){
+			$parentException = $exception;
+			//not all exceptions are set to contain a previous
+			$exception = $exception->getPrevious() ?? $exception;
+
+		}
+
 		if ($exception instanceof WebapiException) {
 			$maskedException = $exception;
 		} elseif ($exception instanceof LocalizedException) {
@@ -38,29 +46,58 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 			if ($exception instanceof NoSuchEntityException) {
 				$httpCode = WebapiException::HTTP_NOT_FOUND;
 			} elseif (($exception instanceof AuthorizationException)
-				|| ($exception instanceof AuthenticationException)
-			) {
+				|| ($exception instanceof AuthenticationException)) {
+
 				$httpCode = WebapiException::HTTP_UNAUTHORIZED;
-			} else if($exception instanceof InputException) {
+
+			} elseif ($exception instanceof InputException) {
 				$httpCode = WebapiException::HTTP_BAD_REQUEST;
+
+			} elseif ($exception instanceof \Magento\Payment\Gateway\Command\CommandException
+					|| $exception instanceof \Magento\Payment\Gateway\Http\ClientException) {
+
+					//remote client errors
+
+					if (stripos($exception->getMessage(), 'unable to read response, or response is empty') !== false) {
+						//payment or other gateway failed, message from ZendClientException of no_response
+						$httpCode = 504; //remote timeout
+					} elseif (preg_match('/rejected|refused/i', $exception->getMessage())) {
+						//remote or payment did not agree with information given, fix and resend
+						$httpCode = 409;
+					} else {
+						$httpCode = $exception->getCode() ?? WebapiException::HTTP_INTERNAL_ERROR;
+						//log this to track it down
+						$this->_logger->notice($exception);
+					}
 
 			} else {
 				// Input, Expired, InvalidState exceptions will fall to here
-				$httpCode = 409;  //Conflict, please retry.
-				$this->_logger->notice("tripped 400 in Error Processor");
+				$httpCode = $exception->getCode(); // ?? 500;  //Unknown error as default.
+				if(empty($httpCode)) {
+					if(preg_match('/lost|gone|expired/', $exception->getMessage()))
+						$httpCode = 410; //Gone
+					else
+						$httpCode = WebapiException::HTTP_INTERNAL_ERROR; //default
+				}
 
+
+				$this->_logger->notice("WebAPI Error Processor report");
+
+				//$this->_logger->notice($exception); //this is recording NULL, manually gather details
+
+				/* This isn't needed if notice logs exception */
 				$this->_logger->notice(get_class($exception));
 				$this->_logger->notice($exception->getMessage());
-				$this->_logger->notice($exception->getFile() .':'. $exception->getLine());
+				$this->_logger->notice($exception->getFile() . ':' . $exception->getLine());
 				$this->_logger->notice($exception->getTraceAsString());
 
-				if(method_exists($exception, 'getPrevious')){
+				if (method_exists($exception, 'getPrevious')) {
 					$internalException = $exception->getPrevious();
-					if(!empty($internalException)){
-						$this->_logger->notice("Internalizing");
+					if (!empty($internalException)) {
+						$this->_logger->notice("Internal Exception");
 						$this->_logger->notice(get_class($internalException));
 						$this->_logger->notice($internalException->getMessage());
-						$this->_logger->notice($internalException->getFile() .':'. $internalException->getLine());
+						$this->_logger->notice($internalException->getFile() . ':' . $internalException->getLine());
 						$this->_logger->notice($internalException->getTraceAsString());
 					}
 				}
@@ -70,12 +107,18 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 				print_r($tmp);
 				$stack = ob_get_clean();
 				$this->_logger->notice($stack);
-				$this->_logger->notice("end 400 error in processor");
+				/* Above is not needed if notice logs exception */
+
+				$this->_logger->notice("/end WebAPI Error Processor Report");
 
 			}
-			//$this->_logger->alert($exception);  //but there is nothing logged here...
 
-			if ($exception instanceof AggregateExceptionInterface) {
+			if ($exception instanceof AggregateExceptionInterface
+				|| (isset($parentException) && $parentException instanceof AggregateExceptionInterface)) {
+				if (isset($parentException) && $parentException instanceof AggregateExceptionInterface)
+					//switch back now
+					$exception = $parentException;
+
 				$errors = $exception->getErrors();
 			} else {
 				$errors = null;
