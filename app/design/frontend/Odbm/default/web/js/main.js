@@ -144,9 +144,72 @@ require(['jquery', 'jquery/ui'], function($) {
 			}
 		});
 
+
+		setInterval(delivermessage, 300);
+
+
+		fetchmessages();
 	});
 });
 
+function fetchmessages() {
+
+	require(
+		['Magento_Customer/js/customer-data'],
+		function(customerData) {
+			let messages = customerData.get('messages')().messages;
+			if(!messages || messages.length < 1){
+				customerData.reload(['messages']);
+
+				messages = customerData.get('messages')().messages;
+			}
+
+			if(messages && messages.length) {
+				rendermessages(messages);
+				customerData.invalidate(['messages']);
+
+			}
+	});
+}
+
+function delivermessage() {
+	require([
+		'Magento_Ui/js/modal/alert',
+		'jquery', 'jquery/ui'
+	], function (alert) { // Variable that represents the `alert` function
+
+		if ((targetx = jQuery('input.usermessage').first()).val()) {
+			if(pausemessages)
+				return;
+			pausemessages = true;
+			alert({
+				title: 'User Message:',
+				content: targetx.val(),
+				actions: {
+					always: function () {
+						targetx.remove();
+						pausemessages = false;
+					}
+				}
+			});
+
+		}
+
+	});
+}
+
+function rendermessages(messages) {
+
+	for(var indx in messages) {
+		msg = messages[indx];
+		showmsg = document.createElement("input");
+		showmsg.setAttribute("type", "hidden");
+		showmsg.setAttribute("value", msg.text);
+		showmsg.setAttribute("class", "usermessage");
+		document.getElementById('maincontent').appendChild(showmsg);
+	}
+
+}
 
 //make globally available
 function trySendCheckoutGA() {
@@ -209,3 +272,5 @@ if(typeof require != 'undefined') {
         console.error("RequireJS Error", e);
     }
 }
+
+var pausemessages = false;

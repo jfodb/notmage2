@@ -61,7 +61,7 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 					if (stripos($exception->getMessage(), 'unable to read response, or response is empty') !== false) {
 						//payment or other gateway failed, message from ZendClientException of no_response
 						$httpCode = 504; //remote timeout
-					} elseif (preg_match('/rejected|refused/i', $exception->getMessage())) {
+					} elseif (preg_match('/rejecte|refuse|decline/i', $exception->getMessage())) {
 						//remote or payment did not agree with information given, fix and resend
 						$httpCode = 409;
 					} else {
