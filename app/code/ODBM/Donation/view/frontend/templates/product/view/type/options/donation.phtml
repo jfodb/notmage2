@@ -2,10 +2,10 @@
 
 <div class="donation-product product-options-wrapper <?php echo $block->useCustomTemplate() ? 'custom' : ''; ?>" id="product-options-wrapper">
 
-	<?php if ( !$block->useCustomTemplate() ): ?>
+	<?php if ( !$block->useCustomTemplate() || true ): ?>
 		<div class="title-box">
 			<h2> <?php echo __('You can help...'); ?></h2>
-			<h1> <?php echo $block->getProduct()->getName(); ?></h1>
+			<h1> <?php echo $block->getPromoTitle(); ?></h1>
 		</div>
 
 		<style type="text/css">

@@ -76,6 +76,25 @@ class OdbDonation extends AbstractProduct
 
         return ( $product->getData( 'use_custom_template') == 1 );
     }
+
+    /**
+     * Get message
+     * 
+     * Defaults to title, but can also be promo attibute field
+     */
+    public function getPromoTitle() {
+        $product = $this->getProduct();
+
+        $promo_text = $product->getData( 'promo_text' );
+
+        if ( !empty($promo_text) ) {
+            $title = $promo_text;
+        } else {
+            $title = $product->getName();
+        }
+
+        return $title;
+    }
     
     /**
      * @return int
