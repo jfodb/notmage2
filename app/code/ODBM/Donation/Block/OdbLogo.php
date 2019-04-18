@@ -2,6 +2,8 @@
 namespace ODBM\Donation\Block;
 
 use Magento\Theme\Block\Html\Header\Logo;
+use Magento\Store\Model\StoreManagerInterface;
+
 
 class OdbLogo extends Logo
 {
@@ -20,14 +22,27 @@ class OdbLogo extends Logo
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageHelper,
+        StoreManagerInterface $storeManager,
         array $data = []
     ) {
     //    $this->_fileStorageHelper = $fileStorageHelper;
         $this->_scope = $scopeConfig;
+        $this->_storeManager = $storeManager;
+
         parent::__construct($context, $fileStorageHelper, $data);
     }
 
     public function getWelcome() {
-        return $this->_scope->getValue('design/header/welcome');
+
+        //get our current store
+        $store = $this->_storeManager->getStore();
+
+        //get value for store
+        return $this->_scope->getValue(
+            'design/header/welcome',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            //but you can put here another store(not current)
+            $store
+        );
     }
 }
