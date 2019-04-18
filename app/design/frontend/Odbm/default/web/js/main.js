@@ -147,9 +147,30 @@ require(['jquery', 'jquery/ui'], function($) {
 
 		setInterval(delivermessage, 300);
 
+
+		fetchmessages();
 	});
 });
 
+function fetchmessages() {
+
+	require(
+		['Magento_Customer/js/customer-data'],
+		function(customerData) {
+			let messages = customerData.get('messages')().messages;
+			if(!messages || messages.length < 1){
+				customerData.reload(['messages']);
+
+				messages = customerData.get('messages')().messages;
+			}
+
+			if(messages && messages.length) {
+				rendermessages(messages);
+				customerData.invalidate(['messages']);
+
+			}
+	});
+}
 
 function delivermessage() {
 	require([
@@ -172,12 +193,23 @@ function delivermessage() {
 				}
 			});
 
-
 		}
 
 	});
 }
 
+function rendermessages(messages) {
+
+	for(var indx in messages) {
+		msg = messages[indx];
+		showmsg = document.createElement("input");
+		showmsg.setAttribute("type", "hidden");
+		showmsg.setAttribute("value", msg.text);
+		showmsg.setAttribute("class", "usermessage");
+		document.getElementById('maincontent').appendChild(showmsg);
+	}
+
+}
 
 //make globally available
 function trySendCheckoutGA() {
