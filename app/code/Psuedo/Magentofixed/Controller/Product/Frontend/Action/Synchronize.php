@@ -8,6 +8,10 @@
 
 namespace Psuedo\Magentofixed\Controller\Product\Frontend\Action;
 
+use Magento\Catalog\Model\Product\ProductFrontendAction\Synchronizer;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\JsonFactory;
+
 
 class Synchronize extends \Magento\Catalog\Controller\Product\Frontend\Action\Synchronize
 {

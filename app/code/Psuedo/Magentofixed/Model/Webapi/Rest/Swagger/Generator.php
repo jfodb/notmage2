@@ -8,6 +8,18 @@
 
 namespace Psuedo\Magentofixed\Model\Webapi\Rest\Swagger;
 
+use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Reflection\TypeProcessor;
+use Magento\Framework\Webapi\Authorization;
+use Magento\Framework\Webapi\Exception as WebapiException;
+use Magento\Webapi\Controller\Rest;
+use Magento\Webapi\Model\AbstractSchemaGenerator;
+use Magento\Webapi\Model\Config\Converter;
+use Magento\Webapi\Model\Rest\Swagger;
+use Magento\Webapi\Model\Rest\SwaggerFactory;
+use Magento\Webapi\Model\ServiceMetadata;
+
 
 class Generator extends \Magento\Webapi\Model\Rest\Swagger\Generator
 {
