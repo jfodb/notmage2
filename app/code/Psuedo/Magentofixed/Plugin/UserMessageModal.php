@@ -12,11 +12,12 @@ namespace Psuedo\Magentofixed\Plugin;
 
 class UserMessageModal
 {
-	protected $session, $messages;
-	public function __construct(\Magento\Framework\Session\SessionManager $sessionManager, \Magento\Framework\Message\Manager $messages)
+	protected $session, $messages, $logger;
+	public function __construct(\Magento\Framework\Session\SessionManager $sessionManager, \Magento\Framework\Message\Manager $messages, \Psr\Log\LoggerInterface $log)
 	{
 		$this->session = $sessionManager;
 		$this->messages = $messages;
+		$this->logger = $log;
 	}
 
 	public function beforeExecute($theroot) {
@@ -26,11 +27,13 @@ class UserMessageModal
 
 			if($msg1 = $this->session->getGatewayMessage()) {
 				$this->messages->addError($msg1, 'default');
+				$this->logger->notice("pulled session note for messages ".$msg1);
 				$this->session->unsGatewayMessage();
 			}
 			if($msgs = $this->session->getUserMessages()){
 				foreach ($msgs as $msg) {
 					$this->messages->addError($msg, 'default');
+					$this->logger->notice("pulled session note for message ".$msg);
 				}
 				$this->session->unsUserMessages();
 			}
