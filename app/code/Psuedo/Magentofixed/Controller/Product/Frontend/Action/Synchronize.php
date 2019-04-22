@@ -9,7 +9,7 @@
 namespace Psuedo\Magentofixed\Controller\Product\Frontend\Action;
 
 
-class Synchronize
+class Synchronize extends \Magento\Catalog\Controller\Product\Frontend\Action\Synchronize
 {
 
 	protected $context;
