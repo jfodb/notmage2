@@ -9,7 +9,7 @@
 namespace Psuedo\Magentofixed\Model\Webapi\Rest\Swagger;
 
 
-class Generator extends \Magento\Webapi\Model\Rest\Generator
+class Generator extends \Magento\Webapi\Model\Rest\Swagger\Generator
 {
 
 	protected $logger;
