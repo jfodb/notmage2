@@ -224,6 +224,9 @@ input#amount::placeholder {
 	display: none;
 	margin: 0;
 }
+.columns .column.main {
+	max-width: 100%
+}
 .radio--button {
 	border: 1px solid @odb-blue;
 	background-color: #fff;
@@ -884,7 +887,11 @@ input.cvv, input.ccno {
 }
 #product-options-wrapper .fieldset > .field { margin-bottom: 16px;}
 #product-options-wrapper .fieldset > .radio--button {margin-top:0;}
-
+@media (max-width: 320px) {
+	.page-layout-1column.page-product-donation .product-info-main .donation-product {
+		padding: 0;
+	}
+}
 @media (max-width: 767px) {
 	.title-box h1 { 
 		font-size: 24px;

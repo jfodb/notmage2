@@ -85,15 +85,6 @@
                         </block>
                     </block>
                 </block>
-                <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint">
-                    <container name="product.info.social" label="Product social links container" htmlTag="div" htmlClass="product-social-links">
-                        <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
-                            <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
-                                   template="Magento_Catalog::product/view/addto/compare.phtml" />
-                        </block>
-                        <block class="Magento\Catalog\Block\Product\View" name="product.info.mailto" template="Magento_Catalog::product/view/mailto.phtml"/>
-                    </container>
-                </container>
                 <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.overview" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info" after="product.info.extrahint">
                     <arguments>
                         <argument name="at_call" xsi:type="string">getShortDescription</argument>
@@ -107,23 +98,9 @@
             </container>
 
             <referenceBlock name="product.info.media" remove="true" />
-            
-            <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.details" template="Magento_Catalog::product/view/details.phtml" after="product.info.media">
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.description" as="description" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info">
-                    <arguments>
-                        <argument name="at_call" xsi:type="string">getDescription</argument>
-                        <argument name="at_code" xsi:type="string">description</argument>
-                        <argument name="css_class" xsi:type="string">description</argument>
-                        <argument name="at_label" xsi:type="string">none</argument>
-                        <argument name="title" translate="true" xsi:type="string">Details</argument>
-                    </arguments>
-                </block>
-                <block class="Magento\Catalog\Block\Product\View\Attributes" name="product.attributes" as="additional" template="Magento_Catalog::product/view/attributes.phtml" group="detailed_info">
-                    <arguments>
-                        <argument translate="true" name="title" xsi:type="string">More Information</argument>
-                    </arguments>
-                </block>
-            </block>
+            <referenceBlock name="product.info.details" remove="true" />
+            <referenceBlock name="product.info.extrahint" />>
+
             <block class="Magento\Cookie\Block\RequireCookie" name="require-cookie" template="Magento_Cookie::require_cookie.phtml">
                 <arguments>
                     <argument name="triggers" xsi:type="array">
