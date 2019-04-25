@@ -1,4 +1,4 @@
-require(['jquery', 'jquery/ui'], function($) {
+require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Customer/js/section-config'], function($) {
 	$(document).ready( function() {
 
 		$('.overlay').appendTo('body');
@@ -144,46 +144,55 @@ require(['jquery', 'jquery/ui'], function($) {
 			}
 		});
 
+		//queue the message delivery routine
+		setInterval(delivermessage, 11000);
 
-		setInterval(delivermessage, 300);
-
-
-		fetchmessages();
+		//wait for the user session to get written and then ask for messages
+		setTimeout(fetchmessages, 2000);
 	});
 });
 
 function fetchmessages() {
-
+	/* pull messages from server. messages are found in Psuedo/Magentofixed User Message Modal Plugin */
 	require(
 		['Magento_Customer/js/customer-data'],
 		function(customerData) {
 			let messages = customerData.get('messages')().messages;
-			if(!messages || messages.length < 1){
+
+			/*if we didn't get any, the user's session might not have been written yet.
+			  we also cannot see if they were fetched at all
+			  requery and see if they are there */
+
+			if(messages === undefined) {
 				customerData.reload(['messages']);
 
-				messages = customerData.get('messages')().messages;
+				/* from the request up above, it takes several seconds for the data to show up */
+				/* note: Customer session.js calls setTimout(response, 5000) */
+				setTimeout(fetchmessages, 7000);
+				return;
 			}
+
 
 			if(messages && messages.length) {
 				rendermessages(messages);
-				customerData.invalidate(['messages']);
-
+				customerData.invalidate(['messages']);  /*doesn't seem to do anything*/
 			}
 	});
 }
 
 function delivermessage() {
+	/*use modal alert to display found messages*/
 	require([
 		'Magento_Ui/js/modal/alert',
 		'jquery', 'jquery/ui'
-	], function (alert) { // Variable that represents the `alert` function
+	], function (alert) {
 
 		if ((targetx = jQuery('input.usermessage').first()).val()) {
 			if(pausemessages)
 				return;
 			pausemessages = true;
 			alert({
-				title: 'User Message:',
+				title: 'Message from server:',
 				content: targetx.val(),
 				actions: {
 					always: function () {
@@ -199,7 +208,7 @@ function delivermessage() {
 }
 
 function rendermessages(messages) {
-
+	/*write the messages to the html as fields to be found and rendered*/
 	for(var indx in messages) {
 		msg = messages[indx];
 		showmsg = document.createElement("input");

@@ -452,7 +452,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 			if(empty($response)) {
 				//notify the user
 				$this->messagemanager->addErrorMessage(__('Payment Gateway is unreachable at the moment. Please use another payment option.'));
-				$this->session->setGatewayMessage(__('Paypal is down, please use a different method'));
+				$this->session->setGatewayMessage('Sorry, Paypal is down, please use a different method');
 				$this->_logger->error("Paypal did not return");
 				$this->_logger->error($this->getApiEndpoint());
 				$this->_logger->error(json_encode($request));
@@ -486,7 +486,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 
 			//notify the user
 			$this->messagemanager->addErrorMessage(__('Payment Gateway is unreachable at the moment. Please use another payment option.'));
-			$this->session->setGatewayMessage(__('Paypal is down, please use a different method'));
+			$this->session->setGatewayMessage('Sorry, Paypal is down, please use a different method');
 
 			throw new \Magento\Framework\Exception\LocalizedException(
 				__('Payment Gateway is unreachable at the moment. Please use another payment option.')
@@ -514,7 +514,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 			$this->_handleCallErrors($response);
 		} catch (\Exception $e){
 			$this->messagemanager->addErrorMessage(__('Payment Gateway has thrown an error. Please use another payment option.'));
-			$this->session->setGatewayMessage(__('Paypal has had an error, please use a different method'));
+			$this->session->setGatewayMessage('Sorry, Paypal has had an error, please use a different method');
 			throw $e;
 		}
 		return $response;
