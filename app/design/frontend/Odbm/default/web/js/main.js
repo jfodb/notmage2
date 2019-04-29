@@ -174,8 +174,16 @@ function fetchmessages() {
 
 
 			if(messages && messages.length) {
+				/*render the messages*/
 				rendermessages(messages);
 				customerData.invalidate(['messages']);  /*doesn't seem to do anything*/
+			} else if(!messagesjustonce) {
+				/* sometimes it comes back defined, BUT hasn't actually queried yet.
+				   recall just once to be safe */
+
+				messagesjustonce = true;
+				customerData.reload(['messages']);
+				setTimeout(fetchmessages, 7000);
 			}
 	});
 }
@@ -283,3 +291,4 @@ if(typeof require != 'undefined') {
 }
 
 var pausemessages = false;
+var messagesjustonce = false;
