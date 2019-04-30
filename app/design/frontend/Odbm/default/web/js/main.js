@@ -200,7 +200,7 @@ function delivermessage() {
 				return;
 			pausemessages = true;
 			alert({
-				title: 'Message from server:',
+				title: 'Oops something went wrong:',
 				content: targetx.val(),
 				actions: {
 					always: function () {
