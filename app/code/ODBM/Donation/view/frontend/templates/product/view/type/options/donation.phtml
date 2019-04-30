@@ -1,6 +1,25 @@
 <?php /* @var $block \ODBM\Donation\Block\Product\Type\OdbDonation */ ?>
 
-<div class="product-options-wrapper" id="product-options-wrapper">
+<div class="donation-product product-options-wrapper" id="product-options-wrapper" style="background-image: url(<?php echo $block->getBackgroundImage(); ?>)">
+
+	<div class="title-box">
+		<h2> <?php echo __('You can help...'); ?></h2>
+		<h1> <?php echo $block->getProduct()->getName(); ?></h1>
+	</div>
+
+	<?php if ( $description = $block->getProduct()->getDescription() ): ?>
+		<div class="description-box">
+			<a class="description-toggle" href="#"><em><?php echo __('Learn More'); ?></em></a>
+			<div class="hidden description-inner">
+				<span class="description-toggle icon-close"></span>
+				<div class="description-inner-content">
+				<?php echo $description; ?>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
+
+
 	<div class="fieldset">
 		<?php if (!empty($block->getFixedAmounts())) : ?>
 			<div class="field">
@@ -120,5 +139,7 @@
 					document.getElementById('product_addtocart_form').addEventListener( 'submit', checkRedirectToMOS );
 				}, false);
 			</script>
+
+			<?php $block->getChildHtml(); ?>
 	</div>
 </div>
