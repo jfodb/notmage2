@@ -79,9 +79,8 @@
             <image id="product_page_image_large" type="image"/>
 
             <image id="product_page_background_image_large" type="image"/>
-            <image id="product_page_background_image_medium" type="thumbnail"/>
-            <image id="product_page_background_image_small" type="small_image"/>
-
+            <image id="product_page_background_image_medium" type="small_image"/>
+            <image id="product_page_background_image_small" type="thumbnail"/>
 
             <image id="product_page_image_large_no_frame" type="image">
                 <frame>false</frame>

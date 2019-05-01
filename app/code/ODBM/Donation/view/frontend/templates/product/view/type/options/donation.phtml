@@ -1,11 +1,11 @@
 <?php /* @var $block \ODBM\Donation\Block\Product\Type\OdbDonation */ ?>
 
-<div class="donation-product product-options-wrapper" id="product-options-wrapper">
+<div class="donation-product product-options-wrapper <?php echo $block->useCustomTemplate() ? 'custom' : ''; ?>" id="product-options-wrapper">
 
 	<?php if ( !$block->useCustomTemplate() ): ?>
 		<div class="title-box">
 			<h2> <?php echo __('You can help...'); ?></h2>
-			<h1> <?php echo $block->getProduct()->getName(); ?></h1>
+			<h1> <?php echo $block->getPromoTitle(); ?></h1>
 		</div>
 
 		<style type="text/css">
