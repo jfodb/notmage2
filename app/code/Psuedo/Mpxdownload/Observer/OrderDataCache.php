@@ -32,7 +32,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			return;
 		}
 
-		$this->logger->alert("Capture flag set, caching");
+		//$this->logger->alert("Capture flag set, caching");
 
 		$order = $observer->getData('order');
 		
@@ -156,7 +156,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				    'order_grid' => $grid_json,
 				    'items' => $item_json
 				]);
-			$this->logger->alert("Order data was cached");
+			//$this->logger->alert("Order data was cached");
 
 		}catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate) {
 			$connection->update (
