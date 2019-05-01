@@ -143,5 +143,63 @@ class UpgradeData implements UpgradeDataInterface
 					]
 				);
 			}
+
+		if (version_compare($context->getVersion(), '1.0.7', '<')) {
+			$eavSetup->addAttribute(
+				\Magento\Catalog\Model\Product::ENTITY,
+				'use_custom_template',
+				[
+					'type' => 'int',
+					'backend' => '',
+					'frontend' => '',
+					'label' => 'Use Custom Template',
+					'input' => 'boolean',
+					'note'  => 'Are you overriding the template with a CMS Block?',
+					'class' => '',
+					'source' => '',
+					'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+					'visible' => true,
+					'required' => false,
+					'user_defined' => false,
+					'default' => '',
+					'searchable' => false,
+					'filterable' => false,
+					'comparable' => false,
+					'visible_on_front' => false,
+					'used_in_product_listing' => true,
+					'unique' => false,
+					'apply_to' => 'donation'
+				]	
+			);
+		}
+
+		if (version_compare($context->getVersion(), '1.0.8', '<')) {
+			$eavSetup->addAttribute(
+				\Magento\Catalog\Model\Product::ENTITY,
+				'promo_text',
+				[
+					'type' => 'text',
+					'backend' => '',
+					'frontend' => '',
+					'label' => 'Promo Text',
+					'input' => 'text',
+					'class' => '',
+					'note' => 'Use this value to override the title on the template',
+					'source' => '',
+					'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+					'visible' => true,
+					'required' => false,
+					'user_defined' => false,
+					'default' => '',
+					'searchable' => true,
+					'filterable' => false,
+					'comparable' => false,
+					'visible_on_front' => false,
+					'used_in_product_listing' => true,
+					'unique' => false,
+					'apply_to' => 'donation'
+				]
+			);
 		}
 	}
+}
