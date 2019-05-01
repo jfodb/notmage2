@@ -1,4 +1,4 @@
-require(['jquery', 'jquery/ui'], function($) {
+require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Customer/js/section-config'], function($) {
 	$(document).ready( function() {
 
 		$('.overlay').appendTo('body');
@@ -144,9 +144,89 @@ require(['jquery', 'jquery/ui'], function($) {
 			}
 		});
 
+		//queue the message delivery routine
+		setInterval(delivermessage, 11000);
+
+		//wait for the user session to get written and then ask for messages
+		setTimeout(fetchmessages, 2000);
 	});
 });
 
+function fetchmessages() {
+	/* pull messages from server. messages are found in Psuedo/Magentofixed User Message Modal Plugin */
+	require(
+		['Magento_Customer/js/customer-data'],
+		function(customerData) {
+			let messages = customerData.get('messages')().messages;
+
+			/*if we didn't get any, the user's session might not have been written yet.
+			  we also cannot see if they were fetched at all
+			  requery and see if they are there */
+
+			if(messages === undefined) {
+				customerData.reload(['messages']);
+
+				/* from the request up above, it takes several seconds for the data to show up */
+				/* note: Customer session.js calls setTimout(response, 5000) */
+				setTimeout(fetchmessages, 7000);
+				return;
+			}
+
+
+			if(messages && messages.length) {
+				/*render the messages*/
+				rendermessages(messages);
+				customerData.invalidate(['messages']);  /*doesn't seem to do anything*/
+			} else if(!messagesjustonce) {
+				/* sometimes it comes back defined, BUT hasn't actually queried yet.
+				   recall just once to be safe */
+
+				messagesjustonce = true;
+				customerData.reload(['messages']);
+				setTimeout(fetchmessages, 7000);
+			}
+	});
+}
+
+function delivermessage() {
+	/*use modal alert to display found messages*/
+	require([
+		'Magento_Ui/js/modal/alert',
+		'jquery', 'jquery/ui'
+	], function (alert) {
+
+		if ((targetx = jQuery('input.usermessage').first()).val()) {
+			if(pausemessages)
+				return;
+			pausemessages = true;
+			alert({
+				title: 'Oops something went wrong:',
+				content: targetx.val(),
+				actions: {
+					always: function () {
+						targetx.remove();
+						pausemessages = false;
+					}
+				}
+			});
+
+		}
+
+	});
+}
+
+function rendermessages(messages) {
+	/*write the messages to the html as fields to be found and rendered*/
+	for(var indx in messages) {
+		msg = messages[indx];
+		showmsg = document.createElement("input");
+		showmsg.setAttribute("type", "hidden");
+		showmsg.setAttribute("value", msg.text);
+		showmsg.setAttribute("class", "usermessage");
+		document.getElementById('maincontent').appendChild(showmsg);
+	}
+
+}
 
 //make globally available
 function trySendCheckoutGA() {
@@ -209,3 +289,6 @@ if(typeof require != 'undefined') {
         console.error("RequireJS Error", e);
     }
 }
+
+var pausemessages = false;
+var messagesjustonce = false;
