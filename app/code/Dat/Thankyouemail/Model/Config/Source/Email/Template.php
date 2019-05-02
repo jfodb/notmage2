@@ -16,12 +16,7 @@ class Template extends \Magento\Config\Model\Config\Source\Email\Template
     /**
      * @var \Magento\Email\Model\Template\Config
      */
-    private $_emailConfig;
-
-    /**
-     * @var \Magento\Email\Model\ResourceModel\Template\CollectionFactory
-     */
-    protected $_templatesFactory;
+    protected $_emailConfig;
 
     public function __construct(
         \Magento\Framework\Registry $coreRegistry,
@@ -29,9 +24,8 @@ class Template extends \Magento\Config\Model\Config\Source\Email\Template
         \Magento\Email\Model\Template\Config $emailConfig,
         array $data = []
     ) {
-        //parent::__construct($data);
+        parent::__construct($coreRegistry, $templatesFactory, $emailConfig, $data);
         $this->_coreRegistry = $coreRegistry;
-        $this->_templatesFactory = $templatesFactory;
         $this->_emailConfig = $emailConfig;
     }
 

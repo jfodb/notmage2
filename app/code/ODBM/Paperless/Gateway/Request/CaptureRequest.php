@@ -23,6 +23,7 @@ class CaptureRequest extends PaperlessRequest
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
+			$this->_logger->critical("Paperless Capture request experienced an invalid argument");
 			throw new \InvalidArgumentException('Payment data object should be provided');
 	}
 
@@ -39,6 +40,7 @@ class CaptureRequest extends PaperlessRequest
 	$payment = $paymentDO->getPayment();
 
 	if (!$payment instanceof OrderPaymentInterface) {
+		$this->_logger->critical("Paperless Capture request experienced an non-order payment");
 		throw new \LogicException('Order payment should be provided.');
 	}
 

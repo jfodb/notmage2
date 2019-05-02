@@ -6,4 +6,12 @@
 	<preference for="Magento\Ui\Controller\Adminhtml\Index\Render" type="Psuedo\Magentofixed\Controller\Adminhtml\Index\Render" />
 	<preference for="Magento\Webapi\Model\Rest\Generator" type="Psuedo\Magentofixed\Model\Webapi\Rest\Swagger\Generator" />
 	<preference for="\Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
+
+
+	<type name="Magento\Customer\Controller\Section\Load">
+		<plugin name="user_message_modal_std" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
+	</type>
+	<type name="Psuedo\Magentofixed\Controller\Customer\Section\Load">
+		<plugin name="user_message_modal_mfixed" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
+	</type>
 </config>

@@ -26,8 +26,11 @@ class AuthorizationRequest extends PaperlessRequest
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
+			$this->_logger->critical("Paperless Authorize request experienced an invalid argument");
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
+
+		$this->_logger->critical("Paperless Authorize over capture was called");
 
 		$base_req = parent::build($buildSubject);
 		$base_req['req']['uri'] = '/transactions/authorize';

@@ -26,6 +26,7 @@ class ProfileRequest extends PaperlessRequest
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
+			$this->_logger->critical("Paperless Profile request experienced an invalid argument");
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
 

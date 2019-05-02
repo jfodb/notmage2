@@ -22,6 +22,8 @@ class VoidRequest extends PaperlessRequest
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
+
+			$this->_logger->critical("Paperless Void request experienced an invalid argument");
 			throw new \InvalidArgumentException('Payment data object should be provided');
 		}
 
@@ -34,6 +36,7 @@ class VoidRequest extends PaperlessRequest
 		$order = $paymentDO->getOrder();
 		$payment = $paymentDO->getPayment();
 		if (!$payment instanceof OrderPaymentInterface) {
+			$this->_logger->critical("Paperless Void request experienced non-order Payment Interface");
 			throw new \LogicException('Order payment should be provided.');
 		}
 
