@@ -23,16 +23,19 @@ class PaperlessRequest implements BuilderInterface
 	protected $_rawsource;
 	protected $_internalpost;
 	protected $_config;
-	
+	protected $_logger;
+
 	/**
 	* @param ConfigInterface $config
 	*/
 	public function __construct(
 		\Magento\Framework\App\Config\ScopeConfigInterface $config,
-		\Magento\Framework\Encryption\EncryptorInterface $encryptor
+		\Magento\Framework\Encryption\EncryptorInterface $encryptor,
+		\Psr\Log\LoggerInterface $logger
 		) {
 			$this->_config = $config;
 			$this->_encryptor = $encryptor;
+			$this->_logger = $logger;
 			
 			if(!isset($GLOBALS['_FLAGS'])){
 				$GLOBALS['_FLAGS'] = array('payment'=>array('method' => 'paperless'));
@@ -60,6 +63,7 @@ class PaperlessRequest implements BuilderInterface
 		
 		public function is_recurring($paymentDO) {
 			if (!isset($paymentDO) || !$paymentDO instanceof PaymentDataObjectInterface) {
+				$this->_logger->critical("Paperless PaperlessRequest experienced an invalid argument");
 				throw new \InvalidArgumentException('Payment data object should be provided');
 			}
 			
@@ -222,6 +226,7 @@ class PaperlessRequest implements BuilderInterface
 			/**
 			* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
 			*/
+			$this->_logger->critical('Paperless getProfileInformation was called');
 			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
 		}
 		public function improptu_profile($paymentDO) {
@@ -279,6 +284,7 @@ class PaperlessRequest implements BuilderInterface
 
 
 			if($responseInfo['http_code'] == 0 ){
+				$this->_logger->critical("PaperlessRequest was unable to connect to Paperless");
 				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"));
 			}
 
@@ -288,6 +294,7 @@ class PaperlessRequest implements BuilderInterface
 
 			if($responseInfo['http_code'] != 200 || empty($resp) || empty($resp['profile']) || empty($resp['profile']['profileNumber'])){
 				$payment->setEcheckAccountType($response);  //cc_debug_response_serialized, but its only 32 chars!!
+				$this->_logger->critical("Paperless request received ".$responseInfo['http_code']);
 				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"));
 			}
 

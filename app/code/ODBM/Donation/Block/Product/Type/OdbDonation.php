@@ -40,6 +40,62 @@ class OdbDonation extends AbstractProduct
         );
     }
 
+	public function getBackgroundImage($type) {
+		$product = $this->getProduct();
+		$image = $product->getData('image');
+
+        switch($type) {
+            case 'small':
+                $type = 'product_page_background_image_small';
+                break;
+            case 'medium':
+                $type = 'product_page_background_image_medium';
+                break;
+            case 'large':
+            default:
+             $type = 'product_page_background_image_large';
+                break;
+        }
+
+		$imageUrl = $this->_imageHelper
+			->init($product, $type)
+			->setImageFile($product->getFile())
+			->getUrl();
+
+		$image = $product->getImage();
+
+		return $imageUrl;
+    }
+
+    /**
+     * Check to see whether to use our template
+     * @return boolean 
+     */
+    public function useCustomTemplate() {
+        $product = $this->getProduct();
+
+        return ( $product->getData( 'use_custom_template') == 1 );
+    }
+
+    /**
+     * Get message
+     * 
+     * Defaults to title, but can also be promo attibute field
+     */
+    public function getPromoTitle() {
+        $product = $this->getProduct();
+
+        $promo_text = $product->getData( 'promo_text' );
+
+        if ( !empty($promo_text) ) {
+            $title = $promo_text;
+        } else {
+            $title = $product->getName();
+        }
+
+        return $title;
+    }
+    
     /**
      * @return int
      */

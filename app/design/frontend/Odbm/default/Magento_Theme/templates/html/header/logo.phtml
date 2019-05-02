@@ -10,9 +10,13 @@
  * @var \Magento\Theme\Block\Html\Header\Logo $block
  */
 ?>
-<?php $storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();?>
+<?php 
 
-<div class="header-logo">
+$storeName = $block->getThemeName() ? $block->getThemeName() : $block->getLogoAlt();
+$welcome_text = $block->getWelcome();
+?>
+
+<div class="header-logo <?php echo !empty($welcome_text) ? 'has-tagline' : '' ;?>">
 	<?php if ($block->isHomePage()):?>
 		<strong class="logo">
 		<?php else: ?>
@@ -29,9 +33,11 @@
 		</a>
 	<?php endif?>
 
-	<span class="header-tagline desktop-only"> <?= __('Growing closer to God'); ?> </span>
+	<span class="header-tagline desktop-only"> <?= $welcome_text; ?> </span>
 	<span class="action nav-toggle icon-hamburger"><span><?= /* @escapeNotVerified */ __('Toggle Nav') ?></span></span>
 </div>
 
-	<div class="header-tagline mobile-only"> <?= __('Growing closer to God'); ?> </div>
+	<?php if ( !empty($welcome_text) ): ?>
+		<div class="header-tagline mobile-only"> <?= $welcome_text; ?> </div>
+	<?php endif; ?>
 
