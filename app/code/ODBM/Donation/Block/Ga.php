@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-use ODBM\Donation\Block;
+namespace ODBM\Donation\Block;
 
 /**
  * GoogleAnalytics Page Block
