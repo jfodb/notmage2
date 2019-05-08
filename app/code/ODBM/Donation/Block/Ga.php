@@ -35,7 +35,41 @@ class Ga extends \Magento\GoogleAnalytics\Block\Ga {
 		}
 
 		return $is_recurring;
-	}
+    }
+    
+    public function getOrdersTrackingData()
+    {
+        $result = [];
+        $orderIds = $this->getOrderIds();
+        if (empty($orderIds) || !is_array($orderIds)) {
+            return $result;
+        }
+
+        $collection = $this->_salesOrderCollection->create();
+        $collection->addFieldToFilter('entity_id', ['in' => $orderIds]);
+
+        foreach ($collection as $order) {
+            foreach ($order->getAllVisibleItems() as $item) {
+                $result['products'][] = [
+                    'id' => $this->escapeJsQuote($item->getSku()),
+                    'name' =>  $this->escapeJsQuote($item->getName()),
+                    'price' => $item->getPrice(),
+                    'quantity' => $item->getQtyOrdered(),
+                    'variant' => ( $this->isRecurring($order) ? 'monthly' : 'one-time' )
+                ];
+            }
+            $result['orders'][] = [
+                'id' =>  $order->getIncrementId(),
+                'affiliation' => $this->escapeJsQuote($this->_storeManager->getStore()->getFrontendName()),
+                'revenue' => $order->getGrandTotal(),
+                'tax' => $order->getTaxAmount(),
+                'shipping' => $order->getShippingAmount(),
+                'variant' => ( $this->isRecurring($order) ? 'monthly' : 'one-time' )      
+            ];
+            $result['currency'] = $order->getOrderCurrencyCode();
+        }
+        return $result;
+    }
 
     /**
      * Render information about specified orders and their items
