@@ -40,7 +40,7 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 		$client = $this->clientFactory->create();
 
 		$configs = $transferObject->getClientConfig();
-		$configs['timeout'] = 180; //seconds
+		$configs['timeout'] = 275; //seconds
 		$configs['maxredirects'] = 2;
 
 		$client->setConfig($configs)
@@ -52,9 +52,15 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 		;
 
 		try {
+			$startT = microtime(true);
+			$this->logger->notice("LF278 Starting Paplerless Transaction ".$startT);
 			$response = $client->request();
 
 			$resbody = $response->getBody();
+
+			$endT = microtime(true);
+			$this->logger->notice("LF278 Returned from Paperless ".$endT);
+			$this->logger->notice("LF278 ".($endT-$startT));
 
 			if(is_array($resbody))
 				$result = $resbody;
@@ -64,17 +70,17 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			$result['httpcode'] = $response->getStatus();
 
 		} catch (\Zend_Http_Client_Exception $e) {
-			$this->logger->critical("Payment Gateway Error HTTP Client Exception");
+			$this->logger->critical("LF278 Payment Gateway Error HTTP Client Exception");
 			$this->logger->critical($e);
 			throw new \Magento\Payment\Gateway\Http\ClientException(
 				__('Error connecting to payment gateway. Your payment might have gone through but we cannot see the results'), 0, $e
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
-			$this->logger->critical("Payment Gateway Error HTTP Client Converter");
+			$this->logger->critical("LF278 Payment Gateway Error HTTP Client Converter");
 			$this->logger->critical($e);
 			throw $e;
 		} catch (\Exception $e) {
-			$this->logger->critical("Paperless transacton general exception");
+			$this->logger->critical("LF278 Paperless transacton general exception");
 			throw $e;
 		}
 
