@@ -55,7 +55,7 @@ class Ga extends \Magento\GoogleAnalytics\Block\Ga {
                     'name' =>  $this->escapeJsQuote($item->getName()),
                     'price' => $item->getPrice(),
                     'quantity' => $item->getQtyOrdered(),
-                    'variant' => ( $this->isRecurring($order) ? 'monthly' : 'one-time' )
+                    'variant' => ( $this->isOrderRecurring($order) ? 'monthly' : 'one-time' )
                 ];
             }
             $result['orders'][] = [
@@ -64,7 +64,7 @@ class Ga extends \Magento\GoogleAnalytics\Block\Ga {
                 'revenue' => $order->getGrandTotal(),
                 'tax' => $order->getTaxAmount(),
                 'shipping' => $order->getShippingAmount(),
-                'variant' => ( $this->isRecurring($order) ? 'monthly' : 'one-time' )      
+                'variant' => ( $this->isOrderRecurring($order) ? 'monthly' : 'one-time' )      
             ];
             $result['currency'] = $order->getOrderCurrencyCode();
         }
