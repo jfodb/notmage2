@@ -13,16 +13,20 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 
 	protected $clientFactory;
 	protected $converter;
+	protected $logger;
 
 	public function __construct(
 		\Magento\Framework\HTTP\ZendClientFactory $clientFactory,
-		Logger $logger,
+		\Psr\Log\LoggerInterface $mylogger,
+		Logger $theirlogger,
 		\Magento\Payment\Gateway\Http\ConverterInterface $converter = null
 	) {
 		$this->clientFactory = $clientFactory;
 		$this->converter = $converter;
+		$this->logger = $mylogger;
 
-		parent::__construct($clientFactory, $logger, $converter);
+
+		parent::__construct($clientFactory, $theirlogger, $converter);
 	}
 
 	public function placeRequest(TransferInterface $transferObject)
@@ -35,14 +39,17 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 		/** @var ZendClient $client */
 		$client = $this->clientFactory->create();
 
-		$client->setConfig($transferObject->getClientConfig());
-		$client->setMethod($transferObject->getMethod());
+		$configs = $transferObject->getClientConfig();
+		$configs['timeout'] = 180; //seconds
+		$configs['maxredirects'] = 2;
 
-		$client->setRawData($transferObject->getBody(), 'application/json');
-
-		$client->setHeaders($transferObject->getHeaders());
-		$client->setUrlEncodeBody($transferObject->shouldEncode());
-		$client->setUri($transferObject->getUri());
+		$client->setConfig($configs)
+		->setMethod($transferObject->getMethod())
+		->setRawData($transferObject->getBody(), 'application/json')
+		->setHeaders($transferObject->getHeaders())
+		->setUrlEncodeBody($transferObject->shouldEncode())
+		->setUri($transferObject->getUri())
+		;
 
 		try {
 			$response = $client->request();
@@ -57,10 +64,17 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			$result['httpcode'] = $response->getStatus();
 
 		} catch (\Zend_Http_Client_Exception $e) {
+			$this->logger->critical("Payment Gateway Error HTTP Client Exception");
+			$this->logger->critical($e);
 			throw new \Magento\Payment\Gateway\Http\ClientException(
-				__($e->getMessage())
+				__('Error connecting to payment gateway. Your payment might have gone through but we cannot see the results'), 0, $e
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
+			$this->logger->critical("Payment Gateway Error HTTP Client Converter");
+			$this->logger->critical($e);
+			throw $e;
+		} catch (\Exception $e) {
+			$this->logger->critical("Paperless transacton general exception");
 			throw $e;
 		}
 
