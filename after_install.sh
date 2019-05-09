@@ -31,10 +31,10 @@ aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/awslogs.conf 
 
 # TODO: After 2.3.1 update, remove the m2-hotfixes directory from GitHub and appspec.yml. Delete the below install command
 # Install the PRODSECBUG-2198 security patch (https://magento.com/security/patches/magento-2.3.1-2.2.8-and-2.1.17-security-update)
-cd /usr/share/nginx/html/magento/
-git apply m2-hotfixes/PRODSECBUG-2198-composer.patch
-rm -rf /usr/share/nginx/html/magento/m2-hotfixes
-cd ~
+#cd /usr/share/nginx/html/magento/
+#git apply m2-hotfixes/PRODSECBUG-2198-composer.patch
+#rm -rf /usr/share/nginx/html/magento/m2-hotfixes
+#cd ~
 
 #build and deploy
 php /usr/share/nginx/html/magento/bin/magento setup:upgrade
