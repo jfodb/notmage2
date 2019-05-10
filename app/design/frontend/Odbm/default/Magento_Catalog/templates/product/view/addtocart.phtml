@@ -37,7 +37,7 @@ if ($_product->getTypeId() === "donation") {
 				</div>
 			<?php endif; ?>
 
-			<p>Give your <span id="gifttype"><span class="ot">one-time</span><span class="rc">recurring</span></span> gift by</p>
+            <p><?= __('Give your <span id="gifttype"><span class="ot">one-time</span><span class="rc">recurring</span></span> gift by'); ?></p>
 
 			<div class="actions dntpmtoptbx">
 				<button type="submit"
@@ -45,7 +45,8 @@ if ($_product->getTypeId() === "donation") {
 				class="action primary tocart"
 				id="product-addtocart-button">
 				<?php if ($buttonTitle == 'Credit Card'): ?>
-					<span> <i class="icon-credit-card"></i> <?= /* @escapeNotVerified */ $buttonTitle ?></span>
+					<img class="btnicon" style="vertical-align: middle; padding-bottom: 4px;" src="<?php echo $this->getViewFileUrl('images/ccicon.png'); ?>" />
+					<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
 				<?php else : ?>
 					<span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
 				<?php endif; ?>

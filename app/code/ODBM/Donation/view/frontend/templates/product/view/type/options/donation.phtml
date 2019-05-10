@@ -1,45 +1,6 @@
 <?php /* @var $block \ODBM\Donation\Block\Product\Type\OdbDonation */ ?>
 
-<div class="donation-product product-options-wrapper <?php echo $block->useCustomTemplate() ? 'custom' : ''; ?>" id="product-options-wrapper">
-
-	<?php if ( !$block->useCustomTemplate() ): ?>
-		<div class="title-box">
-			<h2> <?php echo __('You can help...'); ?></h2>
-			<h1> <?php echo $block->getPromoTitle(); ?></h1>
-		</div>
-
-		<style type="text/css">
-			#product-options-wrapper {
-				background-image: url(<?php echo $block->getBackgroundImage('large'); ?>)
-			}
-
-			@media only screen and (max-width: 767px) {
-				#product-options-wrapper {
-					background-image: url(<?php echo $block->getBackgroundImage('small'); ?>)
-				}
-			}
-
-			@media only screen and (max-width: 992px) and (min-width: 768px) {
-				#product-options-wrapper {
-					background-image: url(<?php echo $block->getBackgroundImage('medium'); ?>)
-				}
-			}
-		</style>
-	<?php endif; ?>
-
-	<?php if ( $description = $block->getProduct()->getDescription() ): ?>
-		<div class="description-box">
-			<a class="description-toggle" href="#"><em><?php echo __('Learn More'); ?></em></a>
-			<div class="hidden description-inner">
-				<span class="description-toggle icon-close"></span>
-				<div class="description-inner-content">
-				<?php echo $description; ?>
-				</div>
-			</div>
-		</div>
-	<?php endif; ?>
-
-
+<div class="product-options-wrapper" id="product-options-wrapper">
 	<div class="fieldset">
 		<?php if (!empty($block->getFixedAmounts())) : ?>
 			<div class="field">
@@ -83,9 +44,9 @@
 							title="Amount"
 							placeholder="<?php echo __('Amount').(' (').$block->getCurrentCurrencyCode().(')'); ?>"
 							class="input-text validate-number" type="text" 
-							data-msg-required="Please Enter a Valid Donation Amount"
-							data-msg-number="Please Enter a Valid Donation Amount" 
-							data-msg-validate-number="Please Enter a Valid Donation Amount" 
+							data-msg-required="<?= __('Please Enter a Valid Donation Amount'); ?>"
+							data-msg-number="<?= __('Please Enter a Valid Donation Amount'); ?>"
+							data-msg-validate-number="<?= __('Please Enter a Valid Donation Amount'); ?>"
 							data-validate="{required:true, 'validate-number': true, 'number': true}" 
 							value="<?php echo ( !empty( $_GET['amount'] ) && is_numeric( $_GET['amount'] ) )  ? $_GET['amount'] : ''; ?>"
 							tabindex="3"
@@ -159,7 +120,5 @@
 					document.getElementById('product_addtocart_form').addEventListener( 'submit', checkRedirectToMOS );
 				}, false);
 			</script>
-
-			<?php $block->getChildHtml(); ?>
 	</div>
 </div>

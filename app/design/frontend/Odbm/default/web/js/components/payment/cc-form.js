@@ -135,9 +135,9 @@ define([
                         // expirationYear: "YEAR",
                         // cvv: "CVV"
                     },
-        
+
                     tooltips: {
-                        cvv: "For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card."
+                        cvv: $t('For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card.')
                     },
         
                     acceptedBrands: ["amex", "visa", "mastercard", "discover"],
@@ -218,17 +218,17 @@ define([
          * Get Currency Disclaimer
          * @returns {String}
          */
-        getcurrencyDisclaimerHtml: function () {
-            return 'All transactions in US dollars.';
-        },
+         getcurrencyDisclaimerHtml: function () {
+             return $t('All transactions in US dollars.');
+         },
 
          /**
          * Get Terms and Conditions
          * @returns {String}
          */
-        getTermsAndConditionsHtml: function () {
-            return 'By giving, I agree to the <a href="https://ourdailybread.org/policy/terms-and-conditions/" target="_blank" style="color:inherit;text-decoration:underline;">terms & conditions</a> of this site.';
-        },
+         getTermsAndConditionsHtml: function () {
+             return $t('By giving&comma; I agree to the <a href="https://ourdailybread.org/policy/terms-and-conditions/" target="_blank" style="color:inherit;text-decoration:underline;">terms &amp; conditions</a> of this site.');
+         },
 
         /**
          * Get data
@@ -319,8 +319,8 @@ define([
          * @returns {String}
          */
         getCvvImageHtml: function () {
-            return 'For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card.';
-        },
+            return $t('For MasterCard or Visa it is the last three digits in the signature area on the back of your card. For American Express it is the four digits on the front of the card.');
+            },
 
         /**
          * @deprecated
