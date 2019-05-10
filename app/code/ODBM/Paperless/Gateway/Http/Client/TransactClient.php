@@ -60,7 +60,7 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 
 			$endT = microtime(true);
 			$this->logger->notice("LF278 Returned from Paperless ".$endT);
-			$this->logger->notice("LF278 ".($endT-$startT));
+			$this->logger->notice("LF278 Response Time ".($endT-$startT));
 
 			if(is_array($resbody))
 				$result = $resbody;
