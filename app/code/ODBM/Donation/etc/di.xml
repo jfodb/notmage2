@@ -27,8 +27,11 @@
         for="Magento\Theme\Block\Html\Header\Logo"
         type="ODBM\Donation\Block\OdbLogo"
     />
+
 	<!-- Always make Paypal save address -->
 	<preference for="Magento\Paypal\Model\Express\Checkout" type="ODBM\Donation\Model\Paypal\Express\Checkout" />
+	<preference for="Magento\GoogleAnalytics\Block\Ga" type="ODBM\Donation\Block\Ga" />
+
     <!-- Admin theme. Start -->
     <type name="Magento\Theme\Model\View\Design">
         <arguments>
