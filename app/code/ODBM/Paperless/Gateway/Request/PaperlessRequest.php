@@ -234,7 +234,7 @@ class PaperlessRequest implements BuilderInterface
 
 
 
-			$profileData = new ProfileRequest($this->_config, $this->_encryptor);
+			$profileData = new ProfileRequest($this->_config, $this->_encryptor, $this->_logger);
 
 			$data = $profileData->build(['payment' => $paymentDO]);
 
