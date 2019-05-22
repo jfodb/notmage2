@@ -74,7 +74,8 @@ class ProfileRequest extends PaperlessRequest
 			],
 			'email' => $address->getEmail()
 		];
-		$additional['metadata'] = $this->customfields;
+		$addition['metadata'] = $this->customfields;
+		$addition['cardhash'] = $this->cardHash( $addition['source']['card']['accountNumber'], $addition['source']['card']['expiration'], $addition['source']['card']['securityCode'] );
 
 
 		/** @var PaymentDataObjectInterface $payment */

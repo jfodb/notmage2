@@ -24,6 +24,7 @@ class PaperlessRequest implements BuilderInterface
 	protected $_internalpost;
 	protected $_config;
 	protected $_logger;
+	protected $_session;
 
 	/**
 	* @param ConfigInterface $config
@@ -31,11 +32,13 @@ class PaperlessRequest implements BuilderInterface
 	public function __construct(
 		\Magento\Framework\App\Config\ScopeConfigInterface $config,
 		\Magento\Framework\Encryption\EncryptorInterface $encryptor,
-		\Psr\Log\LoggerInterface $logger
+		\Psr\Log\LoggerInterface $logger,
+		\Magento\Customer\Model\Session $sessionManager
 		) {
 			$this->_config = $config;
 			$this->_encryptor = $encryptor;
 			$this->_logger = $logger;
+			$this->_session = $sessionManager;
 			
 			if(!isset($GLOBALS['_FLAGS'])){
 				$GLOBALS['_FLAGS'] = array('payment'=>array('method' => 'paperless'));
@@ -233,14 +236,29 @@ class PaperlessRequest implements BuilderInterface
 			require_once (__DIR__.'/ProfileRequest.php');
 
 
-
-			$profileData = new ProfileRequest($this->_config, $this->_encryptor, $this->_logger);
+			$profileData = new ProfileRequest($this->_config, $this->_encryptor, $this->_logger, $this->_session);
 
 			$data = $profileData->build(['payment' => $paymentDO]);
 
+			if (isset($data['cardhash'])) {
+				$cardhash = $data['cardhash'];
+				unset($data['cardhash']);
+			} else {
+				$cardhash = false;
+			}
 
+			$cacheresult = false;
+			if ($cardhash) {
+				$transactions = $this->_session->getTransactionList();
+				if (isset($transactions['profile'], $transactions['profile'][$cardhash]))
+					$cacheresult = $transactions['profile'][$cardhash];
+			}
 
-
+			if($cacheresult && isset($cacheresult['profile']['profileNumber'])){
+				$resp = $cacheresult;
+				//no expiration time on profile numbers. If we have it, use it.
+				$payment = $paymentDO->getPayment();
+			} else {
 
 			$request_details = $data['req'];
 			unset($data['req']);
@@ -265,16 +283,15 @@ class PaperlessRequest implements BuilderInterface
 			}
 
 
-
 			$selfconnect = curl_init($url);
 			curl_setopt_array($selfconnect, [
-				CURLOPT_POST        	=>	true,
-				CURLOPT_POSTFIELDS  	=>	$jsondata,
-				CURLOPT_CUSTOMREQUEST	=>	'POST',
-				CURLOPT_HTTPHEADER  	=>	$headrs,
-				CURLOPT_RETURNTRANSFER	=>	true,
-				CURLOPT_CONNECTTIMEOUT	=>	10,
-				CURLOPT_TIMEOUT     	=>	40
+				CURLOPT_POST            =>      true,
+				CURLOPT_POSTFIELDS      =>      $jsondata,
+				CURLOPT_CUSTOMREQUEST   =>      'POST',
+				CURLOPT_HTTPHEADER      =>      $headrs,
+				CURLOPT_RETURNTRANSFER  =>      true,
+				CURLOPT_CONNECTTIMEOUT  =>      10,
+				CURLOPT_TIMEOUT         =>      40
 			]);
 
 
@@ -299,6 +316,17 @@ class PaperlessRequest implements BuilderInterface
 			}
 
 
+			//from session above
+			if($cardhash) {
+				if (empty($transactions))
+					$transactions = array();
+				if (empty($transactions['profile']))
+					$transactions['profile'] = array();
+
+				$transactions['profile'][$cardhash] = $resp;
+				$this->_session->setTransactionList($transactions);
+			}
+			}
 			$payment->setCcStatusDescription($resp['profile']['profileNumber']);
 			if(!empty($resp['profile']['accountDescription']))
 				$payment->setCcSsStartYear($resp['profile']['accountDescription']);
@@ -306,6 +334,10 @@ class PaperlessRequest implements BuilderInterface
 				$payment->setCcSsStartMonth($resp['referenceId']);
 
 			
+		}
+
+		protected function cardHash($cardnum, $expstr, $cvv){
+			return sha1( 'QwErTyUiOp1@3$5^7*9)' . $cardnum . $expstr . $cvv . 'qWeRtYuIoP!2#4%6&8(0');
 		}
 	}
 		
