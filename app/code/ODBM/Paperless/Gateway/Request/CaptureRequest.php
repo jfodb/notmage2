@@ -60,6 +60,9 @@ class CaptureRequest extends PaperlessRequest
 				else
 					$additional['source'] = ['profileNumber' => $profile];
 
+				//set transaction cachekey to prevent duplication
+				$additional['cardhash'] = 'prof:'.$additional['source']['profileNumber'].':'.$additional['amount']['value'];
+
 				$additional['metadata'] = $this->customfields;
 			}
 			else
@@ -127,6 +130,7 @@ class CaptureRequest extends PaperlessRequest
 						]
 					]
 				];
+				$additional['cardhash'] = $this->cardHash( $additional['source']['card']['accountNumber'], $additional['source']['card']['expiration'], $additional['source']['card']['securityCode']);
 				$additional['metadata'] = $this->customfields;
 			}
 		}
