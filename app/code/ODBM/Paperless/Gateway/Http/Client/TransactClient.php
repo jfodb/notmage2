@@ -104,7 +104,7 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			$this->logger->critical("Payment Gateway Error HTTP Client Exception");
 			$this->logger->critical($e);
 			throw new \Magento\Payment\Gateway\Http\ClientException(
-				__('Error connecting to payment gateway. Your payment might have gone through but we cannot see the results'), 0, $e
+				__('Error connecting to payment gateway. Your payment might have gone through but we cannot see the results'), $e, 502
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
 			$this->logger->critical("Payment Gateway Error HTTP Client Converter");

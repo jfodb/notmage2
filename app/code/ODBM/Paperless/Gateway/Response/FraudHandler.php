@@ -25,7 +25,7 @@ class FraudHandler implements HandlerInterface
 		if (!isset($handlingSubject['payment'])
 			|| !$handlingSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
-			throw new \InvalidArgumentException('Payment data object should be provided');
+			throw new \InvalidArgumentException('Payment data object should be provided', 500);
 		}
 		/** @var PaymentDataObjectInterface $paymentDO */
 		$paymentDO = $handlingSubject['payment'];
