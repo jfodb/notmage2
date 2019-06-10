@@ -21,7 +21,7 @@ class MockDataRequest implements BuilderInterface
 		if (!isset($buildSubject['payment'])
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
-			throw new \InvalidArgumentException('Payment data object should be provided');
+			throw new \InvalidArgumentException('Payment data object should be provided', 500);
 		}
 		/** @var PaymentDataObjectInterface $paymentDO */
 		$paymentDO = $buildSubject['payment'];

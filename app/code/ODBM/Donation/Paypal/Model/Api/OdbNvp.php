@@ -457,7 +457,9 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 				$this->_logger->error($this->getApiEndpoint());
 				$this->_logger->error(json_encode($request));
 				throw new \Magento\Framework\Exception\LocalizedException(
-					__('Payment Gateway is unreachable at the moment. Please use another payment option.')
+					__('Payment Gateway is unreachable at the moment. Please use another payment option.'),
+					null,
+					200
 				);
 			}
 		} catch (\Exception $e) {
@@ -490,6 +492,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 
 			throw new \Magento\Framework\Exception\LocalizedException(
 				__('Payment Gateway is unreachable at the moment. Please use another payment option.')
+				, null, 200
 			);
 		}
 
@@ -500,6 +503,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 			$this->_logger->critical(new \Exception(__('PayPal response hasn\'t required fields.')));
 			throw new \Magento\Framework\Exception\LocalizedException(
 				__('Something went wrong while processing your order.')
+				, null, 200
 			);
 		}
 

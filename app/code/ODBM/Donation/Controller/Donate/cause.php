@@ -127,7 +127,7 @@ class Cause extends \Magento\Framework\App\Action\Action
 						if ( !$used_default ) {
 							$product_url = $this->get_product_url_by_motivation();
 						} else {
-							throw new \Exception( 'Default sku ({$motivation_code}) is not a product!' );
+							throw new \Exception( 'Default sku ({$motivation_code}) is not a product!', 200 );
 						}
 					}
 				} catch( \Exception $e ) {
@@ -136,7 +136,7 @@ class Cause extends \Magento\Framework\App\Action\Action
 					if ( !$used_default ) {
 						$product_url = $this->get_product_url_by_motivation();
 					} else {
-						throw new \Exception( "Default sku ({$motivation_code}) is not a product!" );
+						throw new \Exception( "Default sku ({$motivation_code}) is not a product!", 200 );
 					}
 				}
 			}
