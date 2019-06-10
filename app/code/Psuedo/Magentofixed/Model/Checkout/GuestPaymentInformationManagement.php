@@ -85,19 +85,32 @@ class GuestPaymentInformationManagement extends \Magento\Checkout\Model\GuestPay
 				$this->getLogger()->critical("Failed to save transaction after processes completed, localized");
 				$this->getLogger()->critical($e);
 
+				//pass through code
+				if($e->getCode() && $e->getCode() > 199)
+					$code = $e->getCode();
+				else
+					$code = 500;
+
 				//throw exception, with correct http code included
 				throw new CouldNotSaveException(
 					__($e->getMessage()),
 					$e,
-					500
+					$code
 				);
 			} catch (\Exception $e) {
 				$this->getLogger()->critical("Failed to save transaction after processes completed, general");
 				$this->getLogger()->critical($e);
+
+				//pass through code
+				if($e->getCode() && $e->getCode() > 199)
+					$code = $e->getCode();
+				else
+					$code = 500;
+
 				throw new CouldNotSaveException(
 					__('An error occurred on the server. Please try to place the order again.'),
 					$e,
-					500
+					$code
 				);
 			}
 			$salesConnection->commit();
