@@ -57,8 +57,13 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			if(isset($GLOBALS['currentTransAmont'], $cacheresult['tag']['amount'])){
 				if($GLOBALS['currentTransAmont'] == $cacheresult['tag']['amount'])
 					$result = $cacheresult;
-			} else
+			} else {
 				$result = $cacheresult;
+
+				if(empty($GLOBALS['_FLAGS']))
+					$GLOBALS['_FLAGS'] = array();
+				$GLOBALS['_FLAGS']['isdejavu'] = true;
+			}
 
 			if(isset($result))
 				unset($result['tag']); //remove cache set time and amount
