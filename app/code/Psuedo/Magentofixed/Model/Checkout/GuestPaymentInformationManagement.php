@@ -48,17 +48,9 @@ class GuestPaymentInformationManagement extends \Magento\Checkout\Model\GuestPay
 		CartRepositoryInterface $cartRepository,
 		ResourceConnection $connectionPool = null
 	) {
-		$this->billingAddressManagement = $billingAddressManagement;
-		$this->paymentMethodManagement = $paymentMethodManagement;
-		$this->cartManagement = $cartManagement;
-		$this->paymentInformationManagement = $paymentInformationManagement;
-		$this->quoteIdMaskFactory = $quoteIdMaskFactory;
-		$this->cartRepository = $cartRepository;
 		$this->connectionPool = $connectionPool ?: ObjectManager::getInstance()->get(ResourceConnection::class);
 
 		parent::__construct($billingAddressManagement, $paymentMethodManagement, $cartManagement, $paymentInformationManagement, $quoteIdMaskFactory, $cartRepository, $connectionPool);
-
-		$this->connectionPool = $connectionPool;
 	}
 
 	/**
