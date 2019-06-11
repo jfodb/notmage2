@@ -55,7 +55,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         } else {
 
     		//note, if dejavu, a new order is created from the old quote. this means new orderid, incrementid, and fresh flags for sent/unsent
-		    $cachekey = sprintf('%s-%s-%s', $order->getCustomerEmail() . $order->getBaseSubtotal(), $order->getQuoteId());
+		    $cachekey = sprintf('%s-%s-%s', $order->getCustomerEmail(), $order->getBaseSubtotal(), $order->getQuoteId());
 		    $possibleduplicated = $this->session->getSentEmails();
 		    if ($possibleduplicated && !empty($possibleduplicated[$cachekey])) {
 			    $dejavu = true;
