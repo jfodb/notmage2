@@ -20,7 +20,7 @@ class ResponseCodeValidator extends AbstractValidator
 	public function validate(array $validationSubject)
 	{
 		if (!isset($validationSubject['response']) || !(is_array($validationSubject['response']) || is_string($validationSubject['response']))) {
-			throw new \InvalidArgumentException('Response does not exist as expected object type');
+			throw new \InvalidArgumentException('Response does not exist as expected object type', 500);
 		}
 		if(is_string($validationSubject['response']))
 			$response = json_decode($validationSubject['response'],true);

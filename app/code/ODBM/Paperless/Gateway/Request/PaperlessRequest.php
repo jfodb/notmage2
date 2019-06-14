@@ -67,7 +67,7 @@ class PaperlessRequest implements BuilderInterface
 		public function is_recurring($paymentDO) {
 			if (!isset($paymentDO) || !$paymentDO instanceof PaymentDataObjectInterface) {
 				$this->_logger->critical("Paperless PaperlessRequest experienced an invalid argument");
-				throw new \InvalidArgumentException('Payment data object should be provided');
+				throw new \InvalidArgumentException('Payment data object should be provided', 500);
 			}
 			
 			$payment = $paymentDO->getPayment();
@@ -230,7 +230,7 @@ class PaperlessRequest implements BuilderInterface
 			* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
 			*/
 			$this->_logger->critical('Paperless getProfileInformation was called');
-			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
+			throw new \Exception('PaperlessRequest::getProfileInformation() not implemented', 501);
 		}
 		public function improptu_profile($paymentDO) {
 			require_once (__DIR__.'/ProfileRequest.php');
@@ -302,7 +302,8 @@ class PaperlessRequest implements BuilderInterface
 
 			if($responseInfo['http_code'] == 0 ){
 				$this->_logger->critical("PaperlessRequest was unable to connect to Paperless");
-				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"));
+				//HTTP 502, unable to reach upstream server
+				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"), null, 502);
 			}
 
 			$resp = json_decode($response, true);
@@ -312,7 +313,7 @@ class PaperlessRequest implements BuilderInterface
 			if($responseInfo['http_code'] != 200 || empty($resp) || empty($resp['profile']) || empty($resp['profile']['profileNumber'])){
 				$payment->setEcheckAccountType($response);  //cc_debug_response_serialized, but its only 32 chars!!
 				$this->_logger->critical("Paperless request received ".$responseInfo['http_code']);
-				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"));
+				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"), null, 200);
 			}
 
 

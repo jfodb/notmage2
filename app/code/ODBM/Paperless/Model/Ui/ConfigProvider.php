@@ -115,11 +115,12 @@ final class ConfigProvider implements ConfigProviderInterface
 			$token = $body;
 
 			if ( empty($token) ) {
-				throw new \Exception( 'Could not get Paperless token: no token data.' );
+				throw new \Exception( 'Could not get Paperless token: no token data.', 500 );
 			}
 		} catch (\Zend_Http_Client_Exception $e) {
 			throw new \Magento\Payment\Gateway\Http\ClientException(
 				__($e->getMessage(), print_r($response, true))
+				, $e, 500
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
 			throw $e;

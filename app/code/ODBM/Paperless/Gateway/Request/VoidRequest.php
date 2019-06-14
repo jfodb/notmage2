@@ -24,7 +24,7 @@ class VoidRequest extends PaperlessRequest
 		) {
 
 			$this->_logger->critical("Paperless Void request experienced an invalid argument");
-			throw new \InvalidArgumentException('Payment data object should be provided');
+			throw new \InvalidArgumentException('Payment data object should be provided', 500);
 		}
 
 		$base_req = parent::build($buildSubject);
@@ -37,7 +37,7 @@ class VoidRequest extends PaperlessRequest
 		$payment = $paymentDO->getPayment();
 		if (!$payment instanceof OrderPaymentInterface) {
 			$this->_logger->critical("Paperless Void request experienced non-order Payment Interface");
-			throw new \LogicException('Order payment should be provided.');
+			throw new \LogicException('Order payment should be provided.', 500);
 		}
 
 		$additional = [

@@ -27,7 +27,7 @@ class AuthorizationRequest extends PaperlessRequest
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
 			$this->_logger->critical("Paperless Authorize request experienced an invalid argument");
-			throw new \InvalidArgumentException('Payment data object should be provided');
+			throw new \InvalidArgumentException('Payment data object should be provided', 500);
 		}
 
 		$this->_logger->critical("Paperless Authorize over capture was called");
