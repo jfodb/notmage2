@@ -1,17 +1,26 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
+	<!-- class over rides -->
 	<preference for="Magento\Customer\Controller\Section\Load" type="Psuedo\Magentofixed\Controller\Customer\Section\Load" />
 	<preference for="Magento\Catalog\Controller\Product\Frontend\Action\Synchronize" type="Psuedo\Magentofixed\Controller\Product\Frontend\Action\Synchronize" />
 	<preference for="Magento\Ui\Controller\Adminhtml\Index\Render" type="Psuedo\Magentofixed\Controller\Adminhtml\Index\Render" />
 	<preference for="Magento\Webapi\Model\Rest\Generator" type="Psuedo\Magentofixed\Model\Webapi\Rest\Swagger\Generator" />
-	<preference for="\Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
+	<preference for="Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
+	<preference for="Magento\Checkout\Model\GuestPaymentInformationManagement" type="Psuedo\Magentofixed\Model\Checkout\GuestPaymentInformationManagement" />
 
 
+	<!-- plugins -->
 	<type name="Magento\Customer\Controller\Section\Load">
 		<plugin name="user_message_modal_std" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
 	</type>
 	<type name="Psuedo\Magentofixed\Controller\Customer\Section\Load">
 		<plugin name="user_message_modal_mfixed" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
 	</type>
+
+
+	<!-- other -->
+
+	
+
 </config>
