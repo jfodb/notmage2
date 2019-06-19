@@ -24,6 +24,7 @@ class PaperlessRequest implements BuilderInterface
 	protected $_internalpost;
 	protected $_config;
 	protected $_logger;
+	protected $_session;
 
 	/**
 	* @param ConfigInterface $config
@@ -31,11 +32,13 @@ class PaperlessRequest implements BuilderInterface
 	public function __construct(
 		\Magento\Framework\App\Config\ScopeConfigInterface $config,
 		\Magento\Framework\Encryption\EncryptorInterface $encryptor,
-		\Psr\Log\LoggerInterface $logger
+		\Psr\Log\LoggerInterface $logger,
+		\Magento\Customer\Model\Session $sessionManager
 		) {
 			$this->_config = $config;
 			$this->_encryptor = $encryptor;
 			$this->_logger = $logger;
+			$this->_session = $sessionManager;
 			
 			if(!isset($GLOBALS['_FLAGS'])){
 				$GLOBALS['_FLAGS'] = array('payment'=>array('method' => 'paperless'));
@@ -64,7 +67,7 @@ class PaperlessRequest implements BuilderInterface
 		public function is_recurring($paymentDO) {
 			if (!isset($paymentDO) || !$paymentDO instanceof PaymentDataObjectInterface) {
 				$this->_logger->critical("Paperless PaperlessRequest experienced an invalid argument");
-				throw new \InvalidArgumentException('Payment data object should be provided');
+				throw new \InvalidArgumentException('Payment data object should be provided', 500);
 			}
 			
 			$payment = $paymentDO->getPayment();
@@ -227,20 +230,35 @@ class PaperlessRequest implements BuilderInterface
 			* Implementation of this will be completed in @link https://ourdailybread.atlassian.net/browse/DT-94
 			*/
 			$this->_logger->critical('Paperless getProfileInformation was called');
-			throw new Exception('PaperlessRequest::getProfileInformation() not implemented');
+			throw new \Exception('PaperlessRequest::getProfileInformation() not implemented', 501);
 		}
 		public function improptu_profile($paymentDO) {
 			require_once (__DIR__.'/ProfileRequest.php');
 
 
-
-			$profileData = new ProfileRequest($this->_config, $this->_encryptor);
+			$profileData = new ProfileRequest($this->_config, $this->_encryptor, $this->_logger, $this->_session);
 
 			$data = $profileData->build(['payment' => $paymentDO]);
 
+			if (isset($data['cardhash'])) {
+				$cardhash = $data['cardhash'];
+				unset($data['cardhash']);
+			} else {
+				$cardhash = false;
+			}
 
+			$cacheresult = false;
+			if ($cardhash) {
+				$transactions = $this->_session->getTransactionList();
+				if (isset($transactions['profile'], $transactions['profile'][$cardhash]))
+					$cacheresult = $transactions['profile'][$cardhash];
+			}
 
-
+			if($cacheresult && isset($cacheresult['profile']['profileNumber'])){
+				$resp = $cacheresult;
+				//no expiration time on profile numbers. If we have it, use it.
+				$payment = $paymentDO->getPayment();
+			} else {
 
 			$request_details = $data['req'];
 			unset($data['req']);
@@ -265,16 +283,15 @@ class PaperlessRequest implements BuilderInterface
 			}
 
 
-
 			$selfconnect = curl_init($url);
 			curl_setopt_array($selfconnect, [
-				CURLOPT_POST        	=>	true,
-				CURLOPT_POSTFIELDS  	=>	$jsondata,
-				CURLOPT_CUSTOMREQUEST	=>	'POST',
-				CURLOPT_HTTPHEADER  	=>	$headrs,
-				CURLOPT_RETURNTRANSFER	=>	true,
-				CURLOPT_CONNECTTIMEOUT	=>	10,
-				CURLOPT_TIMEOUT     	=>	40
+				CURLOPT_POST            =>      true,
+				CURLOPT_POSTFIELDS      =>      $jsondata,
+				CURLOPT_CUSTOMREQUEST   =>      'POST',
+				CURLOPT_HTTPHEADER      =>      $headrs,
+				CURLOPT_RETURNTRANSFER  =>      true,
+				CURLOPT_CONNECTTIMEOUT  =>      10,
+				CURLOPT_TIMEOUT         =>      40
 			]);
 
 
@@ -285,7 +302,8 @@ class PaperlessRequest implements BuilderInterface
 
 			if($responseInfo['http_code'] == 0 ){
 				$this->_logger->critical("PaperlessRequest was unable to connect to Paperless");
-				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"));
+				//HTTP 502, unable to reach upstream server
+				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Failed to connect to card processor"), null, 502);
 			}
 
 			$resp = json_decode($response, true);
@@ -295,10 +313,21 @@ class PaperlessRequest implements BuilderInterface
 			if($responseInfo['http_code'] != 200 || empty($resp) || empty($resp['profile']) || empty($resp['profile']['profileNumber'])){
 				$payment->setEcheckAccountType($response);  //cc_debug_response_serialized, but its only 32 chars!!
 				$this->_logger->critical("Paperless request received ".$responseInfo['http_code']);
-				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"));
+				throw new \Magento\Payment\Gateway\Http\ClientException(new Phrase("Transaction declined"), null, 200);
 			}
 
 
+			//from session above
+			if($cardhash) {
+				if (empty($transactions))
+					$transactions = array();
+				if (empty($transactions['profile']))
+					$transactions['profile'] = array();
+
+				$transactions['profile'][$cardhash] = $resp;
+				$this->_session->setTransactionList($transactions);
+			}
+			}
 			$payment->setCcStatusDescription($resp['profile']['profileNumber']);
 			if(!empty($resp['profile']['accountDescription']))
 				$payment->setCcSsStartYear($resp['profile']['accountDescription']);
@@ -306,6 +335,10 @@ class PaperlessRequest implements BuilderInterface
 				$payment->setCcSsStartMonth($resp['referenceId']);
 
 			
+		}
+
+		protected function cardHash($cardnum, $expstr, $cvv){
+			return sha1( 'QwErTyUiOp1@3$5^7*9)' . $cardnum . $expstr . $cvv . 'qWeRtYuIoP!2#4%6&8(0');
 		}
 	}
 		

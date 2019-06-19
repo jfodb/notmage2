@@ -15,6 +15,7 @@ class TransferFactory implements TransferFactoryInterface
 	 */
 	private $transferBuilder;
 	private $_config;
+	protected $cardhash;
 
 	/**
 	 * @param TransferBuilder $transferBuilder
@@ -25,6 +26,7 @@ class TransferFactory implements TransferFactoryInterface
 	) {
 		$this->transferBuilder = $transferBuilder;
 		$this->_config = $config;
+		$this->cardhash = false;
 	}
 	/**
 	 * Builds gateway transfer object
@@ -52,6 +54,14 @@ class TransferFactory implements TransferFactoryInterface
 			'TerminalKey: ' . $request_details['Token']['TerminalKey']
 		];
 
+		if(!empty($request['cardhash'])) {
+			$this->cardhash = $request['cardhash'];
+			$GLOBALS['currentCardHash'] = $this->cardhash;
+			if(isset($request['amount'], $request['amount']['value']))
+				$GLOBALS['currentTransAmont'] = $request['amount']['value'];
+			unset($request['cardhash']);
+		}
+
 		if( !empty( $request_details['TestMode'] ) ) {
 			$headrs[] = 'TestFlag: true';
 		}
@@ -63,5 +73,9 @@ class TransferFactory implements TransferFactoryInterface
 			->setMethod('POST')
 			->setHeaders($headrs )
 			->build();
+	}
+
+	public function getCardHash() {
+		return $this->cardhash;
 	}
 }

@@ -12,6 +12,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
     protected $customTemplate;
     protected $is_recurring;
     protected $_productRepositoryFactory;
+    protected $session;
 
     public function __construct(
         \Magento\Sales\Model\Order\Email\Container\Template $templateContainer,
@@ -24,7 +25,8 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         \Magento\Framework\App\Config\ScopeConfigInterface $globalConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Api\ProductRepositoryInterfaceFactory $productRepositoryFactory,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Customer\Model\Session $sessionManager
     ) {
         $this->templateContainer = $templateContainer;
 
@@ -42,10 +44,25 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
 
         $this->_productRepositoryFactory = $productRepositoryFactory;
         $this->scopeConfig = $scopeConfig;
+        $this->session = $sessionManager;
     }
 
     public function send(\Magento\Sales\Model\Order $order, $forceSyncMode = false)
     {
+		$dejavu = false;
+    	if(!empty($GLOBALS['_FLAGS']) && !empty($GLOBALS['_FLAGS']['isdejavu'])){
+    		$dejavu = true;
+        } else {
+
+    		//note, if dejavu, a new order is created from the old quote. this means new orderid, incrementid, and fresh flags for sent/unsent
+		    $cachekey = sprintf('%s-%s-%s', $order->getCustomerEmail(), $order->getBaseSubtotal(), $order->getQuoteId());
+		    $possibleduplicated = $this->session->getSentEmails();
+		    if ($possibleduplicated && !empty($possibleduplicated[$cachekey])) {
+			    $dejavu = true;
+		    }
+	    }
+
+    	if(!$dejavu) {  //don't increment below to reduce number of perceived changes
 
         // get order items
         $orderItems = $order->getAllItems();
@@ -71,6 +88,26 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
 
         // set templateContainer's customTemplateId
         $this->templateContainer->setCustomTemplateId($customTemplate);
+
+            //store in session cache that we have been here.
+			if(!empty($cachekey)) {
+				$possibleduplicated = $this->session->getSentEmails();
+				if(empty($possibleduplicated))
+					$possibleduplicated = array();
+				$possibleduplicated[$cachekey] = true;
+				$this->session->setSentEmails($possibleduplicated);
+			}
+        }
+
+        else {
+        	//if $dejavu, then just mark as sent and continue on
+	        $order->setSendEmail(true);
+	        $order->setEmailSent(true);
+	        $this->orderResource->saveAttribute($order, ['send_email', 'email_sent']);
+
+	        //prevent sending in line below
+	        return true;
+        }
 
         return parent::send($order, $forceSyncMode);
     }

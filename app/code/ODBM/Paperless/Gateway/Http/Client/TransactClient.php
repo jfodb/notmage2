@@ -14,27 +14,69 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 	protected $clientFactory;
 	protected $converter;
 	protected $logger;
+	protected $session;
 
 	public function __construct(
 		\Magento\Framework\HTTP\ZendClientFactory $clientFactory,
 		\Psr\Log\LoggerInterface $mylogger,
 		Logger $theirlogger,
+		\Magento\Customer\Model\Session $sessionManager,
 		\Magento\Payment\Gateway\Http\ConverterInterface $converter = null
 	) {
 		$this->clientFactory = $clientFactory;
 		$this->converter = $converter;
 		$this->logger = $mylogger;
-
+		$this->session = $sessionManager;
 
 		parent::__construct($clientFactory, $theirlogger, $converter);
 	}
 
 	public function placeRequest(TransferInterface $transferObject)
 	{
-		$log = [
-			'request' => $transferObject->getBody(),
-			'request_uri' => $transferObject->getUri()
-		];
+		//check for cardhash
+		if(method_exists($transferObject, 'getCardHash')){
+			$cardhash = $transferObject->getCardHash();
+		} else if (!empty($GLOBALS['currentCardHash'])) {
+			$cardhash = $GLOBALS['currentCardHash'];
+		} else {
+			$cardhash = false;
+		}
+		$cacheresult = false;
+
+		//check session for previous transaction on this card
+		if($cardhash) {
+			$possibleduplicated = $this->session->getTransactionList();
+			if ($possibleduplicated && isset($possibleduplicated[$cardhash])) {
+				$cacheresult = $possibleduplicated[$cardhash];
+				$cacheresult['fromHash'] = $cardhash;
+			}
+		}
+
+		//if cache and is not expired by 5+ minutes
+		if($cacheresult && $cacheresult['tag']['ctime']+320 > time()) {
+			if(isset($GLOBALS['currentTransAmont'], $cacheresult['tag']['amount'])){
+				if($GLOBALS['currentTransAmont'] == $cacheresult['tag']['amount'])
+					$result = $cacheresult;
+			} else {
+				$result = $cacheresult;
+
+				if(empty($GLOBALS['_FLAGS']))
+					$GLOBALS['_FLAGS'] = array();
+				$GLOBALS['_FLAGS']['isdejavu'] = true;
+			}
+
+			if(isset($result))
+				unset($result['tag']); //remove cache set time and amount
+		}
+		if(empty($result)) {
+
+			//clear possible expired cache
+			if($cacheresult && $cacheresult['tag']['ctime']+320 < time()){
+				unset($possibleduplicated[$cardhash]);
+				$this->session->setTransactionList($possibleduplicated);
+			}
+
+
 		$result = [];
 		/** @var ZendClient $client */
 		$client = $this->clientFactory->create();
@@ -73,7 +115,7 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 			$this->logger->critical("LF278 Payment Gateway Error HTTP Client Exception");
 			$this->logger->critical($e);
 			throw new \Magento\Payment\Gateway\Http\ClientException(
-				__('Error connecting to payment gateway. Your payment might have gone through but we cannot see the results'), 0, $e
+				__('Error connecting to payment gateway. Your payment might have gone through but we cannot see the results'), $e, 502
 			);
 		} catch (\Magento\Payment\Gateway\Http\ConverterException $e) {
 			$this->logger->critical("LF278 Payment Gateway Error HTTP Client Converter");
@@ -82,6 +124,20 @@ class TransactClient extends \Magento\Payment\Gateway\Http\Client\Zend
 		} catch (\Exception $e) {
 			$this->logger->critical("LF278 Paperless transacton general exception");
 			throw $e;
+		}
+
+			if($result['httpcode'] == 200 && $cardhash) {
+				//cache only good responses.
+				$transactions = $this->session->getTransactionList();
+				if (empty($transactions))
+					$transactions = array();
+				$transactions[$cardhash] = $result;
+				$transactions[$cardhash]['tag'] = ['ctime' => time()];
+				if(isset($GLOBALS['currentTransAmont']))
+					$transactions[$cardhash]['tag']['amount'] = $GLOBALS['currentTransAmont'];
+				$this->session->setTransactionList($transactions);
+			}
+
 		}
 
 		return $result;

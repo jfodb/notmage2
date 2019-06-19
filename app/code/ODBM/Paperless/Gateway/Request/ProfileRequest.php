@@ -27,7 +27,7 @@ class ProfileRequest extends PaperlessRequest
 			|| !$buildSubject['payment'] instanceof PaymentDataObjectInterface
 		) {
 			$this->_logger->critical("Paperless Profile request experienced an invalid argument");
-			throw new \InvalidArgumentException('Payment data object should be provided');
+			throw new \InvalidArgumentException('Payment data object should be provided', 500);
 		}
 
 		$base_req = parent::build($buildSubject);
@@ -74,7 +74,8 @@ class ProfileRequest extends PaperlessRequest
 			],
 			'email' => $address->getEmail()
 		];
-		$additional['metadata'] = $this->customfields;
+		$addition['metadata'] = $this->customfields;
+		$addition['cardhash'] = $this->cardHash( $addition['source']['card']['accountNumber'], $addition['source']['card']['expiration'], $addition['source']['card']['securityCode'] );
 
 
 		/** @var PaymentDataObjectInterface $payment */
