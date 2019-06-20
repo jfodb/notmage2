@@ -18,9 +18,6 @@
 		<plugin name="user_message_modal_mfixed" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
 	</type>
 
-
-
 	<!-- other -->
 
-	
 </config>
