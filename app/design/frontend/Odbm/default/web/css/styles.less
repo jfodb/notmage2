@@ -485,9 +485,35 @@ a.description-toggle {
 	padding-top: 7px;
 	line-height: 1;
 }
-.paypal.checkout.before.paypal-logo input {
-	width: 82px;
+
+.paypal-button:hover {
+	background: #f0f0f0 radial-gradient(circle, transparent 1%, #f0f0f0 1%) center / 15000% !important;
+	border-radius: 22.5px;
 }
+
+.paypal-button {
+	margin-top: 10px;
+	margin-left:10px;
+	border-radius: 22.5px 22.5px 22.5px 22.5px !important;
+	background: transparent !important;
+}
+.zoid-outlet {
+	min-width: 168px !important;
+}
+
+.paypal-button,.paypal-button-container {
+	width: 168px !important;
+}
+
+.paypal-button > .paypal-button-color-white {
+	width: 158px !important;
+	border: 1px solid @odb-dark-blue !important;
+	cursor: pointer;
+	box-sizing: border-box;
+	border-radius: 22.5px 22.5px 22.5px 22.5px !important;
+	background: transparent !important;
+}
+
 .action.primary {
 	background-color: #fff;
 	color: @odb-dark-blue;
@@ -900,6 +926,27 @@ input.cvv, input.ccno {
 }
 
 @media (max-width: 767px) {
+
+	.paypal-button{
+		border-radius: 22.5px 22.5px 22.5px 22.5px !important;
+		margin-left:0px;
+	}
+
+	.zoid-outlet {
+		min-width: 160px !important;
+	}
+
+	.paypal-button,.paypal-button-container {
+		width: 160px !important;
+	}
+
+	.paypal-button.paypal-button-color-white {
+		max-width:158px !important;
+		background-color: transparent !important;
+		color: @odb-dark-blue !important;
+		border: solid 1px @odb-dark-blue !important;
+		border-radius: 22.5px 22.5px 22.5px 22.5px !important;
+	}
 	/*make room for header*/
 	.modal-popup .modal-inner-wrap {
 		margin: 10rem auto;
@@ -911,7 +958,7 @@ input.cvv, input.ccno {
 		font-size: 18px;
 	}
 	.product-info-main .box-tocart .actions .action.tocart {
-		width: 137px;
+		width: 160px;
 		margin: 5px;
 		text-align: left;
 		display: flex;
