@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\Paypal\Model\SmartButtonConfig">
-        <plugin name="override-smart-button-styles" type="Psuedo\PaypalFixed\Plugin\SmartButton" sortOrder="1" disabled="false" />
+    <!-- Magento 2.3.2 bug - Disable PayPal credit - 8/7/19 -->
+    <type name="Magento\Paypal\Model\Config">
+        <plugin name="override-after-ismethodavailable" type="Psuedo\PaypalFixed\Plugin\Config" sortOrder="1" disabled="false" />
     </type>
 </config>

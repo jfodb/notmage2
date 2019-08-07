@@ -113,7 +113,7 @@ require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Cu
 				$('.actions.hidden').removeClass('hidden');
 			}
 			if ($(this).children('input').attr('id') === "_recurring-yes") {
-				$('.paypal-button').addClass('hidden');
+				$('.paypal').addClass('hidden');
 				$('.dntpmtoptbx').addClass('recurring');
 
 				var sku = document.getElementsByName('_motivation_code')[0].value;
@@ -127,7 +127,7 @@ require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Cu
 					return false;
 				}*/
 			} else {
-				$('.paypal-button').removeClass('hidden');
+				$('.paypal').removeClass('hidden');
 				$('.dntpmtoptbx').removeClass('recurring');
 			}
 			$(this).siblings('.radio--button').removeClass('checked');
