@@ -2,26 +2,20 @@
 /**
  * User: mdubinsky
  * Date: 2019-08-06
+ * Description: Plugin sets standard PayPal button styles that aren't available in Magento Admin and align with our existing design
+ * DISABLED in app/code/Psuedo/PaypalFixed/etc/di.xml because in-context experience is set to 'OFF"
  */
 
 namespace Psuedo\PaypalFixed\Plugin;
-use Psr\Log\LoggerInterface;
 
 class SmartButton
 {
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
     /**
      * Get smart button config
-     *
-     * @param string $page
+     * Hard codes the desired payPal button style since these dynamic options are not available in the Admin
      * @return array
      */
-    public function afterGetConfig(\Magento\Paypal\Model\SmartButtonConfig $subject, $result, $page): array
+    public function afterGetConfig(\Magento\Paypal\Model\SmartButtonConfig $subject, $result): array
     {
         $result['styles'] = $this->getButtonStylesPlugin();
         return $result;
