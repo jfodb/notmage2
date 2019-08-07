@@ -26,7 +26,6 @@ define([
 
 
       // 8/6/2019 - Magento 2.3.2 - Fixes guest cart issue
-      console.error("JAVASCRIPT OVERRIDE!");
       if (cart().isGuestCheckoutAllowed === undefined) {
         cart.subscribe(function (updatedCart) {
           this.declinePayment = !customer().firstname && !cart().isGuestCheckoutAllowed;
