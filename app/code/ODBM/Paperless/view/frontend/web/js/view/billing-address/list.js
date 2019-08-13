@@ -1,6 +1,5 @@
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
+ * Added during 2.3.2 (8/13/19) upgrade to bypass one-page checkout issues
  */
 
 define([
