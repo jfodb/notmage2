@@ -36,4 +36,4 @@ chown -R apache:nginx /usr/share/nginx/html/magento
 nginx -t
 
 # reload file changes and flushed logs
-service nginx reload
+service nginx restart
