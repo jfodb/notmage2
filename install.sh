@@ -14,6 +14,9 @@ rm -rf /usr/share/nginx/html/magento
 # Add Mike's public key to ssh
 /bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCtyNvnouiXFP1cA35RsglcwSWEtxB7/D7BcgdrJPUfqx8bdOMNv3DrSDGZ1IVDl0PqvCzSGfA5DMz58a+0r6WZfkOPBDI7C/uwHAgCOlT8cYlxiQZ0j7VLEkyL+uXepie+hG366u/Dgc2+GiWPT8KmbX33UzpviWgB0SnPC3CFBpha9hUzxHWKY+vF9inoUluKtF+QG8P5eFWxqIlbHpOmhfBNcVItdRtdF8fnsdHqZmW555ZGmuNPBIqgPd0pBUO4ewrEtG6QoYB0HgaPgpsRtJNJnpUwrHaHT2aLrCbguD1aY+ZXK68BdcX3A6hfsoeOuoyqXaBSEdMoH/D0tap3FwHEzmElF07JerD6nZTgQVr2t6llw9Lzxyhi1Po2LTb/YD11TdZWzjYBlIKKYi/jwO0wthcfynVbXUsWlxGLWs45BTA52f6Akh3Lmazl8j8nSBfoWcdUl/0uS11KQDwa9QdFyZ7XKdCOq+0es9uJsT0a5U4IRygunFLaJJX8YhrWMLZkgyr2g00y2YjNSmJS2L91XiSs/TVp0hZChd/nj8cBdbCSjn3DsC/bzjpoqUUhVM9GC2H8WtROtVNOvW5F0kven4AE4rcD0QUL3zdOKqN8Qd9gf0k5TbSzq16zvo41zJQtGmGpeqAzTfk2Epooe2ZjfkYWZRoGDNp494b8bw== mike.dubinsky@odb.org" >> /home/ec2-user/.ssh/authorized_keys
 
+#Add Edward's public key to ssh
+/bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKds26Z1M3hG6anCQs4o8Akz0z5xX0WUBC9sFReszjCDnXhHfZQiQEPBF7spcWvrT8TT4ZAB0er2O5ZUmJZjI4cspHv0TJz9rxUyrRNMiY6HBRcoZaD6E3/1bMT+MPNMFIK8eJD1CjIsFHtB3vuqQEeC1njVxZA6kZ7j+VWUZlK5/csSbhVaDsagunAtKxLzI+VnucRIdSnrhGdLMVySL3FE0PGH99cfPQ7qL8sP3NkirUQDRPdI9f+Ox2Dd2cy1npnanOUw8m6vE+x/ewBRvWJtAUeyDMFuhvyd7M4tyZtO3B7JT1lqSmWBoS5wkLO3FggD5MHIWsMxzy2xUOyhXv edwardolsen@eolsen-mbp.local" >> /home/ec2-user/.ssh/authorized_keys
+
 #pump history file
 echo "mysql -h donations-beta.cluster-cvcm4uujid2s.us-east-1.rds.amazonaws.com -u mage2 -p mage2" >> /home/ec2-user/.bash_history
 echo "mysql -h donations-production-serverless.cluster-cvcm4uujid2s.us-east-1.rds.amazonaws.com -u mage2 -p mage2" >> /home/ec2-user/.bash_history
