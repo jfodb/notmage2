@@ -12,10 +12,8 @@ use Magento\Paypal\Model\Express;
 
 class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 
-
-
 	//always save the address. Do not just discard what we recieved
-	public function returnFromPaypal($token)
+	public function returnFromPaypal($token, string $payerIdentifier = null)
 	{
 		$this->_getApi()
 			->setToken($token)
@@ -88,7 +86,6 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 		$quote->collectTotals();
 		$this->quoteRepository->save($quote);
 	}
-
 
 	//thanks for making this private
 	protected function ignoreAddressValidation()
