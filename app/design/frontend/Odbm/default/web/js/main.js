@@ -253,6 +253,22 @@ function sendCheckoutGA() {
     }
 }
 
+function switch_to_stripe(){
+	let checkr = jQuery('.paperless-pay-button');
+	let chck2 = jQuery('#activate_stripe');
+	if(checkr.length == 0 && chck2.length > 0) {
+		jQuery('div.pci-dss-info-block').parent().addClass('payment-method-notes');
+		jQuery('#submitDonationButton').parent().parent().addClass('paperless-pay-button');
+		jQuery('div.cryozonic-stripe .ccard').parent().addClass('payment-data');
+		jQuery('div#cryozonic-stripe-card-expiry').parent().addClass('multi-item');
+
+		jQuery('div.currencyDisclaimer').appendTo('.cryozonic-stripe .ccard .payment-method-notes');
+		jQuery('div.termsDisclaimer').appendTo('div.cryozonic-stripe .payment-data');
+
+		//initStripe(window.checkoutConfig.payment.cryozonic_stripe.stripeJsKey, window.checkoutConfig.payment.cryozonic_stripe.securityMethod);
+	}
+}
+
 function filter_money_amount(amount) {
 	//straight outta MOS
 	if(typeof amount == 'string')
