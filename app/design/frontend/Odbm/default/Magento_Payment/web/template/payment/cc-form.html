@@ -17,7 +17,7 @@
 
   <!-- ko if: isRecurring() -->
   <h3>Paperless</h3>
-  <div class="field number required">
+  <div class="field number required mypaperless">
         <div class="field type">
           <div class="control">
             <ul class="credit-card-types">
@@ -143,27 +143,22 @@
   <!-- /ko -->
 
   <!-- ko ifnot: isRecurring() -->
-    <h3>Give Me Stripe</h3>
-    <div >
-      <?php echo $block->getLayout()->createBlock('Cryozonic\StripePayments\Block\StripeElements')->toHtml(); ?>
+    <h3>Stripe</h3>
 
-      <!-- In multishipping, Magento 2 will create multiple charges. We need to save the card in order to reuse if for all charges -->
-      <input type="hidden" id="cryozonic_stripe_cc_save" name="payment[cc_save]" value="0" />
-      <input type="hidden" id="cryozonic_stripe_cc_shipping" name="payment[is_multishipping]" value="0" />
+  <style>
+    /*only render these when Stripe is loaded*/
+    div.mypaperless {display: none !important;}
+    div.cryozonic-stripe.force {display: block;}
+    div.payment-method-title.choice {display:none;}
+    div.payment-method.cryozonic-stripe div.payment-method-content {display:block;}
+    div#submitDonationButton {display: none;}
+    div.paperless-pay-button {display: none;}
 
-    </div>
+  </style>
 
-    <script type="text/javascript">
-      require(['jquery', 'prototype', 'mage/mage'], function(jQuery, $) {
-        jQuery(document).ready(function()
-        {
-          var securityMethod = '<?php echo $block->config->getSecurityMethod(); ?>';
-          var stripeJsPublishableKey = '<?php echo $block->config->getPublishableKey(); ?>';
-          initStripe(stripeJsPublishableKey, securityMethod);
-          cryozonic.onWindowLoaded(cryozonic.initMultiShippingEvents);
-        });
-      });
-    </script>
+  <div id="activate_stripe">
+
+  </div>
 
   <!-- /ko -->
 
