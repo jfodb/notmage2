@@ -1,0 +1,9 @@
+apt-get update
+apt-get install php-xdebug strace
+cp /magento/docker/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+service php7.2-fpm restart
+cp /magento/docker/mage-signed.conf /etc/nginx/snippets/mage-signed.conf
+cp /magento/docker/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
+cp /magento/docker/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
+cp /magento/docker/dhparam.pem /etc/ssl/certs/dhparam.pem
+cp /magento/docker/ssl-params.conf /etc/nginx/snippets/ssl-params.conf

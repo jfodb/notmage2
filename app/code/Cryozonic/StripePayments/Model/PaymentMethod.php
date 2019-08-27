@@ -25,6 +25,8 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 
     protected $_isInitializeNeeded      = false;
     protected $_canUseForMultishipping  = true;
+    protected $logger;
+    protected $eventManager;
 
     /**
      * @param ManagerInterface $eventManager

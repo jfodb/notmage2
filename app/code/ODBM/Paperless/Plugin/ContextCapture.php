@@ -42,7 +42,8 @@ class ContextCapture
 		if(!isset($GLOBALS['_FLAGS']['payment']))
 			$GLOBALS['_FLAGS']['payment'] = array('capture'=>true);
 
-
+		if($adapter->getCode() != 'odbm_paperless')
+			return [$payment, $amount];
 
 		if(empty($_POST) && empty($payment->getCcNumberEnc())){
 			ob_start();

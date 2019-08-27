@@ -17,6 +17,9 @@ class DataAssignObserver extends AbstractDataAssignObserver
 	public function execute(Observer $observer)
 	{
 		$method = $this->readMethodArgument($observer);
+		if($method->getCode() != 'odbm_paperless') {
+			return ;
+		}
 		$data = $this->readDataArgument($observer);
 		$paymentInfo = $method->getInfoInstance();
 		if ($data->getDataByKey('transaction_result') !== null) {

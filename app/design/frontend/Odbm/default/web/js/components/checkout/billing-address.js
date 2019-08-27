@@ -186,6 +186,14 @@ function (
                 }
             }
             this.updateAddresses();
+
+
+            //manage switch to stripe
+            let checkr = jQuery('#activate_stripe');
+            if(checkr.length > 0) {
+                jQuery('div.cryozonic-stripe').addClass('force');
+                switch_to_stripe();
+            }
         },
 
         /**
