@@ -11,7 +11,8 @@
         "magento/product-community-edition": "2.3.2",
         "composer/composer": "@alpha",
         "experius/module-donationproduct": "~1.0.0",
-        "mageplaza/module-smtp": "^1.1"
+        "mageplaza/module-smtp": "^1.1",
+        "stripe/stripe-php": "^6.43"
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "~1.2.0",
