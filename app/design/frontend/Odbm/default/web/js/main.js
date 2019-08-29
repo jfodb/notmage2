@@ -261,11 +261,14 @@ function switch_to_stripe(){
 		jQuery('#submitDonationButton').parent().parent().addClass('paperless-pay-button');
 		jQuery('div.cryozonic-stripe .ccard').parent().addClass('payment-data');
 		jQuery('div#cryozonic-stripe-card-expiry').parent().addClass('multi-item');
+		jQuery('div#cryozonic-stripe-card-number').parent().addClass('card-line');
 
 		jQuery('div.currencyDisclaimer').appendTo('.cryozonic-stripe .ccard .payment-method-notes');
 		jQuery('div.termsDisclaimer').appendTo('div.cryozonic-stripe .payment-data');
 
 		//initStripe(window.checkoutConfig.payment.cryozonic_stripe.stripeJsKey, window.checkoutConfig.payment.cryozonic_stripe.securityMethod);
+
+
 	}
 }
 

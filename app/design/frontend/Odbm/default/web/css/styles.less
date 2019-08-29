@@ -905,11 +905,15 @@ div.cryozonic-stripe-elements.multi-item {position: relative;  /*stipe injects s
 div.stripe-elements-field {box-sizing: border-box; height: 40px; font-size: 20px; margin:0; border-bottom: 1px solid rgb(85,85,85); border-radius: 0; box-shadow: none; width:50%;}
 div.stripe-elements-field .__PrivateStripeElement {height:100%;}
 div.payment-method-notes .pci-dss-info-block{width:100%; margin:8px 15px 8px 0;}
-div.payment-method-notes .pci-dss-info-block #pci-svg {left:0}
-div.payment-method-notes .pci-dss-info-block .pci-dss-info-text {top:-5px;}
+div.payment-method-notes .pci-dss-info-block #pci-svg {left:6px; top:0;}
+div.payment-method-notes .pci-dss-info-block .pci-dss-info-text {top:-5px; left: 6px;}
 #cryozonic-stripe-card-number {width: 100%;}
 #cryozonic-stripe-card-expiry {border-right: 1px solid rgb(85,85,85); width: 50%; /*position: absolute; left: 0;*/}
 #cryozonic-stripe-card-cvc{width: 50%; position: absolute; left: 50%; /*stripe injects space, force browser to disregard*/}
+
+.cryozonic-stripe-elements label { margin-left: 9px; }
+.stripe-elements-field {padding: 8px 8px 2px;}
+div.cryozonic-stripe-elements.card-line {margin: 4px 0 -4px;}
 
 
 @media (max-width: 767px) {
