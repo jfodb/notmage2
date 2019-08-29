@@ -132,16 +132,16 @@ var cryozonic =
         return {
             base: {
                 // Add your base input styles here. For example:
-                fontSize: '16px',
+                fontSize: '20px',
                 // lineHeight: '24px'
                 // iconColor: '#c4f0ff',
-                // color: '#31325F'
+                color: '#000',
         //         fontWeight: 300,
         //         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
 
-        //         '::placeholder': {
-        //             color: '#CFD7E0'
-        //         }
+                 '::placeholder': {
+                     color: '#c2c2c2'
+                 }
             }
         };
     },
