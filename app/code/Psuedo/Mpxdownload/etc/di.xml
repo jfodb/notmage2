@@ -8,4 +8,7 @@
 		</arguments>
 	</type>
 
+	<type name="Cryozonic\StripePayments\Model\Config">
+		<plugin name="stripeordertag" type="Psuedo\Mpxdownload\Plugin\StripeTagging" sortOrder="1" />
+	</type>
 </config>
