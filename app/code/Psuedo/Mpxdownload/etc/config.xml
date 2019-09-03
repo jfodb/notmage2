@@ -9,6 +9,8 @@
 					<!-- example
 					<dhponline.ca>INTDHP</dhponline.ca>
 					-->
+					<donations.ourdailybread.org>INT</donations.ourdailybread.org>
+					<beta.donations.ourdailybread.org>INT</beta.donations.ourdailybread.org>
 					<dev.mage2.org>INT</dev.mage2.org>
 					<store_1>INT</store_1>
 				</motivation_code>
@@ -17,11 +19,14 @@
 					<dhponline.ca>DHPC</dhponline.ca>
 					-->
 					<dev.mage2.org>RBCU</dev.mage2.org>
+					<donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
+					<beta.donations.ourdailybread.org>RBCU</beta.donations.ourdailybread.org>
 				</company>
 				<jobtype>
 					<!-- example:
 					<dhponline.ca>DhpStore</dhponline.ca>
 					-->
+					<donations.ourdailybread.org>ODBDonations</donations.ourdailybread.org>
 					<dev.mage2.org>ODBDonations</dev.mage2.org>
 					<beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
 					<store_1>ODBDonations</store_1>
@@ -31,6 +36,8 @@
 					<dhponline.ca>2</dhponline.ca>
 					-->
 					<dev.mage2.org>1</dev.mage2.org>
+					<donations.ourdailybread.org>1</donations.ourdailybread.org>
+					<beta.donations.ourdailybread.org>1</beta.donations.ourdailybread.org>
 				</store_id>
 				<domain>
 					<dhpstore>
@@ -41,6 +48,7 @@
 					</dhpstore>
 					<odbdonations>
 						<rbcu>dev.mage2.org</rbcu>
+						<!-- beta.donations.ourdailybread.org  donations.ourdailybread.org-->
 					</odbdonations>
 					<!-- example:
 					<ccstore>
