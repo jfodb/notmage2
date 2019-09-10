@@ -216,6 +216,7 @@ input#amount {
 }
 input#amount::placeholder {
 	color: @placeholder-gray;
+	opacity: 1;
 }
 .radio--button input[type="radio"] {
 	-webkit-appearance: none;
@@ -286,6 +287,7 @@ h4 {
 .checkout-index-index input[type="datetime"]::placeholder,
 .checkout-index-index input[type="email"]::placeholder {
 	color: @odb-gray-secondary;
+	opacity: 1;
 }
 .checkout-index-index .opc-wrapper form div.actions-toolbar {
 	margin: auto;
@@ -758,6 +760,7 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 }
 .checkout-index-index #customer-email-fieldset .field input::placeholder {
 	color: @odb-gray-secondary;
+	opacity: 1;
 }
 .checkout-index-index #payment_form_odbm_paperless .field.date {
 	width: 50%;
@@ -902,20 +905,21 @@ input.cvv, input.ccno {
 /* Stripe additions */
 div.force .payment-method-content.payment-data { margin-top: -10px; /*collapse phantom space above credit card section*/ }
 div.cryozonic-stripe div.billing-address-details {display: none;}
-div.cryozonic-stripe-elements.multi-item {position: relative;  /*stipe injects space between elements*/}
+div.cryozonic-stripe-elements.multi-item {position: relative; z-index: 4;  /*stipe injects space between elements*/}
 div.stripe-elements-field {box-sizing: border-box; height: 40px; font-size: 20px; margin:0; border-bottom: 1px solid rgb(85,85,85); border-radius: 0; box-shadow: none; width:50%;}
 div.stripe-elements-field .__PrivateStripeElement {height:100%;}
 div.payment-method-notes .pci-dss-info-block{width:100%; margin:8px 15px 8px 0;}
 div.payment-method-notes .pci-dss-info-block #pci-svg {left:6px; top:0;}
 div.payment-method-notes .pci-dss-info-block .pci-dss-info-text {top:-5px; left: 6px; font-size: 16px; font-style: italic; color: #4A4A4A; text-align: center; display: inline;}
-#cryozonic-stripe-card-number {width: 100%;}
+#cryozonic-stripe-card-number {width: 100%; padding-bottom:0;}
 #cryozonic-stripe-card-expiry {border-right: 1px solid rgb(85,85,85); width: 50%; /*position: absolute; left: 0;*/}
 #cryozonic-stripe-card-cvc{width: 50%; position: absolute; left: 50%; /*stripe injects space, force browser to disregard*/}
 
 .cryozonic-stripe-elements label { margin-left: 9px; }
 .cryozonic-stripe-elements .currencyDisclaimer {line-height: 20px;}
 .stripe-elements-field {padding: 8px 8px 2px;}
-div.cryozonic-stripe-elements.card-line {margin: 0 0 -4px;}
+div.cryozonic-stripe-elements.card-line {margin: 0 0 -6px; position: relative; z-index: 6;}
+.cryozonic-stripe-elements .cryozonic-stripe-brand {position: absolute; top:8px; right:14px;}
 #card-details-label {display: none;}
 
 
@@ -1207,7 +1211,7 @@ div.cryozonic-stripe-elements.card-line {margin: 0 0 -4px;}
 
 @media all and (min-width: 768px) and (max-width: 863px){
 	.currencyDisclaimer {
-		font-size:14px !important;
+		font-size:16px !important;
 	}
 
 	.termsDisclaimer {
@@ -1220,15 +1224,12 @@ div.cryozonic-stripe-elements.card-line {margin: 0 0 -4px;}
 	}
 
 	.termsDisclaimer {
-		font-size:14px !important;
-	}
-}
-@media all and (max-width: 465px) {
-	div.currencyDisclaimer {
-		font-size:14px !important;
-	}
-
-	div.termsDisclaimer {
+		font-size:12px !important;
+		}
+    }
+   @media all and (max-width: 465px) {
+			
+		div.termsDisclaimer {
 		font-size:12px !important;
 	}
 }
