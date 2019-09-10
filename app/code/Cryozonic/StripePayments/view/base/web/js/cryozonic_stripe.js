@@ -137,10 +137,10 @@ var cryozonic =
                 // iconColor: '#c4f0ff',
                 color: '#000',
         //         fontWeight: 300,
-        //         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontFamily: "'PT Sans', sans-serif",
 
                  '::placeholder': {
-                     color: '#c2c2c2'
+                color: '#555555'
                  }
             }
         };
