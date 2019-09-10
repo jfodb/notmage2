@@ -103,6 +103,9 @@ define([
                 creditCardData.cvvCode = value;
             });
         },
+        isRecurring: function() {
+            return window.checkoutConfig.isRecurring;
+        },
 
         //load the injected paperless fields afterRender
         afterFormRenders: function(){
@@ -380,6 +383,21 @@ define([
                     'year': value
                 };
             });
+        },
+
+        /**
+         * Return Stripe Security method
+         * @returns {String}
+         */
+        getStripeSecurityMethod: function() {
+            return window.checkoutConfig.payment.cryozonic_stripe.securityMethod;
+        },
+        /**
+         * Return Stripe key
+         * @returns {String}
+         */
+        getStripeKey: function() {
+            return window.checkoutConfig.payment.cryozonic_stripe.stripeJsKey;
         },
 
         /**

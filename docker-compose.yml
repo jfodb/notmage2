@@ -3,6 +3,7 @@ web:
   ports:
   - 80:80
   - 10004:9000
+  - 443:443
   volumes:
   - .:/magento:delegated
   links:
