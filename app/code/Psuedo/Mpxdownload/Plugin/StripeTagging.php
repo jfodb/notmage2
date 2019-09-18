@@ -54,7 +54,8 @@ if((empty($storid) || empty($jobid))){
 		$params['metadata']['Platform'] = 'Magento';
 
 		if(!empty($params['metadata']['Order #']))
-			$params['metadata']['OrderId'] = $params['metadata']['Order #'];
+			$params['metadata']['GiftId'] = $params['metadata']['Order #'];
+		//$params['metadata']['OrderId'] , when it becomes a cart.
 
 		//customer id if known
 		$customerSession = $this->objectManager->get('Magento\Customer\Model\Session');
