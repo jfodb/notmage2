@@ -22,7 +22,7 @@ class UpgradeData implements UpgradeDataInterface
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
 
-        if (version_compare($context->getVersion(), '0.1.1', '<')) {
+        if (version_compare($context->getVersion(), '0.1.2', '<')) {
 
             $eavSetup->addAttribute(
                 \Magento\Catalog\Model\Product::ENTITY,
@@ -40,14 +40,14 @@ class UpgradeData implements UpgradeDataInterface
                     'unique' => false,
                     'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
                     'input_renderer' => '',
-                    'searchable' => true,
+                    'searchable' => false,
                     'filterable' => false,
                     'comparable' => false,
                     'visible_on_front' => false,
                     'visible' => true,
                     'is_html_allowed_on_front' => false,
                     'visible_in_advanced_search' => false,
-                    'used_in_product_listing' => true,
+                    'used_in_product_listing' => false,
                     'used_for_sort_by' => false,
                     'apply_to' => 'donation',
                     'used_for_promo_rules' => false,
