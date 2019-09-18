@@ -206,6 +206,7 @@ return [
         'Amazon_Core' => 1,
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
+        'Cryozonic_StripePayments' => 1,
         'Dat_BillingAddress' => 1,
         'Dat_Thankyouemail' => 1,
         'Dat_Thankyoupage' => 1,
