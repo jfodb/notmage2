@@ -44,9 +44,11 @@ class Template extends \Magento\Config\Model\Config\Source\Email\Template
         }
         $options = $collection->toOptionArray();
         $templateId = str_replace('/', '_', $this->getPath());
-        $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
-        $templateLabel = __('%1 (Default)', $templateLabel);
-        array_unshift($options, ['value' => $templateId, 'label' => $templateLabel]);
+        if(!empty($templateId)) {
+	        $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
+	        $templateLabel = __('%1 (Default)', $templateLabel);
+	        array_unshift($options, ['value' => $templateId, 'label' => $templateLabel]);
+        }
         return $options;
     }
 

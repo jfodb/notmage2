@@ -1,6 +1,7 @@
 FROM phusion/baseimage
 
 EXPOSE 80
+EXPOSE 443
 
 CMD ["/magento/docker/serve.sh"]
 
@@ -31,6 +32,9 @@ RUN apt-add-repository -y ppa:ondrej/php \
                     php7.2-redis \
                     php7.2-soap \
                     nginx \
+                    php-xdebug \
+                    vim \
+                    strace \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -sS https://getcomposer.org/installer | php \
@@ -45,5 +49,17 @@ COPY ./docker/nginx.conf /etc/nginx/sites-available/default
 COPY ./docker/php.ini /etc/php/7.2/fpm/php.ini
 
 COPY ./docker/env.php /magento/app/env.php
+
+COPY ./docker/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+
+COPY ./docker/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
+
+COPY ./docker/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
+
+COPY ./docker/dhparam.pem /etc/ssl/certs/dhparam.pem
+
+COPY ./docker/mage-signed.conf /etc/nginx/snippets/mage-signed.conf
+
+COPY ./docker/ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 ADD . /magento
