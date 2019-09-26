@@ -37,7 +37,7 @@ class Load extends \Magento\Customer\Controller\Section\Load
         \Psr\Log\LoggerInterface $log,
         \Magento\Framework\Escaper $escaper = null
     ) {
-	    parent::__construct($context, $resultJsonFactory, $sectionIdentifier, $sectionPool);
+	    parent::__construct($context, $resultJsonFactory, $sectionIdentifier, $sectionPool, $escaper);
 
         $this->_logger = $log;
         $this->escaper = $escaper ?: $this->_objectManager->get(\Magento\Framework\Escaper::class);
@@ -56,10 +56,20 @@ class Load extends \Magento\Customer\Controller\Section\Load
             $sectionNames = $this->getRequest()->getParam('sections');
             $sectionNames = $sectionNames ? array_unique(\explode(',', $sectionNames)) : null;
 
+            //magento 2.2 flat
             $updateSectionId = $this->getRequest()->getParam('update_section_id');
             if ('false' === $updateSectionId) {
                 $updateSectionId = false;
             }
+
+            //magento 2.3 flag
+	        $forceNewSectionTimestamp = $this->getRequest()->getParam('force_new_section_timestamp');
+	        if ('false' === $forceNewSectionTimestamp) {
+		        $forceNewSectionTimestamp = false;
+	        }
+
+	        $updateSectionId = $forceNewSectionTimestamp || $updateSectionId;
+
             $response = $this->sectionPool->getSectionsData($sectionNames, (bool)$updateSectionId);
         } catch (\Exception $e) {
             $resultJson->setStatusHeader(
