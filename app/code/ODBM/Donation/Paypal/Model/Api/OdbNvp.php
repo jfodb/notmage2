@@ -1374,7 +1374,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             );
             $http->close();
 
-	        $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed witha different payment type.');
+	        $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
 
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Payment Gateway is unreachable at the moment. Please use another payment option.'),
@@ -1407,7 +1407,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 		    $this->_handleCallErrors($response);
 	    } catch (\Exception $e){
 			    $this->messagemanager->addErrorMessage(__('Payment Gateway has thrown an error. Please use another payment option.'));
-			    $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed witha different payment type.',);
+			    $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
 			    throw $e;
 	    }
         return $response;
