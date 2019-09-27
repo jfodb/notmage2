@@ -8,6 +8,7 @@
 	<preference for="Magento\Webapi\Model\Rest\Generator" type="Psuedo\Magentofixed\Model\Webapi\Rest\Swagger\Generator" />
 	<preference for="Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
 	<preference for="Magento\Checkout\Model\GuestPaymentInformationManagement" type="Psuedo\Magentofixed\Model\Checkout\GuestPaymentInformationManagement" />
+	<preference for="\Magento\Quote\Model\Quote" type="Psuedo\Magentofixed\Model\Quote\InformativeQuote" />
 
 
 	<!-- plugins -->

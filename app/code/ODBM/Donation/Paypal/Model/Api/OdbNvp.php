@@ -1351,6 +1351,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             $response = $http->read();
         } catch (\Exception $e) {
             $debugData['http_error'] = ['error' => $e->getMessage(), 'code' => $e->getCode()];
+	        $this->session->setGatewayMessage(__('Sorry, Paypal is down, please use a different method'));
             $this->_debug($debugData);
             throw $e;
         }
@@ -1373,8 +1374,12 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             );
             $http->close();
 
+	        $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
+
             throw new \Magento\Framework\Exception\LocalizedException(
-                __('Payment Gateway is unreachable at the moment. Please use another payment option.')
+                __('Payment Gateway is unreachable at the moment. Please use another payment option.'),
+	            null,
+                200
             );
         }
 
@@ -1384,7 +1389,9 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
         if (!$this->_validateResponse($methodName, $response)) {
             $this->_logger->critical(new \Exception(__('PayPal response hasn\'t required fields.')));
             throw new \Magento\Framework\Exception\LocalizedException(
-                __('Something went wrong while processing your order.')
+                __('Something went wrong while processing your order.'),
+	            null,
+	            500
             );
         }
 
@@ -1395,7 +1402,14 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             }
             return $response;
         }
-        $this->_handleCallErrors($response);
+
+	    try {
+		    $this->_handleCallErrors($response);
+	    } catch (\Exception $e){
+			    $this->messagemanager->addErrorMessage(__('Payment Gateway has thrown an error. Please use another payment option.'));
+			    $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
+			    throw $e;
+	    }
         return $response;
     }
 
@@ -1459,7 +1473,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
                 ['phrase' => $exceptionPhrase, 'code' => $firstError]
             )
             : $this->_frameworkExceptionFactory->create(
-                ['phrase' => $exceptionPhrase]
+                ['phrase' => $exceptionPhrase, 'code' => 500]
             );
 
         throw $exception;
