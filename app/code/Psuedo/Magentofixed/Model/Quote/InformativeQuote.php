@@ -146,9 +146,16 @@ class InformativeQuote extends \Magento\Quote\Model\Quote
             );
         }
 
-
-        $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
-
+        //Magento Checkout caller catches Exceptions, and sets user-notices to false;
+        //Add any exeptions in this section to the messages delivered to the user
+        try {
+            $cartCandidates = $product->getTypeInstance()->prepareForCartAdvanced($request, $product, $processMode);
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            $usermessages = $this->_session->getUserMessages() ?? [];
+            $usermessages[] = $e->getMessage();
+            $this->_session->setUserMessages($usermessages);
+            throw $e;
+        }
 
         /**
          * Error message
