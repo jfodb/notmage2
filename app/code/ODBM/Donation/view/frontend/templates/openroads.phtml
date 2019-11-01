@@ -1,24 +1,18 @@
 <?php
-$sku1 = $block->getTotalDonationsBySku("INTGT1");
-$sku2 = $block->getTotalDonationsBySku("INTGT2");
-$sku3 = $block->getTotalDonationsBySku("INTGT3");
-$sku4 = $block->getTotalDonationsBySku("INTGT4");
+$intgt6 = $block->getTotalDonationsBySku("INTGT6");
+$intgt7 = $block->getTotalDonationsBySku("INTGT7");
 ?>
 <style type="text/css" xml="space"><!--
-    body, button, .cart.table-wrapper .actions-toolbar>.action, .action-gift, .action.primary, select, input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"] {font-family: 'PT Sans',sans-serif;} .columns .column.main {padding-bottom: 30px; padding-top: 30px;}div.page-bottom{display: block; width: 100% !important; max-width: 100% !important; padding: 0px !important; background-color: #ffffff; margin-top: -25px !important;} .onethirdbox{width: 369px; max-width: 100%; min-width: 250px; margin-left: auto; margin-right: auto;} .halfbox{max-width: 600px; min-width: 250px;} .halfbox.ft {text-align: left; padding-left: 20px; padding-right: 20px;} .halfbox.ft .barholder {margin: 0px 0px 10px 0px;} .barholder {width: 200px; height: 8px; border: solid 1px #333333; margin-left: auto; margin-right: auto; -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px; margin-bottom: 10px;} .barpercent {height: 100%; background-color: #4C99E1; border-right: solid 1px #000000; -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px; } .sptbtn {margin-bottom: 10px; background-color:#BE2335; -moz-border-radius:24px; -webkit-border-radius:24px; border-radius:24px; display:inline-block; cursor:pointer; color:#ffffff; font-size:18px; padding:10px 50px 8px 50px; font-weight: bold; letter-spacing: 2px; text-decoration:none; margin-left: auto; margin-right: auto;} a.sptbtn {color: #ffffff;} a.sptbtn:hover{text-decoration: none; background-color:#ad1224; color: #ffffff;} .ftflex {display: flex;  color: #333333; text-align: center; flex-wrap: wrap; border: none; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); margin: 0px 16px; align-items:center;} .halfbox.pic {max-height: 300px; overflow: hidden;} .boxshell {border: none; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 5px;} .boxshell img {border-radius: 5px 5px 0px 0px;}
-    #INTGTfhd {color: #222222; font-size: 1.8em; font-weight: bold;}
-    #INTGTfdes {color: #333333; font-size: 1.3em;}
-    .halfbox.picft {max-height: 300px; overflow: hidden;}
-    @media screen and (max-width: 1069px){
-        .ftflex {width: 100%; max-width: 369px; margin-left: auto; margin-right: auto; text-align: center;}
-        .halfbox.ft {text-align: center;}
-        .halfbox.ft .barholder {margin-left: auto; margin-right: auto;}
+    body, button, .cart.table-wrapper .actions-toolbar>.action, .action-gift, .action.primary, select, input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"] {font-family: 'PT Sans',sans-serif;} .columns .column.main {padding-bottom: 30px; padding-top: 30px;}div.page-bottom{display: block; width: 100% !important; max-width: 100% !important; padding: 0px !important; background-color: #ffffff; margin-top: -25px !important;} .onethirdbox{width: 380px; max-width: 100%; min-width: 250px; margin-left: auto; margin-right: auto;} .halfbox{max-width: 600px; min-width: 250px;}  .barholder {height: 8px; border: solid 1px #222222; margin-left: 20px; margin-right: 20px; -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px; margin-bottom: 10px;} .barpercent {height: 100%; background-color: #2278cb; border-right: solid 1px #000000; -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px; } .sptbtn {margin-bottom: 10px; background-color:#d93e00; -moz-border-radius:24px; -webkit-border-radius:24px; border-radius:24px; display:inline-block; cursor:pointer; color:#ffffff; font-size:18px; padding:10px 60px 8px 60px; font-weight: bold; letter-spacing: 2px; text-decoration:none; margin-left: auto; margin-right: auto;} a.sptbtn {color: #ffffff;} .causehdr{font-size: 24px; line-height: 27px;} .causetxt {font-size: 16px; line-height: 1.5em;} a.sptbtn:hover{text-decoration: none; background-color:#e94e10; color: #ffffff; -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+    @media screen and (max-width: 950px){
+        .ftflex {width: 100%; max-width: 380px; margin-left: auto; margin-right: auto; text-align: center;}
         .flxl {text-align: center;}
-
+        .bxwrap {flex-direction: column;}
     }
 
     @media screen and (max-width: 600px) {
         .donation-impact-info {height: 425px !important;}
+        .ftflex {max-width: none;} .donctr {max-width: 90%} .raisedtxt {font-size: 16px;}
 
     }
     --></style>
@@ -29,180 +23,68 @@ $sku4 = $block->getTotalDonationsBySku("INTGT4");
         'jquery'
       ], function($){
         $(document).ready(function() {
-          var INTGT1current=<?php echo $sku1 ?>;
-          var INTGT2current=<?php echo $sku2 ?>;
-          var INTGT3current=<?php echo $sku3 ?>;
-          var INTGT4current=<?php echo $sku4 ?>;
+          var INTGT6current=<?php echo $intgt6 ?>;
+          var INTGT7current=<?php echo $intgt7 ?>;
+
+          var INTGT6goal=75000;
+          var INTGT7goal=75000;
+
+          var INTGT6pricematchtil=0;
+          var INTGT7pricematchtil=7500;
 
 
-          var INTGT1goal=50000;
-          var INTGT2goal=50000;
-          var INTGT3goal=25000;
-          var INTGT4goal=50000;
-          var INTGT1percent=((INTGT1current/INTGT1goal)*100);
-          var INTGT2percent=((INTGT2current/INTGT2goal)*100);
-          var INTGT3percent=((INTGT3current/INTGT3goal)*100);
-          var INTGT4percent=((INTGT4current/INTGT4goal)*100);
+          var INTGT6currentwithpricematch	= (INTGT6current+(Math.min(INTGT6pricematchtil,INTGT6current)));
+          var INTGT7currentwithpricematch	= (INTGT7current+(Math.min(INTGT7pricematchtil,INTGT7current)));
+
+
+          var INTGT6percent=((INTGT6currentwithpricematch/INTGT6goal)*100);
+          (INTGT6current+(Math.min(INTGT6pricematchtil,INTGT6current)))
+          var INTGT7percent=((INTGT7currentwithpricematch/INTGT7goal)*100);
+
           var rn = Math.floor(Math.random() * (4)) + 1;
 
-          jQuery('#INTGT1percent').css({'width' : INTGT1percent+'%'});
-          jQuery('#INTGT1current').html('$'+INTGT1current.toLocaleString());
-          jQuery('#INTGT1goal').html('$'+INTGT1goal.toLocaleString());
-          jQuery('#INTGT2percent').css({'width' : INTGT2percent+'%'});
-          jQuery('#INTGT2current').html('$'+INTGT2current.toLocaleString());
-          jQuery('#INTGT2goal').html('$'+INTGT2goal.toLocaleString());
-          jQuery('#INTGT3percent').css({'width' : INTGT3percent+'%'});
-          jQuery('#INTGT3current').html('$'+INTGT3current.toLocaleString());
-          jQuery('#INTGT3goal').html('$'+INTGT3goal.toLocaleString());
-          jQuery('#INTGT4percent').css({'width' : INTGT4percent+'%'});
-          jQuery('#INTGT4current').html('$'+INTGT4current.toLocaleString());
-          jQuery('#INTGT4goal').html('$'+INTGT4goal.toLocaleString());
-
-
-          switch (rn) {
-            case 1:
-              jQuery('#INTGTfhd').html('VIETNAM OUTREACH');
-              jQuery('#INTGTfdes').html('Join us in providing church resources, outreach resources, and solar-powered audio devices—loaded with content from the Bible and <i>Our Daily Bread</i>—to persecuted Christians in Vietnam.');
-              jQuery('#INTGTfcurrent').html('$'+INTGT1current.toLocaleString());
-              jQuery('#INTGTfgoal').html('$'+INTGT1goal.toLocaleString());
-              jQuery('#INTGTfpercent').css({'width' : INTGT1percent+'%'});
-              jQuery('#INTGTfpercent').css({'width' : INTGT1percent+'%'});
-              jQuery('.ormain #INTGT1Box').css({'display' : 'none'});
-              jQuery('#INTGTflink').attr({'href' : '/vietnam-outreach'});
-              jQuery('#INTGTfslink').attr({'href' : '/intgt1.html'});
-              jQuery('img#orftimg').attr({'src' : 'https://s3.amazonaws.com/cdn.odb.org/images/INTGT1f.jpg'});
-              break;
-
-            case 2:
-              jQuery('#INTGTfhd').html('PRISON OUTREACH');
-              jQuery('#INTGTfdes').html('Help us inspire and encourage inmates to put their hope and trust in God. Join us as we provide specially made <i>Our Daily Bread </i>devotionals for chaplains to distribute to those who are incarcerated.');
-              jQuery('#INTGTfcurrent').html('$'+INTGT2current.toLocaleString());
-              jQuery('#INTGTfgoal').html('$'+INTGT2goal.toLocaleString());
-              jQuery('#INTGTfpercent').css({'width' : INTGT2percent+'%'});
-              jQuery('.ormain #INTGT2Box').css({'display' : 'none'});
-              jQuery('#INTGTflink').attr({'href' : '/prison-outreach'});
-              jQuery('#INTGTfslink').attr({'href' : '/intgt2.html'});
-              jQuery('img#orftimg').attr({'src' : 'https://s3.amazonaws.com/cdn.odb.org/images/INTGT2f.jpg'});
-              break;
-
-            case 3: jQuery('#INTGTfhd').html('GLOBAL BIBLICAL TRAINING');
-              jQuery('#INTGTfdes').html('You can help aspiring leaders and pastors in developing nations gain access to basic Bible training. Join us in providing thumb drives preloaded with courses in the Old and New Testament and more.');
-              jQuery('#INTGTfcurrent').html('$'+INTGT3current.toLocaleString());
-              jQuery('#INTGTfgoal').html('$'+INTGT3goal.toLocaleString());
-              jQuery('#INTGTfpercent').css({'width' : INTGT3percent+'%'});
-              jQuery('.ormain #INTGT3Box').css({'display' : 'none'});
-              jQuery('#INTGTflink').attr({'href' : '/global-biblical-training'});
-              jQuery('#INTGTfslink').attr({'href' : '/intgt3.html'});
-              jQuery('img#orftimg').attr({'src' : 'https://s3.amazonaws.com/cdn.odb.org/images/INTGT3f.jpg'});
-              break;
-
-            case 4:
-              jQuery('#INTGTfhd').html('EAST MALAYSIA OUTREACH');
-              jQuery('#INTGTfdes').html('Help us equip local pastors, leaders, and teachers in Malaysia to nurture their congregations through Bible-based, printed materials and audio devices.');
-              jQuery('#INTGTfcurrent').html('$'+INTGT4current.toLocaleString());
-              jQuery('#INTGTfgoal').html('$'+INTGT4goal.toLocaleString());
-              jQuery('#INTGTfpercent').css({'width' : INTGT4percent+'%'});
-              jQuery('.ormain #INTGT4Box').css({'display' : 'none'});
-              jQuery('#INTGTflink').attr({'href' : '/east-malaysia-outreach'});
-              jQuery('#INTGTfslink').attr({'href' : '/intgt4.html'});
-              jQuery('img#orftimg').attr({'src' : 'https://s3.amazonaws.com/cdn.odb.org/images/INTGT4f.jpg'});
-              break;
-
-            default: jQuery('#INTGTfhd').html('Default');
-
-          }
-
-          jQuery('#INTGT1fpercent').css({'width' : INTGT1percent+'%'});
-          jQuery('#INTGT1fcurrent').html('$'+INTGT1current.toLocaleString());
-          jQuery('#INTGT1fgoal').html('$'+INTGT1goal.toLocaleString());
-          jQuery('#INTGT2fpercent').css({'width' : INTGT2percent+'%'});
-          jQuery('#INTGT2fcurrent').html('$'+INTGT2current.toLocaleString());
-          jQuery('#INTGT2fgoal').html('$'+INTGT2goal.toLocaleString());
-          jQuery('#INTGT3fpercent').css({'width' : INTGT3percent+'%'});
-          jQuery('#INTGT3fcurrent').html('$'+INTGT3current.toLocaleString());
-          jQuery('#INTGT3fgoal').html('$'+INTGT3goal.toLocaleString());
-          jQuery('#INTGT4fpercent').css({'width' : INTGT4percent+'%'});
-          jQuery('#INTGT4fcurrent').html('$'+INTGT4current.toLocaleString());
-          jQuery('#INTGT4fgoal').html('$'+INTGT4goal.toLocaleString());
-
-
+          jQuery('#INTGT6percent').css({'width' : INTGT6percent+'%'});
+          jQuery('#INTGT6current').html('$'+INTGT6currentwithpricematch.toLocaleString());
+          jQuery('#INTGT6goal').html('$'+INTGT6goal.toLocaleString());
+          jQuery('#INTGT7percent').css({'width' : INTGT7percent+'%'});
+          jQuery('#INTGT7current').html('$'+INTGT7currentwithpricematch.toLocaleString());
+          jQuery('#INTGT7goal').html('$'+INTGT7goal.toLocaleString());
 
         });
       });
       // ]]></script>
 </p>
-<div class="ftflex">
-    <div class="halfbox picft"><img id="orftimg" style="width: 369px; max-width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/INTGTbl.png" /></div>
-    <div class="halfbox ft">
-        <h3 id="INTGTfhd"></h3>
-        <p id="INTGTfdes"></p>
-        <p style="color: #4c99e1; font-size: 1.5em;"><a id="INTGTflink" style="color: #4c99e1; text-decoration: none;" href="/east-malaysia-outreach">LEARN MORE ▶</a></p>
-        <div style="display: flex; flex-flow: row wrap; justify-content: space-around;">
-            <div class="flxl" style="flex: 1;">
-                <div class="barholder">
-                    <div id="INTGTfpercent" class="barpercent"></div>
+<div style="background-color: #ffffff; position: relative; min-height: 600px; width: 100%; margin-left: auto; margin-right: auto; font-family: 'PT Sans', sans-serif;">
+    <div class="donctr" style="width: 100%;">
+        <div class="bxwrap" style="display: flex; justify-content: space-between; color: #222222; text-align: center; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px; align-items: stretch;">
+            <div id="INTGT6Box" class="onethirdbox" style="padding: 15px 0px;">
+                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/intgt1-2019sm.jpg" />
+                    <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">Spread Hope in Africa with <span style="white-space: nowrap;"><i>Our Daily Bread</i></span></h3>
+                    <p class="causetxt" style="color: #222222; padding: 0 20px; text-align: left;">Your gift will equip <i>Our Daily Bread</i> writers in Africa to create content that speaks directly to the lives of people in their region. Our team is working to enhance existing devotional resources and create new ones that appeal to an African audience. Help us reach even more people with hope and encouragement from God’s Word!</p>
+                    <div class="barholder">
+                        <div id="INTGT6percent" class="barpercent"></div>
+                    </div>
+                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span id="INTGT6current" style="font-weight: bold;"></span> raised of <span id="INTGT6goal"></span> goal.</p>
+                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt6.html">GIVE NOW</a></p>
                 </div>
-                <p style="font-size: 1.2em;"><span id="INTGTfcurrent" style="font-size: 1.3em; font-weight: bold;"></span> raised of <span id="INTGTfgoal"></span> goal.</p>
             </div>
-            <div class="flxr" style="flex: 1;">
-                <p style="text-align: center; margin-top: 5px;"><a id="INTGTfslink" class="sptbtn" href="/intgt4.html">SUPPORT</a></p>
+            <div id="INTGT7Box" class="onethirdbox" style="padding: 15px 0px;">
+                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/intgt2-2019sm.jpg" />
+                    <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">Share God’s Love with Teens in the <span style="white-space: nowrap;">United States</span></h3>
+                    <p class="causetxt" style="color: #222222; padding: 0 19px; text-align: left;">Partner with us help teenagers in the U.S. find hope and spiritual stength for the struggles they face. Anxiety and depression affect more young people today than ever before. Your gift will help us create and distribute an <i>Our Daily Bread</i> devotional written specifically for teens. Together we can reach them with God’s unconditional love!</p>
+                    <div class="barholder">
+                        <div id="INTGT7percent" class="barpercent"></div>
+                    </div>
+                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span id="INTGT7current" style="font-weight: bold;"></span> raised of <span id="INTGT7goal"></span> goal.</p>
+                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt7.html">GIVE NOW</a></p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div style="background-color: #ffffff; position: relative; min-height: 600px; width: 100%; margin-left: auto; margin-right: auto; font-family: 'PT Sans', sans-serif;">
-    <div class="donctr" style="width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto; margin-top:25px;">
-        <div style="display: flex; justify-content: space-between; color: #333333; text-align: center; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px;">
-            <div id="INTGT1Box" class="onethirdbox" style="padding: 15px 0px;">
-                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/INTGT1sm.jpg" />
-                    <h3 style="color: #222222; font-size: 1.5em; font-weight: bold;">VIETNAM OUTREACH</h3>
-                    <p style="color: #4c99e1; font-size: 1.3em;"><a style="color: #4c99e1; text-decoration: none;" href="/vietnam-outreach">LEARN MORE ▶</a></p>
-                    <div class="barholder">
-                        <div id="INTGT1percent" class="barpercent"></div>
-                    </div>
-                    <p style="color: #333333; font-weight: normal; line-height: 1.4em; font-size: 1.2em;"><span id="INTGT1current" style="font-size: 1.3em; font-weight: bold;"></span><br />raised of <span id="INTGT1goal"></span> goal.</p>
-                    <p><a class="sptbtn" href="/intgt1.html">SUPPORT</a></p>
-                </div>
-            </div>
-            <div id="INTGT2Box" class="onethirdbox" style="padding: 15px 0px;">
-                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/INTGT2sm.jpg" />
-                    <h3 style="color: #222222; font-size: 1.5em; font-weight: bold;">PRISON OUTREACH</h3>
-                    <p style="color: #4c99e1; font-size: 1.3em;"><a style="color: #4c99e1; text-decoration: none;" href="/prison-outreach">LEARN MORE ▶</a></p>
-                    <div class="barholder">
-                        <div id="INTGT2percent" class="barpercent"></div>
-                    </div>
-                    <p style="color: #333333; font-weight: normal; line-height: 1.4em; font-size: 1.2em;"><span id="INTGT2current" style="font-size: 1.3em; font-weight: bold;"></span><br />raised of <span id="INTGT2goal"></span> goal.</p>
-                    <p><a class="sptbtn" href="/intgt2.html">SUPPORT</a></p>
-                </div>
-            </div>
-            <div id="INTGT3Box" class="onethirdbox" style="padding: 15px 0px;">
-                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/INTGT3sm.jpg" />
-                    <h3 style="color: #222222; font-size: 1.5em; font-weight: bold;">GLOBAL BIBLICAL TRAINING</h3>
-                    <p style="color: #4c99e1; font-size: 1.3em;"><a style="color: #4c99e1; text-decoration: none;" href="/global-biblical-training">LEARN MORE ▶</a></p>
-                    <div class="barholder">
-                        <div id="INTGT3percent" class="barpercent"></div>
-                    </div>
-                    <p style="color: #333333; font-weight: normal; line-height: 1.4em; font-size: 1.2em;"><span id="INTGT3current" style="font-size: 1.3em; font-weight: bold;"></span><br />raised of <span id="INTGT3goal"></span> goal.</p>
-                    <p><a class="sptbtn" href="/intgt3.html">SUPPORT</a></p>
-                </div>
-            </div>
-            <div id="INTGT4Box" class="onethirdbox" style="padding: 15px 0px;">
-                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/INTGT4sm.jpg" />
-                    <h3 style="color: #222222; font-size: 1.5em; font-weight: bold;">EAST MALAYSIA OUTREACH</h3>
-                    <p style="color: #4c99e1; font-size: 1.3em;"><a style="color: #4c99e1; text-decoration: none;" href="/east-malaysia-outreach">LEARN MORE ▶</a></p>
-                    <div class="barholder">
-                        <div id="INTGT4percent" class="barpercent"></div>
-                    </div>
-                    <p style="color: #333333; font-weight: normal; line-height: 1.4em; font-size: 1.2em;"><span id="INTGT4current" style="font-size: 1.3em; font-weight: bold;"></span><br />raised of <span id="INTGT4goal"></span> goal.</p>
-                    <p><a class="sptbtn" href="/intgt4.html">SUPPORT</a></p>
-                </div>
-            </div>
-        </div>
-        <div class="ftflex" style="text-align: center; display: block; background-color: #ebf0f4; margin-bottom: 50px;">
-            <div style="padding: 30px;">
-                <h3 style="color: #333333; font-size: 1.6em; padding-bottom: 10px; font-weight: bold;">SUPPORT WHERE IT IS MOST NEEDED.</h3>
-                <p style="text-align: center; margin-top: 5px;"><a class="sptbtn" href="/intgt5.html">SUPPORT</a></p>
-            </div>
+    <div class="ftflex boxshell" style="text-align: center; display: block; background-color: #d93e00; margin-bottom: 50px;">
+        <div style="padding: 7px 30px;">
+            <h3 style="color: #ffffff; font-size: 24px; line-height: 27px; padding-bottom: 10px; font-weight: bold;">Can’t decide?<br />Give where it is needed most.</h3>
+            <p style="text-align: center; margin-top: 5px;"><a class="sptbtninv" href="/intgt8.html"><i class="icon-support_filled"></i>GIVE NOW</a></p>
         </div>
     </div>
 </div>
