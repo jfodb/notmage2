@@ -7,6 +7,7 @@
 namespace ODBM\Donation\Block;
 //use Magento\Sales\Model\Order\ItemFactory as DonationsCollectionFactory;
 use Experius\DonationProduct\Model\ResourceModel\Donations\CollectionFactory as DonationsCollectionFactory;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Magento\Framework\View\Element\Template\Context;
 
 class OpenRoads extends \Magento\Framework\View\Element\Template
@@ -29,18 +30,12 @@ class OpenRoads extends \Magento\Framework\View\Element\Template
         );
     }
 
-    public function _prepareLayout()
-    {
-        return parent::_prepareLayout();
-    }
-
     public function getTotalDonationsBySku($skuId)
     {
         $sum = 0;
 
         /** @var \Experius\DonationProduct\Model\Donations $donations */
         $collectionFactory = $this->donationsCollectionFactory->create()->addFieldToFilter('sku', $skuId);
-
         foreach ($collectionFactory as $donation){
             $sum = $sum + $donation->getAmount();
         }
