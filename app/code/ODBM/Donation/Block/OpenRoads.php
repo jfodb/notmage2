@@ -7,7 +7,6 @@
 namespace ODBM\Donation\Block;
 //use Magento\Sales\Model\Order\ItemFactory as DonationsCollectionFactory;
 use Experius\DonationProduct\Model\ResourceModel\Donations\CollectionFactory as DonationsCollectionFactory;
-use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 use Magento\Framework\View\Element\Template\Context;
 
 class OpenRoads extends \Magento\Framework\View\Element\Template
