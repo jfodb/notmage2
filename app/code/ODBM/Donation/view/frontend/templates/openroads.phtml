@@ -2,89 +2,296 @@
 $intgt6 = $block->getTotalDonationsBySku("INTGT6");
 $intgt7 = $block->getTotalDonationsBySku("INTGT7");
 ?>
-<style type="text/css" xml="space"><!--
-    body, button, .cart.table-wrapper .actions-toolbar>.action, .action-gift, .action.primary, select, input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"] {font-family: 'PT Sans',sans-serif;} .columns .column.main {padding-bottom: 30px; padding-top: 30px;}div.page-bottom{display: block; width: 100% !important; max-width: 100% !important; padding: 0px !important; background-color: #ffffff; margin-top: -25px !important;} .onethirdbox{width: 380px; max-width: 100%; min-width: 250px; margin-left: auto; margin-right: auto;} .halfbox{max-width: 600px; min-width: 250px;}  .barholder {height: 8px; border: solid 1px #222222; margin-left: 20px; margin-right: 20px; -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px; margin-bottom: 10px;} .barpercent {height: 100%; background-color: #2278cb; border-right: solid 1px #000000; -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px; } .sptbtn {margin-bottom: 10px; background-color:#d93e00; -moz-border-radius:24px; -webkit-border-radius:24px; border-radius:24px; display:inline-block; cursor:pointer; color:#ffffff; font-size:18px; padding:10px 60px 8px 60px; font-weight: bold; letter-spacing: 2px; text-decoration:none; margin-left: auto; margin-right: auto;} a.sptbtn {color: #ffffff;} .causehdr{font-size: 24px; line-height: 27px;} .causetxt {font-size: 16px; line-height: 1.5em;} a.sptbtn:hover{text-decoration: none; background-color:#e94e10; color: #ffffff; -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
-    @media screen and (max-width: 950px){
-        .ftflex {width: 100%; max-width: 380px; margin-left: auto; margin-right: auto; text-align: center;}
-        .flxl {text-align: center;}
-        .bxwrap {flex-direction: column;}
+<style type="text/css" xml="space">
+    body, button, .cart.table-wrapper .actions-toolbar > .action, .action-gift, .action.primary, select, input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"] {
+        font-family: 'PT Sans', sans-serif;
+    }
+
+    .columns .column.main {
+        padding-bottom: 30px;
+        padding-top: 30px;
+    }
+
+    div.page-bottom {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0px !important;
+        background-color: #ffffff;
+        margin-top: -25px !important;
+    }
+
+    .onethirdbox {
+        width: 380px;
+        max-width: 100%;
+        min-width: 250px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .halfbox {
+        max-width: 600px;
+        min-width: 250px;
+    }
+
+    .barholder {
+        height: 8px;
+        border: solid 1px #222222;
+        margin-left: 20px;
+        margin-right: 20px;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .barpercent {
+        height: 100%;
+        background-color: #2278cb;
+        border-right: solid 1px #000000;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+    }
+
+    .sptbtn {
+        margin-bottom: 10px;
+        background-color: #d93e00;
+        -moz-border-radius: 24px;
+        -webkit-border-radius: 24px;
+        border-radius: 24px;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-size: 18px;
+        padding: 10px 60px 8px 60px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-decoration: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    a.sptbtn {
+        color: #ffffff;
+    }
+
+    .causehdr {
+        font-size: 24px;
+        line-height: 27px;
+    }
+
+    .causetxt {
+        font-size: 16px;
+        line-height: 1.5em;
+    }
+
+    a.sptbtn:hover {
+        text-decoration: none;
+        background-color: #e94e10;
+        color: #ffffff;
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    }
+
+    .donctr {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 820px;
+    }
+
+    .sptbtninv {
+        margin-bottom: 10px;
+        background-color: #ffffff;
+        -moz-border-radius: 24px;
+        -webkit-border-radius: 24px;
+        border-radius: 24px;
+        display: inline-block;
+        cursor: pointer;
+        color: #d93e00;
+        font-size: 18px;
+        padding: 10px 60px 8px 60px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-decoration: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    a.sptbtninv {
+        color: #d93e00;
+    }
+
+    a.sptbtninv:hover {
+        text-decoration: none;
+        background-color: #ffffff;
+        color: #d93e00;
+        -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+    }
+
+    .ftflex {
+        display: flex;
+        color: #222222;
+        text-align: center;
+        flex-wrap: wrap;
+        border: none;
+        margin: 0px auto;
+        align-items: center;
+        max-width: 800px;
+    }
+
+    .halfbox.pic {
+        max-height: 300px;
+        overflow: hidden;
+    }
+
+    .raisedtxt {
+        font-size: 16px;
+    }
+
+    .boxshell {
+        border: none;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 5px;
+        height: 100%;
+    }
+
+    .boxshell img {
+        border-radius: 5px 5px 0px 0px;
+    }
+
+    @media screen and (max-width: 950px) {
+        .ftflex {
+            width: 100%;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .flxl {
+            text-align: center;
+        }
+
+        .bxwrap {
+            flex-direction: column;
+        }
     }
 
     @media screen and (max-width: 600px) {
-        .donation-impact-info {height: 425px !important;}
-        .ftflex {max-width: none;} .donctr {max-width: 90%} .raisedtxt {font-size: 16px;}
+        .donation-impact-info {
+            height: 425px !important;
+        }
+
+        .ftflex {
+            max-width: none;
+        }
+
+        .donctr {
+            max-width: 90%
+        }
+
+        .raisedtxt {
+            font-size: 16px;
+        }
 
     }
-    --></style>
+
+    </style>
 <!--Vietnam(1) Prison(2) CUGN(3) Malaysia(4)-->
 <p>
-    <script type="text/javascript" xml="space">// <![CDATA[
+    <script type="text/javascript" xml="space">
       require([
         'jquery'
-      ], function($){
-        $(document).ready(function() {
-          var INTGT6current=<?php echo $intgt6 ?>;
-          var INTGT7current=<?php echo $intgt7 ?>;
+      ], function ($) {
+        $(document).ready(function () {
+          var INTGT6current =<?php echo $intgt6 ?>;
+          var INTGT7current =<?php echo $intgt7 ?>;
 
-          var INTGT6goal=75000;
-          var INTGT7goal=75000;
+          var INTGT6goal = 75000;
+          var INTGT7goal = 75000;
 
-          var INTGT6pricematchtil=0;
-          var INTGT7pricematchtil=7500;
-
-
-          var INTGT6currentwithpricematch	= (INTGT6current+(Math.min(INTGT6pricematchtil,INTGT6current)));
-          var INTGT7currentwithpricematch	= (INTGT7current+(Math.min(INTGT7pricematchtil,INTGT7current)));
+          var INTGT6pricematchtil = 0;
+          var INTGT7pricematchtil = 7500;
 
 
-          var INTGT6percent=((INTGT6currentwithpricematch/INTGT6goal)*100);
-          (INTGT6current+(Math.min(INTGT6pricematchtil,INTGT6current)))
-          var INTGT7percent=((INTGT7currentwithpricematch/INTGT7goal)*100);
+          var INTGT6currentwithpricematch = (INTGT6current + (Math.min(INTGT6pricematchtil, INTGT6current)));
+          var INTGT7currentwithpricematch = (INTGT7current + (Math.min(INTGT7pricematchtil, INTGT7current)));
+
+
+          var INTGT6percent = ((INTGT6currentwithpricematch / INTGT6goal) * 100);
+          (INTGT6current + (Math.min(INTGT6pricematchtil, INTGT6current)))
+          var INTGT7percent = ((INTGT7currentwithpricematch / INTGT7goal) * 100);
 
           var rn = Math.floor(Math.random() * (4)) + 1;
 
-          jQuery('#INTGT6percent').css({'width' : INTGT6percent+'%'});
-          jQuery('#INTGT6current').html('$'+INTGT6currentwithpricematch.toLocaleString());
-          jQuery('#INTGT6goal').html('$'+INTGT6goal.toLocaleString());
-          jQuery('#INTGT7percent').css({'width' : INTGT7percent+'%'});
-          jQuery('#INTGT7current').html('$'+INTGT7currentwithpricematch.toLocaleString());
-          jQuery('#INTGT7goal').html('$'+INTGT7goal.toLocaleString());
+          jQuery('#INTGT6percent').css({'width': INTGT6percent + '%'});
+          jQuery('#INTGT6current').html('$' + INTGT6currentwithpricematch.toLocaleString());
+          jQuery('#INTGT6goal').html('$' + INTGT6goal.toLocaleString());
+          jQuery('#INTGT7percent').css({'width': INTGT7percent + '%'});
+          jQuery('#INTGT7current').html('$' + INTGT7currentwithpricematch.toLocaleString());
+          jQuery('#INTGT7goal').html('$' + INTGT7goal.toLocaleString());
 
         });
       });
-      // ]]></script>
+      </script>
 </p>
 <div style="background-color: #ffffff; position: relative; min-height: 600px; width: 100%; margin-left: auto; margin-right: auto; font-family: 'PT Sans', sans-serif;">
     <div class="donctr" style="width: 100%;">
-        <div class="bxwrap" style="display: flex; justify-content: space-between; color: #222222; text-align: center; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px; align-items: stretch;">
+        <div class="bxwrap"
+             style="display: flex; justify-content: space-between; color: #222222; text-align: center; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px; align-items: stretch;">
             <div id="INTGT6Box" class="onethirdbox" style="padding: 15px 0px;">
-                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/intgt1-2019sm.jpg" />
-                    <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">Spread Hope in Africa with <span style="white-space: nowrap;"><i>Our Daily Bread</i></span></h3>
-                    <p class="causetxt" style="color: #222222; padding: 0 20px; text-align: left;">Your gift will equip <i>Our Daily Bread</i> writers in Africa to create content that speaks directly to the lives of people in their region. Our team is working to enhance existing devotional resources and create new ones that appeal to an African audience. Help us reach even more people with hope and encouragement from God’s Word!</p>
+                <div class="boxshell"><img style="width: 100%;"
+                                           src="https://s3.amazonaws.com/cdn.odb.org/images/intgt1-2019sm.jpg"/>
+                    <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">
+                        Spread Hope in Africa with <span style="white-space: nowrap;"><i>Our Daily Bread</i></span></h3>
+                    <p class="causetxt" style="color: #222222; padding: 0 20px; text-align: left;">Your gift will equip
+                        <i>Our Daily Bread</i> writers in Africa to create content that speaks directly to the lives of
+                        people in their region. Our team is working to enhance existing devotional resources and create
+                        new ones that appeal to an African audience. Help us reach even more people with hope and
+                        encouragement from God’s Word!</p>
                     <div class="barholder">
                         <div id="INTGT6percent" class="barpercent"></div>
                     </div>
-                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span id="INTGT6current" style="font-weight: bold;"></span> raised of <span id="INTGT6goal"></span> goal.</p>
-                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt6.html">GIVE NOW</a></p>
+                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span
+                                id="INTGT6current" style="font-weight: bold;"></span> raised of <span
+                                id="INTGT6goal"></span> goal.</p>
+                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt6.html">GIVE
+                            NOW</a></p>
                 </div>
             </div>
             <div id="INTGT7Box" class="onethirdbox" style="padding: 15px 0px;">
-                <div class="boxshell"><img style="width: 100%;" src="https://s3.amazonaws.com/cdn.odb.org/images/intgt2-2019sm.jpg" />
-                    <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">Share God’s Love with Teens in the <span style="white-space: nowrap;">United States</span></h3>
-                    <p class="causetxt" style="color: #222222; padding: 0 19px; text-align: left;">Partner with us help teenagers in the U.S. find hope and spiritual stength for the struggles they face. Anxiety and depression affect more young people today than ever before. Your gift will help us create and distribute an <i>Our Daily Bread</i> devotional written specifically for teens. Together we can reach them with God’s unconditional love!</p>
+                <div class="boxshell"><img style="width: 100%;"
+                                           src="https://s3.amazonaws.com/cdn.odb.org/images/intgt2-2019sm.jpg"/>
+                    <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">
+                        Share God’s Love with Teens in the <span style="white-space: nowrap;">United States</span></h3>
+                    <p class="causetxt" style="color: #222222; padding: 0 19px; text-align: left;">Partner with us help
+                        teenagers in the U.S. find hope and spiritual stength for the struggles they face. Anxiety and
+                        depression affect more young people today than ever before. Your gift will help us create and
+                        distribute an <i>Our Daily Bread</i> devotional written specifically for teens. Together we can
+                        reach them with God’s unconditional love!</p>
                     <div class="barholder">
                         <div id="INTGT7percent" class="barpercent"></div>
                     </div>
-                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span id="INTGT7current" style="font-weight: bold;"></span> raised of <span id="INTGT7goal"></span> goal.</p>
-                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt7.html">GIVE NOW</a></p>
+                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span
+                                id="INTGT7current" style="font-weight: bold;"></span> raised of <span
+                                id="INTGT7goal"></span> goal.</p>
+                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt7.html">GIVE
+                            NOW</a></p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="ftflex boxshell" style="text-align: center; display: block; background-color: #d93e00; margin-bottom: 50px;">
+    <div class="ftflex boxshell"
+         style="text-align: center; display: block; background-color: #d93e00; margin-bottom: 50px;">
         <div style="padding: 7px 30px;">
-            <h3 style="color: #ffffff; font-size: 24px; line-height: 27px; padding-bottom: 10px; font-weight: bold;">Can’t decide?<br />Give where it is needed most.</h3>
-            <p style="text-align: center; margin-top: 5px;"><a class="sptbtninv" href="/intgt8.html"><i class="icon-support_filled"></i>GIVE NOW</a></p>
+            <h3 style="color: #ffffff; font-size: 24px; line-height: 27px; padding-bottom: 10px; font-weight: bold;">
+                Can’t decide?<br/>Give where it is needed most.</h3>
+            <p style="text-align: center; margin-top: 5px;"><a class="sptbtninv" href="/intgt8.html"><i
+                            class="icon-support_filled"></i>GIVE NOW</a></p>
         </div>
     </div>
 </div>
