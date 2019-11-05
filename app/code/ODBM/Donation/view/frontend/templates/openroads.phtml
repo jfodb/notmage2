@@ -2,206 +2,15 @@
 $intgt6 = $block->getTotalDonationsBySku("INTGT6");
 $intgt7 = $block->getTotalDonationsBySku("INTGT7");
 ?>
-<style type="text/css" xml="space">
-    body, button, .cart.table-wrapper .actions-toolbar > .action, .action-gift, .action.primary, select, input[type="text"], input[type="password"], input[type="url"], input[type="tel"], input[type="search"], input[type="number"], input[type="datetime"], input[type="email"] {
-        font-family: 'PT Sans', sans-serif;
-    }
-
-    .columns .column.main {
-        padding-bottom: 30px;
-        padding-top: 30px;
-    }
-
-    div.page-bottom {
-        display: block;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0px !important;
-        background-color: #ffffff;
-        margin-top: -25px !important;
-    }
-
-    .onethirdbox {
-        width: 380px;
-        max-width: 100%;
-        min-width: 250px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .halfbox {
-        max-width: 600px;
-        min-width: 250px;
-    }
-
-    .barholder {
-        height: 8px;
-        border: solid 1px #222222;
-        margin-left: 20px;
-        margin-right: 20px;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
-
-    .barpercent {
-        height: 100%;
-        background-color: #2278cb;
-        border-right: solid 1px #000000;
-        -moz-border-radius: 8px;
-        -webkit-border-radius: 8px;
-        border-radius: 8px;
-    }
-
-    .sptbtn {
-        margin-bottom: 10px;
-        background-color: #d93e00;
-        -moz-border-radius: 24px;
-        -webkit-border-radius: 24px;
-        border-radius: 24px;
-        display: inline-block;
-        cursor: pointer;
-        color: #ffffff;
-        font-size: 18px;
-        padding: 10px 60px 8px 60px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        text-decoration: none;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    a.sptbtn {
-        color: #ffffff;
-    }
-
-    .causehdr {
-        font-size: 24px;
-        line-height: 27px;
-    }
-
-    .causetxt {
-        font-size: 16px;
-        line-height: 1.5em;
-    }
-
-    a.sptbtn:hover {
-        text-decoration: none;
-        background-color: #e94e10;
-        color: #ffffff;
-        -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-        -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-    }
-
-    .donctr {
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 820px;
-    }
-
-    .sptbtninv {
-        margin-bottom: 10px;
-        background-color: #ffffff;
-        -moz-border-radius: 24px;
-        -webkit-border-radius: 24px;
-        border-radius: 24px;
-        display: inline-block;
-        cursor: pointer;
-        color: #d93e00;
-        font-size: 18px;
-        padding: 10px 60px 8px 60px;
-        font-weight: bold;
-        letter-spacing: 2px;
-        text-decoration: none;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    a.sptbtninv {
-        color: #d93e00;
-    }
-
-    a.sptbtninv:hover {
-        text-decoration: none;
-        background-color: #ffffff;
-        color: #d93e00;
-        -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-        -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-    }
-
-    .ftflex {
-        display: flex;
-        color: #222222;
-        text-align: center;
-        flex-wrap: wrap;
-        border: none;
-        margin: 0px auto;
-        align-items: center;
-        max-width: 800px;
-    }
-
-    .halfbox.pic {
-        max-height: 300px;
-        overflow: hidden;
-    }
-
-    .raisedtxt {
-        font-size: 16px;
-    }
-
-    .boxshell {
-        border: none;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        border-radius: 5px;
-        height: 100%;
-    }
-
-    .boxshell img {
-        border-radius: 5px 5px 0px 0px;
-    }
-
-    @media screen and (max-width: 950px) {
-        .ftflex {
-            width: 100%;
-            max-width: 380px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-        }
-
-        .flxl {
-            text-align: center;
-        }
-
-        .bxwrap {
-            flex-direction: column;
-        }
-    }
-
-    @media screen and (max-width: 600px) {
-        .donation-impact-info {
-            height: 425px !important;
-        }
-
-        .ftflex {
-            max-width: none;
-        }
-
-        .donctr {
-            max-width: 90%
-        }
-
-        .raisedtxt {
-            font-size: 16px;
-        }
-
-    }
-
-    </style>
-<!--Vietnam(1) Prison(2) CUGN(3) Malaysia(4)-->
+<!--
+Rob's open-roads script and html
+- moved bulk of css to ODBM_Donation::view/frontend/web/css/openroads.css
+- changed <i> to <em>
+- changed s3 links to CloudFront
+-->
+<head>
+    <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('ODBM_Donation::css/openroads.css')?>">
+</head>
 <p>
     <script type="text/javascript" xml="space">
       require([
@@ -244,11 +53,11 @@ $intgt7 = $block->getTotalDonationsBySku("INTGT7");
              style="display: flex; justify-content: space-between; color: #222222; text-align: center; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px; align-items: stretch;">
             <div id="INTGT6Box" class="onethirdbox" style="padding: 15px 0px;">
                 <div class="boxshell"><img style="width: 100%;"
-                                           src="https://s3.amazonaws.com/cdn.odb.org/images/intgt1-2019sm.jpg"/>
+                                           src="https://d626yq9e83zk1.cloudfront.net/images/intgt1-2019sm.jpg"/>
                     <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">
-                        Spread Hope in Africa with <span style="white-space: nowrap;"><i>Our Daily Bread</i></span></h3>
+                        Spread Hope in Africa with <span style="white-space: nowrap;"><em>Our Daily Bread</em></span></h3>
                     <p class="causetxt" style="color: #222222; padding: 0 20px; text-align: left;">Your gift will equip
-                        <i>Our Daily Bread</i> writers in Africa to create content that speaks directly to the lives of
+                        <em>Our Daily Bread</em> writers in Africa to create content that speaks directly to the lives of
                         people in their region. Our team is working to enhance existing devotional resources and create
                         new ones that appeal to an African audience. Help us reach even more people with hope and
                         encouragement from God’s Word!</p>
@@ -264,13 +73,13 @@ $intgt7 = $block->getTotalDonationsBySku("INTGT7");
             </div>
             <div id="INTGT7Box" class="onethirdbox" style="padding: 15px 0px;">
                 <div class="boxshell"><img style="width: 100%;"
-                                           src="https://s3.amazonaws.com/cdn.odb.org/images/intgt2-2019sm.jpg"/>
+                                           src="https://d626yq9e83zk1.cloudfront.net/images/intgt2-2019sm.jpg"/>
                     <h3 class="causehdr" style="color: #222222; font-weight: bold; padding: 0 20px; text-align: left;">
                         Share God’s Love with Teens in the <span style="white-space: nowrap;">United States</span></h3>
                     <p class="causetxt" style="color: #222222; padding: 0 19px; text-align: left;">Partner with us help
                         teenagers in the U.S. find hope and spiritual stength for the struggles they face. Anxiety and
                         depression affect more young people today than ever before. Your gift will help us create and
-                        distribute an <i>Our Daily Bread</i> devotional written specifically for teens. Together we can
+                        distribute an <em>Our Daily Bread</em> devotional written specifically for teens. Together we can
                         reach them with God’s unconditional love!</p>
                     <div class="barholder">
                         <div id="INTGT7percent" class="barpercent"></div>
