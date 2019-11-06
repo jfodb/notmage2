@@ -27,8 +27,8 @@ Rob's open-roads script and html
           var INTGT7pricematchtil = 7500;
 
 
-          var INTGT6currentwithpricematch = (INTGT6current + (Math.min(INTGT6pricematchtil, INTGT6current)));
-          var INTGT7currentwithpricematch = (INTGT7current + (Math.min(INTGT7pricematchtil, INTGT7current)));
+          var INTGT6currentwithpricematch = Math.round(INTGT6current + (Math.min(INTGT6pricematchtil, INTGT6current)));
+          var INTGT7currentwithpricematch = Math.round(INTGT7current + (Math.min(INTGT7pricematchtil, INTGT7current)));
 
 
           var INTGT6percent = ((INTGT6currentwithpricematch / INTGT6goal) * 100);
