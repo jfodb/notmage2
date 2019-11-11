@@ -51,8 +51,6 @@ files:
     destination: /usr/share/nginx/html/magento/
   - source: /auth.json
     destination: /usr/share/nginx/html/magento/
-  - source: /m2-hotfixes
-    destination: /usr/share/nginx/html/magento/m2-hotfixes
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files

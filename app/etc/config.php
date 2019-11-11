@@ -225,6 +225,7 @@ return [
         'ODBM_Paperless' => 1,
         'Psuedo_Magentofixed' => 1,
         'Psuedo_Mpxdownload' => 1,
+        'Psuedo_PaypalFixed' => 1,
         'Psuedo_Silverpop' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1
