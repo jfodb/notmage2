@@ -31,21 +31,36 @@ Rob's open-roads script and html
           var INTGT7currentwithpricematch = Math.round(INTGT7current + (Math.min(INTGT7pricematchtil, INTGT7current)));
 
 
-          var INTGT6percent = ((INTGT6currentwithpricematch / INTGT6goal) * 100);
-          var INTGT7percent = ((INTGT7currentwithpricematch / INTGT7goal) * 100);
+          var INTGT6percent = Math.min(((INTGT6currentwithpricematch / INTGT6goal) * 100),100);
+          var INTGT7percent = Math.min(((INTGT7currentwithpricematch / INTGT7goal) * 100),100);
 
           var rn = Math.floor(Math.random() * (4)) + 1;
 
           jQuery('#INTGT6percent').css({'width': INTGT6percent + '%'});
-          jQuery('#INTGT6current').html('$' + INTGT6currentwithpricematch.toLocaleString());
-          jQuery('#INTGT6goal').html('$' + INTGT6goal.toLocaleString());
           jQuery('#INTGT7percent').css({'width': INTGT7percent + '%'});
-          jQuery('#INTGT7current').html('$' + INTGT7currentwithpricematch.toLocaleString());
-          jQuery('#INTGT7goal').html('$' + INTGT7goal.toLocaleString());
+
+
+          if (INTGT6percent == 100) {
+            jQuery('#INTGT6statustxt').html('<b>We&rsquo;ve reached our #GivingTuesday goal, but your gift can help us make an even bigger impact!</b>');
+          } else {
+            jQuery('#INTGT6statustxt').html('<b>$' + INTGT6currentwithpricematch.toLocaleString() + '</b> raised of $' +  INTGT6goal.toLocaleString() + ' goal.');
+          }
+
+          if (INTGT7percent == 100) {
+            jQuery('#INTGT7statustxt').html('<b>We&rsquo;ve reached our #GivingTuesday goal, but your gift can help us make an even bigger impact!</b>');
+          } else {
+            jQuery('#INTGT7statustxt').html('<b>$' + INTGT7currentwithpricematch.toLocaleString() + '</b> raised of $' +  INTGT7goal.toLocaleString() + ' goal.');
+          }
+
+          if (INTGT6percent == 100 && INTGT7percent == 100) {
+            jQuery('.barholder').css({'display': 'none'});
+            jQuery('.raisedtxt').css({'display': 'none'});
+          }
+
 
         });
       });
-      </script>
+    </script>
 </p>
 <div style="background-color: #ffffff; position: relative; min-height: 600px; width: 100%; margin-left: auto; margin-right: auto; font-family: 'PT Sans', sans-serif;">
     <div class="donctr" style="width: 100%;">
@@ -64,9 +79,7 @@ Rob's open-roads script and html
                     <div class="barholder">
                         <div id="INTGT6percent" class="barpercent"></div>
                     </div>
-                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span
-                                id="INTGT6current" style="font-weight: bold;"></span> raised of <span
-                                id="INTGT6goal"></span> goal.</p>
+                    <p id="INTGT6statustxt" class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em; padding-left: 20px; padding-right: 20px;"></p>
                     <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt6.html">GIVE
                             NOW</a></p>
                 </div>
@@ -84,11 +97,8 @@ Rob's open-roads script and html
                     <div class="barholder">
                         <div id="INTGT7percent" class="barpercent"></div>
                     </div>
-                    <p class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em;"><span
-                                id="INTGT7current" style="font-weight: bold;"></span> raised of <span
-                                id="INTGT7goal"></span> goal.</p>
-                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt7.html">GIVE
-                            NOW</a></p>
+                    <p id="INTGT7statustxt" class="raisedtxt" style="color: #222222; font-weight: normal; line-height: 1.4em; padding-left: 20px; padding-right: 20px;"></p>
+                    <p style="margin-top: 30px; padding-bottom: 30px;"><a class="sptbtn" href="/intgt7.html">GIVE NOW</a></p>
                 </div>
             </div>
         </div>
@@ -98,7 +108,7 @@ Rob's open-roads script and html
         <div style="padding: 7px 30px;">
             <h3 style="color: #ffffff; font-size: 24px; line-height: 27px; padding-bottom: 10px; font-weight: bold;">
                 Can’t decide?<br/>Give where it is needed most.</h3>
-            <p style="text-align: center; margin-top: 5px;"><a class="sptbtninv" href="/intgt8.html"><i
+            <p style="text-align: center; margin-top: 5px;"><a id="neededmostbtn" class="sptbtninv" href="/intgt8.html"><i
                             class="icon-support_filled"></i>GIVE NOW</a></p>
         </div>
     </div>
