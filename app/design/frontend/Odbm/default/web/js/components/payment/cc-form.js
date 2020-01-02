@@ -158,56 +158,53 @@ define([
                 form.load(options);
                 form.onStateChanged(this.onStateChanged);
                 form.onCardInfo(this.onCardInfo);
-                form.onCardToken( token => {
-                    self.creditCardToken(token)
-                } );
+                form.onCardToken(function (token) {
+                    self.creditCardToken(token);
+                });
     
                 // Disable submit button on initial load
                 document.getElementById("submitDonationButton").disabled = true;
             }
         },
 
-        onStateChanged: (state) => {
+        onStateChanged: (function (state) {
             // Validation variables to enable/disable submit button
             var disableSubmit = true;
             var fieldCount = 0;
             var validFieldCount = 0;
 
-            for (let key in state) {
+            for (var key in state) {
                 // ++ increase field count
                 fieldCount++;
                 var field = state[key];
-
-                var requiredMsg = document.getElementById(`${key}_required`);
-                var invalidMsg = document.getElementById(`${key}_invalid`);
-
+                var requiredMsg = document.getElementById("".concat(key, "_required"));
+                var invalidMsg = document.getElementById("".concat(key, "_invalid"));
                 invalidMsg.style.display = "none";
                 requiredMsg.style.display = "none";
 
                 if (field.touched && !field.valid) {
                     var msgToShow = field.empty ? requiredMsg : invalidMsg;
                     msgToShow.style.display = "block";
-                } else if (field.valid){
+                } else if (field.valid) {
                     // ++ increase valid field count
                     validFieldCount++;
                 }
-            }
+            } // Check if all the iframe fields are valid
 
-            // Check if all the iframe fields are valid
-            if(validFieldCount==fieldCount){
-                disableSubmit=false;
-            }
 
-            // Enable or disable submit button
+            if (validFieldCount == fieldCount) {
+                disableSubmit = false;
+            } // Enable or disable submit button
+
+
             document.getElementById("submitDonationButton").disabled = disableSubmit;
-            
-        },
+        }),
 
-        onCardInfo: (info) => {
+        onCardInfo: (function (info) {
             document.getElementById("brand").innerText = info.brand || "";
             document.getElementById("lastFour").innerText = info.lastFour || "";
             document.getElementById("expiration").innerText = info.expiration || "";
-        },
+        }),
 
         /**
          * Get code
