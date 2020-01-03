@@ -2,22 +2,23 @@
 
 namespace Cryozonic\StripePayments\Model;
 
-use Magento\Framework\DataObject;
+//use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NotFoundException;
+//use Magento\Framework\Exception\NotFoundException;
 use Magento\Payment\Gateway\Command\CommandPoolInterface;
 use Magento\Payment\Gateway\Config\ValueHandlerPoolInterface;
 use Magento\Payment\Gateway\Data\PaymentDataObjectFactory;
 use Magento\Payment\Gateway\Validator\ValidatorPoolInterface;
 use Magento\Payment\Model\InfoInterface;
-use Magento\Payment\Model\MethodInterface;
-use Magento\Quote\Api\Data\CartInterface;
-use Cryozonic\StripePayments\Helper;
+//use Magento\Payment\Model\MethodInterface;
+//use Magento\Quote\Api\Data\CartInterface;
+//use Cryozonic\StripePayments\Helper;
 use Psr\Log\LoggerInterface;
-use Magento\Framework\Validator\Exception;
-use Cryozonic\StripePayments\Helper\Logger;
-use Magento\Payment\Observer\AbstractDataAssignObserver;
+
+//use Magento\Framework\Validator\Exception;
+//use Cryozonic\StripePayments\Helper\Logger;
+//use Magento\Payment\Observer\AbstractDataAssignObserver;
 
 class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 {
@@ -25,8 +26,16 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 
     protected $_isInitializeNeeded      = false;
     protected $_canUseForMultishipping  = true;
+    protected $config;
     protected $logger;
+    protected $helper;
+    protected $api;
+    protected $customer;
+    protected $paymentIntent;
+    protected $checkoutHelper;
+    protected $saveCards;
     protected $eventManager;
+
 
     /**
      * @param ManagerInterface $eventManager
@@ -89,18 +98,21 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 
     public function assignData(\Magento\Framework\DataObject $data)
     {
-        if ($this->helper->isMultiShipping())
+        if ($this->helper->isMultiShipping()) {
             $data['cc_save'] = 1;
+        }
 
         parent::assignData($data);
 
-        if ($this->config->getIsStripeAPIKeyError())
+        if ($this->config->getIsStripeAPIKeyError()) {
             $this->helper->dieWithError("Invalid API key provided");
+        }
 
         // From Magento 2.0.7 onwards, the data is passed in a different property
         $additionalData = $data->getAdditionalData();
-        if (is_array($additionalData))
+        if (is_array($additionalData)) {
             $data->setData(array_merge($data->getData(), $additionalData));
+        }
 
         $info = $this->getInfoInstance();
         $session = $this->checkoutHelper->getCheckout();
@@ -115,8 +127,7 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
         );
 
         // If using a saved card
-        if (!empty($data['cc_saved']) && $data['cc_saved'] != 'new_card' && empty($data['cc_stripejs_token']))
-        {
+        if (!empty($data['cc_saved']) && $data['cc_saved'] != 'new_card' && empty($data['cc_stripejs_token'])) {
             $card = explode(':', $data['cc_saved']);
 
             $this->resetPaymentData();
@@ -127,14 +138,16 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
         }
 
         // Scenarios by OSC modules trying to prematurely save payment details
-        if (empty($data['cc_stripejs_token']))
+        if (empty($data['cc_stripejs_token'])) {
             return $this;
+        }
 
         $card = explode(':', $data['cc_stripejs_token']);
         $data['cc_stripejs_token'] = $card[0]; // To be used by Stripe Subscriptions
 
-        if (!$this->helper->isValidToken($card[0]))
+        if (!$this->helper->isValidToken($card[0])) {
             $this->helper->dieWithError("Sorry, we could not perform a card security check. Please contact us to complete your purchase.");
+        }
 
         $this->resetPaymentData();
         $token = $card[0];
@@ -147,8 +160,7 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 
     public function authorize(InfoInterface $payment, $amount)
     {
-        if ($amount > 0)
-        {
+        if ($amount > 0) {
             $this->paymentIntent->confirmAndAssociateWithOrder($payment->getOrder(), $payment);
         }
 
@@ -157,50 +169,46 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 
     public function capture(InfoInterface $payment, $amount)
     {
-        if ($amount > 0)
-        {
+        if ($amount > 0) {
             // We get in here when the store is configured in Authorize Only mode and we are capturing a payment from the admin
             $token = $payment->getTransactionId();
-            if (empty($token))
-                $token = $payment->getLastTransId(); // In case where the transaction was not created during the checkout, i.e. with a Stripe Webhook redirect
+            if (empty($token)) {
+                $token = $payment->getLastTransId();
+            } // In case where the transaction was not created during the checkout, i.e. with a Stripe Webhook redirect
 
-            if ($this->helper->isAdmin() && $token)
-            {
+            if ($this->helper->isAdmin() && $token) {
                 $token = $this->helper->cleanToken($token);
-                try
-                {
-                    if (strpos($token, 'pi_') === 0)
-                    {
+                try {
+                    if (strpos($token, 'pi_') === 0) {
                         $pi = \Stripe\PaymentIntent::retrieve($token);
                         $ch = $pi->charges->data[0];
                         $paymentObject = $pi;
-                    }
-                    else
-                    {
+                    } else {
                         $ch = \Stripe\Charge::retrieve($token);
                         $paymentObject = $ch;
                     }
 
-                    if ($this->config->useStoreCurrency())
+                    if ($this->config->useStoreCurrency()) {
                         $finalAmount = $this->helper->getMultiCurrencyAmount($payment, $amount);
-                    else
+                    } else {
                         $finalAmount = $amount;
+                    }
 
                     $currency = $payment->getOrder()->getOrderCurrencyCode();
                     $cents = 100;
-                    if ($this->helper->isZeroDecimal($currency))
+                    if ($this->helper->isZeroDecimal($currency)) {
                         $cents = 1;
+                    }
 
-                    if ($ch->captured)
-                    {
+                    if ($ch->captured) {
                         // In theory this condition should never evaluate, but is added for safety
-                        if ($ch->currency != strtolower($currency))
+                        if ($ch->currency != strtolower($currency)) {
                             $this->helper->dieWithError("This invoice has already been captured in Stripe using a different currency ({$ch->currency}).");
+                        }
 
                         $capturedAmount = $ch->amount - $ch->amount_refunded;
 
-                        if ($capturedAmount != round($finalAmount * $cents))
-                        {
+                        if ($capturedAmount != round($finalAmount * $cents)) {
                             $humanReadableAmount = strtoupper($ch->currency) . " " . round($capturedAmount / $cents, 2);
                             $this->helper->dieWithError("This invoice has already been captured in Stripe for a different amount ($humanReadableAmount). Please cancel and create a new offline invoice for the correct amount.");
                         }
@@ -210,19 +218,19 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
                     }
 
                     $paymentObject->capture(array('amount' => round($finalAmount * $cents)));
-                }
-                catch (\Exception $e)
-                {
+                } catch (\Stripe\Error\Card $carderr) {
+                    $this->logger->info($carderr->getMessage());
+                    $this->helper->dieWithError($carderr->getMessage(), $carderr);
+                } catch (\Exception $e) {
                     $this->logger->critical($e->getMessage());
 
-                    if ($this->helper->isAuthorizationExpired($e->getMessage()) && $this->config->retryWithSavedCard())
+                    if ($this->helper->isAuthorizationExpired($e->getMessage()) && $this->config->retryWithSavedCard()) {
                         $this->api->createCharge($payment, $amount, true, true);
-                    else
+                    } else {
                         $this->helper->dieWithError($e->getMessage(), $e);
+                    }
                 }
-            }
-            else
-            {
+            } else {
                 $this->paymentIntent->confirmAndAssociateWithOrder($payment->getOrder(), $payment);
             }
         }
@@ -232,23 +240,20 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
 
     public function cancel(InfoInterface $payment, $amount = null)
     {
-        if ($this->config->useStoreCurrency())
-        {
+        if ($this->config->useStoreCurrency()) {
             // Captured
             $creditmemo = $payment->getCreditmemo();
-            if (!empty($creditmemo))
-            {
+            if (!empty($creditmemo)) {
                 $rate = $creditmemo->getBaseToOrderRate();
-                if (!empty($rate) && is_numeric($rate) && $rate > 0)
+                if (!empty($rate) && is_numeric($rate) && $rate > 0) {
                     $amount *= $rate;
+                }
             }
             // Authorized
             $amount = (empty($amount)) ? $payment->getOrder()->getTotalDue() : $amount;
 
             $currency = $payment->getOrder()->getOrderCurrencyCode();
-        }
-        else
-        {
+        } else {
             // Authorized
             $amount = (empty($amount)) ? $payment->getOrder()->getBaseTotalDue() : $amount;
 
@@ -258,57 +263,52 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
         $transactionId = $payment->getParentTransactionId();
 
         // With asynchronous payment methods, the parent transaction may be empty
-        if (empty($transactionId))
+        if (empty($transactionId)) {
             $transactionId = $payment->getLastTransId();
+        }
 
         // Case where an invoice is in Pending status, with no transaction ID, receiving a source.failed event which cancels the invoice.
-        if (empty($transactionId))
+        if (empty($transactionId)) {
             return $this;
+        }
 
         $transactionId = preg_replace('/-.*$/', '', $transactionId);
 
         try {
             $cents = 100;
-            if ($this->helper->isZeroDecimal($currency))
+            if ($this->helper->isZeroDecimal($currency)) {
                 $cents = 1;
+            }
 
             $params = array();
-            if ($amount > 0)
+            if ($amount > 0) {
                 $params["amount"] = round($amount * $cents);
+            }
 
-            if (strpos($transactionId, 'pi_') === 0)
-            {
+            if (strpos($transactionId, 'pi_') === 0) {
                 $pi = \Stripe\PaymentIntent::retrieve($transactionId);
-                if ($pi->status == \Cryozonic\StripePayments\Model\PaymentIntent::AUTHORIZED)
-                {
+                if ($pi->status == \Cryozonic\StripePayments\Model\PaymentIntent::AUTHORIZED) {
                     $pi->cancel();
                     return $this;
-                }
-                else
+                } else {
                     $charge = $pi->charges->data[0];
-            }
-            else
-            {
+                }
+            } else {
                 $charge = $this->api->retrieveCharge($transactionId);
             }
 
             // This is true when an authorization has expired or when there was a refund through the Stripe account
-            if (!$charge->refunded)
-            {
+            if (!$charge->refunded) {
                 $charge->refund($params);
                 // \Stripe\Refund::create($params);
 
                 $refundId = $this->helper->getRefundIdFrom($charge);
                 $payment->setAdditionalInformation('last_refund_id', $refundId);
-            }
-            else
-            {
+            } else {
                 $msg = __('This order has already been refunded in Stripe. To refund from Magento, please refund it offline.');
                 throw new LocalizedException($msg);
             }
-        }
-        catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             $this->logger->addError('Could not refund payment: '.$e->getMessage());
             throw new \Exception(__($e->getMessage()));
         }
@@ -346,6 +346,11 @@ class PaymentMethod extends \Magento\Payment\Model\Method\Adapter
     }
 
     // Fixes https://github.com/magento/magento2/issues/5413 in Magento 2.1
-    public function setId($code) { }
-    public function getId() { return $this::$code; }
+    public function setId($code)
+    {
+    }
+    public function getId()
+    {
+        return $this::$code;
+    }
 }
