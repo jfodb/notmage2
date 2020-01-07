@@ -39,7 +39,7 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 		}
 
 		if($exception instanceof \Stripe\Error\Card) {
-			$httpCode = 200;
+			$httpCode = 422;
 			$minorException = true;
 		}
 
