@@ -8,9 +8,8 @@
 
 namespace Psuedo\Magentofixed\Framwork\Webapi;
 
-
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\ObjectManager;
+//use Magento\Framework\App\Filesystem\DirectoryList;
+//use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\State;
 use Magento\Framework\Exception\AggregateExceptionInterface;
 use Magento\Framework\Exception\AuthenticationException;
@@ -18,16 +17,16 @@ use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
-use Magento\Framework\Serialize\Serializer\Json;
+//use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Webapi\Exception as WebapiException;
 use Magento\Framework\Exception\InputException;
-
 
 class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 {
 
 	public function maskException(\Exception $exception)
 	{
+
 		$isDevMode = $this->_appState->getMode() === State::MODE_DEVELOPER;
 		$stackTrace = $isDevMode ? $exception->getTraceAsString() : null;
 
@@ -37,6 +36,11 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 			//not all exceptions are set to contain a previous
 			$exception = $exception->getPrevious() ?? $exception;
 
+		}
+
+		if($exception instanceof \Stripe\Error\Card) {
+			$httpCode = 422;
+			$minorException = true;
 		}
 
 		if ($exception instanceof WebapiException) {
@@ -136,17 +140,24 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 		} else {
 			$message = $exception->getMessage();
 			$code = $exception->getCode();
+			if(empty($code) && isset($httpCode))
+				$code = $httpCode;
+
 			//if not in Dev mode, make sure the message and code is masked for unanticipated exceptions
-			if (!$isDevMode) {
+			if (!$isDevMode && (!($exception instanceof \Stripe\Error\Card) || $code > 499)) {
 				/** Log information about actual exception */
 				$reportId = $this->_critical($exception);
 				$message = sprintf(self::INTERNAL_SERVER_ERROR_MSG, $reportId);
 				$code = 0;
 			}
+
+			if(empty($httpCode))
+				$httpCode = WebapiException::HTTP_INTERNAL_ERROR;
+
 			$maskedException = new WebapiException(
 				new Phrase($message),
 				$code,
-				WebapiException::HTTP_INTERNAL_ERROR,
+				$httpCode,
 				[],
 				'',
 				null,
