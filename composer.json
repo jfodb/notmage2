@@ -12,7 +12,8 @@
         "composer/composer": "@alpha",
         "experius/module-donationproduct": "~1.0.0",
         "mageplaza/module-smtp": "^1.1",
-        "stripe/stripe-php": "^6.43"
+        "stripe/stripe-php": "^6.43",
+        "mageplaza/magento-2-spanish-language-pack": "dev-master"
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "~1.2.0",
@@ -24,7 +25,9 @@
         "phpmd/phpmd": "@stable",
         "phpunit/phpunit": "~6.5.0",
         "sebastian/phpcpd": "~3.0.0",
-        "squizlabs/php_codesniffer": "3.3.1"
+        "squizlabs/php_codesniffer": "3.3.1",
+        "mageplaza/magento-2-spanish-language-pack": "dev-master"
+
     },
     "autoload": {
         "psr-4": {
