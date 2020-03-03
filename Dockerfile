@@ -50,7 +50,7 @@ COPY ./docker/php.ini /etc/php/7.2/fpm/php.ini
 
 COPY ./docker/env.php /magento/app/env.php
 
-COPY ./docker/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+# COPY ./docker/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
 
 COPY ./docker/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
 
