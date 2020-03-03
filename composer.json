@@ -12,7 +12,8 @@
         "composer/composer": "@alpha",
         "experius/module-donationproduct": "~1.0.0",
         "mageplaza/module-smtp": "^1.1",
-        "stripe/stripe-php": "^6.43"
+        "stripe/stripe-php": "^6.43",
+        "avalara/avatax-magento": "^1.5"
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "~1.2.0",
