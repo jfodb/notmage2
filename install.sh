@@ -16,6 +16,10 @@ rm -rf /usr/share/nginx/html/magento
 
 #Add Edward's public key to ssh
 /bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKds26Z1M3hG6anCQs4o8Akz0z5xX0WUBC9sFReszjCDnXhHfZQiQEPBF7spcWvrT8TT4ZAB0er2O5ZUmJZjI4cspHv0TJz9rxUyrRNMiY6HBRcoZaD6E3/1bMT+MPNMFIK8eJD1CjIsFHtB3vuqQEeC1njVxZA6kZ7j+VWUZlK5/csSbhVaDsagunAtKxLzI+VnucRIdSnrhGdLMVySL3FE0PGH99cfPQ7qL8sP3NkirUQDRPdI9f+Ox2Dd2cy1npnanOUw8m6vE+x/ewBRvWJtAUeyDMFuhvyd7M4tyZtO3B7JT1lqSmWBoS5wkLO3FggD5MHIWsMxzy2xUOyhXv edwardolsen@eolsen-mbp.local" >> /home/ec2-user/.ssh/authorized_keys
+#peters
+/bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDrtncAFWdzmxXBovyLfSJ/P5S9RhGoGOI+yJkGZz+GvKu6JeG0jvKgQJ1iNoURP0+XdHmgJY+3zJN7yeCNVlkHxfPfemlTaoOmlm0bEFf12od4sUWv5T0d49C6UYyOXLG6YI5PgIgHYqnnnUvWxu+Y9YYAiDnK5cRp5IoLsE+BqT2RKW/AeNAxeoHb40mEus6+pNZSNKrtfkXI92iHlgpahSrH6c3Jl97wARrLQYpjABUz9Wajp0Y2tMEWYqMg230NDZB3nuOp9YRM4T38Mk/gjKeLZKLiaLi523XoCnfK6IHGTkYjbyM+pkCp6ZFaBXgQ7jSQU5sSV7S4inFJmrG7 ppostma@ppostma-mbp.local" >> /home/ec2-user/.ssh/authorized_keys
+#chris'
+/bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDItEGF6m9L6SRKjDo1dy5eDbJ/Me0bjmFAXFeWIabNfwVWjFrKMgSdiPK+QF9EdMsFWep1d5hMio7xStyl9P7ldKOb2cI6dobuoX5hWkaCbcDbhv7F+0Y5DJFRPFajogPnTLpt74ubrYdagvIdE+B/iDV3vCBq1HfF3v9Sk+tH0RoErBgSfKbM8vVUAJQuFLDTx7hQShcxImgI08LepXWuxcBrTEOE0y9/HEBM1/5QM/rW4GFT2ml7uAAFaoItmTiNAPUivjBOuWrLQ4HwFFBprxoAyGEOG0OTgYGOXOJQt2ThpGQvHh8tbqv0lAWAgrg8wxf4dGrGJIQSOshTuiGr chriswatts@cwatts-mbp.local" >> /home/ec2-user/.ssh/authorized_keys
 
 #pump history file
 echo "mysql -h donations-beta.cluster-cvcm4uujid2s.us-east-1.rds.amazonaws.com -u mage2 -p mage2" >> /home/ec2-user/.bash_history
