@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+   <!-- Reducing default values fixed memory errors when batch updating products
+      <type name="Magento\Catalog\Model\Indexer\Category\Product\Action\Full">
+        <arguments>
+            <argument name="batchRowsCount" xsi:type="number">1000</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\ResourceModel\Product\Indexer\Price\Batch$
+        <arguments>
+            <argument name="batchRowsCount" xsi:type="array">
+                <item name="configurable" xsi:type="number">500</item>
+            </argument>
+        </arguments>
+    </type>
+    -->
+</config>
