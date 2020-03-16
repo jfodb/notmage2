@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
-<!-- 
-<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"> 
+<!--
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
@@ -25,6 +25,10 @@
                     </arguments>
                 </block>
             </block>
+
+        <!-- ODBP Migration: Product View Attributes & Customizations -->
+        <block class="Magento\Catalog\Block\Product\View" name="migration.features.block" template="Magento_Catalog::product/view/odbp-migration.phtml"/>
+
         </referenceContainer>
 
         <!-- Insert product view blocks into the new product view wrapper -->
@@ -38,13 +42,20 @@
         <!-- Move some blocks to new positions -->
         <!-- <move element="product.info.stock.sku" destination="product.info.price" after="product.price.final" /> -->
         <!-- <move element="product.info.social" destination="product.info.main" after="-" /> -->
-        <move element="product.info.overview" destination="product.info.main" before="product.info.price" />
-        <move element="container_product_primary_1" destination="product.info.main" before="product.info.price" />
+        <move element="product.info.overview" destination="product.info.main" />
+        <move element="container_product_primary_1" destination="product.info.main" />
         <!-- <move element="container_product_primary_2" destination="product.info.main" after="-" /> -->
 
         <!-- Move some blocks outside the "product.info.main" to manipulate their position inside template file -->
         <move element="page.main.title" destination="product-view-wrapper" />
         <move element="product.info.review" destination="product-view-wrapper" />
+
+
+        <!-- ODBP Migration: Shift cart to right column -->
+        <move element="product.info.price" destination="container_product_secondary_1" before="-" />
+        <move element="product.info.addtocart" destination="container_product_secondary_1" after="product.info.price"/>
+        <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
+        <move element="migration.features.block" destination="product.info.main" after="-" />
 
         <!-- Product collateral data (tabs) -->
         <referenceBlock name="product.info.details" template="Infortis_Base::product/view/details.phtml" >

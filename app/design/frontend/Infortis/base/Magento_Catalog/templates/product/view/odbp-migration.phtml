@@ -1,0 +1,60 @@
+<?php $_product = $block->getProduct(); ?>
+
+<!--  START: Display video_link -->
+<?php $_video = $_product->getData("video_link");
+if ($_video): ?>
+    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="<?php echo $_video ?>" frameborder='0' allowfullscreen></iframe>
+    </div>
+<?php endif; ?>
+<!--  END: Display video_link -->
+
+
+<!-- START: Product Download Options -->
+//TODO: Update hard-coded lookup getAttributeSetId() == 16
+<?php if ( $_product->getData("itunes") || $_product->getData("amazon") || $_product->getData("google_play") ): ?>
+    <div class="mp3-buttons">
+        <div style="cursor: pointer; border-bottom: solid thin #3190EC;">
+            <p class="mp3-options"><i class="icon fa fa-chevron-down"></i><?= ($_product->getAttributeSetId() == 16)? "eBook Formats" : "Digital Music Formats"; ?></p>
+        </div>
+        <ul id="downloads" style="display: none;">
+            <?php if ($_product->getData("itunes")) :?>
+                <a href="<?php echo $_product->getData("itunes")?>" alt="Buy Music from iTunes" target="itunes_store">
+                    <li class="itunes">
+                        <img src="<?php echo ($_product->getAttributeSetId() == 16) ? $block->getViewFileUrl('images/ibooks_75sq.png'): $block->getViewFileUrl('images/itunes_75sq.png') ?>" alt="Buy from iTunes"> <?php echo ($_product->getAttributeSetId() == 16) ? "iBooks" : "iTunes" ?>
+                    </li>
+                </a>
+            <?php endif; ?>
+
+            <?php if ($_product->getData("amazon")) :?>
+                <a href="<?php echo $_product->getData("amazon")?>" alt="Buy Music from Amazon" target="about_blank">
+                    <li class="amazon">
+                        <img src="<?php echo ($_product->getAttributeSetId() == 16) ? $block->getViewFileUrl('images/kindle_75sq.png'): $block->getViewFileUrl('images/amazon_75sq.png') ?>" alt="Buy from Amazon"> Amazon
+                    </li>
+                </a>
+            <?php endif; ?>
+
+            <?php if ($_product->getData("google_play")) :?>
+                <a href="<?php echo $_product->getData("google_play")?>" alt="Buy Music from Google Play" target="about_blank">
+                    <li class="google">
+                        <img src="<?php echo($block->getViewFileUrl('images/googleplay_75sq.png')) ?>" alt="Buy from Google Play"> Google Play
+                    </li>
+                </a>
+            <?php endif; ?>
+        </ul>
+    </div>
+    <script type="text/javascript">
+			jQuery("div.mp3-buttons").on('click', function(){
+				if (!jQuery("#downloads").hasClass('active')) {
+					jQuery(".mp3-buttons div").css({borderBottom: "none"});
+					jQuery(".mp3-buttons i.icon").removeClass('fa-chevron-down').addClass('fa-chevron-up');
+					jQuery("#downloads").addClass('active').slideDown(200);
+				} else {
+					jQuery(".mp3-buttons div").css({borderBottom: "solid thin #3190EC"});
+					jQuery(".mp3-buttons i.icon").removeClass('fa-chevron-up').addClass('fa-chevron-down');
+					jQuery("#downloads").removeClass('active').slideUp(200);
+				}
+			});
+    </script>
+<?php endif; ?>
+<!-- END: Product Download Options -->

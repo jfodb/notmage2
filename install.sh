@@ -24,7 +24,7 @@ rm -rf /usr/share/nginx/html/magento
 /bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6VL9/vtCaSoAbeTZa7+TGefgcODCcDyWKg8abvMsDOgpb8om5P1Qr9HET04+6xiQsH/sxLIqeLDoJ5b22/y33m2rpWdr3s5RDAuy6qoPm692AbvowfAy1Y496FtEJqi6hSMQ8un2Vu+/081hxU7IDo9Q8Ma8MZ3kWfV5t/uq9obptmA2oCUWPznEMNNaAM5wUStiUDC6bRDkz0NCT5gdxNP1L9hesp9lOfpIBvpYs26TwvcNEtslGEer4M0intda2VGazcGZTz3O7gj8MgNU3EPqqtzA/qZnKb1a7hHfM2/42DUEg32MlaNbaEjABrAfPyGLYQetZxPVLS0OFGtxx dtowns@US-M0919-5832.local" >> /home/ec2-user/.ssh/authorized_keys
 
 #Add Chris' public key to ssh
-/bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDItEGF6m9L6SRKjDo1dy5eDbJ/Me0bjmFAXFeWIabNfwVWjFrKMgSdiPK+QF9EdMsFWep1d5hMio7xStyl9P7ldKOb2cI6dobuoX5hWkaCbcDbhv7F+0Y5DJFRPFajogPnTLpt74ubrYdagvIdE+B/iDV3vCBq1HfF3v9Sk+tH0RoErBgSfKbM8vVUAJQuFLDTx7hQShcxImgI08LepXWuxcBrTEOE0y9/HEBM1/5QM/rW4GFT2ml7uAAFaoItmTiNAPUivjBOuWrLQ4HwFFBprxoAyGEOG0OTgYGOXOJQt2ThpGQvHh8tbqv0lAWAgrg8wxf4dGrGJIQSOshTuiGr chriswatts@cwatts-mbp.local"
+/bin/echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDItEGF6m9L6SRKjDo1dy5eDbJ/Me0bjmFAXFeWIabNfwVWjFrKMgSdiPK+QF9EdMsFWep1d5hMio7xStyl9P7ldKOb2cI6dobuoX5hWkaCbcDbhv7F+0Y5DJFRPFajogPnTLpt74ubrYdagvIdE+B/iDV3vCBq1HfF3v9Sk+tH0RoErBgSfKbM8vVUAJQuFLDTx7hQShcxImgI08LepXWuxcBrTEOE0y9/HEBM1/5QM/rW4GFT2ml7uAAFaoItmTiNAPUivjBOuWrLQ4HwFFBprxoAyGEOG0OTgYGOXOJQt2ThpGQvHh8tbqv0lAWAgrg8wxf4dGrGJIQSOshTuiGr chriswatts@cwatts-mbp.local"  >> /home/ec2-user/.ssh/authorized_keys
 
 #pump history file
 echo "mysql -h donations-beta.cluster-cvcm4uujid2s.us-east-1.rds.amazonaws.com -u mage2 -p mage2" >> /home/ec2-user/.bash_history
