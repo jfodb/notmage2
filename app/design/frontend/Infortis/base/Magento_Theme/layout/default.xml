@@ -23,7 +23,7 @@
                 <!-- Logo -->
                 <block class="Infortis\Base\Block\Html\Header\Logo" name="site-logo" template="html/header/logo.phtml">
                     <arguments>
-                        <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                        <argument name="logo_file" xsi:type="string">images/odbp-logo-1line.png</argument>
                     </arguments>
                 </block>
 
@@ -31,7 +31,7 @@
                 <block class="Infortis\Base\Block\Html\Header\Logo" name="site-logo-mobile" template="html/header/logo_secondary.phtml">
                     <arguments>
                         <!-- Required the same image path as for the default site logo (see inside "site-logo" block) -->
-                        <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                        <argument name="logo_file" xsi:type="string">images/odbp-logo-1line.png</argument>
                     </arguments>
                 </block>
 
@@ -234,7 +234,7 @@
                 ifconfig="theme_settings/header/sticky_logo">
                 <arguments>
                     <!-- Required the same image path as for the default site logo (see inside "site-logo" block) -->
-                    <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                    <argument name="logo_file" xsi:type="string">images/odbp-logo-1line.png</argument>
                 </arguments>
             </block>
         </referenceBlock>
