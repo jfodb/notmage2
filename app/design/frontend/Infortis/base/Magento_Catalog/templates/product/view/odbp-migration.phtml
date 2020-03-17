@@ -1,4 +1,7 @@
-<?php $_product = $block->getProduct(); ?>
+<?php
+$_product = $block->getProduct();
+$viewModel = $block->getViewModel();
+?>
 
 <!--  START: Display video_link -->
 <?php $_video = $_product->getData("video_link");
@@ -63,9 +66,7 @@ if ($_video): ?>
     $_productFormatSkus = explode(", ", $_product->getData("format_options"));
     $_productFormats = array();
     $count = 0;
-    foreach ($_productFormatSkus as $_sku) {
-        $_productFormats[] = Mage::getModel('catalog/product')->loadByAttribute('sku', $_sku);
-    }
+    $_productFormats[] = $viewModel->getProductsBySku($_productFormatSkus);
 
     usort($_productFormats, function ($a, $b) {
         if (is_object($a) && is_object($b)) {
