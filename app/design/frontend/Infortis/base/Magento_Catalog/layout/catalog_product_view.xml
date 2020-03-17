@@ -27,7 +27,11 @@
             </block>
 
         <!-- ODBP Migration: Product View Attributes & Customizations -->
-        <block class="Magento\Catalog\Block\Product\View" name="migration.features.block" template="Magento_Catalog::product/view/odbp-migration.phtml"/>
+        <block class="Magento\Catalog\Block\Product\View" name="migration.features.block" template="Magento_Catalog::product/view/odbp-migration.phtml">
+            <arguments>
+                <argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\ProductsBySku</argument>
+            </arguments>
+        </block>
 
         </referenceContainer>
 

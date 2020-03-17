@@ -1,4 +1,7 @@
-<?php $_product = $block->getProduct(); ?>
+<?php
+$_product = $block->getProduct();
+$viewModel = $block->getViewModel();
+?>
 
 <!--  START: Display video_link -->
 <?php $_video = $_product->getData("video_link");
@@ -11,7 +14,6 @@ if ($_video): ?>
 
 
 <!-- START: Product Download Options -->
-//TODO: Update hard-coded lookup getAttributeSetId() == 16
 <?php if ( $_product->getData("itunes") || $_product->getData("amazon") || $_product->getData("google_play") ): ?>
     <div class="mp3-buttons">
         <div style="cursor: pointer; border-bottom: solid thin #3190EC;">
@@ -58,3 +60,63 @@ if ($_video): ?>
     </script>
 <?php endif; ?>
 <!-- END: Product Download Options -->
+
+    <!-- Product Formats Block -->
+<?php if ($_product->getData("format_options")):
+    $_productFormatSkus = explode(", ", $_product->getData("format_options"));
+    $_productFormats = array();
+    $count = 0;
+    $_productFormats[] = $viewModel->getProductsBySku($_productFormatSkus);
+
+    usort($_productFormats, function ($a, $b) {
+        if (is_object($a) && is_object($b)) {
+            return $a->getPrice() > $b->getPrice();
+        }
+    });
+    ?>
+    <div class="formats">
+        <ul id="formats">
+            <?php foreach ($_productFormats as $_productFormat) :
+                if (is_object($_productFormat)) {
+                    $type = $_productFormat->getAttributeText('search_type');
+                    $url = $_productFormat->getProductUrl();
+                    $sku = $_productFormat->getSku();
+                    $count++;
+                } else {
+                    continue;
+                }
+                ?>
+                <a href="<?php echo $url ?>">
+                    <li <?= ($count > 3) ? "class='hide'" : "" ?>>
+                        <?php if ($_productFormat->getTypeId() == 'downloadable'
+                            && current($_productFormat->getTypeInstance(true)->getLinks($_productFormat))->getPrice() > $_productFormat->getPrice()) : ?>
+                            <?php echo $type ?> <span
+                                    class="float-right">Price: <?= $this->helper('core')->currency(current($_productFormat->getTypeInstance(true)->getLinks($_productFormat))->getPrice(), true, false); ?></span>
+                        <?php else : ?>
+                            <?php echo $type ?> <span
+                                    class="float-right">Price: <?= $this->helper('core')->currency($_productFormat->getPrice(), true, false); ?></span>
+                        <?php endif; ?>
+                    </li>
+                </a>
+            <?php endforeach; ?>
+        </ul>
+        <?php if ($count > 3): ?>
+            <div id="formats-button" style="cursor: pointer; border-bottom: solid thin #3190EC; margin-bottom: 5px;">
+                <p><i class="icon fa fa-chevron-down"></i>Show more formats</p>
+            </div>
+        <?php endif; ?>
+    </div>
+    <script type="text/javascript">
+			jQuery("div.formats").on('click', function () {
+				if (!jQuery("#formats").hasClass('active')) {
+					jQuery("#formats").addClass('active');
+					jQuery("#formats-button").html('<i class="icon fa fa-chevron-up"></i>Show less');
+					jQuery("#formats li.hide").slideDown(200);
+				} else {
+					jQuery("#formats").removeClass('active');
+					jQuery("#formats-button").html('<i class="icon fa fa-chevron-down"></i>Show more formats');
+					jQuery("#formats li.hide").slideUp(200);
+				}
+			});
+    </script>
+<?php endif; ?>

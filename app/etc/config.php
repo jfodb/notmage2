@@ -237,6 +237,7 @@ return [
         'Mageplaza_Smtp' => 1,
         'ODBM_Customtinymce' => 1,
         'ODBM_Donation' => 1,
+        'ODBM_ODBP' => 1,
         'ODBM_Paperless' => 1,
         'Psuedo_Magentofixed' => 1,
         'Psuedo_Mpxdownload' => 1,
