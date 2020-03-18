@@ -51,7 +51,6 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
         $filterGroup2 = $this->filterGroupBuilder->setFilters([$filter2])->create();
 
         $searchCriteria = $this->searchCriteriaBuilder->create()->setFilterGroups([$filterGroup1, $filterGroup2]);
-        $searchCriteria->
 
         $searchResults = $this->productRepository->getList($searchCriteria);
 
