@@ -42,11 +42,11 @@ if ($_video): ?>
                     <li <?= ($count > 3) ? "class='hide'" : "" ?>>
                         <?php if ($_productFormat->getTypeId() == 'downloadable'
                             && current($_productFormat->getTypeInstance(true)->getLinks($_productFormat))->getPrice() > $_productFormat->getPrice()) : ?>
-                            <?php echo $type ?> <span
-                                    class="float-right">Price: <?//= $this->helper('core')->currency(current($_productFormat->getTypeInstance(true)->getLinks($_productFormat))->getPrice(), true, false); ?></span>
+                            <?php echo $type ?> <!--TODO: Price label and currency symbol hardcoded to English and $ --><span
+                                    class="float-right">Price: $<?= number_format($_productFormat->getTypeInstance(true)->getLinks($_productFormat)->getPrice(), 2); ?></span>
                         <?php else : ?>
                             <?php echo $type ?> <span
-                                    class="float-right">Price: <?//= $this->helper('core')->currency($_productFormat->getPrice(), true, false); ?></span>
+                                    class="float-right">Price: $<?= number_format($_productFormat->getPrice(),2); ?></span>
                         <?php endif; ?>
                     </li>
                 </a>
