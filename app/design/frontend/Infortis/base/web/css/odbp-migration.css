@@ -1767,7 +1767,7 @@ button[title*='Place Order']:hover {
   font-size:12px;
   padding:0 25px;
   display: inline-block;
-  margin: 25px 0;
+  margin-bottom: 20px;
 }
 
 .sample-chapter:hover{
