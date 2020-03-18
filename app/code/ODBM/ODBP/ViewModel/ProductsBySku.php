@@ -35,28 +35,26 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
 
     public function getProductsBySku($_productFormatSkus)
     {
+        $filter1 = $this->filterBuilder
+            ->setField("status")
+            ->setValue(Status::STATUS_ENABLED)
+            ->setConditionType("eq")
+            ->create();
 
-        // TODO: "AND" isn't working
-        // TODO: Showing disabled products
+        $filterGroup1 = $this->filterGroupBuilder->setFilters([$filter1])->create();
 
-        $filters = [];
-        $filter_group = [];
+        $filter2 = $this->filterBuilder->setField('sku')
+            ->setValue($_productFormatSkus)
+            ->setConditionType('in')
+            ->create();
 
-        // build basic search for enabled products
-        $this->searchCriteriaBuilder->addFilter('status', Status::STATUS_ENABLED, 'eq');
+        $filterGroup2 = $this->filterGroupBuilder->setFilters([$filter2])->create();
 
-        // add "or" statements for each SKU
-        foreach ($_productFormatSkus as $_sku) {
-            $filters[] = $this->filterBuilder->setField('sku')
-                ->setValue($_sku)
-                ->setConditionType('eq')
-                ->create();
-        }
-
-        $filter_group[] = $this->filterGroupBuilder->setFilters($filters)->create();
-        $searchCriteria = $this->searchCriteriaBuilder->create()->setFilterGroups($filter_group);
+        $searchCriteria = $this->searchCriteriaBuilder->create()->setFilterGroups([$filterGroup1, $filterGroup2]);
+        $searchCriteria->
 
         $searchResults = $this->productRepository->getList($searchCriteria);
+
         $productFormats = $searchResults->getItems();
 
         if (isset($productFormats) && is_array($productFormats)) {
