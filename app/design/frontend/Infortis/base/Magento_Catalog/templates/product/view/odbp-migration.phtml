@@ -3,9 +3,7 @@ $_product = $block->getProduct();
 $viewModel = $block->getViewModel();
 ?>
 
-<!-- START PRODUCT SHOP -->
-<div class="product-shop">
-
+<!-- START PRODUCT CUSTOMIZATIONS -->
     <div class="product-name">
 
         <!--  START: Sample Chapter PDF -->
@@ -14,7 +12,6 @@ $viewModel = $block->getViewModel();
                target="blank" class="sample-chapter button btn-inline"><i class="fa fa-book"></i>Read Sample Chapter!</a>
         <?php endif; ?>
         <!--  START: End Chapter PDF -->
-
     </div>
 
     <!--  START: Display video_link -->
@@ -41,6 +38,7 @@ $viewModel = $block->getViewModel();
             }
         });
         ?>
+        <?php if (!empty($_productFormats)) : ?>
         <div class="formats">
             <ul id="formats">
                 <?php foreach ($_productFormats as $_productFormat) :
@@ -75,6 +73,7 @@ $viewModel = $block->getViewModel();
                 </div>
             <?php endif; ?>
         </div>
+    <?php endif; ?>
         <script type="text/javascript">
 					jQuery("div.formats").on('click', function () {
 						if (!jQuery("#formats").hasClass('active')) {
@@ -146,5 +145,3 @@ $viewModel = $block->getViewModel();
         </script>
     <?php endif; ?>
     <!-- END: Product Download Options -->
-
-</div> <!-- END PRODUCT SHOP -->
