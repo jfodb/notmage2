@@ -35,6 +35,7 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
 
     public function getProductsBySku($_productFormatSkus)
     {
+        // filter to get enabled products
         $filter1 = $this->filterBuilder
             ->setField("status")
             ->setValue(Status::STATUS_ENABLED)
@@ -43,6 +44,7 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
 
         $filterGroup1 = $this->filterGroupBuilder->setFilters([$filter1])->create();
 
+        // filter to get matching skus
         $filter2 = $this->filterBuilder->setField('sku')
             ->setValue($_productFormatSkus)
             ->setConditionType('in')
@@ -50,12 +52,14 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
 
         $filterGroup2 = $this->filterGroupBuilder->setFilters([$filter2])->create();
 
+        // build search criteria by setting filter groups (AND)
         $searchCriteria = $this->searchCriteriaBuilder->create()->setFilterGroups([$filterGroup1, $filterGroup2]);
 
         $searchResults = $this->productRepository->getList($searchCriteria);
 
         $productFormats = $searchResults->getItems();
 
+        // return valid format or empty array
         if (isset($productFormats) && is_array($productFormats)) {
             return $productFormats;
         } else {
