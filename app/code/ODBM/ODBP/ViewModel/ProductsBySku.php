@@ -7,39 +7,60 @@
 namespace ODBM\ODBP\ViewModel;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Psr\Log\LoggerInterface;
+use Magento\Catalog\Model\Product\Attribute\Source\Status;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\Search\FilterGroupBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 
 class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInterface
 {
     protected $productRepository;
+    protected $searchCriteriaBuilder;
+    protected $filterBuilder;
+    protected $filterGroupBuilder;
     protected $product;
-    protected $_logger;
-    protected $productArray = [];
+    protected $productFormats = [];
 
     public function __construct(
         ProductRepositoryInterface $productRepository,
-        LoggerInterface $logger
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        FilterBuilder $filterBuilder,
+        FilterGroupBuilder $filterGroupBuilder
     ) {
         $this->productRepository = $productRepository;
-        $this->_logger = $logger;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
+        $this->filterGroupBuilder = $filterGroupBuilder;
     }
 
     public function getProductsBySku($_productFormatSkus)
     {
-        $this->_logger->debug('Enter getProductsBySku: ');
+        $filter1 = $this->filterBuilder
+            ->setField("status")
+            ->setValue(Status::STATUS_ENABLED)
+            ->setConditionType("eq")
+            ->create();
 
-        foreach ($_productFormatSkus as $_sku) {
-            try{
-                $product = $this->productRepository->get($_sku);
-                $this->_logger->debug($product);
-            } catch (NoSuchEntityException $e) {
-                // do nothing and continue
-            }
-            if($product){
-                $productArray[] = $product;
-            }
+        $filterGroup1 = $this->filterGroupBuilder->setFilters([$filter1])->create();
+
+        $filter2 = $this->filterBuilder->setField('sku')
+            ->setValue($_productFormatSkus)
+            ->setConditionType('in')
+            ->create();
+
+        $filterGroup2 = $this->filterGroupBuilder->setFilters([$filter2])->create();
+
+        $searchCriteria = $this->searchCriteriaBuilder->create()->setFilterGroups([$filterGroup1, $filterGroup2]);
+        $searchCriteria->
+
+        $searchResults = $this->productRepository->getList($searchCriteria);
+
+        $productFormats = $searchResults->getItems();
+
+        if (isset($productFormats) && is_array($productFormats)) {
+            return $productFormats;
+        } else {
+            return [];
         }
-        return $productArray;
     }
 }

@@ -1754,3 +1754,22 @@ button[title*='Place Order']:hover {
     width: 195px;
   }
 }
+
+/* START: prices: float right */
+.float-right {
+  float: right;
+}
+/* END: prices: float right */
+
+/* START: sample chapter buttons */
+.sample-chapter{
+  line-height:30px !important;
+  font-size:12px;
+  padding:0 25px;
+  display: inline-block;
+}
+
+.sample-chapter:hover{
+  color:white;
+}
+/* END: sample chapter buttons */
