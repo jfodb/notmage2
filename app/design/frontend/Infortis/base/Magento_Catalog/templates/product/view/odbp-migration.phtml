@@ -17,7 +17,7 @@ $viewModel = $block->getViewModel();
     <!--  START: Display video_link -->
     <?php $_video = $_product->getData("video_link");
     if ($_video): ?>
-        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%;">
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; margin-bottom: 20px;">
             <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="<?php echo $_video ?>"
                     frameborder='0' allowfullscreen></iframe>
         </div>
@@ -145,3 +145,43 @@ $viewModel = $block->getViewModel();
         </script>
     <?php endif; ?>
     <!-- END: Product Download Options -->
+
+<!-- Start: Song Samples -->
+<?php
+
+if ($_product->getData("song_samples")) :
+
+    $songsamples = $viewModel->getSongSamples($_product->getData("song_samples"));
+
+    if (!empty($songsamples)): ?>
+        <div id="playlist" style="opacity: 1; padding-top: 10px; padding-bottom: 10px;">
+        </div>
+        <script type="text/javascript">
+			    require(['jquery-player', 'ttw-player'], function () {
+				    jQuery(document).ready(function () {
+					    let myPlaylist = [
+                  <?php foreach ($songsamples as $sample): ?>
+						    {
+							    mp3: "https://s3.amazonaws.com/cdn.rbc.org/dhm/SE492/01-crown-him-forever.mp3",
+							    title: "Crown Him Forever",
+							    duration: '',
+							    rating: '',
+							    cover: "https://beta.ourdailybreadpublishing.org/media/catalog/product/cache/4/image/9df78eab33525d08d6e5fb8d27136e95/s/e/se492_1.jpg"
+						    },
+                  <?php endforeach; ?>
+					    ];
+
+					    jQuery('#playlist').ttwMusicPlayer(myPlaylist, {
+						    autoPlay: false,
+						    tracksToShow: 99,
+						    jPlayer: {
+							    supplied: "mp3",
+							    swfPath: "/js" //You need to override the default swf path any time the directory structure changes
+						    }
+					    });
+				    });
+			    });
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+<!-- END: Song Samples -->
