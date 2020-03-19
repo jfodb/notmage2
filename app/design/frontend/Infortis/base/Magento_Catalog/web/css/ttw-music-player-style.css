@@ -233,6 +233,7 @@
     padding: 10px 0 10px 0;
     list-style-position: inside;
     position: relative;
+    margin-bottom: 0;
 }
 
 .ttw-music-player .tracklist li:hover {
