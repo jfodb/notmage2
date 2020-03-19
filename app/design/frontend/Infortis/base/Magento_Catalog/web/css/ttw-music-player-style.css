@@ -333,7 +333,7 @@
     border-radius: 6px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
-    background: transparent url(../ttw-music-player-images/tracklist-more.png) repeat 0 0 scroll;
+    background: transparent url(../../ttw-music-player-images/tracklist-more.png) repeat 0 0 scroll;
 }
 
 .ttw-music-player .more:hover {
