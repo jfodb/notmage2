@@ -67,19 +67,4 @@ class OdbpProductHelper implements \Magento\Framework\View\Element\Block\Argumen
             return [];
         }
     }
-
-    public function getSongSamples($songsString)
-    {
-        if ($songsString) {
-            $songsArray = explode("\n", $songsString);
-            $titleAndLink = array();
-            foreach ($songsArray as $song) {
-                $titleAndLink[] = str_getcsv($song, ";", "", "\n");
-            }
-            return $titleAndLink;
-        } else {
-            return false;
-        }
-
-    }
 }

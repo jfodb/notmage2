@@ -72,11 +72,27 @@
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
         <move element="migration.features.block" destination="product.info.main" after="-"/>
 
+
+        <!-- Add song samples tab -->
+        <referenceBlock name="product.info.details">
+        <block class="Magento\Catalog\Block\Product\View"
+               name="songSamples.tab"
+               template="Magento_Catalog::product/view/odbp-song-samples.phtml"
+               group="detailed_info"
+        >
+            <arguments>
+                <argument name="sort_order" xsi:type="string">10</argument>
+                <argument translate="true" name="title" xsi:type="string">Song Samples</argument>
+            </arguments>
+        </block>
+        </referenceBlock>
+
         <!-- Product collateral data (tabs) -->
         <referenceBlock name="product.info.details" template="Infortis_Base::product/view/details.phtml">
             <arguments>
                 <argument name="show_tabs" xsi:type="helper"
                           helper="Infortis\Base\Helper\Template\Catalog\Product\View::showTabs"/>
+                <argument name="sort_order" xsi:type="string">20</argument>
             </arguments>
             <!-- Custom static blocks as tabs -->
             <block class="Magento\Cms\Block\Block" name="product_cms_block1" group="detailed_info">

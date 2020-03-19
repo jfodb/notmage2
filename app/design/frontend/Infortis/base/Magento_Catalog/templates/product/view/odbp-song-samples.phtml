@@ -1,0 +1,39 @@
+<?php if ($block->getProduct()->getData("song_samples")) : ?>
+    <?php
+    $songsArray = explode("\n", $block->getProduct()->getData("song_samples"));
+    $songsamples = array();
+    foreach ($songsArray as $song) {
+        $songsamples[] = str_getcsv($song, ";", "", "\n");
+    }
+
+    if (!empty($songsamples)): ?>
+        <div id="playlist" style="opacity: 1; padding-top: 10px; padding-bottom: 10px;">
+        </div>
+        <script type="text/javascript">
+					require(['jquery-player', 'ttw-player'], function () {
+						jQuery(document).ready(function () {
+							let myPlaylist = [
+                  <?php foreach ($songsamples as $sample): ?>
+								{
+									mp3: "<?= $sample[1] ?>",
+									title: "<?= $sample[0] ?>",
+									duration: '',
+									rating: '',
+									cover: "<?= $block->getImage($block->getProduct(), 'category_page_list')->getImageUrl(); ?>"
+								},
+                  <?php endforeach; ?>
+							];
+
+							jQuery('#playlist').ttwMusicPlayer(myPlaylist, {
+								autoPlay: false,
+								tracksToShow: 99,
+								jPlayer: {
+									supplied: "mp3",
+									swfPath: "/js"
+								}
+							});
+						});
+					});
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

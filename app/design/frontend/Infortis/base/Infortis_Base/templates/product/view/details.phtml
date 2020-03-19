@@ -36,7 +36,7 @@
             break;
     }
 ?>
-<?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')):?>
+<?php if ($detailedInfoGroup = $block->getGroupSortedChildNames('detailed_info', 'getChildHtml')):?>
     <div class="product info detailed collateral-container">
         <?php $layout = $block->getLayout(); ?>
         <div class="<?php echo $innerContainerClasses; ?>" <?php if ($jsScriptInit): ?>data-mage-init='<?php echo $jsScriptInit; ?>'<?php endif; ?>>
