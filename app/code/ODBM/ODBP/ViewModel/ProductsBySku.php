@@ -26,7 +26,8 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
         SearchCriteriaBuilder $searchCriteriaBuilder,
         FilterBuilder $filterBuilder,
         FilterGroupBuilder $filterGroupBuilder
-    ) {
+    )
+    {
         $this->productRepository = $productRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filterBuilder = $filterBuilder;
@@ -65,5 +66,20 @@ class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInt
         } else {
             return [];
         }
+    }
+
+    public function getSongSamples($songsString)
+    {
+        if ($songsString) {
+            $songsArray = explode("\n", $songsString);
+            $titleAndLink = array();
+            foreach ($songsArray as $song) {
+                $titleAndLink[] = str_getcsv($song, ";", "", "\n");
+            }
+            return $titleAndLink;
+        } else {
+            return false;
+        }
+
     }
 }
