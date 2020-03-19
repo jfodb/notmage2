@@ -12,7 +12,7 @@ use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\FilterGroupBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 
-class ProductsBySku implements \Magento\Framework\View\Element\Block\ArgumentInterface
+class OdbpProductHelper implements \Magento\Framework\View\Element\Block\ArgumentInterface
 {
     protected $productRepository;
     protected $searchCriteriaBuilder;
