@@ -157,28 +157,30 @@ if ($_product->getData("song_samples")) :
         <div id="playlist" style="opacity: 1; padding-top: 10px; padding-bottom: 10px;">
         </div>
         <script type="text/javascript">
-					jQuery(document).ready(function () {
-						var myPlaylist = [
-                <?php foreach ($songsamples as $sample): ?>
-							{
-								mp3: "<?= $sample[1] ?>",
-								title: "<?= $sample[0] ?>",
-								duration: '',
-								rating: '',
-								cover: "<?= $this->helper('catalog/image')->init($product, 'image') ?>"
-							},
-                <?php endforeach; ?>
-						];
+			    require(['jquery-player', 'ttw-player'], function () {
+				    jQuery(document).ready(function () {
+					    let myPlaylist = [
+                  <?php foreach ($songsamples as $sample): ?>
+						    {
+							    mp3: "https://s3.amazonaws.com/cdn.rbc.org/dhm/SE492/01-crown-him-forever.mp3",
+							    title: "Crown Him Forever",
+							    duration: '',
+							    rating: '',
+							    cover: "https://beta.ourdailybreadpublishing.org/media/catalog/product/cache/4/image/9df78eab33525d08d6e5fb8d27136e95/s/e/se492_1.jpg"
+						    },
+                  <?php endforeach; ?>
+					    ];
 
-						jQuery('#playlist').ttwMusicPlayer(myPlaylist, {
-							autoPlay: false,
-							tracksToShow: 99,
-							jPlayer: {
-								supplied: "mp3",
-								swfPath: "<?= $this->getSkinUrl('js/') ?>" //You need to override the default swf path any time the directory structure changes
-							}
-						});
-					});
+					    jQuery('#playlist').ttwMusicPlayer(myPlaylist, {
+						    autoPlay: false,
+						    tracksToShow: 99,
+						    jPlayer: {
+							    supplied: "mp3",
+							    swfPath: "/js" //You need to override the default swf path any time the directory structure changes
+						    }
+					    });
+				    });
+			    });
         </script>
     <?php endif; ?>
 <?php endif; ?>
