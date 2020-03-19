@@ -162,11 +162,11 @@ if ($_product->getData("song_samples")) :
 					    let myPlaylist = [
                   <?php foreach ($songsamples as $sample): ?>
 						    {
-							    mp3: "https://s3.amazonaws.com/cdn.rbc.org/dhm/SE492/01-crown-him-forever.mp3",
-							    title: "Crown Him Forever",
-							    duration: '',
-							    rating: '',
-							    cover: "https://beta.ourdailybreadpublishing.org/media/catalog/product/cache/4/image/9df78eab33525d08d6e5fb8d27136e95/s/e/se492_1.jpg"
+							    mp3: "<?= $sample[1] ?>",
+							    title: "<?= $sample[0] ?>",
+								duration: '',
+								rating: '',
+								cover: "<?= $block->getImage($_product,'category_page_list')->getImageUrl(); ?>"
 						    },
                   <?php endforeach; ?>
 					    ];
