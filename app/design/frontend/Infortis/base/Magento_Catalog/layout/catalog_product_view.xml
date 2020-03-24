@@ -36,7 +36,11 @@
                 </block>
             </block>
 
-            <!-- ODBP Migration: Product View Attributes & Customizations -->
+            <!-- ODBP Migration: Product View Attributes & Customizations: TITLE -->
+            <block class="Magento\Catalog\Block\Product\View" name="migration.features.preorder"
+                   template="Magento_Catalog::product/view/odbp-preorder.phtml" />
+
+            <!-- ODBP Migration: Product View Attributes & Customizations: BODY-->
             <block class="Magento\Catalog\Block\Product\View" name="migration.features.block"
                    template="Magento_Catalog::product/view/odbp-migration.phtml">
                 <arguments>
@@ -62,6 +66,7 @@
         <!-- <move element="container_product_primary_2" destination="product.info.main" after="-" /> -->
 
         <!-- Move some blocks outside the "product.info.main" to manipulate their position inside template file -->
+        <move element="migration.features.preorder" destination="product-view-wrapper"/>
         <move element="page.main.title" destination="product-view-wrapper"/>
         <move element="product.info.review" destination="product-view-wrapper"/>
 
@@ -70,8 +75,20 @@
         <move element="product.info.price" destination="container_product_secondary_1" before="-"/>
         <move element="product.info.addtocart" destination="container_product_secondary_1" after="product.info.price"/>
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
+
+        <!-- ODBP Migration: Add migration features to the bottom of product description -->
         <move element="migration.features.block" destination="product.info.main" after="-"/>
 
+        <!-- ODBP Migration add css class to page.main.title  and add subtitle feature -->
+        <referenceBlock name="page.main.title">
+            <arguments>
+                <argument name="css_class" xsi:type="string">product-name</argument>
+            </arguments>
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="migration.features.subtitle"
+                   template="Magento_Catalog::product/view/odbp-subtitle.phtml"
+            />
+        </referenceBlock>
 
         <!-- Add song samples tab -->
         <referenceBlock name="product.info.details">
