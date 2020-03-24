@@ -1,0 +1,7 @@
+<?php
+$_product = $block->getProduct();
+?>
+<!-- START PRODUCT SUBTITLE CUSTOMIZATIONS -->
+<?php if ($_product->getData('subtitle')): ?>
+    <h4><?php echo $this->escapeHtml($_product->getData('subtitle')) ?></h4>
+<?php endif ?>
