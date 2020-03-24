@@ -36,7 +36,12 @@
                 </block>
             </block>
 
-            <!-- ODBP Migration: Product View Attributes & Customizations -->
+            <!-- ODBP Migration: Product View Attributes & Customizations: TITLE -->
+            <block class="Magento\Catalog\Block\Product\View" name="migration.features.heading"
+                   template="Magento_Catalog::product/view/odbp-heading.phtml">
+            </block>
+
+            <!-- ODBP Migration: Product View Attributes & Customizations: BODY-->
             <block class="Magento\Catalog\Block\Product\View" name="migration.features.block"
                    template="Magento_Catalog::product/view/odbp-migration.phtml">
                 <arguments>
@@ -71,6 +76,7 @@
         <move element="product.info.addtocart" destination="container_product_secondary_1" after="product.info.price"/>
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
         <move element="migration.features.block" destination="product.info.main" after="-"/>
+        <move element="migration.features.heading" destination="product.info.main" before="-"/>
 
 
         <!-- Add song samples tab -->
