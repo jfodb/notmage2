@@ -116,11 +116,6 @@ a:hover {
   background-color: #669ACC;
 }
 
-#header-search {
-  background-color: #669ACC;
-  padding: 5px 0;
-  text-align: center;
-}
 
 #search_mini_form {
   margin: 0 auto;
@@ -139,11 +134,6 @@ a:hover {
   position: relative;
   display: inline-block;
 
-}
-#header-search > a {
-  color: #fff;
-  position: relative;
-  top: -10px;
 }
 
 /* Email signup */
@@ -1759,6 +1749,23 @@ button[title*='Place Order']:hover {
   .cart-table .product-name {
     width: 195px;
   }
+}
+
+/* Remove search style
+#header-search {
+  background-color: #669ACC;
+  padding: 5px 0;
+  text-align: center;
+}
+
+#header-search > a {
+  color: #fff;
+  position: relative;
+  top: -10px;
+}
+*/
+.page-wrapper {
+  border-top-color: white !important;
 }
 
 /* START: prices: float right */
