@@ -1,0 +1,14 @@
+<?php
+$_product = $block->getProduct();
+?>
+<!-- START PRODUCT PREORDER INFO CUSTOMIZATIONS -->
+<?php if ($_product->isAvailable() && !$_product->getPreorder()): ?>
+    <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo ((int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty() > 0)? (int)Mage::getModel('cataloginventory/stock_item')->loadByProduct($_product)->getQty() . " left": $this->__('In stock') ?></span></p>
+    <meta itemprop="availability" content="http://schema.org/InStock">
+<?php elseif ($_product->getData("preorder") == 1): ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Preorder') ?></span></p>
+    <p class="float-right clear-fix" style="color: red;">Ships after: <?php echo date("M. d", strtotime($_product->getData("pubdate"))) ?></p>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+    <meta itemprop="availability" content="http://schema.org/OutOfStock">
+<?php endif; ?>
