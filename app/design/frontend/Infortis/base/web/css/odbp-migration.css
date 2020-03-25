@@ -26,7 +26,7 @@ a:hover {
 
 .product-name h4 {
   font-family: "PT Sans", "Helvetica", sans-serif;
-  font-size: 1.25em;
+  font-size: 1.15em;
   margin-top: -15px;
 }
 
@@ -1780,3 +1780,14 @@ button[title*='Place Order']:hover {
   color:white;
 }
 /* END: sample chapter buttons */
+
+/* Add preorder-info styles */
+.preorder-info {
+  font-size:12px;
+  margin-bottom: .5em;
+}
+
+/* hide product sku in product view */
+.product-view .product-info-stock-sku{
+  display: none;
+}
