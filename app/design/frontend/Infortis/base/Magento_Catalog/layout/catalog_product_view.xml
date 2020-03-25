@@ -37,8 +37,8 @@
             </block>
 
             <!-- ODBP Migration: Product View Attributes & Customizations: TITLE -->
-            <block class="Magento\Catalog\Block\Product\View" name="migration.features.preorder"
-                   template="Magento_Catalog::product/view/odbp-preorder.phtml" />
+            <block class="Magento\Catalog\Block\Product\View" name="migration.features.preorderBanner"
+                   template="Magento_Catalog::product/view/odbp-preorderBanner.phtml" />
 
             <!-- ODBP Migration: Product View Attributes & Customizations: BODY-->
             <block class="Magento\Catalog\Block\Product\View" name="migration.features.block"
@@ -66,10 +66,18 @@
         <!-- <move element="container_product_primary_2" destination="product.info.main" after="-" /> -->
 
         <!-- Move some blocks outside the "product.info.main" to manipulate their position inside template file -->
-        <move element="migration.features.preorder" destination="product-view-wrapper"/>
+        <move element="migration.features.preorderBanner" destination="product-view-wrapper"/>
         <move element="page.main.title" destination="product-view-wrapper"/>
         <move element="product.info.review" destination="product-view-wrapper"/>
 
+        <!-- ODBP Migration: Add preorder info to  -->
+        <referenceContainer name="product.info.price">
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="migration.features.preorderInfo"
+                   template="Magento_Catalog::product/view/odbp-preorderInfo.phtml"
+                   before="-"
+            />
+        </referenceContainer>
 
         <!-- ODBP Migration: Shift cart to right column -->
         <move element="product.info.price" destination="container_product_secondary_1" before="-"/>
