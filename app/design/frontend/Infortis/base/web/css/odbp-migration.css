@@ -1789,21 +1789,15 @@ button[title*='Place Order']:hover {
 /* END: sample chapter buttons */
 
 /* Add preorder-info styles */
-.product-view .preorder-info-area {
-    margin-bottom: 15px;
+.product-view .preorder-info-area, .product-view .product-info-stock-sku {
+    margin-bottom: .5em;
 }
 
-.product-view .preorder-info {
-  font-size:12px;
-  margin-bottom: .5em;
+/* hide product sku & availability in product view */
+.product-view .product-info-stock-sku .sku, .product-view .product-info-stock-sku .stock{
+    display: none;
 }
 
-.product-view .in-stock {
-    color:#aaa;
-    font-size: 12px;
-}
-
-/* hide product sku in product view */
-.product-view .product-info-stock-sku{
-  display: none;
+.product-view .product-info-stock-sku .only{
+    color: red;
 }
