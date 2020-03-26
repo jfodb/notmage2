@@ -75,8 +75,11 @@
             <block class="Magento\Catalog\Block\Product\View"
                    name="migration.features.preorderInfo"
                    template="Magento_Catalog::product/view/odbp-preorderInfo.phtml"
-                   before="-"
-            />
+                   before="-">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\OdbpStockHelper</argument>
+                </arguments>
+            </block>
         </referenceContainer>
 
         <!-- ODBP Migration: Shift cart to right column -->
