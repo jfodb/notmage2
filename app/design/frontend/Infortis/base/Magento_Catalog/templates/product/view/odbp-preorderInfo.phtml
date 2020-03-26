@@ -3,7 +3,8 @@ $_product = $block->getProduct();
 ?>
 <div class="preorder-info-area">
     <?php if ($_product->isAvailable() && !$_product->getPreorder()): ?>
-        <p class="availability in-stock"><?php echo __('Availability:') . " " . __('In stock') ?></p>
+        <p class="availability in-stock"><?php echo __('Availability:') ?>
+            <span><?php echo __('In stock') ?></span></p>
         <meta itemprop="availability" content="http://schema.org/InStock">
     <?php elseif ($_product->getData("preorder") == 1): ?>
         <p class="availability out-of-stock preorder-info"><?php echo __('Availability:') ?>
