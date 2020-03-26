@@ -1789,9 +1789,18 @@ button[title*='Place Order']:hover {
 /* END: sample chapter buttons */
 
 /* Add preorder-info styles */
-.preorder-info {
+.product-view .preorder-info-area {
+    margin-bottom: 15px;
+}
+
+.product-view .preorder-info {
   font-size:12px;
   margin-bottom: .5em;
+}
+
+.product-view .in-stock {
+    color:#aaa;
+    font-size: 12px;
 }
 
 /* hide product sku in product view */
