@@ -1,21 +1,20 @@
 <?php
-$viewModel = $block->getViewModel();
-$product = $block->getProduct();
-$sku = $product->getSku();
-$websiteId = $product->getStore()->getWebsiteId();
-$stockQty = $viewModel->getStockItem($sku, $websiteId);
-echo "StockQty: " . $stockQty;
-//$stockQty = (int)$stockItem->getQty() ? (int)$stockItem->getQty() : 0;
+$_product = $block->getProduct();
+$stockQty = (int)$_product->getExtensionAttributes()->getStockItem()->getQty();
 ?>
 <div class="preorder-info-area">
-<?php if ($_product->isAvailable() && !$_product->getPreorder()): ?>
-    <p class="availability in-stock"><?php echo __('Availability:') ?> <span><?php echo (int)$stockQty < 0 ? (int)$stockQty . " " . __('left') : __('In stock') ?></span></p>
-    <meta itemprop="availability" content="http://schema.org/InStock">
-<?php elseif ($_product->getData("preorder") == 1): ?>
-    <p class="availability out-of-stock preorder-info"><?php echo __('Availability:') ?> <span><?php echo __('Preorder') ?></span></p>
-    <p class="clear-fix preorder-info" style="color: red;">Ships after: <?php echo date("M. d", strtotime($_product->getData("pubdate"))) ?></p>
-<?php else: ?>
-    <p class="availability out-of-stock"><?php echo __('Availability:') ?> <span><?php echo __('Out of stock') ?></span></p>
-    <meta itemprop="availability" content="http://schema.org/OutOfStock">
-<?php endif; ?>
+    <?php if ($_product->isAvailable() && !$_product->getPreorder()): ?>
+        <p class="availability in-stock"><?php echo __('Availability:') ?>
+            <span><?php echo $stockQty > 0 ? $stockQty . " " . __('left') : __('In stock') ?></span></p>
+        <meta itemprop="availability" content="http://schema.org/InStock">
+    <?php elseif ($_product->getData("preorder") == 1): ?>
+        <p class="availability out-of-stock preorder-info"><?php echo __('Availability:') ?>
+            <span><?php echo __('Preorder') ?></span></p>
+        <p class="clear-fix preorder-info" style="color: red;">Ships
+            after: <?php echo date("M. d", strtotime($_product->getData("pubdate"))) ?></p>
+    <?php else: ?>
+        <p class="availability out-of-stock"><?php echo __('Availability:') ?>
+            <span><?php echo __('Out of stock') ?></span></p>
+        <meta itemprop="availability" content="http://schema.org/OutOfStock">
+    <?php endif; ?>
 </div>

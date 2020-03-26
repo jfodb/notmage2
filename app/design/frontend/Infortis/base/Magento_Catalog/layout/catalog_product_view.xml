@@ -38,7 +38,7 @@
 
             <!-- ODBP Migration: Product View Attributes & Customizations: TITLE -->
             <block class="Magento\Catalog\Block\Product\View" name="migration.features.preorderBanner"
-                   template="Magento_Catalog::product/view/odbp-preorderBanner.phtml" />
+                   template="Magento_Catalog::product/view/odbp-preorderBanner.phtml"/>
 
             <!-- ODBP Migration: Product View Attributes & Customizations: BODY-->
             <block class="Magento\Catalog\Block\Product\View" name="migration.features.block"
@@ -75,11 +75,7 @@
             <block class="Magento\Catalog\Block\Product\View"
                    name="migration.features.preorderInfo"
                    template="Magento_Catalog::product/view/odbp-preorderInfo.phtml"
-                   before="-">
-                <arguments>
-                    <argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\OdbpStockHelper</argument>
-                </arguments>
-            </block>
+                   before="-"/>
         </referenceContainer>
 
         <!-- ODBP Migration: Shift cart to right column -->
@@ -103,16 +99,16 @@
 
         <!-- Add song samples tab -->
         <referenceBlock name="product.info.details">
-        <block class="Magento\Catalog\Block\Product\View"
-               name="songSamples.tab"
-               template="Magento_Catalog::product/view/odbp-song-samples.phtml"
-               group="detailed_info"
-        >
-            <arguments>
-                <argument name="sort_order" xsi:type="string">10</argument>
-                <argument translate="true" name="title" xsi:type="string">Song Samples</argument>
-            </arguments>
-        </block>
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="songSamples.tab"
+                   template="Magento_Catalog::product/view/odbp-song-samples.phtml"
+                   group="detailed_info"
+            >
+                <arguments>
+                    <argument name="sort_order" xsi:type="string">10</argument>
+                    <argument translate="true" name="title" xsi:type="string">Song Samples</argument>
+                </arguments>
+            </block>
         </referenceBlock>
 
         <!-- Product collateral data (tabs) -->
