@@ -7,7 +7,7 @@
 			<label>Donations Address Changes</label>
 			<tab>odbmdonations</tab>
 			<group id="settings" translate="label" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
-				<field id="enableAddress" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
+				<field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1"
 					   showInStore="1" canRestore="1">
 					<label>Use Donations Address Plugin</label>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

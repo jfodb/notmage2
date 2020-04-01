@@ -85,7 +85,7 @@ class Plugin
         
         $jsLayoutResult = $proceed($jsLayout);
 
-        if ($this->scopeConfig->isSetFlag('donationsAddress/settings/enableAddress', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
+        if ($this->scopeConfig->isSetFlag('donationsAddress/settings/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             if (isset($jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['billingAddress']['children']['billing-address-fieldset'])) {
 
