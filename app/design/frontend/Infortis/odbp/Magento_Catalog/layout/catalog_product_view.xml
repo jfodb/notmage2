@@ -80,7 +80,7 @@
 
         <!-- ODBP Migration: Shift cart to right column -->
         <move element="product.info.price" destination="container_product_secondary_1" before="-"/>
-        <move element="product.info.addtocart" destination="container_product_secondary_1" after="product.info.price"/>
+        <move element="product.info" destination="container_product_secondary_1" after="product.info.price"/>
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
 
         <!-- ODBP Migration: Add migration features to the bottom of product description -->
