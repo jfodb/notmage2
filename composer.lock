@@ -4,8 +4,87 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a20e587f277c6ca206b47924db920416",
+    "content-hash": "24a4246c55d2ecafc59c8e41bf13fa8f",
     "packages": [
+        {
+            "name": "amasty/base",
+            "version": "1.10.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://composer.amasty.com/community/packages/base-1.10.0.zip"
+            },
+            "require": {
+                "php": "7.0.2|7.0.4|~7.0.6|^7.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Amasty\\Base\\": ""
+                }
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "Amasty Base"
+        },
+        {
+            "name": "amasty/geoip",
+            "version": "1.5.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://composer.amasty.com/community/packages/geoip-1.5.1.zip"
+            },
+            "require": {
+                "amasty/base": ">=1.9.6",
+                "php": "7.0.2|7.0.4|~7.0.6|^7.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Amasty\\Geoip\\": ""
+                }
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "Amasty Geoip Data"
+        },
+        {
+            "name": "amasty/module-single-step-checkout",
+            "version": "3.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://composer.amasty.com/community/packages/module-single-step-checkout-3.0.0.zip"
+            },
+            "require": {
+                "amasty/base": ">=1.10.0",
+                "amasty/geoip": ">=1.5.1",
+                "php": "7.0.2|7.0.4|~7.0.6|^7.1.0"
+            },
+            "suggest": {
+                "amasty/checkout-graph-ql": "Install checkout-graph-ql module to be able to use One Step Checkout GraphQL queries.",
+                "amasty/module-common-tests": "Install module-common-tests module to be able to run One Step Checkout MFTF tests."
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Amasty\\Checkout\\": ""
+                }
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "One Step Checkout by Amasty"
+        },
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
             "version": "3.2.9",
