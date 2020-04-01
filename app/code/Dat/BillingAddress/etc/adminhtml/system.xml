@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
 	<system>
-		<section id="mpxdownloads" translate="label" sortOrder="140" showInDefault="1" showInWebsite="0"
+		<section id="donationsAddress" translate="label" sortOrder="140" showInDefault="1" showInWebsite="0"
 				 showInStore="0">
 			<class>separator-top</class>
 			<label>Donations Address Changes</label>
