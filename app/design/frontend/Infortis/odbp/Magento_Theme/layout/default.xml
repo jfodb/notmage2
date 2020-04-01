@@ -23,7 +23,7 @@
                 <!-- Logo -->
                 <block class="Infortis\Base\Block\Html\Header\Logo" name="site-logo" template="html/header/logo.phtml">
                     <arguments>
-                        <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                        <argument name="logo_file" xsi:type="string">images/odbp-logo-1line.png</argument>
                     </arguments>
                 </block>
 
@@ -31,7 +31,7 @@
                 <block class="Infortis\Base\Block\Html\Header\Logo" name="site-logo-mobile" template="html/header/logo_secondary.phtml">
                     <arguments>
                         <!-- Required the same image path as for the default site logo (see inside "site-logo" block) -->
-                        <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                        <argument name="logo_file" xsi:type="string">images/odbp-logo-1line.png</argument>
                     </arguments>
                 </block>
 
@@ -174,7 +174,7 @@
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
         <!-- Note: "header-wrapper" is a default container for default blocks: logo, top links, search, minicart.
-             All these blocks were moved to the new base header container.
+             All these blocks were moved to the new base header container. 
              But we may still need to display "header-wrapper" in case custom code adds there some blocks. -->
         <move element="header-wrapper"          destination="base-header-container" />
         <move element="skip_to_content"         destination="base-header-container" />
@@ -209,7 +209,7 @@
 
 
 
-        <!-- Footer
+        <!-- Footer 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
         <move element="footer"                      destination="base-footer-container" />
@@ -230,11 +230,11 @@
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
         <referenceBlock name="catalog.topnav.menu">
-            <block class="Infortis\Base\Block\Html\Header\Logo" name="catalog.topnav.stickylogo" as="stickylogo" template="html/header/logo_sticky.phtml"
+            <block class="Infortis\Base\Block\Html\Header\Logo" name="catalog.topnav.stickylogo" as="stickylogo" template="html/header/logo_sticky.phtml" 
                 ifconfig="theme_settings/header/sticky_logo">
                 <arguments>
                     <!-- Required the same image path as for the default site logo (see inside "site-logo" block) -->
-                    <argument name="logo_file" xsi:type="string">images/logo.png</argument>
+                    <argument name="logo_file" xsi:type="string">images/odbp-logo-1line.png</argument>
                 </arguments>
             </block>
         </referenceBlock>
