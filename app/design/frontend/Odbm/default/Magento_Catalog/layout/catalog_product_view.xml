@@ -19,7 +19,7 @@
         </referenceBlock>
         
         <referenceBlock name="page.main.title" remove="true"/>
-
+        <referenceBlock name="page.messages" remove="true"/>
 
         <referenceBlock name="root">
             <arguments>

@@ -206,8 +206,6 @@ return [
         'Magento_WishlistGraphQl' => 1,
         'Amasty_Base' => 1,
         'Amasty_Geoip' => 1,
-        'Amasty_CheckoutGraphQl' => 1,
-        'Amasty_CommonTests' => 1,
         'Amasty_Checkout' => 1,
         'Amazon_Core' => 1,
         'Amazon_Login' => 1,
