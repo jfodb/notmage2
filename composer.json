@@ -15,7 +15,8 @@
         "stripe/stripe-php": "^6.43",
         "avalara/avatax-magento": "^1.5",
         "mageplaza/magento-2-spanish-language-pack": "dev-master",
-        "magento/data-migration-tool": "2.3.2"
+        "magento/data-migration-tool": "2.3.2",
+        "amasty/module-single-step-checkout": "^3.0"
     },
     "require-dev": {
         "allure-framework/allure-phpunit": "~1.2.0",
@@ -61,12 +62,16 @@
         }
     },
     "minimum-stability": "stable",
-    "repositories": [
-        {
+    "repositories": {
+        "0": {
             "type": "composer",
             "url": "https://repo.magento.com/"
+        },
+        "amasty": {
+            "type": "composer",
+            "url": "https://composer.amasty.com/community/"
         }
-    ],
+    },
     "extra": {
         "magento-force": "override"
     }
