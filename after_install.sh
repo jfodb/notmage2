@@ -15,6 +15,9 @@ fi
 #grant ec2 access to code and logs
 usermod -a -G nginx,apache ec2-user
 
+# AMASTY Single Page Checkout Hotfix
+rm /usr/share/nginx/html/magento/vendor/amasty/module-single-step-checkout/view/frontend/layout/checkout_onepage_success.xml
+
 # Pull from S3 based on deployment group
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/env.php /usr/share/nginx/html/magento/app/etc/env.php
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
