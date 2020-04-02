@@ -85,7 +85,6 @@ class Plugin
         
         $jsLayoutResult = $proceed($jsLayout);
 
-        if ($this->scopeConfig->isSetFlag('donationsAddress/settings/enabled', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             if (isset($jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['billingAddress']['children']['billing-address-fieldset'])) {
 
@@ -106,7 +105,6 @@ class Plugin
 
                 $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['postcode']['label'] = __('Zip');
             }
-        }
         
         return $jsLayoutResult;
       }

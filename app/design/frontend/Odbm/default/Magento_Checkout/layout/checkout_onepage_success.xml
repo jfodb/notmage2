@@ -15,7 +15,7 @@
         <referenceBlock name="sale.reorder.sidebar" remove="true"/>
         <referenceBlock name="page.main.title" remove="true" />
         <referenceContainer name="content">
-            <block class="Dat\Thankyoupage\Block\Onepage\Success" name="checkout.success" template="success.phtml" cacheable="false"/>
+            <block class="Dat\Thankyoupage\Block\Onepage\Success" name="checkout.success" template="Dat_Thankyoupage::success.phtml" cacheable="false"/>
         </referenceContainer>
 
         <container name="order.success.additional.info" label="Order Success Additional Info"/>
