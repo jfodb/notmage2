@@ -13,6 +13,22 @@
 					<beta.donations.ourdailybread.org>INT</beta.donations.ourdailybread.org>
 					<dev.mage2.org>INT</dev.mage2.org>
 					<store_1>INT</store_1>
+
+					<!-- START: ODBP Migration Transfer-->
+					<magento.beta.rbc.org>JobSecurity</magento.beta.rbc.org>
+					<beta.discoveryhousepublishers.org>INTDHP</beta.discoveryhousepublishers.org>
+					<dod.org>INTDOD</dod.org>
+					<beta.dod.org>INTDOD</beta.dod.org>
+					<dhp.org>INTDHP</dhp.org>
+					<ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
+					<cugn.org>INTCCU</cugn.org>
+					<dhespanol.org>INTSPN</dhespanol.org>
+					<store.ourdailybread.org>INTODB</store.ourdailybread.org>
+					<betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
+					<dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
+					<beta.dhp.org>INTDHP</beta.dhp.org>
+					<beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
+					<!-- END: ODBP Migration Transfer-->
 				</motivation_code>
 				<company>
 					<!-- example:
@@ -21,6 +37,24 @@
 					<dev.mage2.org>RBCU</dev.mage2.org>
 					<donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
 					<beta.donations.ourdailybread.org>RBCU</beta.donations.ourdailybread.org>
+
+					<!-- START: ODBP Migration Transfer-->
+					<magento.beta.rbc.org>DHPU</magento.beta.rbc.org>
+					<beta.discoveryhousepublishers.org>DHPU</beta.discoveryhousepublishers.org>
+					<magento.rbc.org>DHPC</magento.rbc.org>
+					<dhp.org>DHPU</dhp.org>
+					<ourdailybreadpublishing.org>DHPU</ourdailybreadpublishing.org>
+					<beta.dod.org>DHPU</beta.dod.org>
+					<dod.org>DHPU</dod.org>
+					<helpformylife.org>DHPU</helpformylife.org>
+					<cugn.org>DHPU</cugn.org>
+					<dhespanol.org>DHPU</dhespanol.org>
+					<store.ourdailybread.org>RBCU</store.ourdailybread.org>
+					<betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
+					<dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
+					<beta.dhp.org>DHPU</beta.dhp.org>
+					<beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
+					<!-- END: ODBP Migration Transfer-->
 				</company>
 				<jobtype>
 					<!-- example:
@@ -30,14 +64,50 @@
 					<dev.mage2.org>ODBDonations</dev.mage2.org>
 					<beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
 					<store_1>ODBDonations</store_1>
+
+					<!-- START: ODBP Migration Transfer-->
+					<magento.beta.rbc.org>DhpStore</magento.beta.rbc.org>
+					<beta.discoveryhousepublishers.org>DhpStore</beta.discoveryhousepublishers.org>
+					<magento.rbc.org>DhpStore</magento.rbc.org>
+					<dhp.org>DhpStore</dhp.org>
+					<ourdailybreadpublishing.org>DhpStore</ourdailybreadpublishing.org>
+					<dod.org>DodStore</dod.org>
+					<beta.dod.org>DodStore</beta.dod.org>
+					<helpformylife.org>HfmlStore</helpformylife.org>
+					<cugn.org>CcStore</cugn.org>
+					<dhespanol.org>SpnStore</dhespanol.org>
+					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
+					<store.ourdailybread.org>PilotStore</store.ourdailybread.org>
+					<betastore.ourdailybread.org>PilotStore</betastore.ourdailybread.org>
+					<dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
+					<beta.dhp.org>DhpStore</beta.dhp.org>
+					<beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
+					<!-- END: ODBP Migration Transfer-->
 				</jobtype>
 				<store_id>
 					<!-- example>
 					<dhponline.ca>2</dhponline.ca>
 					-->
-					<dev.mage2.org>1</dev.mage2.org>
-					<donations.ourdailybread.org>1</donations.ourdailybread.org>
-					<beta.donations.ourdailybread.org>1</beta.donations.ourdailybread.org>
+					<dev.mage2.org>13</dev.mage2.org>
+					<donations.ourdailybread.org>13</donations.ourdailybread.org>
+					<beta.donations.ourdailybread.org>13</beta.donations.ourdailybread.org>
+
+					<!-- START: ODBP Migration Transfer-->
+					<magento.beta.rbc.org>1</magento.beta.rbc.org>
+					<magento.rbc.org>1</magento.rbc.org>
+					<beta.discoveryhousepublishers.org>1</beta.discoveryhousepublishers.org>
+					<dhp.org>4</dhp.org>
+					<ourdailybreadpublishing.org>4</ourdailybreadpublishing.org>
+					<beta.dhp.org>4</beta.dhp.org>
+					<beta.dod.org>2</beta.dod.org>
+					<dod.org>3</dod.org>
+					<cugn.org>6</cugn.org>
+					<dhespanol.org>9</dhespanol.org>
+					<store.ourdailybread.org>8</store.ourdailybread.org>
+					<betastore.ourdailybread.org>8</betastore.ourdailybread.org>
+					<dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
+					<beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
+					<!-- END: ODBP Migration Transfer-->
 				</store_id>
 				<domain>
 					<dhpstore>
@@ -45,6 +115,7 @@
 						<dhpc>dhponline.ca</dhpc>
 						-->
 						<dhpt>dev.mage2.org</dhpt>
+						<dhpu>dhp.org</dhpu>
 					</dhpstore>
 					<odbdonations>
 						<rbcu>dev.mage2.org</rbcu>
@@ -55,14 +126,56 @@
 						<dhpu>cugn.org</dhpu>
 					</ccstore>
 					-->
+					<!-- START: ODBP Migration Transfer-->
+					<hfmlstore>
+						<dhpu>helpformylife.org</dhpu>
+					</hfmlstore>
+					<dodstore>
+						<dhpu>dod.org</dhpu>
+					</dodstore>
+					<ccstore>
+						<dhpu>cugn.org</dhpu>
+					</ccstore>
+					<spnstore>
+						<dhpu>dhespanol.org</dhpu>
+					</spnstore>
+					<pilotstore>
+						<rbcu>store.ourdailybread.org</rbcu>
+					</pilotstore>
+					<odbstore>
+						<rbcu>store.ourdailybread.org</rbcu>
+					</odbstore>
+					<!-- END: ODBP Migration Transfer-->
 				</domain>
 				<beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
 					<dhpstore>
 						<dhpt>dev.mage2.org</dhpt>
+						<dhpu>beta.dhp.org</dhpu>
 					</dhpstore>
 					<odbdonations>
 						<rbcu>dev.mage2.org</rbcu>
 					</odbdonations>
+
+					<!-- START: ODBP Migration Transfer-->
+					<hfmlstore>
+						<dhpu>beta.helpformylife.org</dhpu>
+					</hfmlstore>
+					<dodstore>
+						<dhpu>beta.dod.org</dhpu>
+					</dodstore>
+					<ccstore>
+						<dhpu>beta.store.christianuniversity.org</dhpu>
+					</ccstore>
+					<spnstore>
+						<dhpu>dhespanol.org</dhpu>
+					</spnstore>
+					<pilotstore>
+						<rbcu>betastore.ourdailybread.org</rbcu>
+					</pilotstore>
+					<odbstore>
+						<rbcu>betastore.ourdailybread.org</rbcu>
+					</odbstore>
+					<!-- END: ODBP Migration Transfer-->
 				</beta>
 			</runtime>
 		</psuedo_mpxdownload>
