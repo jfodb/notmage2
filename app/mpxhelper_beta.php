@@ -3,6 +3,7 @@
 // TODO: NEED TO REMOVE THIS FILE AFTER GO-LIVE
 
 // beta hash
+// beta url: https://beta.donations.ourdailybread.org/mpxdownloads/?    or    https://beta.ourdailybreadpublishing.org/mpxdownloads/?
 $sig = 'c41fa7d0dd364dfe3e70196a529ea34b';
 
 $set = array(
