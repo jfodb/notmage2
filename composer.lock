@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24a4246c55d2ecafc59c8e41bf13fa8f",
+    "content-hash": "48f2c48242203b88ed26f21cc27e9290",
     "packages": [
         {
             "name": "amasty/base",
@@ -1291,6 +1291,36 @@
                     "email": "derrick@experius.nl"
                 }
             ]
+        },
+        {
+            "name": "fasaro/magento2-es_mx-language-pack",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fasaro/magento2-es_mx-language-pack.git",
+                "reference": "3a9562473939c862c517778da4f4c6c4a2e1ab23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fasaro/magento2-es_mx-language-pack/zipball/3a9562473939c862c517778da4f4c6c4a2e1ab23",
+                "reference": "3a9562473939c862c517778da4f4c6c4a2e1ab23",
+                "shasum": ""
+            },
+            "require": {
+                "magento/framework": "*"
+            },
+            "type": "magento2-language",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Spanish (Mexico) language package for Magento 2",
+            "time": "2020-03-26T20:40:19+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -19826,6 +19856,7 @@
     "stability-flags": {
         "composer/composer": 15,
         "mageplaza/magento-2-spanish-language-pack": 20,
+        "fasaro/magento2-es_mx-language-pack": 20,
         "phpmd/phpmd": 0
     },
     "prefer-stable": false,
