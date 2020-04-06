@@ -1498,8 +1498,10 @@ button[title*='Place Order']:hover {
 }
 
 .skip-link .count, span.count, .dropdown-heading > span > .count {
-  background-color: #3190EC;
-  color: #FFF;
+  /*background-color: #3190EC;*/
+  /*color: #FFF;*/
+  /*Migration modification:*/
+  color: #222;
 }
 
 @media only screen and (min-width: 320px) {
@@ -1800,4 +1802,16 @@ button[title*='Place Order']:hover {
 
 .product-view .product-info-stock-sku .only{
     color: red;
+}
+
+/* ODBP Migration additions: */
+/* override Amasty css width, so it doesn't exceed bounds on mobile */
+.checkout-onepage-success #registration {
+  width: inherit !important;
+}
+
+/*override Amasty css for "sign up" links on checkout success page*/
+.checkout-onepage-success #registration form {
+  position: relative !important;
+  margin: 30px 10px !important;
 }
