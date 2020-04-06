@@ -2,7 +2,7 @@
 
 // TODO: NEED TO REMOVE THIS FILE AFTER GO-LIVE
 
-// to run, you need to add your IP address in <trustedips> at app/code/Psuedo/Mpxdownload/etc/config.php
+// to run, you need to add your IP address in <trustedips> at app/code/Psuedo/Mpxdownload/etc/config.xml
 // beta hash
 // beta url: https://beta.donations.ourdailybread.org/mpxdownloads/?    or    https://beta.ourdailybreadpublishing.org/mpxdownloads/?
 
