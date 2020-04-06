@@ -55,9 +55,9 @@ a:hover {
   font-size: 14px;
 }
 
-.links > li > a:hover {
-  background-color: transparent;
-  color: #3190EC !important;
+.links > li > a:hover, .top-links .links > li > a:hover, .footer-container .links > li > a:hover {
+    background-color: transparent;
+    color: #3190EC !important;
 }
 
 .home.caption > .heading {
