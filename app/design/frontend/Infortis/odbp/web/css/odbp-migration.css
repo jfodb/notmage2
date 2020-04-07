@@ -280,7 +280,9 @@ a:hover {
 }
 
 .header-primary {
-  margin: 0 20px;
+  /*Migration: I think the below margin was used for the Spanish site's full screen view */
+  /*margin: 0 20px;*/
+  margin: auto auto;
 }
 
 .form-search .button {
