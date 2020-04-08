@@ -53,6 +53,9 @@
 					<betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
 					<dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
 					<beta.dhp.org>DHPU</beta.dhp.org>
+					<!--Add beta sites: -->
+					<beta.ourdailybreadpublishing.org>DHPU</beta.ourdailybreadpublishing.org>
+					<beta.dhespanol.org>DHPU</beta.dhespanol.org>
 					<beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
 				</company>
@@ -81,6 +84,9 @@
 					<betastore.ourdailybread.org>PilotStore</betastore.ourdailybread.org>
 					<dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
 					<beta.dhp.org>DhpStore</beta.dhp.org>
+					<!--Add beta sites: -->
+					<beta.ourdailybreadpublishing.org>DhpStore</beta.ourdailybreadpublishing.org>
+					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
 					<beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
 				</jobtype>
@@ -106,6 +112,9 @@
 					<store.ourdailybread.org>8</store.ourdailybread.org>
 					<betastore.ourdailybread.org>8</betastore.ourdailybread.org>
 					<dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
+					<!--Add beta sites: -->
+					<beta.ourdailybreadpublishing.org>4</beta.ourdailybreadpublishing.org>
+					<beta.dhespanol.org>9</beta.dhespanol.org>
 					<beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
 				</store_id>
