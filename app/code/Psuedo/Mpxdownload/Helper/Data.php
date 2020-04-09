@@ -14,7 +14,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	protected $db, $db_resource, $ips, $domain, $timeoffset, $store, $motivation, $company, $jobtype, $_err_code, $object_manager;
 	protected $ip, $err, $err_message, $connection_good;
 	protected $productModel;
-	public $START_STATUS, $START_STATE, $PROCESS_STATUS, $PROCESS_STATE, $END_STATUS, $END_STATE;
+	public $START_STATUS, $PROCESS_STATUS, $END_STATUS;
 
 	static $ENCODE_BYTE_MAP, $NIBBLE_GOOD_CHARS;
 
@@ -81,12 +81,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->ips = preg_split('/[;,]\s*/', $ipstring);
 		//print_r($this->ips);
 
-		$this->START_STATUS = 'paid';
-		$this->START_STATE = 'complete';
-		$this->PROCESS_STATUS = 'mpx';
-		$this->PROCESS_STATE = 'complete';
-		$this->END_STATUS = 'complete';
-		$this->END_STATE = 'complete';
+		$this->START_STATUS = 'unprocessed';
+		
+		$this->PROCESS_STATUS = 'processing';
+		
+		$this->END_STATUS = 'processed';
+		
 
 		$this->productModel->setStoreId($this->store);
 
@@ -164,7 +164,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		if (!empty($this->db))
 		{
 			try{
-				$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `status`='%s', `state`='%s' WHERE `ext_order_id` IS NOT NULL;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS, $this->START_STATE);
+				$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `mpx_status`='%s' WHERE `ext_order_id` IS NOT NULL;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS);
 				$this->db->query($sql);
 			} catch(\Exception $e) {
 				$this->api_return_error(503, "Could not reset Job");
@@ -202,16 +202,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		} else
 			$ids = false;
 
-		$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `status`='%s', `state`='%s' WHERE `store_id`=%d AND `ext_order_id` = %d;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS, $this->START_STATE, $this->store, $jobid);
+		$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `mpx_status`='%s' WHERE `store_id`=%d AND `ext_order_id` = %d;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS, $this->store, $jobid);
 		try {
 			$this->db->query($sql);
-
-			if($ids)
-				foreach ($ids as $entity_id){
-					$this->db->insert($this->db_resource->getTableName('sales_order_status_history'),
-						array('parent_id'=>$entity_id,'is_customer_notified'=>0,'is_visible_on_front'=>0,'comment'=>'mpx processing rollback',
-							'status'=>$this->START_STATUS,'created_at'=>date('Y-m-d H:i:s'),'entity_name'=>'mpx'));
-				}
 			return true;
 		} catch (\Exception $e) {
 			$this->api_return_error(503, "Could not reset Job");
@@ -487,10 +480,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		if (!empty($row) && count($row) > 0)
 		{
 
-			//$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `status`='%s', `state`='%s' WHERE `store_id`=%d AND `ext_order_id` = %d;", $this->db_resource->getTableName('sales_ flat_ order'), $this->START_STATUS, $this->START_STATE, $this->store, $job_id);
-			//try {
-			//  $this->db->query($sql);
-
 			//: call the function instead:
 			$this->api_rollback_job();
 			usleep(400);   /* database has to update before we continue... */
@@ -505,11 +494,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		//updated_at
-		$sql  = sprintf("SELECT orders.*, ocache.* FROM `%s` orders LEFT JOIN `%s` ocache ON ocache.order_id=orders.entity_id WHERE store_id=%d AND state='%s' AND status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
+		$sql  = sprintf("SELECT orders.*, ocache.* FROM `%s` orders LEFT JOIN `%s` ocache ON ocache.order_id=orders.entity_id WHERE store_id=%d AND mpx_status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
 			$this->db_resource->getTableName('sales_order'),
 			$this->db_resource->getTableName('mpx_flat_orders'),
 			$this->store,
-			$this->START_STATE,
 			$this->START_STATUS,
 			date('Y-m-d ', $start_date).$this->timeoffset,
 			date('Y-m-d ', $end_date).$this->timeoffset
@@ -551,19 +539,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->api_return_error(204, "No orders were found");
 			return true;
 		}
-
+  //TODO create 1 update from entity_ids and change query to be entity_id in
 		for ($i = 0; $i < count($orderRows); $i++)
 		{
-
 			$this->db->update(
 				$this->db_resource->getTableName('sales_order'),
-				array('ext_order_id'=>$job_id, 'state'=>$this->PROCESS_STATE, 'status'=>$this->PROCESS_STATUS),
+				array('ext_order_id'=>$job_id, 'mpx_status'=>$this->PROCESS_STATUS),
 				" `entity_id`=".$orderRows[$i]['entity_id']
 			);
-
-			$this->db->insert($this->db_resource->getTableName('sales_order_status_history'),
-				array('parent_id'=>$orderRows[$i]['entity_id'],'is_customer_notified'=>0,'is_visible_on_front'=>0,'comment'=>'mpx processing',
-					'status'=>$this->PROCESS_STATUS,'created_at'=>date('Y-m-d H:i:s'),'entity_name'=>'mpx'));
 		}
 
 
@@ -1325,21 +1308,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->_logger->notice($order_set);
 			$this->db->update(
 				$this->db_resource->getTableName('sales_order'),
-				array('state'=>$this->END_STATE, 'status'=>$this->END_STATUS),
+				array('mpx_status'=>$this->END_STATUS),
 				" `entity_id` IN ".$order_set
 			);
-			$this->db->update(
-				$this->db_resource->getTableName('sales_order_grid'),
-				array('status'=>$this->END_STATUS),
-				" `entity_id` IN ".$order_set
-			);
-
-			$dt = date('Y-m-d H:i:s');
-			foreach ($order_id_list as $entity_id){
-				$this->db->insert($this->db_resource->getTableName('sales_order_status_history'),
-					array('parent_id'=>$entity_id,'is_customer_notified'=>0,'is_visible_on_front'=>0,'comment'=>'mpx complete',
-						'status'=>$this->END_STATUS,'created_at'=>$dt,'entity_name'=>'mpx'));
-			}
+			
 		} catch(\Exception $e) {
 			$this->_logger->error("Could not update processed orders' status");
 		}
@@ -1372,11 +1344,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		// `created_at` = time order started; `updated_at` = time order paid/finished
 		$hourshift = intval($this->timeoffset);
-		$sql  = sprintf("SELECT DATE(`created_at` - INTERVAL %d HOUR) as order_date, COUNT(`entity_id`) as order_count FROM `%s` orders WHERE store_id=%d AND state='%s' AND status='%s' AND created_at<'%s' AND ext_order_id IS NULL GROUP BY order_date ;",
+		$sql  = sprintf("SELECT DATE(`created_at` - INTERVAL %d HOUR) as order_date, COUNT(`entity_id`) as order_count FROM `%s` orders WHERE store_id=%d AND mpx_status='%s' AND created_at<'%s' AND ext_order_id IS NULL GROUP BY order_date ;",
 			$hourshift,
 			$this->db_resource->getTableName('sales_order'),
 			$this->store,
-			$this->START_STATE,
 			$this->START_STATUS,
 			date('Y-m-d ', $start_date).$this->timeoffset
 		);
