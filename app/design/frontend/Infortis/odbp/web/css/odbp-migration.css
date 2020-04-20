@@ -23,8 +23,13 @@ body {
 .product-name h4 {
   font-family: "PT Sans", "Helvetica", sans-serif;
   font-size: 1.15em;
+}
+
+.odbp-subtitle {
   margin-top: -15px;
 }
+
+
 
 .checkout-onepage-success h3.product-name {
   font-size: 1.75em;
@@ -440,6 +445,10 @@ object p {
 
 .out-of-stock {
   color: #a04c41;
+}
+
+.authorname {
+  padding: 5px;
 }
 
 .authorname a {
@@ -1256,7 +1265,7 @@ button[title*='Place Order']:hover {
   font-size:12px;
   padding:0 25px;
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .sample-chapter:hover{

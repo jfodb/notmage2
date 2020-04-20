@@ -99,6 +99,11 @@
             <block class="Magento\Catalog\Block\Product\View"
                    name="migration.features.addAuthor"
                    template="Magento_Catalog::product/view/odbp-addAuthor.phtml"/>
+
+            <!-- ODBP Migration: Product View: Add sample chapter -->
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="migration.features.sampleChapter"
+                   template="Magento_Catalog::product/view/odbp-sampleChapter.phtml"/>
         </referenceBlock>
 
         <!-- Add song samples tab -->
