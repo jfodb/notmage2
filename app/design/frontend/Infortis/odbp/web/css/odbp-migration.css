@@ -451,7 +451,7 @@ object p {
   padding: 5px;
 }
 
-.authorname a {
+.authorname a, .authorname a:hover {
   color: #3190EC;
 }
 
