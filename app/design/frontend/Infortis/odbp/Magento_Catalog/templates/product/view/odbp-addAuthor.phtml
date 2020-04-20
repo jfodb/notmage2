@@ -1,28 +1,11 @@
 <?php
 $_product = $block->getProduct();
 ?>
-<!-- START ADD AUTHOR CUSTOMIZATIONS -->
 <?php if ($_product->getData('display_name')): ?>
-    <div class='authorname' style="clear: both; display: block;"><h3>
-            <?php $_authorname = $_product->getData('display_name');
-            $_extrachars = ['.', ' '];
-            $_repchars = ['', '-'];
-            $_authornameslug = str_replace($_extrachars, $_repchars, $_authorname);
-            $_authornameslug = strtolower($_authornameslug);
-            $_authornameslug .= ".html";
+    <!-- START ADD AUTHOR CUSTOMIZATIONS -->
+<h4 class="authorname">
+<?php $_authorname = $_product->getAttributeText('display_name');?>
 
-            // TODO: Refactor M1 code to get url_rewrite author links
-            $oUrlRewriteCollection = 0;
-            //            Mage::getModel('core/url_rewrite')
-            //            ->getCollection()
-            //            //  ->addStoreFilter($iStoreId)
-            //            ->addFieldToFilter('request_path', $_authornameslug);
-            ?>
-
-            <?php if (count($oUrlRewriteCollection) > 0): ?>
-                by <a href="/<?php echo $_authornameslug ?>"><?php echo $_authorname ?></a>
-            <?php else: ?>
-                by <a href="/catalogsearch/result/?q=<?php echo $_authorname ?>"><?php echo $_authorname ?></a>
-            <?php endif; ?>
-        </h3></div>
+    <?php echo __("by") ?> <a href="/catalogsearch/result/?q=<?php echo $_authorname ?>"><?php echo $_authorname ?></a>
+ </h4>
 <?php endif; ?>
