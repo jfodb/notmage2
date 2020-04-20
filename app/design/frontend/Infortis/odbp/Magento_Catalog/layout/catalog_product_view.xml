@@ -86,7 +86,7 @@
         <!-- ODBP Migration: Add migration features to the bottom of product description -->
         <move element="migration.features.block" destination="product.info.main" after="-"/>
 
-        <!-- ODBP Migration add css class to page.main.title  and add subtitle feature -->
+        <!-- ODBP Migration add css class to page.main.title  and add subtitle and author features -->
         <referenceBlock name="page.main.title">
             <arguments>
                 <argument name="css_class" xsi:type="string">product-name</argument>
@@ -95,6 +95,10 @@
                    name="migration.features.subtitle"
                    template="Magento_Catalog::product/view/odbp-subtitle.phtml"
             />
+            <!-- ODBP Migration: Product View: Add author -->
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="migration.features.addAuthor"
+                   template="Magento_Catalog::product/view/odbp-addAuthor.phtml"/>
         </referenceBlock>
 
         <!-- Add song samples tab -->
