@@ -6,6 +6,6 @@ $_product = $block->getProduct();
 <h4 class="authorname">
 <?php $_authorname = $_product->getAttributeText('display_name');?>
 
-    <?php echo __("by") ?> <a href="/catalogsearch/result/?q=<?php echo $_authorname ?>"><?php echo $_authorname ?></a>
+    <?php echo __("by") . " " . $_authorname ?>
  </h4>
 <?php endif; ?>
