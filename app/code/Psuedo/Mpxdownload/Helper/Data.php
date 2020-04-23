@@ -629,9 +629,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if(empty($shipmethod)){
 					$shipmethod = "None";
 				}
-				else if ($shipmethod.IndexOf("(") > 3)
+				else if (strpos($shipmethod,"(") > 3)
 				{
-				    $shipmethod = trim( substring($shipmethod, 0, $shipmethod.IndexOf("(")) );
+				    $shipmethod = trim( substr($shipmethod, 0, strpos($shipmethod,"(")) );
 				}
 				else if ($shipmethod == "No Shipping Required")
 				{
@@ -896,7 +896,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					&& (
 						$Addresses[0]["FirstName"] == $Addresses[1]["FirstName"]
 						&& $Addresses[0]["LastName"] == $Addresses[1]["LastName"]
-						&& $Addresses[0]["OrganizationName"] == $Addresses[1]["OrganizationName"]
+						// May be needed for when MOSS comes over
+            //&& $Addresses[0]["OrganizationName"] == $Addresses[1]["OrganizationName"]
 						&& $Addresses[0]["Address1"] == $Addresses[1]["Address1"]
 						//&& order.ShippingAddress.Line2.Trim() == order.BillingAddress.Line2.Trim()
 						//&& order.ShippingAddress.Line3.Trim() == order.BillingAddress.Line3.Trim()
