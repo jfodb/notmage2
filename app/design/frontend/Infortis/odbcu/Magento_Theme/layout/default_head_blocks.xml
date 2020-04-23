@@ -8,6 +8,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
-        <css src="css/odbp-migration.css"/>
+        <css src="css/odbcu-migration.css"/>
     </head>
 </page>
