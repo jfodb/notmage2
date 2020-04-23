@@ -26,3 +26,9 @@
 . category-description .caption .permanent {
     display: none !important;
 }
+
+/*fix the nav menu from dissapearing on long list of lecturers*/
+ul.nav-submenu {
+    max-height: 80vh;
+    overflow: scroll;
+}

@@ -1,0 +1,35 @@
+<?php
+$_product = $block->getProduct();
+?>
+<?php if ($_product->getData("hassyllabus")): ?>
+<?php
+    switch ($_product->getAttributeText("language")) {
+    case "English":
+    $languageCode = "en_US";
+    break;
+    case "Spanish":
+    $languageCode = "es_SP";
+    break;
+    case "Portugese":
+    $languageCode = "pt_BR";
+    break;
+    case "Arabic":
+    $languageCode = "ar_AF";
+    break;
+    case "Simplified Chinese":
+    $languageCode = "zh_CN";
+    break;
+    case "Russian":
+    $languageCode = "ru_RU";
+    break;
+    case "French":
+    $languageCode = "French";
+    break;
+    default:
+    $languageCode = "en_US";
+    } ?>
+
+<?php $syllabusLink = "http://cdn.rbc.org/courses/" . $languageCode . "/syllabi-p/" . $_product->getData("odbcu_course_code") . ".pdf"; ?>
+    <!-- Sample Chapter PDF -->
+    <a href="<?php echo $syllabusLink ?>" alt="Download Syllabus" target="_blank" class="button btn-inline">Download Syllabus &rarr;</a>
+<?php endif; ?>
