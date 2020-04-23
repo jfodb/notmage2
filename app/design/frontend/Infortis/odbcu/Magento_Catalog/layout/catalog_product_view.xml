@@ -51,6 +51,7 @@
         <move element="product.info" destination="container_product_secondary_1" after="product.info.price"/>
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
 
+        <!-- Remove Product Reviews from Product pages -->
         <referenceBlock name="product.info.review" remove="true" />
 
         <!-- ODBP Migration add css class to page.main.title  and add subtitle and author features -->
