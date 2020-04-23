@@ -188,6 +188,10 @@
         <move element="catalog.compare.link"    destination="base-header-container" />
         <move element="top.links"               destination="account-links" />
 
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        <referenceBlock name="reviews.tab" remove="true" />
+        <referenceBlock name="product.review.form" remove="true" />
+        <referenceBlock name="product.info.review" remove="true" />
         <referenceContainer name="header.panel"             remove="true" />
         <referenceContainer name="header.panel.wrapper"     remove="true" />
         <referenceBlock name="navigation.sections"          remove="true" />
