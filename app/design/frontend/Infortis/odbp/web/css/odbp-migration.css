@@ -1316,9 +1316,10 @@ button[title*='Place Order']:hover {
 }
 
 /*migration changes when admin fails*/
-.price-box .price {color:#a04c41;}
-.sticker.new, .sticker.sale, .sticker.custom {
-  color:rgba(248, 53, 0, .95);
+div.price-box .price {color:#a04c41;}
+div.price-box .old-price .price {color: #bbb;}
+.sticker-wrapper .sticker.new, .sticker-wrapper .sticker.sale, .sticker-wrapper .sticker.custom {
+  background-color:rgba(248, 53, 0, .95);
   font-size: 20px;
   font-weight: 300;
   font-style: italic;
@@ -1337,3 +1338,8 @@ button[title*='Place Order']:hover {
   -ms-transform: rotate(-10deg);
 }
 #cryozonic_stripe_cc_cid_div {margin-bottom: 0}
+
+/*remove compare links on product view*/
+.product-view .product-addto-links .tocompare {
+  display: none !important;
+}
