@@ -69,7 +69,7 @@
                    name="migration.features.sampleChapter"
                    template="Magento_Catalog::product/view/odbcu-sampleChapter.phtml"/>
 
-            <!-- ODBCU Migration: Product View: Add sample chapter -->
+            <!-- ODBCU Migration: Product View: Add product type -->
             <block class="Magento\Catalog\Block\Product\View"
                    name="migration.features.subtitle"
                    template="Magento_Catalog::product/view/odbcu-productType.phtml"

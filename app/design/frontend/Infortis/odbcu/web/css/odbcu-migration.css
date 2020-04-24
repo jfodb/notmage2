@@ -32,3 +32,25 @@ ul.nav-submenu {
     max-height: 80vh;
     overflow: scroll;
 }
+
+.syllabus-btn {
+    font: 75%/150% Arial, Helvetica, sans-serif;
+    font-family: "PT Sans", "Helvetica", sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    border: 0;
+    overflow: visible;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: center;
+    color: #FFF;
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    transition: background-color, ease-in-out, 400ms;
+    margin-bottom: 5px;
+    background-color: #1E375F;
+    padding: 0 15px;
+    line-height: 30px;
+}
