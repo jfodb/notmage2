@@ -59,6 +59,9 @@
         <move element="product.info" destination="container_product_secondary_1" after="product.info.price"/>
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
 
+        <!-- ODBP Migration: Add migration features to the bottom of product description -->
+        <move element="migration.features.block" destination="product.info.main" after="-"/>
+
         <!-- Remove Product Reviews from Product pages -->
         <referenceBlock name="product.info.review" remove="true" />
 
