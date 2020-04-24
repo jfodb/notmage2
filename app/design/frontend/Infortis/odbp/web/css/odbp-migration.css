@@ -1340,6 +1340,7 @@ div.price-box .old-price .price {color: #bbb;}
   -ms-transform: rotate(-10deg);
 }
 
-#cryozonic_stripe_cc_cid_div {margin-bottom: 0}
+#cryozonic_stripe_cc_cid_div {margin-bottom: 0;}
+.amcheckout-wrapper .payment-method.cryozonic-stripe .checkout-agreements-block {margin-bottom: 0;}
 
 button[type="submit"], button.action {border-radius:4px;}
