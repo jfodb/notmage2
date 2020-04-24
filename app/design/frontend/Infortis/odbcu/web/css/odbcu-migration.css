@@ -55,6 +55,120 @@ ul.nav-submenu {
     line-height: 30px;
 }
 
+
+/*Add style for format-options data table */
+/* Data Table
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.data-table {
+    width: 100%;
+}
+
+.data-table th,
+.data-table td {
+    padding: 10px;
+}
+
+.data-table thead {
+    background: none;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.data-table thead th {
+    font-weight: bold;
+    vertical-align: bottom;
+    border-right: none;
+}
+
+.data-table thead th.wrap {
+    white-space: normal;
+}
+
+.data-table tr.odd td,
+.data-table tr.odd th {
+    border-right: 1px solid #f5f5f5;
+}
+
+.data-table tr.odd td.last {
+    border-right: none;
+}
+
+.data-table tr.odd {
+}
+
+.data-table tr.odd.last {
+    border-bottom: #eee solid 1px;
+}
+
+.data-table tr.even td,
+.data-table tr.even th {
+    border-right: 1px solid #f5f5f5;
+}
+
+.data-table tr.even td.last {
+    border-right: none;
+}
+
+.data-table tr.even {
+    background-color: #fbfbfb;
+}
+
+.data-table tbody tr:hover {
+}
+
+.data-table tbody tr.product-shop-row:hover {
+    background-color: #fff;
+}
+
+/*TODO:?*/
+.data-table tbody.odd {
+}
+
+.data-table tbody.odd td {
+    border-width: 0 1px;
+}
+
+.data-table tbody.odd tr.last {
+    border-bottom: #e5e5e5 solid 1px;
+}
+
+.data-table tbody.even {
+    background-color: #f5f5f5;
+}
+
+.data-table tbody.even td {
+    border-width: 0 1px;
+}
+
+.data-table tbody.odd tr.border td,
+.data-table tbody.even tr.border td {
+}
+
+.data-table th .tax-flag { /*white-space:nowrap;*/
+    font-weight: normal;
+}
+
+/* Additional classes for mobile devices
+-------------------------------------------------------------- */
+/* Cell title */
+
+#shopping-cart-table tbody tr, .cart-table-wrapper .data-table thead, .cart-table thead tr {
+    border-bottom: #e5e5e5 dashed 1px;
+}
+
+.cart .data-table tr {
+    display: block;
+    height: 200px;
+}
+
+.data-table .cell-label {
+    display: none;
+}
+
+.data-table tr.even {
+    background-color: #C8E2FB;
+}
+
 .fotorama__caption {
         display: none;
 }

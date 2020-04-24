@@ -25,6 +25,14 @@
                     </arguments>
                 </block>
             </block>
+
+            <!-- ODBP Migration: Product View Attributes & Customizations: BODY-->
+            <block class="Magento\Catalog\Block\Product\View" name="migration.features.block"
+                   template="Magento_Catalog::product/view/odbcu-migration.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\OdbpProductHelper</argument>
+                </arguments>
+            </block>
         </referenceContainer>
 
         <!-- Insert product view blocks into the new product view wrapper -->
