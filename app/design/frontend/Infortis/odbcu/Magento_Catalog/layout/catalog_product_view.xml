@@ -44,13 +44,15 @@
 
         <!-- Move some blocks outside the "product.info.main" to manipulate their position inside template file -->
         <move element="page.main.title" destination="product-view-wrapper" />
-        <move element="product.info.review" destination="product-view-wrapper" />
 
 
         <!-- ODBP Migration: Shift cart to right column -->
         <move element="product.info.price" destination="container_product_secondary_1" before="-"/>
         <move element="product.info" destination="container_product_secondary_1" after="product.info.price"/>
         <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
+
+        <!-- Remove Product Reviews from Product pages -->
+        <referenceBlock name="product.info.review" remove="true" />
 
         <!-- ODBP Migration add css class to page.main.title  and add subtitle and author features -->
         <referenceBlock name="page.main.title">
@@ -67,7 +69,7 @@
                    name="migration.features.sampleChapter"
                    template="Magento_Catalog::product/view/odbcu-sampleChapter.phtml"/>
 
-            <!-- ODBCU Migration: Product View: Add sample chapter -->
+            <!-- ODBCU Migration: Product View: Add product type -->
             <block class="Magento\Catalog\Block\Product\View"
                    name="migration.features.subtitle"
                    template="Magento_Catalog::product/view/odbcu-productType.phtml"
