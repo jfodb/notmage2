@@ -168,3 +168,7 @@ ul.nav-submenu {
 .data-table tr.even {
     background-color: #C8E2FB;
 }
+
+.fotorama__caption {
+        display: none;
+}
