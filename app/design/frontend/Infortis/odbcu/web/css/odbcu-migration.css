@@ -60,91 +60,90 @@ ul.nav-submenu {
 /* Data Table
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
-.data-table {
+.product-view .data-table {
     width: 100%;
 }
 
-.data-table th,
-.data-table td {
+.product-view .data-table th,
+.product-view .data-table td {
     padding: 10px;
 }
 
-.data-table thead {
+.product-view .data-table thead {
     background: none;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.data-table thead th {
+.product-view .data-table thead th {
     font-weight: bold;
     vertical-align: bottom;
     border-right: none;
 }
 
-.data-table thead th.wrap {
+.product-view .data-table thead th.wrap {
     white-space: normal;
 }
 
-.data-table tr.odd td,
-.data-table tr.odd th {
+.product-view .data-table tr.odd td,
+.product-view .data-table tr.odd th {
     border-right: 1px solid #f5f5f5;
 }
 
-.data-table tr.odd td.last {
+.product-view .data-table tr.odd td.last {
     border-right: none;
 }
 
-.data-table tr.odd {
+.product-view .data-table tr.odd {
 }
 
-.data-table tr.odd.last {
+.product-view .data-table tr.odd.last {
     border-bottom: #eee solid 1px;
 }
 
-.data-table tr.even td,
-.data-table tr.even th {
+.product-view .data-table tr.even td,
+.product-view .data-table tr.even th {
     border-right: 1px solid #f5f5f5;
 }
 
-.data-table tr.even td.last {
+.product-view .data-table tr.even td.last {
     border-right: none;
 }
 
-.data-table tr.even {
+.product-view .data-table tr.even {
     background-color: #fbfbfb;
 }
 
-.data-table tbody tr:hover {
+.product-view .data-table tbody tr:hover {
 }
 
-.data-table tbody tr.product-shop-row:hover {
+.product-view .data-table tbody tr.product-shop-row:hover {
     background-color: #fff;
 }
 
-/*TODO:?*/
-.data-table tbody.odd {
+.product-view .data-table tbody.odd {
 }
 
-.data-table tbody.odd td {
+.product-view .data-table tbody.odd td {
     border-width: 0 1px;
 }
 
-.data-table tbody.odd tr.last {
+.product-view .data-table tbody.odd tr.last {
     border-bottom: #e5e5e5 solid 1px;
 }
 
-.data-table tbody.even {
+.product-view .data-table tbody.even {
     background-color: #f5f5f5;
 }
 
-.data-table tbody.even td {
+.product-view .data-table tbody.even td {
     border-width: 0 1px;
 }
 
-.data-table tbody.odd tr.border td,
-.data-table tbody.even tr.border td {
+.product-view .data-table tbody.odd tr.border td,
+.product-view .data-table tbody.even tr.border td {
 }
 
-.data-table th .tax-flag { /*white-space:nowrap;*/
+.product-view .data-table th .tax-flag { /*white-space:nowrap;*/
     font-weight: normal;
 }
 
@@ -152,23 +151,96 @@ ul.nav-submenu {
 -------------------------------------------------------------- */
 /* Cell title */
 
-#shopping-cart-table tbody tr, .cart-table-wrapper .data-table thead, .cart-table thead tr {
+#shopping-cart-table tbody tr, .cart-table-wrapper .product-view .data-table thead, .cart-table thead tr {
     border-bottom: #e5e5e5 dashed 1px;
 }
 
-.cart .data-table tr {
+.cart .product-view .data-table tr {
     display: block;
     height: 200px;
 }
 
-.data-table .cell-label {
+.product-view .data-table .cell-label {
     display: none;
 }
 
-.data-table tr.even {
+.product-view .data-table tr.even {
     background-color: #C8E2FB;
 }
 
+
+.product-view .data-table td,
+.product-view .data-table th {
+    font-size: 12px;
+}
+
+/*Don't change links on hover*/
+.product-view .data-table a:hover {
+    color: #333333;
+}
 .fotorama__caption {
         display: none;
+}
+
+/*qty changes*/
+
+/* product pages */
+.add-to-cart.left-side .button {
+    float: none;
+    display: block;
+}
+
+.add-to-cart.left-side .qty-wrapper label {
+    display: block;
+}
+
+.add-to-cart.left-side .qty-wrapper {
+    line-height: 18px;
+    height: 60px;
+}
+
+button.plus, button.minus {
+    border-width: 1px;
+    border-radius: 0 4px 4px 0;
+    border-left: 1px solid #ddd;
+    cursor: pointer;
+    display: block;
+    margin: 0 !important;
+    border: 1px solid #ddd;
+    background: #fff;
+    height: 50px;
+    width: 50px;
+    float: left;
+    font-size: 20px;
+    color: #888;
+}
+
+button.plus:active, button.minus:active {
+    background-color: #ccc;
+    color: #FFF;
+}
+
+button.minus {
+    border-radius: 4px 0px 0px 4px;
+    border-right: 1px solid #ddd;
+}
+
+#qty {
+    height: 50px;
+    width: 50px !important;
+    text-align: center;
+}
+
+.add-to-cart .qty-wrapper .qty {
+    float: left;
+    margin-right: 0;
+    padding-top: 10px;
+}
+
+.product-view .qty {
+    padding-top: 10px;
+}
+
+.add-to-cart .qty-wrapper {
+    margin-bottom: 30px;
 }
