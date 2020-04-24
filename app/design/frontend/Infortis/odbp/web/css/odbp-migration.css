@@ -1294,3 +1294,27 @@ button[title*='Place Order']:hover {
   position: relative !important;
   margin: 30px 10px !important;
 }
+
+
+/*migration changes when admin fails*/
+.price-box .price {color:#a04c41;}
+.sticker.new, .sticker.sale, .sticker.custom {
+  color:rgba(248, 53, 0, .95);
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  color: #FFF;
+  text-align: center;
+  font-family: "PT Sans";
+  border-color: #fff;
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  transform: rotate(-10deg);
+  -moz-transform: rotate(-10deg);
+  -webkit-transform: rotate(-10deg);
+  -ms-transform: rotate(-10deg);
+}
+#cryozonic_stripe_cc_cid_div {margin-bottom: 0}
