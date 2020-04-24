@@ -1,0 +1,56 @@
+/**
+ *
+ * Magento 1 Migration(ODBCU)
+ *
+ */
+.product-view .product-addto-links .tocompare {
+    display: none !important;
+}
+
+/* Place order button had a large padding */
+.checkout-payment-method .payment-method-content .fieldset > .field {
+    margin: 0 !important;
+}
+
+/* set image width in mini-cart to auto to avoid stretching image */
+.minicart-items img.product-image-photo[style] {
+    width: auto !important;
+}
+
+/* give padding between items in minicart */
+.minicart-items span.product-image-container[style]{
+    height: auto !important;
+}
+
+/*remove overlapping caption on mobile view*/
+. category-description .caption .permanent {
+    display: none !important;
+}
+
+/*fix the nav menu from dissapearing on long list of lecturers*/
+ul.nav-submenu {
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.syllabus-btn {
+    font: 75%/150% Arial, Helvetica, sans-serif;
+    font-family: "PT Sans", "Helvetica", sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    border: 0;
+    overflow: visible;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: center;
+    color: #FFF;
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    transition: background-color, ease-in-out, 400ms;
+    margin-bottom: 5px;
+    background-color: #1E375F;
+    padding: 0 15px;
+    line-height: 30px;
+}

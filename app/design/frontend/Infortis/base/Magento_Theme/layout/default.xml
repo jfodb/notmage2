@@ -248,7 +248,10 @@
             <block class="Magento\Framework\View\Element\Template" name="footer.theme.scripts" template="Infortis_Base::js/footer_theme_scripts.phtml" />
         </referenceContainer>
 
-
+        <!-- ODBP Migration | Remove sign up link in top links -->
+        <referenceBlock name="top.links">
+            <referenceBlock name="register-link" remove="true" />
+        </referenceBlock>
 
     </body>
 </page>

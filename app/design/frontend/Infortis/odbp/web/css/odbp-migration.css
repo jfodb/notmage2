@@ -1295,6 +1295,25 @@ button[title*='Place Order']:hover {
   margin: 30px 10px !important;
 }
 
+/* Place order button had a large padding */
+.checkout-payment-method .payment-method-content .fieldset > .field {
+  margin: 0 !important;
+}
+
+/* set image width in mini-cart to auto to avoid stretching image */
+.minicart-items img.product-image-photo[style] {
+  width: auto !important;
+}
+
+/* give padding between items in minicart */
+.minicart-items span.product-image-container[style]{
+  height: auto !important;
+}
+
+/*remove overlapping caption on mobile view*/
+. category-description .caption .permanent {
+  display: none !important;
+}
 
 /*migration changes when admin fails*/
 .price-box .price {color:#a04c41;}
