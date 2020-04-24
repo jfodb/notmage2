@@ -1341,6 +1341,14 @@ div.price-box .old-price .price {color: #bbb;}
 }
 
 #cryozonic_stripe_cc_cid_div {margin-bottom: 0;}
+
 .amcheckout-wrapper .payment-method.cryozonic-stripe .checkout-agreements-block {margin-bottom: 0;}
 
 button[type="submit"], button.action {border-radius:4px;}
+
+
+/*remove compare links on product view*/
+.product-view .product-addto-links .tocompare {
+  display: none !important;
+}
+
