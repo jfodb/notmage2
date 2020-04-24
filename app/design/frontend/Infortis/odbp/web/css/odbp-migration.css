@@ -1338,3 +1338,8 @@ div.price-box .old-price .price {color: #bbb;}
   -ms-transform: rotate(-10deg);
 }
 #cryozonic_stripe_cc_cid_div {margin-bottom: 0}
+
+/*remove compare links on product view*/
+.product-view .product-addto-links .tocompare {
+  display: none !important;
+}
