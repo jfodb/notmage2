@@ -54,3 +54,7 @@ ul.nav-submenu {
     padding: 0 15px;
     line-height: 30px;
 }
+
+.fotorama__caption {
+        display: none;
+}
