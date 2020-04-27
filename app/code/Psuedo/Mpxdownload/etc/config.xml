@@ -155,7 +155,7 @@
 						<rbcu>store.ourdailybread.org</rbcu>
 					</odbstore>
 					<odbpstore>
-						<rbcu>store.ourdailybread.org</rbcu>
+						<rbcu>beta.ourdailybreadpublishing.org</rbcu>
 					</odbpstore>
 					<!-- END: ODBP Migration Transfer-->
 				</domain>
@@ -188,7 +188,7 @@
 						<rbcu>betastore.ourdailybread.org</rbcu>
 					</odbstore>
 					<odbpstore>
-						<rbcu>betastore.ourdailybread.org</rbcu>
+						<rbcu>beta.ourdailybreadpublishing.org</rbcu>
 					</odbpstore>
 					<!-- END: ODBP Migration Transfer-->
 				</beta>
