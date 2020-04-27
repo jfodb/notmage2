@@ -111,6 +111,10 @@
             </block>
         </referenceBlock>
 
+        <referenceContainer name="product.info.social">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.socialmedia" template="Magento_Catalog::product/view/socialmedia.phtml"/>
+        </referenceContainer>
+
         <referenceBlock name="catalog.product.related">
             <action method="setTemplate">
                 <argument name="template" xsi:type="helper" helper="Infortis\Base\Helper\Template\Catalog\Product\View::getRelatedProductsTemplate" />
