@@ -55,6 +55,12 @@ ul.nav-submenu {
     line-height: 30px;
 }
 
+.syllabus-btn:hover {
+    color: white;
+    background-color: #0d264e;
+}
+
+
 
 /*Add style for format-options data table */
 /* Data Table
