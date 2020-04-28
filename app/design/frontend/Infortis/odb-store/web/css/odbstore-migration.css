@@ -1,0 +1,25 @@
+/* Remove add to links */
+.product-view .product-social-links {
+    display: none;
+}
+
+/* Hide quantity on product page */
+.product-view .qty *{
+    display:none;
+}
+
+/* Hide quantity on checkout */
+.minicart-items .details-qty *{
+    display:none;
+}
+
+/* Stylize welcome message */
+.welcome {
+    color: white;
+    padding-top: 5px;
+    font-size: 16px;
+    margin-bottom: 0;
+    text-align: center;
+    border-bottom: solid 3px #EDAE3C;
+    line-height: 30px;
+}
