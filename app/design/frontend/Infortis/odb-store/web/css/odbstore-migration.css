@@ -63,3 +63,13 @@
 #registration {
     display:none !important;
 }
+
+/* Center footer links on mobile */
+@media only screen and (max-width: 991px) {
+    .footer-primary-container .inner-container .col-md-2, .footer-primary-container .inner-container .col-md-4{
+        text-align: center;
+    }
+    .footer-primary-container .inner-container .col-md-4 {
+        padding-bottom: 30px;
+    }
+}
