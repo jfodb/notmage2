@@ -11,7 +11,9 @@
             <?php if ($attrValue == '1') :
                 if ($product->getTypeId() != 'bundle' || $product->getTypeId() != 'grouped') : ?>
                 <div class="field custom-price-div">
-                    <span><?php echo __('Custom Price'); ?> </span><input class="input-text required custom-price" id="customPrice" name="customPrice" type="number" value="0">
+                    <span><?php echo __('Custom Price'); ?> </span>
+                    <span class="custom-price-currency">$</span>
+                    <input class="input-text required custom-price" id="customPrice" name="customPrice" type="number" value="0">
                 </div>
                 <?php endif; ?>
             <?php endif; ?>
