@@ -10,3 +10,12 @@
 .box-tocart .fieldset .custom-price-div input{
     width: 150px;
 }
+
+ /* add currency symbol */
+.custom-price-currency {
+    padding: .75rem .2rem .75rem .75rem;
+    font-weight: 400;
+    color: #55595c;
+    background-color: transparent;
+    font-size: 20px;
+}
