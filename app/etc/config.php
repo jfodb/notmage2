@@ -233,6 +233,7 @@ return [
         'MSP_TwoFactorAuth' => 1,
         'Mageplaza_Core' => 1,
         'Mageplaza_Smtp' => 1,
+        'Meetanshi_CustomPrice' => 1,
         'ODBM_Customtinymce' => 1,
         'Dat_BillingAddress' => 1,
         'ODBM_ODBP' => 1,
