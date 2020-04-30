@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <!--    Disable this sad little menu that doesn't work well-->
+    <menu/>
+<!--    <menu>-->
+<!--        <add id="Meetanshi_CustomPrice::customprice"-->
+<!--             title="Custom Price"-->
+<!--             module="Meetanshi_CustomPrice"-->
+<!--             sortOrder="10"-->
+<!--             resource="Meetanshi_CustomPrice::customprice"/>-->
+
+<!--        <add id="Meetanshi_CustomPrice::customprice_config"-->
+<!--             title="Configuration"-->
+<!--             module="Meetanshi_CustomPrice"-->
+<!--             sortOrder="10"-->
+<!--             action="adminhtml/system_config/edit/section/customprice_config"-->
+<!--             resource="Meetanshi_CustomPrice::customprice_config"-->
+<!--             parent="Meetanshi_CustomPrice::customprice"/>-->
+<!--    </menu>-->
+</config>
