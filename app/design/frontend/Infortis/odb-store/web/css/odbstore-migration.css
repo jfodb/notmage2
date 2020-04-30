@@ -73,3 +73,8 @@
         padding-bottom: 30px;
     }
 }
+
+/*Hide note on checkout about creating an account after signing in*/
+#checkout .note {
+    display:none;
+}
