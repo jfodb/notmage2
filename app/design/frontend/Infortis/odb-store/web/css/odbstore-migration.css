@@ -56,7 +56,7 @@
 
 /* mobile mini cart - white icons */
 .minicart-items .action.edit:before,.minicart-items .action.delete:before {
-    color: #white !important;
+    color: white !important;
 }
 
 /* Hide create account on registration */
