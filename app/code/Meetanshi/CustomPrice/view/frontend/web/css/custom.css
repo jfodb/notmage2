@@ -1,0 +1,12 @@
+
+.box-tocart .fieldset .custom-price-div{
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.box-tocart .fieldset .custom-price-div span{
+    font-weight: 600;
+}
+.box-tocart .fieldset .custom-price-div input{
+    width: 150px;
+}
