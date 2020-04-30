@@ -80,8 +80,8 @@
 					<cugn.org>CcStore</cugn.org>
 					<dhespanol.org>SpnStore</dhespanol.org>
 					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
-					<store.ourdailybread.org>PilotStore</store.ourdailybread.org>
-					<betastore.ourdailybread.org>PilotStore</betastore.ourdailybread.org>
+					<store.ourdailybread.org>ODBStore</store.ourdailybread.org>
+					<beta.store.ourdailybread.org>ODBStore</beta.store.ourdailybread.org>
 					<dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
 					<beta.dhp.org>DhpStore</beta.dhp.org>
 					<!--Add beta sites: -->
