@@ -57,7 +57,15 @@ ul.nav-submenu {
 
 .syllabus-btn:hover {
     color: white;
-    background-color: #0d264e;
+    background-color: #0d264e !important;
+}
+
+button#product-addtocart-button {
+    background-color: #fab432 !important;
+}
+
+button#top-cart-btn-checkout {
+    background-color: #fab432 !important;
 }
 
 
