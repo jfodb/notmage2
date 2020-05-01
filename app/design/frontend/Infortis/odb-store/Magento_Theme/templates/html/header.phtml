@@ -144,12 +144,13 @@ else //Mobile mode disabled (deprecated)
 $html[$position['user-menu']][] = $userMenuHtml;
 
 //Main menu
-$menuContainerHtml = '
-    <div class="nav-container skip-content sticky-container' . ($classes['nav-container'] ? $classes['nav-container'] : '') . '">
-        <div class="nav container clearer">
-            <div class="inner-container">' . $menuHtml . '</div>
-        </div>
-    </div>';
+$menuContainerHtml = '';
+//     USLF:990 Disabled menu for ODB store when adding Sticky Menu to Header
+//    <div class="nav-container skip-content sticky-container' . ($classes['nav-container'] ? $classes['nav-container'] : '') . '">
+//        <div class="nav container clearer">
+//            <div class="inner-container">' . $menuHtml . '</div>
+//        </div>
+//    </div>';
 if ($menuDisplayedInFullWidthContainer === false)
 {
     $html[$position['main-menu']][] = $menuContainerHtml;
@@ -401,7 +402,8 @@ if (!empty($menuHtml))
                 </div> <!-- end: header-top -->
             </div> <!-- end: header-top-container -->
 
-            <div class="header-primary-container">
+            <!-- custom dev: change sticky menu -->
+            <div class="header-primary-container nav-container skip-content sticky-container sticky-container--full-width">
                 <div class="header-primary header container">
                     <div class="inner-container">
 
