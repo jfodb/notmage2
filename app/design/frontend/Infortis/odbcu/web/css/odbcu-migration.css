@@ -250,3 +250,8 @@ button.minus {
 .add-to-cart .qty-wrapper {
     margin-bottom: 30px;
 }
+
+/*Don't float the "add to cart" button*/
+.page-product-downloadable .product-options-bottom {
+    float: none !important;
+}
