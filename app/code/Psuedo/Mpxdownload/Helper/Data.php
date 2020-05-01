@@ -1011,6 +1011,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				foreach ($items as $lineitem)
 				{
 					$original = false;
+					$motivation = $this->motivation;
 					$productisrecurring = false;
 					$recurMotivationCode = false;
 
@@ -1020,7 +1021,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$li = array();
 
 					$li["ProductCode"] = $lineitem['sku'];
-					$this->motivation = $lineitem['sku'];
+
 
 					$li["Quantity"] = $quant;
 					$li["Price"] = round($lineitem['base_original_price'], 2);
@@ -1160,7 +1161,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					else
 						$li['SourceProductType'] = 'Sale';
 
-
+					if($li['SourceProductType'] === 'Donation'){
+						$motivation = $lineitem['sku'];
+					}
 
 
 					//back to payment data:
@@ -1217,7 +1220,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				}
 
 
-				$OrderRow["MotivationCode"] = $this->motivation;
+				$OrderRow["MotivationCode"] = $motivation;
 
 
 				$Mem_rows[] = $OrderRow;
