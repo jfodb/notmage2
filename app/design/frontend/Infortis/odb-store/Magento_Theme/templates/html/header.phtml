@@ -204,8 +204,8 @@ if (!empty($menuHtml))
 }
 ?>
 <div id="header-container" class="header-container header-mobile page-header<?php if ($classes['root']) echo $classes['root']; ?>" <?php /* style="display:none;" */?> >
-    <div id="top" class="header-container2">
-        <div class="header-container3">
+    <div id="top" class="header-container2 nav-container skip-content sticky-container sticky-container--full-width">
+        <div class="header-container3 container">
 
             <?php if ($mobileHeaderMode): ?>
                 <!-- Part of the header displayed only in mobile mode -->
@@ -403,7 +403,7 @@ if (!empty($menuHtml))
             </div> <!-- end: header-top-container -->
 
             <!-- custom dev: change sticky menu -->
-            <div class="header-primary-container nav-container skip-content sticky-container sticky-container--full-width">
+            <div class="header-primary-container">
                 <div class="header-primary header container">
                     <div class="inner-container">
 
@@ -464,7 +464,7 @@ if (!empty($menuHtml))
 
         </div> <!-- end: header-container3 -->
     </div> <!-- end: header-container2 -->
-</div> <!-- end: header-container -->
+</div><!-- end: header-container -->
 <script type="text/javascript">
 	//<![CDATA[
 
