@@ -76,5 +76,5 @@
 
 /*Hide note on checkout about creating an account after signing in*/
 #checkout .note {
-    display:none;
+    display:none !important;
 }
