@@ -62,6 +62,9 @@ ul.nav-submenu {
 
 button#product-addtocart-button {
     background-color: #fab432 !important;
+    padding: 15px 17px;
+    font-size: 1.8rem;
+    min-width: 190px;
 }
 
 button#top-cart-btn-checkout {
