@@ -78,3 +78,8 @@
 #checkout .note {
     display:none !important;
 }
+
+.header-container .header-container2 .container {
+    max-width: 100% !important;
+    width: 96% !important;
+}
