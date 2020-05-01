@@ -8,6 +8,7 @@
 				<motivation_code>
 					<!-- example
 					<dhponline.ca>INTDHP</dhponline.ca>
+					This sets the default motivation code for stores running per domain.
 					-->
 					<donations.ourdailybread.org>INT</donations.ourdailybread.org>
 					<beta.donations.ourdailybread.org>INT</beta.donations.ourdailybread.org>
@@ -21,6 +22,7 @@
 					<beta.dod.org>INTDOD</beta.dod.org>
 					<dhp.org>INTDHP</dhp.org>
 					<ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
+					<beta.ourdailybreadpublishing.org>INTDHP</beta.ourdailybreadpublishing.org>
 					<cugn.org>INTCCU</cugn.org>
 					<dhespanol.org>INTSPN</dhespanol.org>
 					<store.ourdailybread.org>INTODB</store.ourdailybread.org>
@@ -33,6 +35,7 @@
 				<company>
 					<!-- example:
 					<dhponline.ca>DHPC</dhponline.ca>
+					This configures the company name sent to payment processors (paperless, stripe) for MPX to sort out on download (dhpu or rbcu)
 					-->
 					<dev.mage2.org>RBCU</dev.mage2.org>
 					<donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
@@ -62,6 +65,8 @@
 				<jobtype>
 					<!-- example:
 					<dhponline.ca>DhpStore</dhponline.ca>
+					This sets the jobtype transmitted to payment processors (stripe/paypal) that MPX uses to sort out when downloading from CCtrans (donations, dhpstore, etc)
+					This must be set per domain
 					-->
 					<donations.ourdailybread.org>ODBDonations</donations.ourdailybread.org>
 					<dev.mage2.org>ODBDonations</dev.mage2.org>
@@ -93,6 +98,8 @@
 				<store_id>
 					<!-- example>
 					<dhponline.ca>2</dhponline.ca>
+					The grid to match each domain to a store ID when pulling from a single domain api (discoveryhousepublishers.org pulls odbp, odbm, odbcu, odbpes, etc)
+					Every store id, must be referenced by at least 1 domain, and dev, beta, production for each domain
 					-->
 					<dev.mage2.org>13</dev.mage2.org>
 					<donations.ourdailybread.org>13</donations.ourdailybread.org>
@@ -122,6 +129,7 @@
 					<dhpstore>
 						<!-- example:
 						<dhpc>dhponline.ca</dhpc>
+						converts a store/company to the required domain, so when MPX requests data with jobtype/company, the correct domain and therefore store ID is pulled and used to reference .
 						-->
 						<dhpt>dev.mage2.org</dhpt>
 						<dhpu>dhp.org</dhpu>
@@ -155,7 +163,9 @@
 						<rbcu>store.ourdailybread.org</rbcu>
 					</odbstore>
 					<odbpstore>
-						<rbcu>beta.ourdailybreadpublishing.org</rbcu>
+						<dhpu>ourdailybreadpublishing.org</dhpu>
+						<rbcu>ourdailybreadpublishing.org</rbcu>
+						<odbp>ourdailybreadpublishing.org</odbp>
 					</odbpstore>
 					<!-- END: ODBP Migration Transfer-->
 				</domain>
@@ -189,6 +199,8 @@
 					</odbstore>
 					<odbpstore>
 						<rbcu>beta.ourdailybreadpublishing.org</rbcu>
+						<dhpu>beta.ourdailybreadpublishing.org</dhpu>
+						<odbp>beta.ourdailybreadpublishing.org</odbp>
 					</odbpstore>
 					<!-- END: ODBP Migration Transfer-->
 				</beta>
