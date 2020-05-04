@@ -76,5 +76,15 @@
 
 /*Hide note on checkout about creating an account after signing in*/
 #checkout .note {
-    display:none;
+    display:none !important;
+}
+
+.header-container .header-container2 .container {
+    max-width: 100% !important;
+    width: 96% !important;
+}
+
+ /* Hide edit cart link on mini-cart until cart is fixed or USLF-1009 is completed*/
+.mini-cart .viewcart {
+    display: none !important;
 }

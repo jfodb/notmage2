@@ -36,7 +36,7 @@ $mobileHeaderMode = true; // TODO: remove. This option is deprecated since Ultim
 $mobileMenuThreshold = 770; // Set default value, in case mobile menu threshold doesn't exist
 if ($sticky)
 {
-    $val = $connectorMenu->getMobileMenuThreshold();
+    $val = 768; // USLF:990 Sticky-menu breakpoint        $connectorMenu->getMobileMenuThreshold();
     if ($val !== NULL)
     {
         $mobileMenuThreshold = $val;
@@ -144,12 +144,13 @@ else //Mobile mode disabled (deprecated)
 $html[$position['user-menu']][] = $userMenuHtml;
 
 //Main menu
-$menuContainerHtml = '
-    <div class="nav-container skip-content sticky-container' . ($classes['nav-container'] ? $classes['nav-container'] : '') . '">
-        <div class="nav container clearer">
-            <div class="inner-container">' . $menuHtml . '</div>
-        </div>
-    </div>';
+$menuContainerHtml = '';
+//     USLF:990 Disabled menu for ODB store when adding Sticky Menu to Header
+//    <div class="nav-container skip-content sticky-container' . ($classes['nav-container'] ? $classes['nav-container'] : '') . '">
+//        <div class="nav container clearer">
+//            <div class="inner-container">' . $menuHtml . '</div>
+//        </div>
+//    </div>';
 if ($menuDisplayedInFullWidthContainer === false)
 {
     $html[$position['main-menu']][] = $menuContainerHtml;
@@ -203,8 +204,8 @@ if (!empty($menuHtml))
 }
 ?>
 <div id="header-container" class="header-container header-mobile page-header<?php if ($classes['root']) echo $classes['root']; ?>" <?php /* style="display:none;" */?> >
-    <div id="top" class="header-container2">
-        <div class="header-container3">
+    <div id="top" class="header-container2 nav-container sticky-container sticky-container--full-width">
+        <div class="header-container3 container">
 
             <?php if ($mobileHeaderMode): ?>
                 <!-- Part of the header displayed only in mobile mode -->
@@ -366,7 +367,7 @@ if (!empty($menuHtml))
                             <?php endif; ?>
 
                             <?php if ($tmpHtml = $this->getWelcome()): ?>
-                                <div class="item local-font hidden-xs hidden-sm">
+                                <div class="item local-font hidden-xs">
                                     <div class="welcome"><?php echo $tmpHtml; ?></div>
                                 </div>
                             <?php endif; ?>
@@ -401,6 +402,7 @@ if (!empty($menuHtml))
                 </div> <!-- end: header-top -->
             </div> <!-- end: header-top-container -->
 
+            <!-- custom dev: change sticky menu -->
             <div class="header-primary-container">
                 <div class="header-primary header container">
                     <div class="inner-container">
@@ -462,7 +464,7 @@ if (!empty($menuHtml))
 
         </div> <!-- end: header-container3 -->
     </div> <!-- end: header-container2 -->
-</div> <!-- end: header-container -->
+</div><!-- end: header-container -->
 <script type="text/javascript">
 	//<![CDATA[
 
