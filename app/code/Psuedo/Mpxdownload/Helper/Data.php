@@ -1203,6 +1203,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							}
 						}
 
+						//don't process recuring when the payment method was Paypal
+						if ($productisrecurring && strpos($OrderRow["SourcePaymentType"], 'paypal_express') === 0) {
+							$OrderRow['exception'] = "Paypal was used to purchase a recurring subscription and the Recurring data is not attached";
+						} else
+
 						if ($productisrecurring) {
 							$OrderRow['JobDetailRecurringGifts'] = [
 								'MotivationCode' => $recurMotivationCode,
