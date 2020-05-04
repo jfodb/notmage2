@@ -1352,4 +1352,13 @@ button[type="submit"], button.action {border-radius:4px;}
 .product-view .product-addto-links .tocompare {
   display: none !important;
 }
+/* cart buttons are supposed to be blue and no hover */
+.product .product-item-details button.update-cart-item, .product .product-item-details button.update-cart-item:hover {
+  background-color: #308fec;
+  color: #eee;
+}
 
+/* no sign up letter option */
+.form-create-account div.newsletter {
+  display: none;
+}
