@@ -1362,3 +1362,6 @@ button[type="submit"], button.action {border-radius:4px;}
 .form-create-account div.newsletter {
   display: none;
 }
+
+/* Space out secondary options */
+.form-login .actions-toolbar .secondary {padding-right: 35px;}
