@@ -16,27 +16,32 @@ class RedirectEmptyCart implements ObserverInterface
      */
     private $_url;
     private $_cart;
+    protected $_storeManager;
 
     public function __construct(
         \Magento\Framework\UrlInterface $url,
-        \Magento\Checkout\Model\Cart $cart
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_url = $url;
         $this->_cart = $cart;
+        $this->_storeManager = $storeManager;
     }
 
     public function execute(Observer $observer) {
 
-        if ( $this->isCartEmpty() ) {
-            $redirectionUrl = $this->_url->getUrl('donation/donate/cause');
-        } else {
-            $redirectionUrl = $this->_url->getUrl('checkout');  
+        $donations = (int)$this->_storeManager->getStore()->getId() ?? 0;
+        if ($donations === 13) {
+            if ($this->isCartEmpty()) {
+                $redirectionUrl = $this->_url->getUrl('donation/donate/cause');
+            } else {
+                $redirectionUrl = $this->_url->getUrl('checkout');
+            }
+
+            $observer->getControllerAction()
+                ->getResponse()
+                ->setRedirect($redirectionUrl);
         }
-
-        $observer->getControllerAction()
-        ->getResponse()
-        ->setRedirect($redirectionUrl);
-
         return $this;
     }
 
