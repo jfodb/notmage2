@@ -613,9 +613,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 				$OrderRow["OrderAmount"] = floatval("0.00");
 
-				$OrderRow["GiftAmount"] = round($order["base_subtotal"], 2);
+				/*This doesn't work for cart*/
+				$OrderRow["OrderTotalAmount"] = round($order["base_subtotal"], 2);
+				$OrderRow["GiftAmount"] = floatval("0.00");
 				$OrderRow["ShippingAmount"] = round($order['base_shipping_amount'], 2);
-				$OrderRow["OrderTotalAmount"] = floatval("0.00");
 
 				$OrderRow["PrimaryTaxAmount"] = round($order['base_tax_amount'], 2);
 				$OrderRow["SecondaryTaxAmount"] = 0.00;
@@ -1163,6 +1164,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					if($li['SourceProductType'] === 'Donation'){
 						$motivation = $lineitem['sku'];
+
+						/*This doesn't work for cart*/
+						//move this amount from Order Total to Gift Amount
+						$amount = $li["Price"];
+						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
+						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
 					}
 
 
