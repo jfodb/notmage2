@@ -986,7 +986,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if(!empty($lineitem['item_id']))
 						$products[$lineitem['item_id']] = $lineitem;
 				}
-				
+
+				$itemtracking = [];
 				foreach($items as $index => $lineitem) {
 					if(!empty($lineitem['parent_item_id']) ) {
 						//we have a child based variation?
@@ -1004,6 +1005,34 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								continue;   //this child is not fully configured to be inlcuded.
 							}
 						}
+					}
+
+					//product customization, results in a duplicate, less informational product. drop it.
+					if(!empty($lineitem['item_id'])) {
+						$itemid = $lineitem['item_id'];
+						$itemtracking[$itemid] = $itemid;
+
+						$parentid = $lineitem['parent_item_id'];
+						if(!empty($itemtracking[$parentid])){
+
+							$parent = $itemtracking[$parentid];
+
+							//has_options in parent, not child, required options parent, not child, sku's are not the same (in product),
+							//parent has parent_item_id=null, child does not, product_id !=, parent product_type=configurable child is simple,
+							//sku == and product_id !=, name != but similar, qty_ordered ==,
+							//this may be over specific, but we want to make sure that there are no consequential errors.
+							if(
+								$lineitem['sku'] === $parent['sku']
+								&& $lineitem['name'] != $parent['name']
+								&& $lineitem['qty_ordered'] === $parent['qty_ordered']
+								&& $parent['product_type'] === 'configurable' && $lineitem['product_type'] == 'simple'
+							) {
+								//remove unnecessary child product
+								unset($items[$index]);
+							}
+						}
+
+
 					}
 				}
 
@@ -1027,7 +1056,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 					$li["Quantity"] = $quant;
-					$li["Price"] = round($lineitem['base_original_price'], 2);
+					$li["Price"] = round($lineitem['price'], 2);
+					$original_price = round($lineitem['base_original_price'], 2);
 					//Mage ::log("Base_Original price: ".$li["Price"]);
 
 					$li["PrimaryTaxAmount"] = round($lineitem['base_tax_amount'], 2);
@@ -1074,6 +1104,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					}
 
 
+					//preclear:
+					$gift_amount = false;
 
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
@@ -1082,8 +1114,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$li["DiscountAmount"] = '0.00';
 						}
 						else {
-							$li["DiscountAmount"] = round($lineitem['original_price'] - $lineitem['price'], 2);
-							$li["Price"] = round($lineitem['original_price'], 2);
+							$diff = round($original_price - $lineitem['price'], 2);
+							//$li["Price"] = round($lineitem['original_price'], 2);
+							if($diff > 0 )
+								$li["DiscountAmount"] = round($diff, 2);
+							else
+								$gift_amount = abs($diff);
 						}
 
 					} else
@@ -1172,7 +1208,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$amount = $li["Price"];
 						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
-						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
+
+					}
+
+					else if($gift_amount) {
+						//a gift from the ODB Store.
+						//remove from product price and apply to order level gift.
+
+						if($lineitem['qty_ordered'] > 1)
+							$gift_amount *= $lineitem['qty_ordered'];
+
+						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
+						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
+						$li["Price"] = round($li["Price"] - $gift_amount, 2);
 					}
 
 
