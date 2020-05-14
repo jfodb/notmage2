@@ -1013,8 +1013,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$itemid = $lineitem['item_id'];
 						$itemtracking[$itemid] = $itemid;
 
-						$parentid = $lineitem['parent_item_id'];
-						if(!empty($itemtracking[$parentid])){
+						if(!empty($lineitem['parent_item_id']))
+							$parentid = $lineitem['parent_item_id'];
+						else
+							$parentid = false;
+
+						if($parentid && !empty($itemtracking[$parentid])){
 
 							$parent = $itemtracking[$parentid];
 
