@@ -987,6 +987,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$products[$lineitem['item_id']] = $lineitem;
 				}
 
+				//iterate through, evaluate items and determine if they need to be discarded as duplicate or child
 				$itemtracking = [];
 				foreach($items as $index => $lineitem) {
 					if(!empty($lineitem['parent_item_id']) ) {
@@ -995,7 +996,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//do we have the parent?
 						if(!empty($products[$lineitem['parent_item_id']])) {
 
-							if ($lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
+							if (!empty($lineitem['parent_item_id']) && !empty($item_hash[$lineitem['parent_item_id']]) && $lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
 								unset($items[$index]);
 								continue;     //this element contains no relevant additional information
 							}
@@ -1046,6 +1047,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$motivation = $this->motivation;
 					$productisrecurring = false;
 					$recurMotivationCode = false;
+					$gift_amount = false;
 
 					$quant = intval($lineitem['qty_ordered']);
 					if ($quant <= 0)
@@ -1072,6 +1074,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
 
 
+					//look up attributes of the product, we need ProductOfferType. try it a few different ways.
 					if(!empty($lineitem['attr'])) {
 						$attr = $lineitem['attr'];
 					} else {
@@ -1104,21 +1107,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					}
 
 
-					//preclear:
-					$gift_amount = false;
 
+
+					// check for various donation methods
+					//do the price/original price not match?
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
+						// was this product already pre-determined to be a GOAA or NCOO?
 						if($attr == 'GOAA' || $attr == 'NCOO') {
-							$li["Price"] = round($lineitem['price'], 2);
+
 							$li["DiscountAmount"] = '0.00';
+							$gift_amount = $li['Price'];
 						}
 						else {
+							// check with original price to see if this was a sale, or
 							$diff = round($original_price - $lineitem['price'], 2);
-							//$li["Price"] = round($lineitem['original_price'], 2);
-							if($diff > 0 )
+
+							if($diff > 0 ) {
+								//if this is a discount, then assign the original price and indicate discount amount
 								$li["DiscountAmount"] = round($diff, 2);
+								$li["Price"] = round($lineitem['original_price'], 2);
+							}
 							else
+								//anything above the original amount is a donation
 								$gift_amount = abs($diff);
 						}
 
@@ -1200,27 +1211,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					else
 						$li['SourceProductType'] = 'Sale';
 
+
+					//are these donations? let me count the ways...
 					if($li['SourceProductType'] === 'Donation'){
+						//this is purely a donation, the item amount is $0 and the products motivation over rides the order motivation
 						$motivation = $lineitem['sku'];
 
 						/*This doesn't work for cart*/
-						//move this amount from Order Total to Gift Amount
+						//move this amount from Order Total and total amount to Gift Amount
 						$amount = $li["Price"];
+						$li["Price"] = '0.00';
+						if($li['Quantity'] > 1)
+							$amount *= $li['Quantity'];
 						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
-
+						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
 					}
 
 					else if($gift_amount) {
 						//a gift from the ODB Store.
+						//the gift amount is above and beyond the price, price may not be $0
 						//remove from product price and apply to order level gift.
 
+						$li["Price"] = round($li["Price"] - $gift_amount, 2);
+
 						if($lineitem['qty_ordered'] > 1)
-							$gift_amount *= $lineitem['qty_ordered'];
+							$gift_amount *= $li["Quantity"];
 
 						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
-						$li["Price"] = round($li["Price"] - $gift_amount, 2);
+						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] + $gift_amount, 2);
 					}
 
 
