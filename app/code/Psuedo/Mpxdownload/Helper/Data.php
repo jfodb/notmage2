@@ -1240,7 +1240,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
-						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] + $gift_amount, 2);
+						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
 					}
 
 
