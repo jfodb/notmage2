@@ -613,7 +613,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 				/*This doesn't work for cart*/
-				$OrderRow["OrderTotalAmount"] = round($order["base_subtotal"], 2);
+				$OrderRow["OrderTotalAmount"] = round($order["base_grand_subtotal"], 2);
 				$OrderRow["GiftAmount"] = floatval("0.00");
 				$OrderRow["OrderAmount"] = round($order["base_subtotal"], 2);
 
@@ -1227,7 +1227,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$li["Price"] = '0.00';
 						if($li['Quantity'] > 1)
 							$amount *= $li['Quantity'];
-						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
+						//$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
 					}
@@ -1242,7 +1242,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if($lineitem['qty_ordered'] > 1)
 							$gift_amount *= $li["Quantity"];
 
-						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
+						//$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
 					}
@@ -1297,9 +1297,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//order level discount is the remainder of discount
 				$OrderRow["OrderDiscountAmount"] = round($order['base_discount_amount'], 2);
 
-				if($OrderRow["OrderDiscountAmount"] > 0.00) {
-					$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
-				}
+				//if($OrderRow["OrderDiscountAmount"] > 0.00) {
+				//	$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
+				//}
 
 
 				$OrderRow["MotivationCode"] = $motivation;
