@@ -1225,9 +1225,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//move this amount from Order Total and total amount to Gift Amount
 						$amount = $li["Price"];
 						$li["Price"] = '0.00';
+
 						if($li['Quantity'] > 1)
 							$amount *= $li['Quantity'];
-						//$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
+
+						if($OrderRow['OrderTotalAmount'] > $amount)
+							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
 					}
@@ -1242,7 +1245,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if($lineitem['qty_ordered'] > 1)
 							$gift_amount *= $li["Quantity"];
 
-						//$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
+						if($OrderRow['OrderTotalAmount'] > $gift_amount)
+							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
 					}
