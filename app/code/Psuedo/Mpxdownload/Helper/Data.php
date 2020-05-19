@@ -613,7 +613,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 				/*This doesn't work for cart*/
-				$OrderRow["OrderTotalAmount"] = round($order["base_grand_subtotal"], 2);
+				$OrderRow["OrderTotalAmount"] = round($order["base_grand_total"], 2);
 				$OrderRow["GiftAmount"] = floatval("0.00");
 				$OrderRow["OrderAmount"] = round($order["base_subtotal"], 2);
 
