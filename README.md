@@ -33,9 +33,9 @@ Create an account:<br />
 * proceed with configuring your IDE and browser for Xdebug (TODO: need to add more info) 
 <br /><br />
 ## Check (and auto-fix) your code against Magento 2's coding standards:
-* Evaluate a specific module with `vendor/bin/phpcs --standard=Magento2 app/code/VENDOR/MODULE/FILE_PATH`
-  *  You can specify a whole module or directory with the above command
-* Auto-fix a file (when applicable - this can be observed in the results of the previous command) `vendor/bin/phpcs --standard=Magento2 app/code/VENDOR/MODULE/FILE_PATH`
-* Export results to a file `vendor/bin/phpcs --standard=Magento2 VENDOR/MODULE/FILE_PATH --report-file=".txt"
+* Evaluate a specific module with `vendor/bin/phpcs --standard=Magento2 app/code/Vendor/Module`
+  * You can optionally target a specific file with these commands
+* Auto-fix a file (when applicable - this can be observed in the results of the previous command) `vendor/bin/phpcs --standard=Magento2 app/code/Vendor/Module`
+* Export results to a file `vendor/bin/phpcs --standard=Magento2 app/code/Vendor/Module --report-file="code-report.txt"
 `<br />
 See [Github Repo](https://github.com/magento/magento-coding-standard) for more details 
