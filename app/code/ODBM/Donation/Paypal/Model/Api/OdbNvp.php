@@ -785,10 +785,27 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
     protected function setCustomData() {
         $referer = $this->getItemReferer();
 
+
+	    $quote  =  $this->cart->getQuote();
+
+	    //fix empty email in quote bug
+	    //https://github.com/magento/magento2/issues/27681
+	    $fixed = false;
+	    if($quote->getBillingAddress()->getEmail() === null && $quote->getShippingAddress()->getEmail() !== null) {
+		    $quote->getBillingAddress()->setEmail($quote->getShippingAddress()->getEmail());
+		    $fixed = true;
+	    }
+	    if($quote->getCustomerEmail() === null && $quote->getBillingAddress()->getEmail()  !== null) {
+		    $quote->setCustomerEmail($quote->getBillingAddress()->getEmail());
+		    $fixed = true;
+	    }
+	    if($fixed && method_exists($quote, 'save'))
+	    	$quote->save();
+
         $paypal_ministry = $this->getMinistry();
         $recurring_type = $this->isItemRecurring() ? 'monthly' : 'onetime';
 
-        $order_number = $this->cart->getQuote()->getReservedOrderId();
+        $order_number = $quote->getReservedOrderId();
 
         if ( $this->isItemDonation() ) {
             $custom_field = '~' . self::DONATION_TYPE . "||{$order_number}~{$recurring_type}|{$referer}|{$paypal_ministry}";
