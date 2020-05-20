@@ -31,3 +31,11 @@ Enable or disable xdebug?
 * check to see if xdebug is enabled by running `docker exec -it mage2donations_web_1 php -v`
   * if it says "...with Xdebug..." then it is enabled
 * proceed with configuring your IDE and browser for Xdebug (TODO: need to add more info) 
+
+Check your code against the Magento 2's coding standards:
+* Evaluate a specific module with `vendor/bin/phpcs --standard=Magento2 app/code/VENDOR/MODULE/FILE_PATH`
+  *  You can specify a whole module or directory with the above command
+* Auto-fix a file (when applicable - this can be observed in the results of the previous command) `vendor/bin/phpcs --standard=Magento2 app/code/VENDOR/MODULE/FILE_PATH`
+* Export results to a file `vendor/bin/phpcs --standard=Magento2 VENDOR/MODULE/FILE_PATH --report-file=".txt"
+`<br />
+See [Github Repo](https://github.com/magento/magento-coding-standard) for more details 
