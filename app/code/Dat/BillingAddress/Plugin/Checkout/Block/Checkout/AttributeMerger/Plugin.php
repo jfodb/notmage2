@@ -63,7 +63,16 @@ class Plugin
       if (null === $this->quote) {
         $this->quote = $this->checkoutSession->getQuote();
       }
-      
+
+
+	    //spread a missing  email address around.
+	    //https://github.com/magento/magento2/issues/27681
+	    if($this->quote->getBillingAddress()->getEmail() === null && $this->quote->getShippingAddress()->getEmail() !== null)
+		    $this->quote->getBillingAddress()->setEmail( $this->quote->getShippingAddress()->getEmail() );
+	    if($this->quote->getCustomerEmail() === null && $this->quote->getBillingAddress()->getEmail() !== null)
+		    $this->quote->setCustomerEmail( $this->quote->getBillingAddress()->getEmail() );
+
+	    
       return $this->quote;
     }
     
