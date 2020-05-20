@@ -22,7 +22,7 @@ If you can't log in to the admin at https://dev.ourdailybreadpublishing.org/odbm
 Create an account:<br />
 * Run `docker exec -it mage2donations_web_1 bash` and then `cd /magento && magento admin:user:create` 
 <br /><br />
-Enable or disable xdebug?
+## Enable or disable xdebug?
 * remove the semi-colon on the start of line 1 in /etc/php/7.2/mods-available/xdebug.ini to enable xdebug. 
   * Add the semi-colon like `;zend_extension=xdebug.so` to disable.
 * add your local ip address to `/etc/php/7.2/mods-available/xdebug.ini` on the line with xdebug.remote_host=
@@ -32,7 +32,7 @@ Enable or disable xdebug?
   * if it says "...with Xdebug..." then it is enabled
 * proceed with configuring your IDE and browser for Xdebug (TODO: need to add more info) 
 
-Check your code against the Magento 2's coding standards:
+## Check your code against the Magento 2's coding standards:
 * Evaluate a specific module with `vendor/bin/phpcs --standard=Magento2 app/code/VENDOR/MODULE/FILE_PATH`
   *  You can specify a whole module or directory with the above command
 * Auto-fix a file (when applicable - this can be observed in the results of the previous command) `vendor/bin/phpcs --standard=Magento2 app/code/VENDOR/MODULE/FILE_PATH`
