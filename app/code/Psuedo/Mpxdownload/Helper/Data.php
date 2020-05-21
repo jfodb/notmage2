@@ -14,7 +14,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	protected $db, $db_resource, $ips, $domain, $timeoffset, $store, $motivation, $company, $jobtype, $_err_code, $object_manager;
 	protected $ip, $err, $err_message, $connection_good;
 	protected $productModel;
-	public $START_STATUS, $PROCESS_STATUS, $END_STATUS;
+	public $START_STATUS, $PROCESS_STATUS, $END_STATUS, $FINAL_ORDER_STATUS;
 
 	static $ENCODE_BYTE_MAP, $NIBBLE_GOOD_CHARS;
 
@@ -86,6 +86,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->PROCESS_STATUS = 'processing';
 		
 		$this->END_STATUS = 'processed';
+
+		$this->FINAL_ORDER_STATUS = 'complete'; //mpx_processing, shipped, complete
 		
 
 		$this->productModel->setStoreId($this->store);
@@ -539,14 +541,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->api_return_error(204, "No orders were found");
 			return true;
 		}
-  //TODO create 1 update from entity_ids and change query to be entity_id in
-		for ($i = 0; $i < count($orderRows); $i++)
+
+
+
+		//assign orders to this pull and set status
+		$initquery  = sprintf("update `%s` SET `ext_order_id`=%d, `mpx_status`='%s' WHERE `entity_id` IN (",
+			$this->db_resource->getTableName('sales_order'),
+			$job_id,
+			$this->PROCESS_STATUS
+		);
+		for ($i = 0; $i < count($orderRows); )
 		{
-			$this->db->update(
-				$this->db_resource->getTableName('sales_order'),
-				array('ext_order_id'=>$job_id, 'mpx_status'=>$this->PROCESS_STATUS),
-				" `entity_id`=".$orderRows[$i]['entity_id']
-			);
+			$ids = [];
+			for($j = 0; $j < 100 && $i < count($orderRows); $j++) {
+
+				$ids[] = $orderRows[$i]['entity_id'];
+
+				$i++;
+
+			}
+
+			$query = $initquery . join(',', $ids) . ');';
+
+			$this->db->query( $query );
 		}
 
 
@@ -1229,7 +1246,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if($li['Quantity'] > 1)
 							$amount *= $li['Quantity'];
 
-						if($OrderRow['OrderTotalAmount'] > $amount)
+						if($OrderRow['OrderTotalAmount'] >= $amount)
 							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
@@ -1245,7 +1262,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if($lineitem['qty_ordered'] > 1)
 							$gift_amount *= $li["Quantity"];
 
-						if($OrderRow['OrderTotalAmount'] > $gift_amount)
+						if($OrderRow['OrderTotalAmount'] >= $gift_amount)
 							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
