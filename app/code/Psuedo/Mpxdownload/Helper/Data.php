@@ -1246,7 +1246,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if($li['Quantity'] > 1)
 							$amount *= $li['Quantity'];
 
-						if($OrderRow['OrderTotalAmount'] > $amount)
+						if($OrderRow['OrderTotalAmount'] >= $amount)
 							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
@@ -1262,7 +1262,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						if($lineitem['qty_ordered'] > 1)
 							$gift_amount *= $li["Quantity"];
 
-						if($OrderRow['OrderTotalAmount'] > $gift_amount)
+						if($OrderRow['OrderTotalAmount'] >= $gift_amount)
 							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
