@@ -108,11 +108,17 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 		//}
 		
 		foreach ($items as $itm) {
+			//IDE hack
+			//if(empty($itm))
+				//$itm = new \Magento\Sales\Model\Order\Item();
 
 			$itm_data = [
+				'item_id' => $itm->getItemId(),
 				'parent_item_id' => $itm->getParentItemId(),
 				'product_id' => $itm->getProductId(),
+				'product_type' => $itm->getProductType(),
 				'sku' => $itm->getSku(),
+				'name' => $itm->getName(),
 				'base_original_price' => $itm->getBaseOriginalPrice(),
 				'qty_ordered' => $itm->getQtyOrdered(),
 				'base_tax_amount' => $itm->getBaseTaxAmount(),
@@ -120,7 +126,8 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				'price' => $itm->getPrice(),
 				'original_price' => $itm->getOriginalPrice(),
 				'attr' => $itm->getProductType(),
-				'info' => $itm->getProductOptionByCode('info_buyRequest')
+				'info' => $itm->getProductOptionByCode('info_buyRequest'),
+				'row_total' => $itm->getRowTotal()
 			];
 			
 			if(empty($itm_data['attr']) && $itm->getResource()->getAttribute('productoffertype'))
