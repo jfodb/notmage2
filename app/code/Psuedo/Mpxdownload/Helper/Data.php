@@ -14,7 +14,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	protected $db, $db_resource, $ips, $domain, $timeoffset, $store, $motivation, $company, $jobtype, $_err_code, $object_manager;
 	protected $ip, $err, $err_message, $connection_good;
 	protected $productModel;
-	public $START_STATUS, $PROCESS_STATUS, $END_STATUS;
+	public $START_STATUS, $PROCESS_STATUS, $END_STATUS, $FINAL_ORDER_STATUS;
 
 	static $ENCODE_BYTE_MAP, $NIBBLE_GOOD_CHARS;
 
@@ -86,6 +86,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->PROCESS_STATUS = 'processing';
 		
 		$this->END_STATUS = 'processed';
+
+		$this->FINAL_ORDER_STATUS = 'complete'; //mpx_processing, shipped, complete
 		
 
 		$this->productModel->setStoreId($this->store);
@@ -539,14 +541,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->api_return_error(204, "No orders were found");
 			return true;
 		}
-  //TODO create 1 update from entity_ids and change query to be entity_id in
-		for ($i = 0; $i < count($orderRows); $i++)
+
+
+
+		//assign orders to this pull and set status
+		$initquery  = sprintf("update `%s` SET `ext_order_id`=%d, `mpx_status`='%s' WHERE `entity_id` IN (",
+			$this->db_resource->getTableName('sales_order'),
+			$job_id,
+			$this->PROCESS_STATUS
+		);
+		for ($i = 0; $i < count($orderRows); )
 		{
-			$this->db->update(
-				$this->db_resource->getTableName('sales_order'),
-				array('ext_order_id'=>$job_id, 'mpx_status'=>$this->PROCESS_STATUS),
-				" `entity_id`=".$orderRows[$i]['entity_id']
-			);
+			$ids = [];
+			for($j = 0; $j < 100 && $i < count($orderRows); $j++) {
+
+				$ids[] = $orderRows[$i]['entity_id'];
+
+				$i++;
+
+			}
+
+			$query = $initquery . join(',', $ids) . ');';
+
+			$this->db->query( $query );
 		}
 
 
@@ -613,7 +630,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 				/*This doesn't work for cart*/
-				$OrderRow["OrderTotalAmount"] = round($order["base_subtotal"], 2);
+				$OrderRow["OrderTotalAmount"] = round($order["base_grand_total"], 2);
 				$OrderRow["GiftAmount"] = floatval("0.00");
 				$OrderRow["OrderAmount"] = round($order["base_subtotal"], 2);
 
@@ -986,7 +1003,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if(!empty($lineitem['item_id']))
 						$products[$lineitem['item_id']] = $lineitem;
 				}
-				
+
+				//iterate through, evaluate items and determine if they need to be discarded as duplicate or child
+				$itemtracking = [];
 				foreach($items as $index => $lineitem) {
 					if(!empty($lineitem['parent_item_id']) ) {
 						//we have a child based variation?
@@ -994,7 +1013,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//do we have the parent?
 						if(!empty($products[$lineitem['parent_item_id']])) {
 
-							if ($lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
+							if (!empty($lineitem['parent_item_id']) && !empty($item_hash[$lineitem['parent_item_id']]) && $lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
 								unset($items[$index]);
 								continue;     //this element contains no relevant additional information
 							}
@@ -1004,6 +1023,38 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								continue;   //this child is not fully configured to be inlcuded.
 							}
 						}
+					}
+
+					//product customization, results in a duplicate, less informational product. drop it.
+					if(!empty($lineitem['item_id'])) {
+						$itemid = $lineitem['item_id'];
+						$itemtracking[$itemid] = $itemid;
+
+						if(!empty($lineitem['parent_item_id']))
+							$parentid = $lineitem['parent_item_id'];
+						else
+							$parentid = false;
+
+						if($parentid && !empty($itemtracking[$parentid])){
+
+							$parent = $itemtracking[$parentid];
+
+							//has_options in parent, not child, required options parent, not child, sku's are not the same (in product),
+							//parent has parent_item_id=null, child does not, product_id !=, parent product_type=configurable child is simple,
+							//sku == and product_id !=, name != but similar, qty_ordered ==,
+							//this may be over specific, but we want to make sure that there are no consequential errors.
+							if(
+								$lineitem['sku'] === $parent['sku']
+								&& $lineitem['name'] != $parent['name']
+								&& $lineitem['qty_ordered'] === $parent['qty_ordered']
+								&& $parent['product_type'] === 'configurable' && $lineitem['product_type'] == 'simple'
+							) {
+								//remove unnecessary child product
+								unset($items[$index]);
+							}
+						}
+
+
 					}
 				}
 
@@ -1017,6 +1068,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$motivation = $this->motivation;
 					$productisrecurring = false;
 					$recurMotivationCode = false;
+					$gift_amount = false;
 
 					$quant = intval($lineitem['qty_ordered']);
 					if ($quant <= 0)
@@ -1027,7 +1079,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 					$li["Quantity"] = $quant;
-					$li["Price"] = round($lineitem['base_original_price'], 2);
+					$li["Price"] = round($lineitem['price'], 2);
+					$original_price = round($lineitem['base_original_price'], 2);
 					//Mage ::log("Base_Original price: ".$li["Price"]);
 
 					$li["PrimaryTaxAmount"] = round($lineitem['base_tax_amount'], 2);
@@ -1042,6 +1095,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
 
 
+					//look up attributes of the product, we need ProductOfferType. try it a few different ways.
 					if(!empty($lineitem['attr'])) {
 						$attr = $lineitem['attr'];
 					} else {
@@ -1075,15 +1129,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 
+
+					// check for various donation methods
+					//do the price/original price not match?
 					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
+						// was this product already pre-determined to be a GOAA or NCOO?
 						if($attr == 'GOAA' || $attr == 'NCOO') {
-							$li["Price"] = round($lineitem['price'], 2);
+
 							$li["DiscountAmount"] = '0.00';
+							$gift_amount = $li['Price'];
 						}
 						else {
-							$li["DiscountAmount"] = round($lineitem['original_price'] - $lineitem['price'], 2);
-							$li["Price"] = round($lineitem['original_price'], 2);
+							// check with original price to see if this was a sale, or
+							$diff = round($original_price - $lineitem['price'], 2);
+
+							if($diff > 0 ) {
+								//if this is a discount, then assign the original price and indicate discount amount
+								$li["DiscountAmount"] = round($diff, 2);
+								$li["Price"] = round($lineitem['original_price'], 2);
+							}
+							else
+								//anything above the original amount is a donation
+								$gift_amount = abs($diff);
 						}
 
 					} else
@@ -1164,15 +1232,40 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					else
 						$li['SourceProductType'] = 'Sale';
 
+
+					//are these donations? let me count the ways...
 					if($li['SourceProductType'] === 'Donation'){
+						//this is purely a donation, the item amount is $0 and the products motivation over rides the order motivation
 						$motivation = $lineitem['sku'];
 
 						/*This doesn't work for cart*/
-						//move this amount from Order Total to Gift Amount
+						//move this amount from Order Total and total amount to Gift Amount
 						$amount = $li["Price"];
-						$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
+						$li["Price"] = '0.00';
+
+						if($li['Quantity'] > 1)
+							$amount *= $li['Quantity'];
+
+						if($OrderRow['OrderTotalAmount'] >= $amount)
+							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
 						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
 						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
+					}
+
+					else if($gift_amount) {
+						//a gift from the ODB Store.
+						//the gift amount is above and beyond the price, price may not be $0
+						//remove from product price and apply to order level gift.
+
+						$li["Price"] = round($li["Price"] - $gift_amount, 2);
+
+						if($lineitem['qty_ordered'] > 1)
+							$gift_amount *= $li["Quantity"];
+
+						if($OrderRow['OrderTotalAmount'] >= $gift_amount)
+							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
+						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
+						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
 					}
 
 
@@ -1225,9 +1318,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//order level discount is the remainder of discount
 				$OrderRow["OrderDiscountAmount"] = round($order['base_discount_amount'], 2);
 
-				if($OrderRow["OrderDiscountAmount"] > 0.00) {
-					$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
-				}
+				//if($OrderRow["OrderDiscountAmount"] > 0.00) {
+				//	$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
+				//}
 
 
 				$OrderRow["MotivationCode"] = $motivation;
