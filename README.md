@@ -36,6 +36,6 @@ Create an account:<br />
 * Evaluate a specific module with `vendor/bin/phpcs --standard=Magento2 app/code/Vendor/Module`
   * You can optionally target a specific file by appending its file path and extension
 * Auto-fix a module or file (when applicable - this can be observed in the results of the previous command) `vendor/bin/phpcs --standard=Magento2 app/code/Vendor/Module`
-* Export results to a file `vendor/bin/phpcs --standard=Magento2 app/code/Vendor/Module --report-file="code-report.txt"
+* Export results to a file `vendor/bin/phpcbf --standard=Magento2 app/code/Vendor/Module --report-file="code-report.txt"
 `<br />
 See [Github Repo](https://github.com/magento/magento-coding-standard) for more details 
