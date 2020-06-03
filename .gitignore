@@ -69,8 +69,12 @@ atlassian*
 /generated/*
 !/generated/.htaccess
 .DS_Store
+
+
 composer.lock.*
 composer.json.*
 app/etc/config.php.*
 
 docker/error.log
+/docker/sql/*
+
