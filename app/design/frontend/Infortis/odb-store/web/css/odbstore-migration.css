@@ -88,3 +88,5 @@
 .mini-cart .viewcart {
     display: none !important;
 }
+
+#checkout div.checkout-payment-method div.discount-code { display: none; }
