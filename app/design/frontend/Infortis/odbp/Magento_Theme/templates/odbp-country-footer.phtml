@@ -13,6 +13,7 @@ if (isset($_SERVER['HTTP_CLOUDFRONT_VIEWER_COUNTRY'])) {
 if (!empty($_GET['country'])) {
     $code = $_GET['country'];
 }
+$code = strtolower($code);
 ?>
 
 <input type="hidden" name="_user_country" id="_user_country" value="<?php echo $code ?>" />
