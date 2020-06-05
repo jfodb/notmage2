@@ -125,9 +125,7 @@
 				var checkRedirectToMOS = function(e) {
 
 					let amount = document.getElementById('amount').value;
-                    console.log("BUTTON CLICKED");
-
-					document.getElementById('product-addtocart-button').disabled = true;
+                    console.log("event passed in: ", e);
 
 					if ( !amount ) {
 						// Check radio buttons
@@ -158,8 +156,8 @@
 						document.getElementsByName('_motivation_code')[0].value = sku;
 					}
 
-					document.getElementById('product-addtocart-button').addEventListener( 'click', checkRedirectToMOS );
-					document.getElementById('product_addtocart_form').addEventListener( 'submit', checkRedirectToMOS );
+					document.getElementById('product-addtocart-button').addEventListener( 'click', checkRedirectToMOS, {once : true} );
+					document.getElementById('product_addtocart_form').addEventListener( 'submit', checkRedirectToMOS, {once : true});
 				}, false);
 			</script>
 
