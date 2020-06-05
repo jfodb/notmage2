@@ -1,19 +1,6 @@
 <?php
-
-$code = "";
-
-if (isset($_SERVER["HTTP_X_COUNTRY"])) {
-    $code = $_SERVER["HTTP_X_COUNTRY"];
-}
-
-if (isset($_SERVER['HTTP_CLOUDFRONT_VIEWER_COUNTRY'])) {
-    $code = $_SERVER["HTTP_CLOUDFRONT_VIEWER_COUNTRY"];
-}
-
-if (!empty($_GET['country'])) {
-    $code = $_GET['country'];
-}
-$code = strtolower($code);
+$viewModel = $block->getViewModel();
+$code = $viewModel->getCountry();
 ?>
 
 <input type="hidden" name="_user_country" id="_user_country" value="<?php echo $code ?>" />
