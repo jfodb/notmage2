@@ -31,13 +31,21 @@
 					<beta.dhp.org>INTDHP</beta.dhp.org>
 					<beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
+
+
+					<!--add dev sites for MPX source control -->
+					<dev.mage2.org>INTDEV</dev.mage2.org>
+					<dev.dhespanol.org>INTDEV</dev.dhespanol.org>
+					<dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
+					<dev.dhp.org>INTDEV</dev.dhp.org>
+					<dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
 				</motivation_code>
 				<company>
 					<!-- example:
 					<dhponline.ca>DHPC</dhponline.ca>
 					This configures the company name sent to payment processors (paperless, stripe) for MPX to sort out on download (dhpu or rbcu)
 					-->
-					<dev.mage2.org>RBCU</dev.mage2.org>
+
 					<donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
 					<beta.donations.ourdailybread.org>RBCU</beta.donations.ourdailybread.org>
 
@@ -61,6 +69,13 @@
 					<beta.dhespanol.org>DHPU</beta.dhespanol.org>
 					<beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
+
+					<!--add dev sites for MPX source control -->
+					<dev.mage2.org>RBCU</dev.mage2.org>
+					<dev.dhespanol.org>RBCU</dev.dhespanol.org>
+					<dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
+					<dev.dhp.org>RBCU</dev.dhp.org>
+					<dev.store.christianuniversity.org>RBCU</dev.store.christianuniversity.org>
 				</company>
 				<jobtype>
 					<!-- example:
@@ -69,7 +84,7 @@
 					This must be set per domain
 					-->
 					<donations.ourdailybread.org>ODBDonations</donations.ourdailybread.org>
-					<dev.mage2.org>ODBDonations</dev.mage2.org>
+
 					<beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
 					<store_1>ODBDonations</store_1>
 
@@ -94,6 +109,15 @@
 					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
 					<beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
+
+					<!--add dev sites for MPX source control -->
+					<dev.mage2.org>DevStore</dev.mage2.org>
+					<dev.dhespanol.org>DevStore</dev.dhespanol.org>
+					<dev.ourdailybreadpublishing.org>DevStore</dev.ourdailybreadpublishing.org>
+					<dev.dhp.org>DevStore</dev.dhp.org>
+					<dev.store.christianuniversity.org>DevStore</dev.store.christianuniversity.org>
+
+
 				</jobtype>
 				<store_id>
 					<!-- example>
@@ -101,7 +125,7 @@
 					The grid to match each domain to a store ID when pulling from a single domain api (discoveryhousepublishers.org pulls odbp, odbm, odbcu, odbpes, etc)
 					Every store id, must be referenced by at least 1 domain, and dev, beta, production for each domain
 					-->
-					<dev.mage2.org>13</dev.mage2.org>
+
 					<donations.ourdailybread.org>13</donations.ourdailybread.org>
 					<beta.donations.ourdailybread.org>13</beta.donations.ourdailybread.org>
 
@@ -124,6 +148,15 @@
 					<beta.dhespanol.org>9</beta.dhespanol.org>
 					<beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
 					<!-- END: ODBP Migration Transfer-->
+
+
+					<!--add dev sites for MPX source control -->
+					<dev.mage2.org>13</dev.mage2.org>
+					<dev.dhespanol.org>9</dev.dhespanol.org>
+					<dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
+					<dev.dhp.org>4</dev.dhp.org>
+					<dev.store.christianuniversity.org>6</dev.store.christianuniversity.org>
+
 				</store_id>
 				<domain>
 					<dhpstore>
