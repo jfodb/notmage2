@@ -165,6 +165,8 @@
             </block>
 
 
+            <block class="Magento\Theme\Block\Html\Footer" name="odbp-country-footer" after="base-footer-container"
+                   template="Magento_Theme::odbp-country-footer.phtml"/>
 
         </referenceContainer> <!-- end: page.wrapper -->
 
