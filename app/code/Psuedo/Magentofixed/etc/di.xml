@@ -9,7 +9,9 @@
 	<preference for="Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
 	<preference for="Magento\Checkout\Model\GuestPaymentInformationManagement" type="Psuedo\Magentofixed\Model\Checkout\GuestPaymentInformationManagement" />
 	<preference for="\Magento\Quote\Model\Quote" type="Psuedo\Magentofixed\Model\Quote\InformativeQuote" />
-
+	<!-- 2.3.2 Downloadable products bug. Fixed in 2.3.3. Can be removed and tested after upgrade.
+	Visible in 2.3.3 release notes: https://devdocs.magento.com/guides/v2.3/release-notes/release-notes-2-3-3-open-source.html-->
+	<preference for="Magento\Downloadable\Observer\SaveDownloadableOrderItemObserver" type="Psuedo\Magentofixed\Observer\SaveDownloadableOrderItemObserver" />
 
 	<!-- plugins -->
 	<type name="Magento\Customer\Controller\Section\Load">

@@ -164,7 +164,12 @@
 
             </block>
 
-
+            <block name="odbp-country-footer" after="base-footer-container"
+                   template="Magento_Theme::odbp-country-footer.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\CountryHelper</argument>
+                </arguments>
+            </block>
 
         </referenceContainer> <!-- end: page.wrapper -->
 
