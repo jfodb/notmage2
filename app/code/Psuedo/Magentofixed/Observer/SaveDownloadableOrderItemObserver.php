@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magento\Downloadable\Observer;
+namespace Psuedo\Magentofixed\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Store\Model\ScopeInterface;
