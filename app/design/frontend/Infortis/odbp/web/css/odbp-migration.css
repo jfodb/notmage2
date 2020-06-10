@@ -1310,9 +1310,16 @@ button[title*='Place Order']:hover {
   height: auto !important;
 }
 
-/*remove overlapping caption on mobile view*/
-. category-description .caption .permanent {
-  display: none !important;
+@media only screen and (max-width: 767px) {
+  .category-view > .category-description > .caption > .heading {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .category-view {
+    position: relative;
+  }
 }
 
 /*migration changes when admin fails*/
