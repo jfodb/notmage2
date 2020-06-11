@@ -239,7 +239,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	function api_check_connection()
 	{
- 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' || $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTPS'])) ){
+ 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' ||( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )  || !empty($_SERVER['HTTPS'])) ){
 			$this->api_return_error(412, 'Must be done through a secure socket.');
 			return false;
 		}
@@ -1132,7 +1132,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					// check for various donation methods
 					//do the price/original price not match?
-					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
+					if(isset($lineitem['price']) && isset($lineitem['original_price']) && is_numeric($lineitem['original_price'])  && $lineitem['price'] != $lineitem['original_price']) {
 
 						// was this product already pre-determined to be a GOAA or NCOO?
 						if($attr == 'GOAA' || $attr == 'NCOO') {
