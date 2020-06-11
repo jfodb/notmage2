@@ -39,6 +39,8 @@
 					<dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
 					<dev.dhp.org>INTDEV</dev.dhp.org>
 					<dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
+					<dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
+					<dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
 				</motivation_code>
 				<company>
 					<!-- example:
@@ -76,6 +78,8 @@
 					<dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
 					<dev.dhp.org>RBCU</dev.dhp.org>
 					<dev.store.christianuniversity.org>RBCU</dev.store.christianuniversity.org>
+					<dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
+					<dev.donations.ourdailybread.org>RBCU</dev.donations.ourdailybread.org>
 				</company>
 				<jobtype>
 					<!-- example:
@@ -116,8 +120,8 @@
 					<dev.ourdailybreadpublishing.org>DevStore</dev.ourdailybreadpublishing.org>
 					<dev.dhp.org>DevStore</dev.dhp.org>
 					<dev.store.christianuniversity.org>DevStore</dev.store.christianuniversity.org>
-
-
+					<dev.store.ourdailybread.org>DevStore</dev.store.ourdailybread.org>
+					<dev.donations.ourdailybread.org>DevStore</dev.donations.ourdailybread.org>
 				</jobtype>
 				<store_id>
 					<!-- example>
@@ -156,7 +160,8 @@
 					<dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
 					<dev.dhp.org>4</dev.dhp.org>
 					<dev.store.christianuniversity.org>6</dev.store.christianuniversity.org>
-
+					<dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
+					<dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
 				</store_id>
 				<domain>
 					<dhpstore>
