@@ -112,6 +112,12 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			//if(empty($itm))
 				//$itm = new \Magento\Sales\Model\Order\Item();
 
+			$sku  = $itm->getSku();
+			if(!empty($itm_hash[$sku]) && strpos($itm_hash[$sku]->getName(), '-1')) {
+				//child variable product
+				continue;
+			}
+
 			$itm_data = [
 				'item_id' => $itm->getItemId(),
 				'parent_item_id' => $itm->getParentItemId(),
@@ -139,6 +145,13 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				$item_data['recurmotivation'] = $itm_data['info']['_recurmotivation'];
 			
 			$item_data[] = $itm_data;
+
+			$child = $itm->getChildrenItems();
+			if(count($child) === 1)
+			{
+				$productchild = $child[0];
+				$itm_hash[$productchild->getSku()] = $productchild;
+			}
 		}
 		
 		$item_json = json_encode($item_data);
