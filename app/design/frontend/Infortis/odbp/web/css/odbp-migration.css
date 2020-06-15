@@ -1373,6 +1373,9 @@ button[type="submit"], button.action {border-radius:4px;}
 /* Space out secondary options */
 .form-login .actions-toolbar .secondary {padding-right: 35px;}
 
+/* stronger highlights on menu arrows */
+.nav .navi-wrapper .nav-regular .nav-panel a .caret {opacity: 0.8;}
+
 /* Fix the filter button from overlapping the sort-by dropdown on mobile */
 @media only screen and (max-width: 499px) {
   .filter-title strong {
