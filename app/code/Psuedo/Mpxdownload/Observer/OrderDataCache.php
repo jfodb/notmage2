@@ -113,7 +113,8 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				//$itm = new \Magento\Sales\Model\Order\Item();
 
 			$sku  = $itm->getSku();
-			if(!empty($itm_hash[$sku]) && strpos($itm_hash[$sku]->getName(), '-1')) {
+			//if item SKU is in child hash, has a title'-x' indicating fabricated item, and it matches the current item
+			if(!empty($itm_hash[$sku]) && preg_match('/-[0-9]+$/', $itm_hash[$sku]->getName()) && $itm_hash[$sku]->getName() === $itm->getName()) {
 				//child variable product
 				continue;
 			}
@@ -147,6 +148,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			$item_data[] = $itm_data;
 
 			$child = $itm->getChildrenItems();
+			//if this product has child items (customization) cache the children to detect and eliminate empty/duplicate products.
 			if(count($child) === 1)
 			{
 				$productchild = $child[0];
