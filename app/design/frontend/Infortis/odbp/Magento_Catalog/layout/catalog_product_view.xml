@@ -110,6 +110,13 @@
 
         <!-- Product collateral data (tabs) -->
         <referenceBlock name="product.info.details" template="Infortis_Base::product/view/details.phtml">
+            <arguments>
+                <argument name="show_tabs" xsi:type="helper"
+                          helper="Infortis\Base\Helper\Template\Catalog\Product\View::showTabs"/>
+                <argument name="sort_order" xsi:type="string">20</argument>
+            </arguments>
+
+            <!-- Add song samples tab -->
             <block class="Magento\Catalog\Block\Product\View"
                    name="songSamples.tab"
                    template="Magento_Catalog::product/view/odbp-song-samples.phtml"
@@ -120,11 +127,7 @@
                     <argument translate="true" name="title" xsi:type="string">Song Samples</argument>
                 </arguments>
             </block>
-            <arguments>
-                <argument name="show_tabs" xsi:type="helper"
-                          helper="Infortis\Base\Helper\Template\Catalog\Product\View::showTabs"/>
-                <argument name="sort_order" xsi:type="string">20</argument>
-            </arguments>
+
             <!-- Custom static blocks as tabs -->
             <block class="Magento\Cms\Block\Block" name="product_cms_block1" group="detailed_info">
                 <arguments>
