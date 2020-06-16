@@ -3,12 +3,12 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="head.additional">
-            <block class="Magento\Framework\View\Element\Template" name="gtm_head" before="-"
-                   template="GoogleTagManager_Injector::gtm_head.phtml"/>
+            <block name="gtm_head" before="-"
+                   template="ODBM_GoogleTagManager::gtm_head.phtml"/>
         </referenceBlock>
 
         <referenceContainer name="after.body.start">
-            <block class="Magento\Framework\View\Element\Template" name="gtm_body" before="-" template="GoogleTagManager_Injector::gtm_body.phtml" />
+            <block name="gtm_body" before="-" template="ODBM_GoogleTagManager::gtm_body.phtml"/>
         </referenceContainer>
     </body>
 </page>
