@@ -2,11 +2,12 @@
 /**
  * User: mdubinsky
  * Date: 6/16/20
+ * Helper to check Google Tag Manager configs
  */
 
 namespace ODBM\GoogleTagManager\Helper;
 
-use  Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
