@@ -1,5 +1,5 @@
 {
-  "name": "googletagmanager/module-injector",
+  "name": "odbm/module-googletagmanager",
   "description": "N/A",
   "require": {
     "magento/framework": "101.0.*"
@@ -14,7 +14,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "GoogleTagManager\\Injector\\": ""
+      "ODBM\\GoogleTagManager\\": ""
     }
   }
 }
