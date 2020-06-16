@@ -1317,7 +1317,7 @@ button[title*='Place Order']:hover {
 }
 
 @media only screen and (min-width: 768px) {
-  .category-view > .category-description > .caption > .heading {
+  .category-view {
     position: relative;
   }
 }
