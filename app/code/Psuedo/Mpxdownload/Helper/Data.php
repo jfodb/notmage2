@@ -1047,7 +1047,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								$lineitem['sku'] === $parent['sku']
 								&& $lineitem['name'] != $parent['name']
 								&& $lineitem['qty_ordered'] === $parent['qty_ordered']
-								&& $parent['product_type'] === 'configurable' && $lineitem['product_type'] == 'simple'
+//								&& $parent['product_type'] === 'configurable' && $lineitem['product_type'] == 'simple'
 							) {
 								//remove unnecessary child product
 								unset($items[$index]);
@@ -1147,7 +1147,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							if($diff > 0 ) {
 								//if this is a discount, then assign the original price and indicate discount amount
 								$li["DiscountAmount"] = round($diff, 2);
-								$li["Price"] = round($lineitem['original_price'], 2);
+//								$li["Price"] = round($lineitem['original_price'], 2);
 							}
 							else
 								//anything above the original amount is a donation
