@@ -1,6 +1,7 @@
 # mage2donations
 codebase to build donations platform using Magento 2.
 
+
 ## Local development with docker
 * Clone repository
 * run `docker-compose up -d` to initialize containers.
