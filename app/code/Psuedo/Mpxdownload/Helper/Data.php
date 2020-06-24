@@ -1146,8 +1146,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 							if($diff > 0 ) {
 								//if this is a discount, then assign the original price and indicate discount amount
-								$li["DiscountAmount"] = round($diff, 2);
-							    $li["Price"] = round($lineitem['price'], 2);
+								if($quant && $quant > 1)
+									$li["DiscountAmount"] = round($diff*$quant, 2);
+								$li["Price"] = round($lineitem['original_price'], 2);
 							}
 							else
 								//anything above the original amount is a donation
