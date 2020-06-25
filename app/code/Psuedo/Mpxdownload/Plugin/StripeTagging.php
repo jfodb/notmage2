@@ -24,9 +24,10 @@ class StripeTagging
 
         $jobid = $this->config->getValue('psuedo_mpxdownload/runtime/jobtype/' . $d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $storid = $this->config->getValue('psuedo_mpxdownload/runtime/store_id/' . $d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE) ?? 1;
+        $orderType = $this->config->getValue($tmp = 'psuedo_mpxdownload/runtime/order_type/' . $d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         $company = $this->config->getValue($tmp = 'psuedo_mpxdownload/runtime/company/' . $d, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        if ((empty($storid) || empty($jobid))) {
+        if ((empty($storid) || empty($jobid) || empty($orderType))) {
             $this->logger->critical('MPX configs not complete for domain ' . $d);
             $this->logger->critical('Stripe order sent without custom fields');
             if (strpos($d, 'dev') !== false) {
@@ -53,7 +54,11 @@ class StripeTagging
         $params['metadata']['Platform'] = 'Magento';
 
         if (!empty($params['metadata']['Order #'])) {
-            $params['metadata']['GiftId'] = $params['metadata']['Order #'];
+            if ($orderType === 'gift') {
+                $params['metadata']['GiftId'] = $params['metadata']['Order #'];
+            } elseif ($orderType === 'order') {
+                $params['metadata']['OrderId'] = $params['metadata']['Order #'];
+            }
         }
         //$params['metadata']['OrderId'] , when it becomes a cart.
 
