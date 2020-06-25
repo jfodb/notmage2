@@ -1,248 +1,274 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-	<default>
-		<psuedo_mpxdownload><!-- anything goes here -->
-			<runtime><!-- anything goes here -->
-				<trustedips>12.51.91.4,12.51.91.5,70.39.176.28,67.59.39.1*,108.171.131.1*,10.183.251.2,172.17.0.*</trustedips>
-				<timezone>08:05:00</timezone><!-- as offset -->
-				<motivation_code>
-					<!-- example
-					<dhponline.ca>INTDHP</dhponline.ca>
-					This sets the default motivation code for stores running per domain.
-					-->
-					<donations.ourdailybread.org>INT</donations.ourdailybread.org>
-					<beta.donations.ourdailybread.org>INT</beta.donations.ourdailybread.org>
-					<dev.mage2.org>INT</dev.mage2.org>
-					<store_1>INT</store_1>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <psuedo_mpxdownload><!-- anything goes here -->
+            <runtime><!-- anything goes here -->
+                <trustedips>12.51.91.4,12.51.91.5,70.39.176.28,67.59.39.1*,108.171.131.1*,10.183.251.2,172.17.0.*
+                </trustedips>
+                <timezone>08:05:00</timezone><!-- as offset -->
+                <motivation_code>
+                    <!-- example
+                    <dhponline.ca>INTDHP</dhponline.ca>
+                    This sets the default motivation code for stores running per domain.
+                    -->
+                    <donations.ourdailybread.org>INT</donations.ourdailybread.org>
+                    <beta.donations.ourdailybread.org>INT</beta.donations.ourdailybread.org>
+                    <dev.mage2.org>INT</dev.mage2.org>
+                    <store_1>INT</store_1>
 
-					<!-- START: ODBP Migration Transfer-->
-					<magento.beta.rbc.org>JobSecurity</magento.beta.rbc.org>
-					<beta.discoveryhousepublishers.org>INTDHP</beta.discoveryhousepublishers.org>
-					<dod.org>INTDOD</dod.org>
-					<beta.dod.org>INTDOD</beta.dod.org>
-					<dhp.org>INTDHP</dhp.org>
-					<ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
-					<beta.ourdailybreadpublishing.org>INTDHP</beta.ourdailybreadpublishing.org>
-					<cugn.org>INTCCU</cugn.org>
-					<dhespanol.org>INTSPN</dhespanol.org>
-					<store.ourdailybread.org>INTODB</store.ourdailybread.org>
-					<betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
-					<beta.dhp.org>INTDHP</beta.dhp.org>
-					<beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
-					<!-- END: ODBP Migration Transfer-->
-
-
-					<!--add dev sites for MPX source control -->
-					<dev.mage2.org>INTDEV</dev.mage2.org>
-					<dev.dhespanol.org>INTDEV</dev.dhespanol.org>
-					<dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
-					<dev.dhp.org>INTDEV</dev.dhp.org>
-					<dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
-					<dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
-					<dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
-				</motivation_code>
-				<company>
-					<!-- example:
-					<dhponline.ca>DHPC</dhponline.ca>
-					This configures the company name sent to payment processors (paperless, stripe) for MPX to sort out on download (dhpu or rbcu)
-					-->
-
-					<donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
-					<beta.donations.ourdailybread.org>RBCU</beta.donations.ourdailybread.org>
-
-					<!-- START: ODBP Migration Transfer-->
-					<magento.beta.rbc.org>DHPU</magento.beta.rbc.org>
-					<beta.discoveryhousepublishers.org>DHPU</beta.discoveryhousepublishers.org>
-					<magento.rbc.org>DHPC</magento.rbc.org>
-					<dhp.org>DHPU</dhp.org>
-					<ourdailybreadpublishing.org>DHPU</ourdailybreadpublishing.org>
-					<beta.dod.org>DHPU</beta.dod.org>
-					<dod.org>DHPU</dod.org>
-					<helpformylife.org>DHPU</helpformylife.org>
-					<cugn.org>DHPU</cugn.org>
-					<dhespanol.org>DHPU</dhespanol.org>
-					<store.ourdailybread.org>RBCU</store.ourdailybread.org>
-					<betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
-					<beta.dhp.org>DHPU</beta.dhp.org>
-					<!--Add beta sites: -->
-					<beta.ourdailybreadpublishing.org>DHPU</beta.ourdailybreadpublishing.org>
-					<beta.dhespanol.org>DHPU</beta.dhespanol.org>
-					<beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
-					<!-- END: ODBP Migration Transfer-->
-
-					<!--add dev sites for MPX source control -->
-					<dev.mage2.org>RBCU</dev.mage2.org>
-					<dev.dhespanol.org>RBCU</dev.dhespanol.org>
-					<dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
-					<dev.dhp.org>RBCU</dev.dhp.org>
-					<dev.store.christianuniversity.org>RBCU</dev.store.christianuniversity.org>
-					<dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
-					<dev.donations.ourdailybread.org>RBCU</dev.donations.ourdailybread.org>
-				</company>
-				<jobtype>
-					<!-- example:
-					<dhponline.ca>DhpStore</dhponline.ca>
-					This sets the jobtype transmitted to payment processors (stripe/paypal) that MPX uses to sort out when downloading from CCtrans (donations, dhpstore, etc)
-					This must be set per domain
-					-->
-					<donations.ourdailybread.org>ODBDonations</donations.ourdailybread.org>
-
-					<beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
-					<store_1>ODBDonations</store_1>
-
-					<!-- START: ODBP Migration Transfer-->
-					<magento.beta.rbc.org>DhpStore</magento.beta.rbc.org>
-					<beta.discoveryhousepublishers.org>DhpStore</beta.discoveryhousepublishers.org>
-					<magento.rbc.org>DhpStore</magento.rbc.org>
-					<dhp.org>DhpStore</dhp.org>
-					<ourdailybreadpublishing.org>DhpStore</ourdailybreadpublishing.org>
-					<dod.org>DodStore</dod.org>
-					<beta.dod.org>DodStore</beta.dod.org>
-					<helpformylife.org>HfmlStore</helpformylife.org>
-					<cugn.org>CcStore</cugn.org>
-					<dhespanol.org>SpnStore</dhespanol.org>
-					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
-					<store.ourdailybread.org>ODBStore</store.ourdailybread.org>
-					<beta.store.ourdailybread.org>ODBStore</beta.store.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
-					<beta.dhp.org>DhpStore</beta.dhp.org>
-					<!--Add beta sites: -->
-					<beta.ourdailybreadpublishing.org>DhpStore</beta.ourdailybreadpublishing.org>
-					<beta.dhespanol.org>SpnStore</beta.dhespanol.org>
-					<beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
-					<!-- END: ODBP Migration Transfer-->
-
-					<!--add dev sites for MPX source control -->
-					<dev.mage2.org>DevStore</dev.mage2.org>
-					<dev.dhespanol.org>DevStore</dev.dhespanol.org>
-					<dev.ourdailybreadpublishing.org>DevStore</dev.ourdailybreadpublishing.org>
-					<dev.dhp.org>DevStore</dev.dhp.org>
-					<dev.store.christianuniversity.org>DevStore</dev.store.christianuniversity.org>
-					<dev.store.ourdailybread.org>DevStore</dev.store.ourdailybread.org>
-					<dev.donations.ourdailybread.org>DevStore</dev.donations.ourdailybread.org>
-				</jobtype>
-				<store_id>
-					<!-- example>
-					<dhponline.ca>2</dhponline.ca>
-					The grid to match each domain to a store ID when pulling from a single domain api (discoveryhousepublishers.org pulls odbp, odbm, odbcu, odbpes, etc)
-					Every store id, must be referenced by at least 1 domain, and dev, beta, production for each domain
-					-->
-
-					<donations.ourdailybread.org>13</donations.ourdailybread.org>
-					<beta.donations.ourdailybread.org>13</beta.donations.ourdailybread.org>
-
-					<!-- START: ODBP Migration Transfer-->
-					<magento.beta.rbc.org>1</magento.beta.rbc.org>
-					<magento.rbc.org>1</magento.rbc.org>
-					<beta.discoveryhousepublishers.org>1</beta.discoveryhousepublishers.org>
-					<dhp.org>4</dhp.org>
-					<ourdailybreadpublishing.org>4</ourdailybreadpublishing.org>
-					<beta.dhp.org>4</beta.dhp.org>
-					<beta.dod.org>2</beta.dod.org>
-					<dod.org>3</dod.org>
-					<cugn.org>6</cugn.org>
-					<dhespanol.org>9</dhespanol.org>
-					<store.ourdailybread.org>8</store.ourdailybread.org>
-					<betastore.ourdailybread.org>8</betastore.ourdailybread.org>
-					<dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
-					<!--Add beta sites: -->
-					<beta.ourdailybreadpublishing.org>4</beta.ourdailybreadpublishing.org>
-					<beta.dhespanol.org>9</beta.dhespanol.org>
-					<beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
-					<!-- END: ODBP Migration Transfer-->
+                    <!-- START: ODBP Migration Transfer-->
+                    <magento.beta.rbc.org>JobSecurity</magento.beta.rbc.org>
+                    <beta.discoveryhousepublishers.org>INTDHP</beta.discoveryhousepublishers.org>
+                    <dod.org>INTDOD</dod.org>
+                    <beta.dod.org>INTDOD</beta.dod.org>
+                    <dhp.org>INTDHP</dhp.org>
+                    <ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
+                    <beta.ourdailybreadpublishing.org>INTDHP</beta.ourdailybreadpublishing.org>
+                    <cugn.org>INTCCU</cugn.org>
+                    <dhespanol.org>INTSPN</dhespanol.org>
+                    <store.ourdailybread.org>INTODB</store.ourdailybread.org>
+                    <betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
+                    <dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
+                    <beta.dhp.org>INTDHP</beta.dhp.org>
+                    <beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
+                    <!-- END: ODBP Migration Transfer-->
 
 
-					<!--add dev sites for MPX source control -->
-					<dev.mage2.org>13</dev.mage2.org>
-					<dev.dhespanol.org>9</dev.dhespanol.org>
-					<dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
-					<dev.dhp.org>4</dev.dhp.org>
-					<dev.store.christianuniversity.org>6</dev.store.christianuniversity.org>
-					<dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
-					<dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
-				</store_id>
-				<domain>
-					<dhpstore>
-						<!-- example:
-						<dhpc>dhponline.ca</dhpc>
-						converts a store/company to the required domain, so when MPX requests data with jobtype/company, the correct domain and therefore store ID is pulled and used to reference .
-						-->
-						<dhpt>dev.mage2.org</dhpt>
-						<dhpu>dhp.org</dhpu>
-					</dhpstore>
-					<odbdonations>
-						<rbcu>dev.mage2.org</rbcu>
-						<!-- beta.donations.ourdailybread.org  donations.ourdailybread.org-->
-					</odbdonations>
-					<!-- example:
-					<ccstore>
-						<dhpu>cugn.org</dhpu>
-					</ccstore>
-					-->
-					<!-- START: ODBP Migration Transfer-->
-					<hfmlstore>
-						<dhpu>helpformylife.org</dhpu>
-					</hfmlstore>
-					<dodstore>
-						<dhpu>dod.org</dhpu>
-					</dodstore>
-					<ccstore>
-						<dhpu>cugn.org</dhpu>
-					</ccstore>
-					<spnstore>
-						<dhpu>dhespanol.org</dhpu>
-					</spnstore>
-					<pilotstore>
-						<rbcu>store.ourdailybread.org</rbcu>
-					</pilotstore>
-					<odbstore>
-						<rbcu>store.ourdailybread.org</rbcu>
-					</odbstore>
-					<odbpstore>
-						<dhpu>ourdailybreadpublishing.org</dhpu>
-						<rbcu>ourdailybreadpublishing.org</rbcu>
-						<odbp>ourdailybreadpublishing.org</odbp>
-					</odbpstore>
-					<!-- END: ODBP Migration Transfer-->
-				</domain>
-				<beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
-					<dhpstore>
-						<dhpt>dev.mage2.org</dhpt>
-						<dhpu>beta.dhp.org</dhpu>
-					</dhpstore>
-					<odbdonations>
-						<rbcu>dev.mage2.org</rbcu>
-					</odbdonations>
+                    <!--add dev sites for MPX source control -->
+                    <dev.mage2.org>INTDEV</dev.mage2.org>
+                    <dev.dhespanol.org>INTDEV</dev.dhespanol.org>
+                    <dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
+                    <dev.dhp.org>INTDEV</dev.dhp.org>
+                    <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
+                    <dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
+                    <dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
+                </motivation_code>
+                <company>
+                    <!-- example:
+                    <dhponline.ca>DHPC</dhponline.ca>
+                    This configures the company name sent to payment processors (paperless, stripe) for MPX to sort out on download (dhpu or rbcu)
+                    -->
 
-					<!-- START: ODBP Migration Transfer-->
-					<hfmlstore>
-						<dhpu>beta.helpformylife.org</dhpu>
-					</hfmlstore>
-					<dodstore>
-						<dhpu>beta.dod.org</dhpu>
-					</dodstore>
-					<ccstore>
-						<dhpu>beta.store.christianuniversity.org</dhpu>
-					</ccstore>
-					<spnstore>
-						<dhpu>dhespanol.org</dhpu>
-					</spnstore>
-					<pilotstore>
-						<rbcu>betastore.ourdailybread.org</rbcu>
-					</pilotstore>
-					<odbstore>
-						<rbcu>betastore.ourdailybread.org</rbcu>
-					</odbstore>
-					<odbpstore>
-						<rbcu>beta.ourdailybreadpublishing.org</rbcu>
-						<dhpu>beta.ourdailybreadpublishing.org</dhpu>
-						<odbp>beta.ourdailybreadpublishing.org</odbp>
-					</odbpstore>
-					<!-- END: ODBP Migration Transfer-->
-				</beta>
-			</runtime>
-		</psuedo_mpxdownload>
-	</default>
+                    <donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
+                    <beta.donations.ourdailybread.org>RBCU</beta.donations.ourdailybread.org>
+
+                    <!-- START: ODBP Migration Transfer-->
+                    <magento.beta.rbc.org>DHPU</magento.beta.rbc.org>
+                    <beta.discoveryhousepublishers.org>DHPU</beta.discoveryhousepublishers.org>
+                    <magento.rbc.org>DHPC</magento.rbc.org>
+                    <dhp.org>DHPU</dhp.org>
+                    <ourdailybreadpublishing.org>DHPU</ourdailybreadpublishing.org>
+                    <beta.dod.org>DHPU</beta.dod.org>
+                    <dod.org>DHPU</dod.org>
+                    <helpformylife.org>DHPU</helpformylife.org>
+                    <cugn.org>DHPU</cugn.org>
+                    <dhespanol.org>DHPU</dhespanol.org>
+                    <store.ourdailybread.org>RBCU</store.ourdailybread.org>
+                    <betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
+                    <dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
+                    <beta.dhp.org>DHPU</beta.dhp.org>
+                    <!--Add beta sites: -->
+                    <beta.ourdailybreadpublishing.org>DHPU</beta.ourdailybreadpublishing.org>
+                    <beta.dhespanol.org>DHPU</beta.dhespanol.org>
+                    <beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
+                    <!-- END: ODBP Migration Transfer-->
+
+                    <!--add dev sites for MPX source control -->
+                    <dev.mage2.org>RBCU</dev.mage2.org>
+                    <dev.dhespanol.org>RBCU</dev.dhespanol.org>
+                    <dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
+                    <dev.dhp.org>RBCU</dev.dhp.org>
+                    <dev.store.christianuniversity.org>RBCU</dev.store.christianuniversity.org>
+                    <dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
+                    <dev.donations.ourdailybread.org>RBCU</dev.donations.ourdailybread.org>
+                </company>
+                <jobtype>
+                    <!-- example:
+                    <dhponline.ca>DhpStore</dhponline.ca>
+                    This sets the jobtype transmitted to payment processors (stripe/paypal) that MPX uses to sort out when downloading from CCtrans (donations, dhpstore, etc)
+                    This must be set per domain
+                    -->
+                    <donations.ourdailybread.org>ODBDonations</donations.ourdailybread.org>
+
+                    <beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
+                    <store_1>ODBDonations</store_1>
+
+                    <!-- START: ODBP Migration Transfer-->
+                    <magento.beta.rbc.org>DhpStore</magento.beta.rbc.org>
+                    <beta.discoveryhousepublishers.org>DhpStore</beta.discoveryhousepublishers.org>
+                    <magento.rbc.org>DhpStore</magento.rbc.org>
+                    <dhp.org>DhpStore</dhp.org>
+                    <ourdailybreadpublishing.org>DhpStore</ourdailybreadpublishing.org>
+                    <dod.org>DodStore</dod.org>
+                    <beta.dod.org>DodStore</beta.dod.org>
+                    <helpformylife.org>HfmlStore</helpformylife.org>
+                    <cugn.org>CcStore</cugn.org>
+                    <dhespanol.org>SpnStore</dhespanol.org>
+                    <beta.dhespanol.org>SpnStore</beta.dhespanol.org>
+                    <store.ourdailybread.org>ODBStore</store.ourdailybread.org>
+                    <beta.store.ourdailybread.org>ODBStore</beta.store.ourdailybread.org>
+                    <dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
+                    <beta.dhp.org>DhpStore</beta.dhp.org>
+                    <!--Add beta sites: -->
+                    <beta.ourdailybreadpublishing.org>DhpStore</beta.ourdailybreadpublishing.org>
+                    <beta.dhespanol.org>SpnStore</beta.dhespanol.org>
+                    <beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
+                    <!-- END: ODBP Migration Transfer-->
+
+                    <!--add dev sites for MPX source control -->
+                    <dev.mage2.org>DevStore</dev.mage2.org>
+                    <dev.dhespanol.org>DevStore</dev.dhespanol.org>
+                    <dev.ourdailybreadpublishing.org>DevStore</dev.ourdailybreadpublishing.org>
+                    <dev.dhp.org>DevStore</dev.dhp.org>
+                    <dev.store.christianuniversity.org>DevStore</dev.store.christianuniversity.org>
+                    <dev.store.ourdailybread.org>DevStore</dev.store.ourdailybread.org>
+                    <dev.donations.ourdailybread.org>DevStore</dev.donations.ourdailybread.org>
+                </jobtype>
+                <store_id>
+                    <!-- example>
+                    <dhponline.ca>2</dhponline.ca>
+                    The grid to match each domain to a store ID when pulling from a single domain api (discoveryhousepublishers.org pulls odbp, odbm, odbcu, odbpes, etc)
+                    Every store id, must be referenced by at least 1 domain, and dev, beta, production for each domain
+                    -->
+
+                    <donations.ourdailybread.org>13</donations.ourdailybread.org>
+                    <beta.donations.ourdailybread.org>13</beta.donations.ourdailybread.org>
+
+                    <!-- START: ODBP Migration Transfer-->
+                    <magento.beta.rbc.org>1</magento.beta.rbc.org>
+                    <magento.rbc.org>1</magento.rbc.org>
+                    <beta.discoveryhousepublishers.org>1</beta.discoveryhousepublishers.org>
+                    <dhp.org>4</dhp.org>
+                    <ourdailybreadpublishing.org>4</ourdailybreadpublishing.org>
+                    <beta.dhp.org>4</beta.dhp.org>
+                    <beta.dod.org>2</beta.dod.org>
+                    <dod.org>3</dod.org>
+                    <cugn.org>6</cugn.org>
+                    <dhespanol.org>9</dhespanol.org>
+                    <store.ourdailybread.org>8</store.ourdailybread.org>
+                    <beta.store.ourdailybread.org>8</beta.store.ourdailybread.org>
+                    <dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
+                    <!--Add beta sites: -->
+                    <beta.ourdailybreadpublishing.org>4</beta.ourdailybreadpublishing.org>
+                    <beta.dhespanol.org>9</beta.dhespanol.org>
+                    <beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
+                    <!-- END: ODBP Migration Transfer-->
+
+
+                    <!--add dev sites for MPX source control -->
+                    <dev.mage2.org>13</dev.mage2.org>
+                    <dev.dhespanol.org>9</dev.dhespanol.org>
+                    <dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
+                    <dev.dhp.org>4</dev.dhp.org>
+                    <dev.store.christianuniversity.org>6</dev.store.christianuniversity.org>
+                    <dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
+                    <dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
+                </store_id>
+                <!-- Use order_type to identify if a store accepts donations or not -->
+                <!-- Examples: gift, order, both -->
+                <order_type>
+                    <!-- prod sites -->
+                    <ourdailybreadpublishing.org>order</ourdailybreadpublishing.org>
+                    <dhespanol.org>order</dhespanol.org>
+                    <store.christianuniversity.org>order</store.christianuniversity.org>
+                    <store.ourdailybread.org>gift</store.ourdailybread.org>
+                    <donations.ourdailybread.org>gift</donations.ourdailybread.org>
+
+                    <!-- beta sites -->
+                    <beta.ourdailybreadpublishing.org>order</beta.ourdailybreadpublishing.org>
+                    <beta.dhespanol.org>order</beta.dhespanol.org>
+                    <beta.store.christianuniversity.org>order</beta.store.christianuniversity.org>
+                    <beta.store.ourdailybread.org>gift</beta.store.ourdailybread.org>
+                    <beta.donations.ourdailybread.org>gift</beta.donations.ourdailybread.org>
+
+                    <!-- dev sites -->
+                    <dev.ourdailybreadpublishing.org>order</dev.ourdailybreadpublishing.org>
+                    <dev.dhespanol.org>order</dev.dhespanol.org>
+                    <dev.store.christianuniversity.org>order</dev.store.christianuniversity.org>
+                    <dev.store.ourdailybread.org>gift</dev.store.ourdailybread.org>
+                    <dev.donations.ourdailybread.org>gift</dev.donations.ourdailybread.org>
+                </order_type>
+                <domain>
+                    <dhpstore>
+                        <!-- example:
+                        <dhpc>dhponline.ca</dhpc>
+                        converts a store/company to the required domain, so when MPX requests data with jobtype/company, the correct domain and therefore store ID is pulled and used to reference .
+                        -->
+                        <dhpt>dev.mage2.org</dhpt>
+                        <dhpu>dhp.org</dhpu>
+                    </dhpstore>
+                    <odbdonations>
+                        <rbcu>dev.mage2.org</rbcu>
+                        <!-- beta.donations.ourdailybread.org  donations.ourdailybread.org-->
+                    </odbdonations>
+                    <!-- example:
+                    <ccstore>
+                        <dhpu>cugn.org</dhpu>
+                    </ccstore>
+                    -->
+                    <!-- START: ODBP Migration Transfer-->
+                    <hfmlstore>
+                        <dhpu>helpformylife.org</dhpu>
+                    </hfmlstore>
+                    <dodstore>
+                        <dhpu>dod.org</dhpu>
+                    </dodstore>
+                    <ccstore>
+                        <dhpu>cugn.org</dhpu>
+                    </ccstore>
+                    <spnstore>
+                        <dhpu>dhespanol.org</dhpu>
+                    </spnstore>
+                    <pilotstore>
+                        <rbcu>store.ourdailybread.org</rbcu>
+                    </pilotstore>
+                    <odbstore>
+                        <rbcu>store.ourdailybread.org</rbcu>
+                    </odbstore>
+                    <odbpstore>
+                        <dhpu>ourdailybreadpublishing.org</dhpu>
+                        <rbcu>ourdailybreadpublishing.org</rbcu>
+                        <odbp>ourdailybreadpublishing.org</odbp>
+                    </odbpstore>
+                    <!-- END: ODBP Migration Transfer-->
+                </domain>
+                <beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
+                    <dhpstore>
+                        <dhpt>dev.mage2.org</dhpt>
+                        <dhpu>beta.dhp.org</dhpu>
+                    </dhpstore>
+                    <odbdonations>
+                        <rbcu>dev.mage2.org</rbcu>
+                    </odbdonations>
+
+                    <!-- START: ODBP Migration Transfer-->
+                    <hfmlstore>
+                        <dhpu>beta.helpformylife.org</dhpu>
+                    </hfmlstore>
+                    <dodstore>
+                        <dhpu>beta.dod.org</dhpu>
+                    </dodstore>
+                    <ccstore>
+                        <dhpu>beta.store.christianuniversity.org</dhpu>
+                    </ccstore>
+                    <spnstore>
+                        <dhpu>dhespanol.org</dhpu>
+                    </spnstore>
+                    <pilotstore>
+                        <rbcu>betastore.ourdailybread.org</rbcu>
+                    </pilotstore>
+                    <odbstore>
+                        <rbcu>betastore.ourdailybread.org</rbcu>
+                    </odbstore>
+                    <odbpstore>
+                        <rbcu>beta.ourdailybreadpublishing.org</rbcu>
+                        <dhpu>beta.ourdailybreadpublishing.org</dhpu>
+                        <odbp>beta.ourdailybreadpublishing.org</odbp>
+                    </odbpstore>
+                    <!-- END: ODBP Migration Transfer-->
+                </beta>
+            </runtime>
+        </psuedo_mpxdownload>
+    </default>
 </config>
