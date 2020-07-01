@@ -107,18 +107,6 @@
         </referenceBlock>
 
         <!-- Add song samples tab -->
-        <referenceBlock name="product.info.details">
-            <block class="Magento\Catalog\Block\Product\View"
-                   name="songSamples.tab"
-                   template="Magento_Catalog::product/view/odbp-song-samples.phtml"
-                   group="detailed_info"
-            >
-                <arguments>
-                    <argument name="sort_order" xsi:type="string">10</argument>
-                    <argument translate="true" name="title" xsi:type="string">Song Samples</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
 
         <!-- Product collateral data (tabs) -->
         <referenceBlock name="product.info.details" template="Infortis_Base::product/view/details.phtml">
@@ -127,6 +115,19 @@
                           helper="Infortis\Base\Helper\Template\Catalog\Product\View::showTabs"/>
                 <argument name="sort_order" xsi:type="string">20</argument>
             </arguments>
+
+            <!-- Add song samples tab -->
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="songSamples.tab"
+                   template="Magento_Catalog::product/view/odbp-song-samples.phtml"
+                   group="detailed_info"
+            >
+                <arguments>
+                    <argument name="sort_order" xsi:type="string">15</argument>
+                    <argument translate="true" name="title" xsi:type="string">Song Samples</argument>
+                </arguments>
+            </block>
+
             <!-- Custom static blocks as tabs -->
             <block class="Magento\Cms\Block\Block" name="product_cms_block1" group="detailed_info">
                 <arguments>
@@ -147,10 +148,6 @@
                 </arguments>
             </block>
         </referenceBlock>
-
-        <referenceContainer name="product.info.social">
-            <block class="Magento\Catalog\Block\Product\View" name="product.info.socialmedia" template="Magento_Catalog::product/view/socialmedia.phtml"/>
-        </referenceContainer>
 
         <referenceBlock name="catalog.product.related">
             <action method="setTemplate">
