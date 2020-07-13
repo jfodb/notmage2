@@ -23,6 +23,7 @@ aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/awslogs.conf 
 #build and deploy
 php /usr/share/nginx/html/magento/bin/magento setup:upgrade
 php /usr/share/nginx/html/magento/bin/magento setup:di:compile
+php /usr/share/nginx/html/magento/bin/magento deploy:mode:set production
 php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy en_US es_MX
 php /usr/share/nginx/html/magento/bin/magento index:reindex
 
