@@ -26,6 +26,7 @@ php /usr/share/nginx/html/magento/bin/magento setup:di:compile
 php /usr/share/nginx/html/magento/bin/magento deploy:mode:set production
 php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy en_US es_MX
 php /usr/share/nginx/html/magento/bin/magento index:reindex
+php /usr/share/nginx/html/magento/bin/magento cron:install
 
 #building makes bad cache
 php /usr/share/nginx/html/magento/bin/magento cache:clean
