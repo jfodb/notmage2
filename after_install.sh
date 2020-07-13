@@ -6,9 +6,9 @@ if [[ $(findmnt -m /usr/share/nginx/html/magento/pub/media) ]]; then
 else
     if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
     then
-        mount -t efs fs-e12571ab:/ /usr/share/nginx/html/magento/pub/media/
-    else
         mount -t efs fs-1e74a656:/ /usr/share/nginx/html/magento/pub/media/
+    else
+        mount -t efs fs-e12571ab:/ /usr/share/nginx/html/magento/pub/media/
     fi
 fi
 
