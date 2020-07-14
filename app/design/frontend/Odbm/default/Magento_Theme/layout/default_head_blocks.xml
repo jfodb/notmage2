@@ -2,6 +2,7 @@
     <head>
         <css src="css/styles.css" type="text/css" />
         <css src="css/fontello-2a83f505/css/odb_icons.css" type="text/css" />
+        <css src="css/odbm-donation-styles.css" type="text/css"/>
         <link src="js/main.js"/>
 
         <script src="https://injector.paperlesstrans.com/v1.1.min.js" src_type="url"/>

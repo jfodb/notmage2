@@ -1,0 +1,92 @@
+/* Remove add to links */
+.product-view .product-social-links {
+    display: none !important;
+}
+
+/* Hide quantity on product page */
+.product-view .qty *{
+    display:none !important;
+}
+
+/* Hide price box */
+.product-view .price-box {
+    display: none !important;
+}
+
+/* Hide sku */
+.product-view .sku {
+    display: none !important;
+}
+
+/* Hide quantity on checkout */
+.minicart-items .details-qty *{
+    display:none !important;
+}
+
+/* Stylize welcome message */
+.welcome {
+    color: white;
+    padding-top: 5px;
+    font-size: 16px;
+    margin-bottom: 0;
+    text-align: center;
+    border-bottom: solid 3px #EDAE3C;
+    line-height: 30px;
+}
+
+ /* add margin to logo */
+.header-container .logo a img{
+    margin-top:10px;
+}
+
+/* add padding around footer image */
+.footer-logo img {
+    padding: 5px 0 30px 0;
+}
+
+/* set image width in mini-cart to auto to avoid stretching image */
+.minicart-items img.product-image-photo[style] {
+    width: auto !important;
+}
+
+/* give padding between items in minicart */
+.minicart-items span.product-image-container[style]{
+    height: auto !important;
+}
+
+/* mobile mini cart - white icons */
+.minicart-items .action.edit:before,.minicart-items .action.delete:before {
+    color: white !important;
+}
+
+/* Hide create account on registration */
+#registration {
+    display:none !important;
+}
+
+/* Center footer links on mobile */
+@media only screen and (max-width: 991px) {
+    .footer-primary-container .inner-container .col-md-2, .footer-primary-container .inner-container .col-md-4{
+        text-align: center;
+    }
+    .footer-primary-container .inner-container .col-md-4 {
+        padding-bottom: 30px;
+    }
+}
+
+/*Hide note on checkout about creating an account after signing in*/
+#checkout .note {
+    display:none !important;
+}
+
+.header-container .header-container2 .container {
+    max-width: 100% !important;
+    width: 96% !important;
+}
+
+ /* Hide edit cart link on mini-cart until cart is fixed or USLF-1009 is completed*/
+.mini-cart .viewcart {
+    display: none !important;
+}
+
+#checkout div.checkout-payment-method div.discount-code { display: none; }

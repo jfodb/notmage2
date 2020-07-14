@@ -1,0 +1,28 @@
+<?php
+/**
+ * @var $block \Magento\Catalog\Block\Product\View\Attributes
+ */
+?>
+<?php
+    $helper = $this->helper('Magento\Catalog\Helper\Output');
+    $product = $block->getProduct();
+?>
+<?php if ($_additional = $block->getAdditionalData()) : ?>
+    <div class="additional-attributes-wrapper table-wrapper">
+        <table class="data table additional-attributes" id="product-attribute-specs-table">
+            <caption class="table-caption"><?php echo __('More Information'); ?></caption>
+            <tbody>
+            <?php foreach ($_additional as $_data) : ?>
+            <?php if ($_data['code'] == 'enable_custom_price' || $_data['code'] == 'custom_price') :
+                continue;
+            else :?>
+                <tr>
+                    <th class="col label" scope="row"><?php echo __($_data['label']); ?></th>
+                    <td class="col data" data-th="<?php echo __($_data['label']); ?>"><?php echo $helper->productAttribute($product, $_data['value'], $_data['code']); ?></td>
+                </tr>
+            <?php endif;?>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif;?>

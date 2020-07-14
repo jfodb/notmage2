@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Provider: Meetanshi.
+ * Package: Meetanshi_CustomPrice
+ * Support: support@meetanshi.com (https://meetanshi.com/)
+ */ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <router id="admin">
+        <route id="customprice" frontName="customprice">
+            <module name="Meetanshi_CustomPrice"/>
+        </route>
+    </router>
+</config>

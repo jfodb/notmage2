@@ -14,7 +14,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 	protected $db, $db_resource, $ips, $domain, $timeoffset, $store, $motivation, $company, $jobtype, $_err_code, $object_manager;
 	protected $ip, $err, $err_message, $connection_good;
 	protected $productModel;
-	public $START_STATUS, $START_STATE, $PROCESS_STATUS, $PROCESS_STATE, $END_STATUS, $END_STATE;
+	public $START_STATUS, $PROCESS_STATUS, $END_STATUS, $FINAL_ORDER_STATUS;
 
 	static $ENCODE_BYTE_MAP, $NIBBLE_GOOD_CHARS;
 
@@ -81,12 +81,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->ips = preg_split('/[;,]\s*/', $ipstring);
 		//print_r($this->ips);
 
-		$this->START_STATUS = 'paid';
-		$this->START_STATE = 'complete';
-		$this->PROCESS_STATUS = 'mpx';
-		$this->PROCESS_STATE = 'complete';
-		$this->END_STATUS = 'complete';
-		$this->END_STATE = 'complete';
+		$this->START_STATUS = 'unprocessed';
+		
+		$this->PROCESS_STATUS = 'processing';
+		
+		$this->END_STATUS = 'processed';
+
+		$this->FINAL_ORDER_STATUS = 'complete'; //mpx_processing, shipped, complete
+		
 
 		$this->productModel->setStoreId($this->store);
 
@@ -164,7 +166,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		if (!empty($this->db))
 		{
 			try{
-				$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `status`='%s', `state`='%s' WHERE `ext_order_id` IS NOT NULL;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS, $this->START_STATE);
+				$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `mpx_status`='%s' WHERE `ext_order_id` IS NOT NULL;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS);
 				$this->db->query($sql);
 			} catch(\Exception $e) {
 				$this->api_return_error(503, "Could not reset Job");
@@ -202,16 +204,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		} else
 			$ids = false;
 
-		$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `status`='%s', `state`='%s' WHERE `store_id`=%d AND `ext_order_id` = %d;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS, $this->START_STATE, $this->store, $jobid);
+		$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `mpx_status`='%s' WHERE `store_id`=%d AND `ext_order_id` = %d;", $this->db_resource->getTableName('sales_order'), $this->START_STATUS, $this->store, $jobid);
 		try {
 			$this->db->query($sql);
-
-			if($ids)
-				foreach ($ids as $entity_id){
-					$this->db->insert($this->db_resource->getTableName('sales_order_status_history'),
-						array('parent_id'=>$entity_id,'is_customer_notified'=>0,'is_visible_on_front'=>0,'comment'=>'mpx processing rollback',
-							'status'=>$this->START_STATUS,'created_at'=>date('Y-m-d H:i:s'),'entity_name'=>'mpx'));
-				}
 			return true;
 		} catch (\Exception $e) {
 			$this->api_return_error(503, "Could not reset Job");
@@ -244,7 +239,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	function api_check_connection()
 	{
- 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' || $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTPS'])) ){
+ 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' ||( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )  || !empty($_SERVER['HTTPS'])) ){
 			$this->api_return_error(412, 'Must be done through a secure socket.');
 			return false;
 		}
@@ -487,10 +482,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		if (!empty($row) && count($row) > 0)
 		{
 
-			//$sql = sprintf("UPDATE `%s` SET `ext_order_id`=NULL, `status`='%s', `state`='%s' WHERE `store_id`=%d AND `ext_order_id` = %d;", $this->db_resource->getTableName('sales_ flat_ order'), $this->START_STATUS, $this->START_STATE, $this->store, $job_id);
-			//try {
-			//  $this->db->query($sql);
-
 			//: call the function instead:
 			$this->api_rollback_job();
 			usleep(400);   /* database has to update before we continue... */
@@ -505,11 +496,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		//updated_at
-		$sql  = sprintf("SELECT orders.*, ocache.* FROM `%s` orders LEFT JOIN `%s` ocache ON ocache.order_id=orders.entity_id WHERE store_id=%d AND state='%s' AND status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
+		$sql  = sprintf("SELECT orders.*, ocache.* FROM `%s` orders LEFT JOIN `%s` ocache ON ocache.order_id=orders.entity_id WHERE store_id=%d AND mpx_status='%s' AND created_at>='%s' AND created_at<'%s' AND ext_order_id IS NULL;",
 			$this->db_resource->getTableName('sales_order'),
 			$this->db_resource->getTableName('mpx_flat_orders'),
 			$this->store,
-			$this->START_STATE,
 			$this->START_STATUS,
 			date('Y-m-d ', $start_date).$this->timeoffset,
 			date('Y-m-d ', $end_date).$this->timeoffset
@@ -552,18 +542,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			return true;
 		}
 
-		for ($i = 0; $i < count($orderRows); $i++)
+
+
+		//assign orders to this pull and set status
+		$initquery  = sprintf("update `%s` SET `ext_order_id`=%d, `mpx_status`='%s' WHERE `entity_id` IN (",
+			$this->db_resource->getTableName('sales_order'),
+			$job_id,
+			$this->PROCESS_STATUS
+		);
+		for ($i = 0; $i < count($orderRows); )
 		{
+			$ids = [];
+			for($j = 0; $j < 100 && $i < count($orderRows); $j++) {
 
-			$this->db->update(
-				$this->db_resource->getTableName('sales_order'),
-				array('ext_order_id'=>$job_id, 'state'=>$this->PROCESS_STATE, 'status'=>$this->PROCESS_STATUS),
-				" `entity_id`=".$orderRows[$i]['entity_id']
-			);
+				$ids[] = $orderRows[$i]['entity_id'];
 
-			$this->db->insert($this->db_resource->getTableName('sales_order_status_history'),
-				array('parent_id'=>$orderRows[$i]['entity_id'],'is_customer_notified'=>0,'is_visible_on_front'=>0,'comment'=>'mpx processing',
-					'status'=>$this->PROCESS_STATUS,'created_at'=>date('Y-m-d H:i:s'),'entity_name'=>'mpx'));
+				$i++;
+
+			}
+
+			$query = $initquery . join(',', $ids) . ');';
+
+			$this->db->query( $query );
 		}
 
 
@@ -628,11 +628,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				else
 					$OrderRow["ReceivedAmount"] = round($order['base_total_invoiced'], 2);
 
-				$OrderRow["OrderAmount"] = floatval("0.00");
 
-				$OrderRow["GiftAmount"] = round($order["base_subtotal"], 2);
+				/*This doesn't work for cart*/
+				$OrderRow["OrderTotalAmount"] = round($order["base_grand_total"], 2);
+				$OrderRow["GiftAmount"] = floatval("0.00");
+				$OrderRow["OrderAmount"] = round($order["base_subtotal"], 2);
+
+
 				$OrderRow["ShippingAmount"] = round($order['base_shipping_amount'], 2);
-				$OrderRow["OrderTotalAmount"] = floatval("0.00");
 
 				$OrderRow["PrimaryTaxAmount"] = round($order['base_tax_amount'], 2);
 				$OrderRow["SecondaryTaxAmount"] = 0.00;
@@ -646,9 +649,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if(empty($shipmethod)){
 					$shipmethod = "None";
 				}
-				else if ($shipmethod.IndexOf("(") > 3)
+				else if (strpos($shipmethod,"(") > 3)
 				{
-				    $shipmethod = trim( substring($shipmethod, 0, $shipmethod.IndexOf("(")) );
+				    $shipmethod = trim( substr($shipmethod, 0, strpos($shipmethod,"(")) );
 				}
 				else if ($shipmethod == "No Shipping Required")
 				{
@@ -913,7 +916,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					&& (
 						$Addresses[0]["FirstName"] == $Addresses[1]["FirstName"]
 						&& $Addresses[0]["LastName"] == $Addresses[1]["LastName"]
-						&& $Addresses[0]["OrganizationName"] == $Addresses[1]["OrganizationName"]
+						// May be needed for when MOSS comes over
+            //&& $Addresses[0]["OrganizationName"] == $Addresses[1]["OrganizationName"]
 						&& $Addresses[0]["Address1"] == $Addresses[1]["Address1"]
 						//&& order.ShippingAddress.Line2.Trim() == order.BillingAddress.Line2.Trim()
 						//&& order.ShippingAddress.Line3.Trim() == order.BillingAddress.Line3.Trim()
@@ -999,7 +1003,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					if(!empty($lineitem['item_id']))
 						$products[$lineitem['item_id']] = $lineitem;
 				}
-				
+
+				//iterate through, evaluate items and determine if they need to be discarded as duplicate or child
+				$itemtracking = [];
 				foreach($items as $index => $lineitem) {
 					if(!empty($lineitem['parent_item_id']) ) {
 						//we have a child based variation?
@@ -1007,7 +1013,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						//do we have the parent?
 						if(!empty($products[$lineitem['parent_item_id']])) {
 
-							if ($lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
+							if (!empty($lineitem['parent_item_id']) && !empty($item_hash[$lineitem['parent_item_id']]) && $lineitem['sku'] === $item_hash[$lineitem['parent_item_id']]['sku']) {
 								unset($items[$index]);
 								continue;     //this element contains no relevant additional information
 							}
@@ -1018,6 +1024,38 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							}
 						}
 					}
+
+					//product customization, results in a duplicate, less informational product. drop it.
+					if(!empty($lineitem['item_id'])) {
+						$itemid = $lineitem['item_id'];
+						$itemtracking[$itemid] = $itemid;
+
+						if(!empty($lineitem['parent_item_id']))
+							$parentid = $lineitem['parent_item_id'];
+						else
+							$parentid = false;
+
+						if($parentid && !empty($itemtracking[$parentid])){
+
+							$parent = $itemtracking[$parentid];
+
+							//has_options in parent, not child, required options parent, not child, sku's are not the same (in product),
+							//parent has parent_item_id=null, child does not, product_id !=, parent product_type=configurable child is simple,
+							//sku == and product_id !=, name != but similar, qty_ordered ==,
+							//this may be over specific, but we want to make sure that there are no consequential errors.
+							if(
+								$lineitem['sku'] === $parent['sku']
+								&& $lineitem['name'] != $parent['name']
+								&& $lineitem['qty_ordered'] === $parent['qty_ordered']
+//								&& $parent['product_type'] === 'configurable' && $lineitem['product_type'] == 'simple'
+							) {
+								//remove unnecessary child product
+								unset($items[$index]);
+							}
+						}
+
+
+					}
 				}
 
 
@@ -1027,8 +1065,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				foreach ($items as $lineitem)
 				{
 					$original = false;
+					$motivation = $this->motivation;
 					$productisrecurring = false;
 					$recurMotivationCode = false;
+					$gift_amount = false;
 
 					$quant = intval($lineitem['qty_ordered']);
 					if ($quant <= 0)
@@ -1036,10 +1076,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$li = array();
 
 					$li["ProductCode"] = $lineitem['sku'];
-					$this->motivation = $lineitem['sku'];
+
 
 					$li["Quantity"] = $quant;
-					$li["Price"] = round($lineitem['base_original_price'], 2);
+					$li["Price"] = round($lineitem['price'], 2);
+					$original_price = round($lineitem['base_original_price'], 2);
 					//Mage ::log("Base_Original price: ".$li["Price"]);
 
 					$li["PrimaryTaxAmount"] = round($lineitem['base_tax_amount'], 2);
@@ -1054,6 +1095,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					//$original = $this->object_manager->create('\Magento\Catalog\Model\Product')->setStoreId($this->store)->load($lineitem['product_id']);
 
 
+					//look up attributes of the product, we need ProductOfferType. try it a few different ways.
 					if(!empty($lineitem['attr'])) {
 						$attr = $lineitem['attr'];
 					} else {
@@ -1087,15 +1129,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 
-					if(isset($lineitem['price']) && !empty($lineitem['original_price']) && $lineitem['price'] != $lineitem['original_price']) {
 
+					// check for various donation methods
+					//do the price/original price not match?
+					if(isset($lineitem['price']) && isset($lineitem['original_price']) && is_numeric($lineitem['original_price'])  && $lineitem['price'] != $lineitem['original_price']) {
+
+						// was this product already pre-determined to be a GOAA or NCOO?
 						if($attr == 'GOAA' || $attr == 'NCOO') {
-							$li["Price"] = round($lineitem['price'], 2);
+
 							$li["DiscountAmount"] = '0.00';
+							$gift_amount = $li['Price'];
 						}
 						else {
-							$li["DiscountAmount"] = round($lineitem['original_price'] - $lineitem['price'], 2);
-							$li["Price"] = round($lineitem['original_price'], 2);
+							// check with original price to see if this was a sale, or
+							$diff = round($original_price - $lineitem['price'], 2);
+
+							if($diff > 0 ) {
+								//if this is a discount, then assign the original price and indicate discount amount
+								//if($quant && $quant > 1)
+								//	$li["DiscountAmount"] = round($diff*$quant, 2);
+								//$li["Price"] = round($lineitem['original_price'], 2);
+								$mpx = 'Cant even';
+								//leave the price the same and don't handle discounts
+								//mpx cannot process discounts through automation
+							}
+							else
+								//anything above the original amount is a donation
+								$gift_amount = abs($diff);
 						}
 
 					} else
@@ -1177,6 +1237,40 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$li['SourceProductType'] = 'Sale';
 
 
+					//are these donations? let me count the ways...
+					if($li['SourceProductType'] === 'Donation'){
+						//this is purely a donation, the item amount is $0 and the products motivation over rides the order motivation
+						$motivation = $lineitem['sku'];
+
+						/*This doesn't work for cart*/
+						//move this amount from Order Total and total amount to Gift Amount
+						$amount = $li["Price"];
+						$li["Price"] = '0.00';
+
+						if($li['Quantity'] > 1)
+							$amount *= $li['Quantity'];
+
+						if($OrderRow['OrderTotalAmount'] >= $amount)
+							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $amount, 2);
+						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $amount, 2);
+						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $amount, 2);
+					}
+
+					else if($gift_amount) {
+						//a gift from the ODB Store.
+						//the gift amount is above and beyond the price, price may not be $0
+						//remove from product price and apply to order level gift.
+
+						$li["Price"] = round($li["Price"] - $gift_amount, 2);
+
+						if($lineitem['qty_ordered'] > 1)
+							$gift_amount *= $li["Quantity"];
+
+						if($OrderRow['OrderTotalAmount'] >= $gift_amount)
+							$OrderRow["OrderTotalAmount"] = round($OrderRow["OrderTotalAmount"] - $gift_amount, 2);
+						$OrderRow["GiftAmount"] = round($OrderRow["GiftAmount"] + $gift_amount, 2);
+						$OrderRow["OrderAmount"] = round($OrderRow["OrderAmount"] - $gift_amount, 2);
+					}
 
 
 					//back to payment data:
@@ -1233,12 +1327,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				//order level discount is the remainder of discount
 				$OrderRow["OrderDiscountAmount"] = round($order['base_discount_amount'], 2);
 
-				if($OrderRow["OrderDiscountAmount"] > 0.00) {
-					$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
-				}
+				//if($OrderRow["OrderDiscountAmount"] > 0.00) {
+				//	$OrderRow["OrderAmount"] -= $OrderRow["OrderDiscountAmount"];
+				//}
 
 
-				$OrderRow["MotivationCode"] = $this->motivation;
+				$OrderRow["MotivationCode"] = $motivation;
 
 
 				$Mem_rows[] = $OrderRow;
@@ -1330,21 +1424,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->_logger->notice($order_set);
 			$this->db->update(
 				$this->db_resource->getTableName('sales_order'),
-				array('state'=>$this->END_STATE, 'status'=>$this->END_STATUS),
+				array('mpx_status'=>$this->END_STATUS),
 				" `entity_id` IN ".$order_set
 			);
-			$this->db->update(
-				$this->db_resource->getTableName('sales_order_grid'),
-				array('status'=>$this->END_STATUS),
-				" `entity_id` IN ".$order_set
-			);
-
-			$dt = date('Y-m-d H:i:s');
-			foreach ($order_id_list as $entity_id){
-				$this->db->insert($this->db_resource->getTableName('sales_order_status_history'),
-					array('parent_id'=>$entity_id,'is_customer_notified'=>0,'is_visible_on_front'=>0,'comment'=>'mpx complete',
-						'status'=>$this->END_STATUS,'created_at'=>$dt,'entity_name'=>'mpx'));
-			}
+			
 		} catch(\Exception $e) {
 			$this->_logger->error("Could not update processed orders' status");
 		}
@@ -1377,11 +1460,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		// `created_at` = time order started; `updated_at` = time order paid/finished
 		$hourshift = intval($this->timeoffset);
-		$sql  = sprintf("SELECT DATE(`created_at` - INTERVAL %d HOUR) as order_date, COUNT(`entity_id`) as order_count FROM `%s` orders WHERE store_id=%d AND state='%s' AND status='%s' AND created_at<'%s' AND ext_order_id IS NULL GROUP BY order_date ;",
+		$sql  = sprintf("SELECT DATE(`created_at` - INTERVAL %d HOUR) as order_date, COUNT(`entity_id`) as order_count FROM `%s` orders WHERE store_id=%d AND mpx_status='%s' AND created_at<'%s' AND ext_order_id IS NULL GROUP BY order_date ;",
 			$hourshift,
 			$this->db_resource->getTableName('sales_order'),
 			$this->store,
-			$this->START_STATE,
 			$this->START_STATUS,
 			date('Y-m-d ', $start_date).$this->timeoffset
 		);

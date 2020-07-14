@@ -46,10 +46,10 @@ class InstallData implements InstallDataInterface
 				'apply_to' => 'donation'
 			]	
 		);
-		//Add one-time-donation option to product
+		//Add one_time_donation option to product
 		$eavSetup->addAttribute(
 			\Magento\Catalog\Model\Product::ENTITY,
-			'one-time-donation',
+			'one_time_donation',
 			[
 				'type' => 'int',
 				'backend' => '',

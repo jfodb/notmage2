@@ -6,9 +6,9 @@ if [[ $(findmnt -m /usr/share/nginx/html/magento/pub/media) ]]; then
 else
     if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
     then
-        mount -t efs fs-e12571ab:/ /usr/share/nginx/html/magento/pub/media/
-    else
         mount -t efs fs-1e74a656:/ /usr/share/nginx/html/magento/pub/media/
+    else
+        mount -t efs fs-e12571ab:/ /usr/share/nginx/html/magento/pub/media/
     fi
 fi
 
@@ -23,8 +23,10 @@ aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/awslogs.conf 
 #build and deploy
 php /usr/share/nginx/html/magento/bin/magento setup:upgrade
 php /usr/share/nginx/html/magento/bin/magento setup:di:compile
-php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy
+php /usr/share/nginx/html/magento/bin/magento deploy:mode:set production
+php /usr/share/nginx/html/magento/bin/magento setup:static-content:deploy en_US es_MX
 php /usr/share/nginx/html/magento/bin/magento index:reindex
+php /usr/share/nginx/html/magento/bin/magento cron:install
 
 #building makes bad cache
 php /usr/share/nginx/html/magento/bin/magento cache:clean

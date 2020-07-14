@@ -80,10 +80,10 @@ class UpgradeData implements UpgradeDataInterface
 					]
 				);
 
-			//Add one-time-donation option to product
+			//Add one_time_donation option to product
 			$eavSetup->addAttribute(
 				\Magento\Catalog\Model\Product::ENTITY,
-				'one-time-donation',
+				'one_time_donation',
 				[
 					'type' => 'int',
 					'backend' => '',
@@ -201,5 +201,40 @@ class UpgradeData implements UpgradeDataInterface
 				]
 			);
 		}
+        if (version_compare($context->getVersion(), '1.0.9', '<')) {
+            $eavSetup->addAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'thank_you_page_block',
+                [
+                    'backend' => '',
+                    'type' => 'int',
+                    'frontend' => '',
+                    'input' => 'select',
+                    'label' => 'Choose a custom "Thank You" page',
+                    'class' => '',
+                    'source' => 'Magento\Catalog\Model\Category\Attribute\Source\Page',
+                    'required' => false,
+                    'user_defined' => true,
+                    'unique' => false,
+                    'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                    'input_renderer' => '',
+                    'searchable' => true,
+                    'filterable' => false,
+                    'comparable' => false,
+                    'visible_on_front' => false,
+                    'visible' => true,
+                    'is_html_allowed_on_front' => false,
+                    'visible_in_advanced_search' => false,
+                    'used_in_product_listing' => true,
+                    'used_for_sort_by' => false,
+                    'apply_to' => 'donation',
+                    'used_for_promo_rules' => false,
+                    'is_used_in_grid' => false,
+                    'is_visible_in_grid' => false,
+                    'is_filterable_in_grid' => false,
+                    'group' => 'Content'
+                ]
+            );
+        }
 	}
 }

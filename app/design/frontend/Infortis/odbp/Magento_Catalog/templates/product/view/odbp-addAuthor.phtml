@@ -1,0 +1,11 @@
+<?php
+$_product = $block->getProduct();
+?>
+<?php if ($_product->getData('display_name')): ?>
+    <!-- START ADD AUTHOR CUSTOMIZATIONS -->
+<h4 class="authorname">
+<?php $_authorname = $_product->getAttributeText('display_name');?>
+
+    <?php echo __("by") . " " . $_authorname ?>
+ </h4>
+<?php endif; ?>
