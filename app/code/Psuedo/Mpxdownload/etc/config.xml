@@ -25,7 +25,7 @@
                     <dhp.org>INTDHP</dhp.org>
                     <ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
                     <beta.ourdailybreadpublishing.org>INTDHP</beta.ourdailybreadpublishing.org>
-                    <cugn.org>INTCCU</cugn.org>
+                    <store.christianuniversity.org>INTCCU</store.christianuniversity.org>
                     <dhespanol.org>INTSPN</dhespanol.org>
                     <store.ourdailybread.org>INTODB</store.ourdailybread.org>
                     <betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
@@ -62,7 +62,7 @@
                     <beta.dod.org>DHPU</beta.dod.org>
                     <dod.org>DHPU</dod.org>
                     <helpformylife.org>DHPU</helpformylife.org>
-                    <cugn.org>DHPU</cugn.org>
+                    <store.christianuniversity.org>DHPU</store.christianuniversity.org>
                     <dhespanol.org>DHPU</dhespanol.org>
                     <store.ourdailybread.org>RBCU</store.ourdailybread.org>
                     <betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
@@ -103,7 +103,7 @@
                     <dod.org>DodStore</dod.org>
                     <beta.dod.org>DodStore</beta.dod.org>
                     <helpformylife.org>HfmlStore</helpformylife.org>
-                    <cugn.org>CcStore</cugn.org>
+                    <store.christianuniversity.org>CcStore</store.christianuniversity.org>
                     <dhespanol.org>SpnStore</dhespanol.org>
                     <beta.dhespanol.org>SpnStore</beta.dhespanol.org>
                     <store.ourdailybread.org>ODBStore</store.ourdailybread.org>
@@ -144,7 +144,7 @@
                     <beta.dhp.org>4</beta.dhp.org>
                     <beta.dod.org>2</beta.dod.org>
                     <dod.org>3</dod.org>
-                    <cugn.org>6</cugn.org>
+                    <store.christianuniversity.org>6</store.christianuniversity.org>
                     <dhespanol.org>9</dhespanol.org>
                     <store.ourdailybread.org>8</store.ourdailybread.org>
                     <beta.store.ourdailybread.org>8</beta.store.ourdailybread.org>
@@ -202,11 +202,6 @@
                         <rbcu>dev.mage2.org</rbcu>
                         <!-- beta.donations.ourdailybread.org  donations.ourdailybread.org-->
                     </odbdonations>
-                    <!-- example:
-                    <ccstore>
-                        <dhpu>cugn.org</dhpu>
-                    </ccstore>
-                    -->
                     <!-- START: ODBP Migration Transfer-->
                     <hfmlstore>
                         <dhpu>helpformylife.org</dhpu>
@@ -215,7 +210,7 @@
                         <dhpu>dod.org</dhpu>
                     </dodstore>
                     <ccstore>
-                        <dhpu>cugn.org</dhpu>
+                        <dhpu>store.christianuniversity.org</dhpu>
                     </ccstore>
                     <spnstore>
                         <dhpu>dhespanol.org</dhpu>
