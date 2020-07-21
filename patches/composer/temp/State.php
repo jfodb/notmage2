@@ -34,6 +34,7 @@ class State
             if (in_array($currentState, [Order::STATE_PROCESSING, Order::STATE_COMPLETE])
                 && !$order->canCreditmemo()
                 && !$order->canShip()
+                && $order->getGrandTotal() > 0
             ) {
                 $order->setState(Order::STATE_CLOSED)
                     ->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CLOSED));
