@@ -207,7 +207,6 @@ return [
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
         'ClassyLlama_AvaTax' => 1,
-        'Cryozonic_StripePayments' => 0,
         'Meetanshi_CustomPrice' => 1,
         'Dat_Thankyouemail' => 1,
         'Dat_Thankyoupage' => 1,
