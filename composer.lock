@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "649cc71b7f4f1e3eb841483bf2cce2c0",
+    "content-hash": "2c1e3e4292a4516e06f0f73b2ed52f33",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -2024,34 +2024,6 @@
             ],
             "description": "Magento composer library helps to instantiate Composer application and run composer commands.",
             "time": "2018-06-29T18:46:51+00:00"
-        },
-        {
-            "name": "magento/data-migration-tool",
-            "version": "2.3.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://repo.magento.com/archives/magento/data-migration-tool/magento-data-migration-tool-2.3.2.0.zip",
-                "shasum": "30bb81af3a94bb3872710550f86efe42d3832e7f"
-            },
-            "require": {
-                "magento/framework": "*",
-                "monolog/monolog": "^1.17",
-                "symfony/console": "~4.1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Migration\\": [
-                        "src/Migration",
-                        "tests/unit/testsuite/Migration"
-                    ]
-                },
-                "files": [
-                    "src/Migration/cli_commands.php",
-                    "registration.php"
-                ]
-            },
-            "description": "Migration Tool"
         },
         {
             "name": "magento/framework",
@@ -12424,16 +12396,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.17.1",
+            "version": "v1.18.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "7110338d81ce1cbc3e273136e4574663627037a7"
+                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7110338d81ce1cbc3e273136e4574663627037a7",
-                "reference": "7110338d81ce1cbc3e273136e4574663627037a7",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
+                "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
                 "shasum": ""
             },
             "require": {
@@ -12445,7 +12417,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17-dev"
+                    "dev-master": "1.18-dev"
                 },
                 "thanks": {
                     "name": "symfony/polyfill",
@@ -12483,7 +12455,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2020-06-06T08:46:27+00:00"
+            "time": "2020-07-14T12:35:20+00:00"
         },
         {
             "name": "symfony/polyfill-php56",

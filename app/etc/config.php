@@ -49,7 +49,6 @@ return [
         'Magento_Integration' => 1,
         'Magento_CustomerGraphQl' => 1,
         'Magento_CustomerImportExport' => 1,
-        'Magento_DataMigrationTool' => 1,
         'Magento_Deploy' => 1,
         'Magento_Developer' => 1,
         'Magento_Dhl' => 1,
@@ -208,7 +207,7 @@ return [
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
         'ClassyLlama_AvaTax' => 1,
-        'Cryozonic_StripePayments' => 1,
+        'Cryozonic_StripePayments' => 0,
         'Meetanshi_CustomPrice' => 1,
         'Dat_Thankyouemail' => 1,
         'Dat_Thankyoupage' => 1,
@@ -240,7 +239,6 @@ return [
         'Psuedo_PaypalFixed' => 1,
         'Psuedo_Silverpop' => 1,
         'Temando_Shipping' => 1,
-        'Vendor_Migration' => 1,
         'Vertex_Tax' => 1
     ]
 ];
