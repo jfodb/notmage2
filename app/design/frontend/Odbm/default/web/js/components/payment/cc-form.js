@@ -390,14 +390,14 @@ define([
 		 * @returns {String}
 		 */
 		getStripeSecurityMethod: function() {
-			return window.checkoutConfig.payment.cryozonic_stripe.securityMethod;
+			return window.checkoutConfig.payment.stripe_payments.securityMethod;
 		},
 		/**
 		 * Return Stripe key
 		 * @returns {String}
 		 */
 		getStripeKey: function() {
-			return window.checkoutConfig.payment.cryozonic_stripe.stripeJsKey;
+			return window.checkoutConfig.payment.stripe_payments.stripeJsKey;
 		},
 
 		/**
