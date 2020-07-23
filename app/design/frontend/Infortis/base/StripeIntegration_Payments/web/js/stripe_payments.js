@@ -149,8 +149,11 @@ var stripe =
 				// Custom styling can be passed to options when creating an Element.
 				return {
 					base: {
-						// ODB Base Styles
+						// Add ODB Styles
 						fontSize: '20px',
+						// lineHeight: '24px'
+						// iconColor: '#c4f0ff',
+						// fontWeight: 300,
 						color: '#000',
 						fontFamily: "'PT Sans', sans-serif",
 						'::placeholder': {
