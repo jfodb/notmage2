@@ -149,17 +149,14 @@ var stripe =
 				// Custom styling can be passed to options when creating an Element.
 				return {
 					base: {
-						// Add your base input styles here. For example:
-						fontSize: '16px',
-						// lineHeight: '24px'
-						// iconColor: '#c4f0ff',
-						// color: '#31325F'
-						//         fontWeight: 300,
-						//         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+						// ODB Base Styles
+						fontSize: '20px',
+						color: '#000',
+						fontFamily: "'PT Sans', sans-serif",
 
-						//         '::placeholder': {
-						//             color: '#CFD7E0'
-						//         }
+						'::placeholder': {
+							color: '#555555'
+						}
 					}
 				};
 			},
