@@ -90,3 +90,9 @@
 }
 
 #checkout div.checkout-payment-method div.discount-code { display: none; }
+
+/* Increase Stripe Credit Card Form Size */
+#stripe-payments-card-number {
+    width: 225px !important;
+    display: inline-block;
+}
