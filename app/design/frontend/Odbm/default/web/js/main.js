@@ -259,14 +259,14 @@ function switch_to_stripe(){
 	if(checkr.length == 0 && chck2.length > 0) {
 		jQuery('div.pci-dss-info-block').parent().addClass('payment-method-notes');
 		jQuery('#submitDonationButton').parent().parent().addClass('paperless-pay-button');
-		jQuery('div.cryozonic-stripe .ccard').parent().addClass('payment-data');
-		jQuery('div#cryozonic-stripe-card-expiry').parent().addClass('multi-item');
-		jQuery('div#cryozonic-stripe-card-number').parent().addClass('card-line');
+		jQuery('div.stripe-payments .ccard').parent().addClass('payment-data');
+		jQuery('div#stripe-payments-card-expiry').parent().addClass('multi-item');
+		jQuery('div#stripe-payments-card-number').parent().addClass('card-line');
 
-		jQuery('div.currencyDisclaimer').appendTo('.cryozonic-stripe .ccard .payment-method-notes');
-		jQuery('div.termsDisclaimer').appendTo('div.cryozonic-stripe .payment-data');
+		jQuery('div.currencyDisclaimer').appendTo('.stripe-payments .ccard .payment-method-notes');
+		jQuery('div.termsDisclaimer').appendTo('div.stripe-payments .payment-data');
 
-		//initStripe(window.checkoutConfig.payment.cryozonic_stripe.stripeJsKey, window.checkoutConfig.payment.cryozonic_stripe.securityMethod);
+		//initStripe(window.checkoutConfig.payment.stripe_payments.stripeJsKey, window.checkoutConfig.payment.stripe_payments.securityMethod);
 
 
 	}

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a2ad323bc4826c6ad3edb6cd798435de",
+    "content-hash": "977c11c8f906c6c61505dfd9471e054e",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -222,16 +222,11 @@
         },
         {
             "name": "avalara/avatax-magento",
-            "version": "1.5.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/avadev/Avalara-AvaTax-for-Magento2.git",
-                "reference": "51e72380d0a886db9e247ad133d8a0ae3b25c85f"
-            },
+            "version": "1.5.15",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avadev/Avalara-AvaTax-for-Magento2/zipball/51e72380d0a886db9e247ad133d8a0ae3b25c85f",
-                "reference": "51e72380d0a886db9e247ad133d8a0ae3b25c85f",
+                "url": "https://api.github.com/repos/avadev/Avalara-AvaTax-for-Magento2/zipball/51f413cfc7fc0c785d7b8b651692a13d7d189f61",
+                "reference": "51f413cfc7fc0c785d7b8b651692a13d7d189f61",
                 "shasum": ""
             },
             "require": {
@@ -252,7 +247,7 @@
                 "OSL-3.0"
             ],
             "description": "Magento module for Avalara's AvaTax suite of business tax calculation and processing services. Uses the AvaTax REST v2 API.",
-            "time": "2020-07-15T10:18:37+00:00"
+            "time": "2020-07-02T11:45:15+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1231,11 +1226,17 @@
         },
         {
             "name": "experius/module-donationproduct",
-            "version": "1.0.5",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/experius/Magento-2-Module-Experius-DonationProduct.git",
+                "reference": "96d41132f1ca504c8b5707d17bc2a92419ff8000"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/experius/module-donationproduct/experius-module-donationproduct-1.0.5.0.zip",
-                "shasum": "6e0e08cac4a5e5b4a5ca2731b6585122bba01f42"
+                "url": "https://api.github.com/repos/experius/Magento-2-Module-Experius-DonationProduct/zipball/96d41132f1ca504c8b5707d17bc2a92419ff8000",
+                "reference": "96d41132f1ca504c8b5707d17bc2a92419ff8000",
+                "shasum": ""
             },
             "type": "magento2-module",
             "autoload": {
@@ -1246,6 +1247,7 @@
                     "Experius\\DonationProduct\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "proprietary"
             ],
@@ -1254,7 +1256,8 @@
                     "name": "Derrick Heesbeen",
                     "email": "derrick@experius.nl"
                 }
-            ]
+            ],
+            "time": "2017-12-22T15:46:45+00:00"
         },
         {
             "name": "fasaro/magento2-es_mx-language-pack",
@@ -2024,34 +2027,6 @@
             ],
             "description": "Magento composer library helps to instantiate Composer application and run composer commands.",
             "time": "2018-06-29T18:46:51+00:00"
-        },
-        {
-            "name": "magento/data-migration-tool",
-            "version": "2.3.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://repo.magento.com/archives/magento/data-migration-tool/magento-data-migration-tool-2.3.2.0.zip",
-                "shasum": "30bb81af3a94bb3872710550f86efe42d3832e7f"
-            },
-            "require": {
-                "magento/framework": "*",
-                "monolog/monolog": "^1.17",
-                "symfony/console": "~4.1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Migration\\": [
-                        "src/Migration",
-                        "tests/unit/testsuite/Migration"
-                    ]
-                },
-                "files": [
-                    "src/Migration/cli_commands.php",
-                    "registration.php"
-                ]
-            },
-            "description": "Migration Tool"
         },
         {
             "name": "magento/framework",
@@ -8345,7 +8320,7 @@
             "type": "magento2-module",
             "extra": {
                 "patches_applied": {
-                    "Magento-25177: Downloadable Product Zero Subtotal Checkout Issue": "patches/composer/zero_total_downloadable_product.diff"
+                    "USLF-1318 & Magento-25177: Downloadable Product Zero Subtotal Checkout Issue": "patches/composer/zero_total_downloadable_product.diff"
                 }
             },
             "autoload": {
@@ -10460,16 +10435,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.25.4",
+            "version": "1.25.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "3022efff205e2448b560c833c6fbbf91c3139168"
+                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/3022efff205e2448b560c833c6fbbf91c3139168",
-                "reference": "3022efff205e2448b560c833c6fbbf91c3139168",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1817faadd1846cd08be9a49e905dc68823bc38c0",
+                "reference": "1817faadd1846cd08be9a49e905dc68823bc38c0",
                 "shasum": ""
             },
             "require": {
@@ -10533,7 +10508,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2020-05-22T07:31:27+00:00"
+            "time": "2020-07-23T08:35:51+00:00"
         },
         {
             "name": "msp/recaptcha",
@@ -11664,30 +11639,73 @@
             "time": "2018-09-13T19:25:26+00:00"
         },
         {
+            "name": "stripe/module-payments",
+            "version": "1.9.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/stripe/module-payments/stripe-module-payments-1.9.0.0.zip",
+                "shasum": "51631e0aeba681829e908da721cf62460bee7a6b"
+            },
+            "require": {
+                "stripe/stripe-php": "^7.33.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "StripeIntegration\\Payments\\": ""
+                }
+            },
+            "license": [
+                "https://stripe.com/magento/legal"
+            ],
+            "description": "Shared component for accepting online payments in Magento 2 using the Stripe payment gateway."
+        },
+        {
+            "name": "stripe/stripe-payments",
+            "version": "1.9.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/stripe/stripe-payments/stripe-stripe-payments-1.9.0.0.zip",
+                "shasum": "6da84bc82675c5f56ec83fcb0d294bfe1076023b"
+            },
+            "require": {
+                "stripe/module-payments": ">=1.9.0"
+            },
+            "type": "metapackage",
+            "license": [
+                "https://stripe.com/magento/legal"
+            ],
+            "description": "Accept online payments in Magento 2 using the Stripe payment gateway."
+        },
+        {
             "name": "stripe/stripe-php",
-            "version": "v6.43.1",
+            "version": "v7.44.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "42fcdaf99c44bb26937223f8eae1f263491d5ab8"
+                "reference": "b39ccc77358fbe0d462e6cc89ac01b7a0c896f35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/42fcdaf99c44bb26937223f8eae1f263491d5ab8",
-                "reference": "42fcdaf99c44bb26937223f8eae1f263491d5ab8",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/b39ccc77358fbe0d462e6cc89ac01b7a0c896f35",
+                "reference": "b39ccc77358fbe0d462e6cc89ac01b7a0c896f35",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=5.4.0"
+                "php": ">=5.6.0"
             },
             "require-dev": {
-                "php-coveralls/php-coveralls": "1.*",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0",
-                "symfony/process": "~2.8"
+                "friendsofphp/php-cs-fixer": "2.16.1",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^3.3",
+                "symfony/process": "~3.4"
             },
             "type": "library",
             "extra": {
@@ -11717,7 +11735,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2019-08-29T16:56:12+00:00"
+            "time": "2020-07-20T21:25:50+00:00"
         },
         {
             "name": "symfony/console",

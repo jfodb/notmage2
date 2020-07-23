@@ -191,7 +191,7 @@ function (
             //manage switch to stripe
             let checkr = jQuery('#activate_stripe');
             if(checkr.length > 0) {
-                jQuery('div.cryozonic-stripe').addClass('force');
+                jQuery('div.stripe-payments').addClass('force');
                 switch_to_stripe();
             }
         },
