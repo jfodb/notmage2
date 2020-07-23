@@ -273,3 +273,9 @@ button.minus {
 .page-product-downloadable .product-options-bottom {
     float: none !important;
 }
+
+/* Increase Stripe Credit Card Form Size */
+#stripe-payments-card-number {
+    width: 225px !important;
+    display: inline-block;
+}
