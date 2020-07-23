@@ -153,7 +153,6 @@ var stripe =
 						fontSize: '20px',
 						color: '#000',
 						fontFamily: "'PT Sans', sans-serif",
-
 						'::placeholder': {
 							color: '#555555'
 						}
