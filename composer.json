@@ -86,6 +86,9 @@
         "patches": {
             "magento/module-offline-payments": {
                 "Magento-23211: Create Invoice for Zero Subtotal Orders": "patches/composer/zero_subtotal_invoice.diff"
+            },
+            "magento/module-sales": {
+                "USLF-1318 & Magento-25177: Downloadable Product Zero Subtotal Checkout Issue": "patches/composer/zero_total_downloadable_product.diff"
             }
         }
     }
