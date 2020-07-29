@@ -2,6 +2,8 @@
 
 namespace Psuedo\Mpxdownload\Plugin;
 
+use StripeIntegration\Payments\Model\Config;
+
 class StripeTagging
 {
     protected $objectManager;
@@ -17,7 +19,7 @@ class StripeTagging
         $this->logger = $logger;
     }
 
-    public function afterGetStripeParamsFrom(\Cryozonic\StripePayments\Model\Config $subject, $params)
+    public function afterGetStripeParamsFrom(Config $subject, $params)
     {
         //would be nice if we got $order too... $order->getStoreId, $order->getCustomerId...
         $d = $_SERVER['HTTP_HOST'];

@@ -33,7 +33,6 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
     const GET_EXPRESS_CHECKOUT_DETAILS = 'GetExpressCheckoutDetails';
     const DO_EXPRESS_CHECKOUT_PAYMENT = 'DoExpressCheckoutPayment';
     const CALLBACK_RESPONSE = 'CallbackResponse';
-    const DONATION_TYPE = 'ODBDonations';
     /**
      * Paypal ManagePendingTransactionStatus actions
      */
@@ -126,7 +125,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
 
 // shipping rate
         'SHIPPINGOPTIONNAME' => 'shipping_rate_code',
-		'NOSHIPPING' => '2',// 'suppress_shipping',
+        'NOSHIPPING' => '2',// 'suppress_shipping',
 
 // paypal direct credit card information
         'CREDITCARDTYPE' => 'credit_card_type',
@@ -735,6 +734,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
     protected $is_recurring;
     protected $session;
     protected $messagemanager;
+    protected $scopeConfig;
     /**
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Psr\Log\LoggerInterface $logger
@@ -742,12 +742,13 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
-     * @param ProcessableExceptionFactory $processableExceptionFactory
+     * @param \Magento\Paypal\Model\Api\ProcessableExceptionFactory $processableExceptionFactory
      * @param \Magento\Framework\Exception\LocalizedExceptionFactory $frameworkExceptionFactory
      * @param \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory
-     * @paaram \Magento\Checkout\Model\Cart $cart
+     * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -764,6 +765,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         array $data = []
     ) {
         parent::__construct($customerAddress, $logger, $customLogger, $localeResolver, $regionFactory, $countryFactory, $processableExceptionFactory,  $frameworkExceptionFactory, $curlFactory, $data);
@@ -774,7 +776,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
         $this->cart = $cart;
         $this->session = $customerSession;
         $this->messagemanager = $messageManager;
-
+        $this->scopeConfig = $scopeConfig;
         // Initalize properties
         $this->resetValues();
     }
@@ -786,31 +788,35 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
         $referer = $this->getItemReferer();
 
 
-	    $quote  =  $this->cart->getQuote();
+        $quote  =  $this->cart->getQuote();
 
-	    //fix empty email in quote bug
-	    //https://github.com/magento/magento2/issues/27681
-	    $fixed = false;
-	    if($quote->getBillingAddress()->getEmail() === null && $quote->getShippingAddress()->getEmail() !== null) {
-		    $quote->getBillingAddress()->setEmail($quote->getShippingAddress()->getEmail());
-		    $fixed = true;
-	    }
-	    if($quote->getCustomerEmail() === null && $quote->getBillingAddress()->getEmail()  !== null) {
-		    $quote->setCustomerEmail($quote->getBillingAddress()->getEmail());
-		    $fixed = true;
-	    }
-	    if($fixed && method_exists($quote, 'save'))
-	    	$quote->save();
+        //fix empty email in quote bug
+        //https://github.com/magento/magento2/issues/27681
+        $fixed = false;
+        if($quote->getBillingAddress()->getEmail() === null && $quote->getShippingAddress()->getEmail() !== null) {
+            $quote->getBillingAddress()->setEmail($quote->getShippingAddress()->getEmail());
+            $fixed = true;
+        }
+        if($quote->getCustomerEmail() === null && $quote->getBillingAddress()->getEmail()  !== null) {
+            $quote->setCustomerEmail($quote->getBillingAddress()->getEmail());
+            $fixed = true;
+        }
+        if($fixed && method_exists($quote, 'save'))
+            $quote->save();
 
         $paypal_ministry = $this->getMinistry();
         $recurring_type = $this->isItemRecurring() ? 'monthly' : 'onetime';
 
         $order_number = $quote->getReservedOrderId();
 
-        if ( $this->isItemDonation() ) {
-            $custom_field = '~' . self::DONATION_TYPE . "||{$order_number}~{$recurring_type}|{$referer}|{$paypal_ministry}";
+        // get configs for reporting
+        $host = $_SERVER['HTTP_HOST'];
+        $jobid = $this->scopeConfig->getValue('psuedo_mpxdownload/runtime/jobtype/' . $host, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+        if ( isset($host) && !empty($host) ) {
+            $custom_field = '~' . $jobid . "||{$order_number}~{$recurring_type}|{$referer}|{$paypal_ministry}";
         } else {
-            $custom_field = "~Donation||~{$recurring_type}|{$referer}|{$paypal_ministry}";
+            $custom_field = "~Unknown||~{$recurring_type}|{$referer}|{$paypal_ministry}";
         }
 
         $this->custom = $custom_field;
@@ -912,30 +918,6 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
         }
 
         return $this->is_recurring;
-    }
-
-    /**
-     * Check to see if cart contains a donation.
-     *
-     * If any items is a donation, returns true.
-     *
-     * @return boolean $is_donation
-     */
-    public function isItemDonation() {
-        $is_donation = false;
-
-        foreach ( $this->cart->getQuote()->getItemsCollection() as $item ) {
-            if ( $item->getParentItemId() ) {
-                continue;
-            }
-
-            if ( $item->getProduct()->getTypeId() == 'donation' ) {
-                $is_donation = true;
-                break;
-            }
-        }
-
-        return $is_donation;
     }
 
     /**
@@ -1368,7 +1350,7 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             $response = $http->read();
         } catch (\Exception $e) {
             $debugData['http_error'] = ['error' => $e->getMessage(), 'code' => $e->getCode()];
-	        $this->session->setGatewayMessage(__('Sorry, Paypal is down, please use a different method'));
+            $this->session->setGatewayMessage(__('Sorry, Paypal is down, please use a different method'));
             $this->_debug($debugData);
             throw $e;
         }
@@ -1391,11 +1373,11 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             );
             $http->close();
 
-	        $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
+            $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
 
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Payment Gateway is unreachable at the moment. Please use another payment option.'),
-	            null,
+                null,
                 200
             );
         }
@@ -1407,8 +1389,8 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             $this->_logger->critical(new \Exception(__('PayPal response hasn\'t required fields.')));
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Something went wrong while processing your order.'),
-	            null,
-	            500
+                null,
+                500
             );
         }
 
@@ -1420,13 +1402,13 @@ class OdbNvp extends \Magento\Paypal\Model\Api\Nvp
             return $response;
         }
 
-	    try {
-		    $this->_handleCallErrors($response);
-	    } catch (\Exception $e){
-			    $this->messagemanager->addErrorMessage(__('Payment Gateway has thrown an error. Please use another payment option.'));
-			    $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
-			    throw $e;
-	    }
+        try {
+            $this->_handleCallErrors($response);
+        } catch (\Exception $e){
+            $this->messagemanager->addErrorMessage(__('Payment Gateway has thrown an error. Please use another payment option.'));
+            $this->session->setGatewayMessage('Sorry for the inconvenience, Paypal is experiencing techincal difficulties. Please proceed with a different payment type.');
+            throw $e;
+        }
         return $response;
     }
 

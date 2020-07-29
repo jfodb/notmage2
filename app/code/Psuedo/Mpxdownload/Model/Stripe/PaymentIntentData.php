@@ -2,7 +2,7 @@
 
 namespace Psuedo\Mpxdownload\Model\Stripe;
 
-use \Cryozonic\StripePayments\Model\PaymentIntent;
+use StripeIntegration\Payments\Model\PaymentIntent;
 
 class PaymentIntentData extends PaymentIntent
 {

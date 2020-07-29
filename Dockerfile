@@ -35,6 +35,7 @@ RUN apt-add-repository -y ppa:ondrej/php \
                     php-xdebug \
                     vim \
                     strace \
+                    patch \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && curl -sS https://getcomposer.org/installer | php \
