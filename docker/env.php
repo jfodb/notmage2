@@ -2,19 +2,19 @@
 return array (
   'backend' =>
   array (
-    'frontName' => 'odbmadmin',
+    'frontName' => getenv('ADMIN_URI'),
   ),
   'crypt' =>
   array (
-    'key' => '782d87cee4ed0cec98ebb2ffaeee75c1',
+    'key' => getenv('CRYPT_KEY'),
   ),
 	'session' =>
 	array (
 	  'save' => 'redis',
 	  'redis' =>
 	  array (
-	    'host' => 'redis',
-	    'port' => '6379',
+	    'host' => getenv('REDIS_HOST'),
+	    'port' => getenv('REDIS_PORT'),
 	    'password' => '',
 	    'timeout' => '2.5',
 	    'persistent_identifier' => '',
@@ -40,10 +40,10 @@ return array (
     array (
       'default' =>
       array (
-        'host' => 'mysql',
-        'dbname' => 'magento',
-        'username' => 'magento_user',
-        'password' => 'magento',
+        'host' => getenv('MYSQL_HOST'),
+        'dbname' => getenv('MYSQL_DATABASE'),
+        'username' => getenv('MYSQL_USER'),
+        'password' => getenv('MYSQL_PASSWORD'),
         'model' => 'mysql4',
         'engine' => 'innodb',
         'initStatements' => 'SET NAMES utf8;',
@@ -60,9 +60,9 @@ return array (
         'backend' => 'Cm_Cache_Backend_Redis',
         'backend_options' =>
         array (
-          'server' => 'redis',
+          'server' => getenv('REDIS_HOST'),
           'database' => '0',
-          'port' => '6379',
+          'port' => getenv('REDIS_PORT'),
         ),
       ),
       'page_cache' =>
@@ -70,8 +70,8 @@ return array (
         'backend' => 'Cm_Cache_Backend_Redis',
         'backend_options' =>
         array (
-          'server' => 'redis',
-          'port' => '6379',
+          'server' => getenv('REDIS_HOST'),
+          'port' => getenv('REDIS_PORT'),
           'database' => '1',
           'compress_data' => '0',
         ),
@@ -86,7 +86,7 @@ return array (
     ),
   ),
   'x-frame-options' => 'SAMEORIGIN',
-  'MAGE_MODE' => 'developer',
+  'MAGE_MODE' => getenv('MAGE_MODE'),
   'cache_types' =>
   array (
     'config' => 1,

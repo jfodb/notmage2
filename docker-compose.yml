@@ -1,5 +1,6 @@
 web:
   build: .
+  dockerfile: Dockerfile.fargate
   ports:
   - 80:80
   - 10004:9000
@@ -9,6 +10,17 @@ web:
   links:
   - mysql
   - redis
+  environment:
+      CRYPT_KEY: 782d87cee4ed0cec98ebb2ffaeee75c1
+      MAGE_MODE: production
+      MYSQL_HOST: mysql
+      MYSQL_DATABASE: magento
+      MYSQL_USER: magento_user
+      MYSQL_PASSWORD: magento
+      ADMIN_URI: localadmin
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      COMPOSER_AUTH: '{"http-basic": {"repo.magento.com": {"username": "5c83310030cab3ca5c8f3b46c45be957","password": "ce45f9cf6c09f6850d7ed1305d7543f8"},"composer.amasty.com": {"username": "94348dce9d8c23fa54cc364d822dfe7d","password": "ba9512c1466119063980dc29f3005e29"}},"github-oauth": {"github.com": "47d2b739561d6c9c127d56c8dd43fa6ee9b57167"}}'
 
 mysql:
   image: mysql:5.6

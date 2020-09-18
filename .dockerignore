@@ -1,0 +1,14 @@
+.git
+.gitignore
+hooks
+license
+docker-compose.yml
+.htaccess
+after_install.sh
+install.sh
+auth.json.sample
+/vendor/
+var/cache/*
+var/tmp/*
+var/session/*
+var/log/*

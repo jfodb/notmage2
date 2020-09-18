@@ -1,0 +1,70 @@
+FROM amazonlinux
+
+ENV PHP_VERSION=php72
+USER root
+
+EXPOSE 443
+EXPOSE 80
+
+RUN yum localinstall -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+RUN yum install -y nginx
+
+RUN yum upgrade -y \
+    && yum install -y \
+        which \
+        tar \
+        gcc \
+        patch \
+        nodejs \
+        git \
+        unzip \
+        ${PHP_VERSION}-php-cli \
+        ${PHP_VERSION}-php-common \
+        ${PHP_VERSION}-php-fpm \
+        ${PHP_VERSION}-php-gd \
+        ${PHP_VERSION}-php-json \
+        ${PHP_VERSION}-php-ldap \
+        ${PHP_VERSION}-php-mbstring \
+        ${PHP_VERSION}-php-mcrypt \
+        ${PHP_VERSION}-php-mysqlnd \
+        ${PHP_VERSION}-php-opcache \
+        ${PHP_VERSION}-php-pdo \
+        ${PHP_VERSION}-php-bcmath \
+        ${PHP_VERSION}-php-intl \
+        ${PHP_VERSION}-php-soap \
+        ${PHP_VERSION}-php-zip \
+        ${PHP_VERSION}-php-xml
+
+RUN ln -s /usr/bin/php72 /usr/local/bin/php
+RUN npm install -g grunt-cli
+
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && composer global require hirak/prestissimo --no-plugins --no-scripts
+
+RUN mkdir /app
+WORKDIR /app
+COPY composer.json /app/composer.json
+COPY auth.json /app/auth.json
+COPY ./docker/php.ini  /etc/opt/remi/php72/php.ini
+RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
+COPY . /app
+RUN composer dump-autoload --no-scripts --no-dev --optimize
+
+RUN chown -R nginx:nginx /app
+RUN export PATH=$PATH:/app/bin
+
+COPY ./docker/www.conf /etc/php-fpm.d/www.conf
+COPY ./docker/nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY ./docker/env.php /app/app/etc/env.php
+COPY ./docker/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
+COPY ./docker/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
+COPY ./docker/dhparam.pem /etc/ssl/certs/dhparam.pem
+COPY ./docker/mage-signed.conf /etc/nginx/snippets/mage-signed.conf
+COPY ./docker/ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+RUN mkdir -p /var/lib/php/session/
+RUN chown nginx:nginx /var/lib/php/
+RUN mkdir -p /run/php-fpm/
+RUN chown -R nginx:nginx /run/php-fpm/
+
+ENTRYPOINT ["/app/entrypoint.sh"]
