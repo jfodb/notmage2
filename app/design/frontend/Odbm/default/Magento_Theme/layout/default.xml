@@ -84,10 +84,19 @@
 			</container>
 		</referenceContainer>
 
+		<!-- Add block to footer -->
+		<referenceContainer name="before.body.end">
+			<block name="odbp-country-footer" template="Magento_Theme::odbp-country-footer.phtml">
+				<arguments>
+					<argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\CountryHelper</argument>
+				</arguments>
+			</block>
+		</referenceContainer>
+
 		<!-- Override default navigation sections -->
-		<referenceBlock name="navigation.sections" remove="true"/>
-		<referenceBlock name="minicart" remove="true"/>
-		<referenceBlock name="top.search" remove="true"/>
+		<referenceBlock name="navigation.sections" remove="true" />
+		<referenceBlock name="minicart" remove="true" />
+		<referenceBlock name="top.search" remove="true" />
 		<referenceBlock name="breadcrumbs" remove="true" />
 	</body>
 </page>
