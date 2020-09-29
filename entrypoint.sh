@@ -7,7 +7,6 @@ if [ -n "${COMMAND}" ]; then
   echo "ENTRYPOINT: Executing override command"
   exec $COMMAND
 else
-  /app/bin/magento setup:upgrade
   /app/bin/magento setup:static-content:deploy
   chown -R nginx:nginx /app
   /opt/remi/php72/root/sbin/php-fpm -R --fpm-config /etc/php-fpm.d/www.conf; 2>&1 &
