@@ -212,6 +212,7 @@ return [
         'Dat_Thankyoupage' => 1,
         'Dotdigitalgroup_Email' => 1,
         'Experius_DonationProduct' => 1,
+        'Folio3_MaintenanceMode' => 1,
         'Infortis_Infortis' => 1,
         'Infortis_Brands' => 1,
         'Infortis_Cgen' => 1,

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "977c11c8f906c6c61505dfd9471e054e",
+    "content-hash": "e23b4b29bad11992fb02f296b8d8038c",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -225,9 +225,8 @@
             "version": "1.5.15",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avadev/Avalara-AvaTax-for-Magento2/zipball/51f413cfc7fc0c785d7b8b651692a13d7d189f61",
-                "reference": "51f413cfc7fc0c785d7b8b651692a13d7d189f61",
-                "shasum": ""
+                "url": "https://repo.magento.com/archives/avalara/avatax-magento/avalara-avatax-magento-1.5.15.0.zip",
+                "shasum": "15a5cfa3b617ac99c4323499645a584bb724d456"
             },
             "require": {
                 "avalara/avatax": "^15.5.2.0",
@@ -242,12 +241,10 @@
                     "ClassyLlama\\AvaTax\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "OSL-3.0"
             ],
-            "description": "Magento module for Avalara's AvaTax suite of business tax calculation and processing services. Uses the AvaTax REST v2 API.",
-            "time": "2020-07-02T11:45:15+00:00"
+            "description": "Magento module for Avalara's AvaTax suite of business tax calculation and processing services. Uses the AvaTax REST v2 API."
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1265,12 +1262,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fasaro/magento2-es_mx-language-pack.git",
-                "reference": "ecd931bbf7c26d0eac17eb00eb5f1f8c0e1add97"
+                "reference": "40199e53ce166e9a08db1e3eb0cff07f2e3f0af2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fasaro/magento2-es_mx-language-pack/zipball/ecd931bbf7c26d0eac17eb00eb5f1f8c0e1add97",
-                "reference": "ecd931bbf7c26d0eac17eb00eb5f1f8c0e1add97",
+                "url": "https://api.github.com/repos/fasaro/magento2-es_mx-language-pack/zipball/40199e53ce166e9a08db1e3eb0cff07f2e3f0af2",
+                "reference": "40199e53ce166e9a08db1e3eb0cff07f2e3f0af2",
                 "shasum": ""
             },
             "require": {
@@ -1287,7 +1284,49 @@
                 "MIT"
             ],
             "description": "Spanish (Mexico) language package for Magento 2",
-            "time": "2020-06-12T04:08:41+00:00"
+            "time": "2020-08-21T20:28:02+00:00"
+        },
+        {
+            "name": "folio3ecommerce/folio3_maintenancemode",
+            "version": "1.0.7",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/folio3ecommerce/folio3_maintenancemode/folio3ecommerce-folio3_maintenancemode-1.0.7.0.zip",
+                "shasum": "2cd4f50940be7bf7bb90eadc2304bd5a3c707b07"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "psr-4": {
+                    "Folio3\\MaintenanceMode\\": ""
+                },
+                "files": [
+                    "registration.php"
+                ]
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Folio3 Magento Extensions",
+                    "email": "ecommerce@folio3.com",
+                    "homepage": "http://www.folio3.com/magento-development",
+                    "role": "developer"
+                },
+                {
+                    "name": "Saad Taimoor",
+                    "email": "saadtaimoor@live.com",
+                    "homepage": "http://www.folio3.com/magento-development",
+                    "role": "developer"
+                },
+                {
+                    "name": "Irfan Khan",
+                    "email": "mirfan.dev@gmail.com",
+                    "homepage": "http://www.folio3.com/magento-development",
+                    "role": "developer"
+                }
+            ],
+            "description": "The basic functionality is to put the website into Maintenance mode. Additionally this extension has a count down and it also supports IP White listing."
         },
         {
             "name": "google/recaptcha",
@@ -10312,12 +10351,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mageplaza/magento-2-spanish-language-pack.git",
-                "reference": "cce345f4221ee35e6ed46c689422bf2f8237417b"
+                "reference": "dc440f511fd389718d343a369481768a7681a65a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mageplaza/magento-2-spanish-language-pack/zipball/cce345f4221ee35e6ed46c689422bf2f8237417b",
-                "reference": "cce345f4221ee35e6ed46c689422bf2f8237417b",
+                "url": "https://api.github.com/repos/mageplaza/magento-2-spanish-language-pack/zipball/dc440f511fd389718d343a369481768a7681a65a",
+                "reference": "dc440f511fd389718d343a369481768a7681a65a",
                 "shasum": ""
             },
             "require": {
@@ -10343,7 +10382,7 @@
             ],
             "description": "Spanish language package for Magento 2",
             "homepage": "https://www.mageplaza.com",
-            "time": "2020-06-27T11:11:32+00:00"
+            "time": "2020-06-29T09:14:29+00:00"
         },
         {
             "name": "mageplaza/module-core",
@@ -18566,6 +18605,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2017-11-27T05:48:46+00:00"
         },
         {
@@ -19031,6 +19071,7 @@
             ],
             "description": "FinderFacade is a convenience wrapper for Symfony's Finder component.",
             "homepage": "https://github.com/sebastianbergmann/finder-facade",
+            "abandoned": true,
             "time": "2020-01-16T08:08:45+00:00"
         },
         {
