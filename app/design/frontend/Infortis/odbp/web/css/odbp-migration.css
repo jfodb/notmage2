@@ -1387,3 +1387,14 @@ button[type="submit"], button.action {border-radius:4px;}
   width: 225px !important;
   display: inline-block;
 }
+
+.product-while-supplies-last{
+  color: rgb(175, 0, 27);
+  font-family: 'PT Sans', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  height: 10px;
+  letter-spacing: 0px;
+  line-height: 10px;
+  width: 232px;
+}
