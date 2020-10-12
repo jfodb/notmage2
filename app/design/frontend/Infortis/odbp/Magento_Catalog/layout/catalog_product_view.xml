@@ -100,6 +100,12 @@
                    name="migration.features.addAuthor"
                    template="Magento_Catalog::product/view/odbp-addAuthor.phtml"/>
 
+            <!-- ODBP Migration: Product View: Add "While Supplies Last" -->
+            <block class="Magento\Catalog\Block\Product\View"
+                   name="odbp.features.whileSuppliesLast"
+                   template="Magento_Catalog::product/view/odbp-whileSuppliesLast.phtml"/>
+
+
             <!-- ODBP Migration: Product View: Add sample chapter -->
             <block class="Magento\Catalog\Block\Product\View"
                    name="migration.features.sampleChapter"
