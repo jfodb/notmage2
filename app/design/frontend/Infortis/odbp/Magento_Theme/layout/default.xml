@@ -54,11 +54,12 @@
                 <block class="Magento\Framework\View\Element\Template" name="user-menu" template="Infortis_Base::html/header/user_menu.phtml" />
 
                 <!-- Language switcher - mobile -->
-                <block class="Magento\Store\Block\Switcher" name="store_language.mobile" template="switch/languages.phtml">
-                    <arguments>
-                        <argument name="id_modifier" xsi:type="string">mobile</argument>
-                    </arguments>
-                </block>
+                <!-- Hide Store View Switcher-->
+<!--                <block class="Magento\Store\Block\Switcher" name="store_language.mobile" template="switch/languages.phtml">-->
+<!--                    <arguments>-->
+<!--                        <argument name="id_modifier" xsi:type="string">mobile</argument>-->
+<!--                    </arguments>-->
+<!--                </block>-->
 
                 <!-- Currency switcher - mobile -->
                 <block class="Magento\Directory\Block\Currency" name="currency.mobile" template="currency.phtml">
@@ -188,7 +189,8 @@
         <move element="top.search"              destination="base-header-container" />
         <move element="store.menu"              destination="base-header-container" />
         <move element="store.links"             destination="base-header-container" />
-        <move element="store_language"          destination="base-header-container" />
+        <!-- Hide Store View Switcher-->
+        <!-- <move element="store_language"          destination="base-header-container" />-->
         <move element="currency"                destination="base-header-container" />
         <move element="catalog.compare.link"    destination="base-header-container" />
         <move element="top.links"               destination="account-links" />
@@ -253,7 +255,8 @@
             <block class="Magento\Framework\View\Element\Template" name="footer.theme.scripts" template="Infortis_Base::js/footer_theme_scripts.phtml" />
         </referenceContainer>
 
-
+        <!-- Hide Store View Switcher-->
+        <referenceBlock name="store_language" remove="true"/>
 
     </body>
 </page>
