@@ -16,7 +16,8 @@ codebase to build donations platform using Magento 2.
     127.0.0.1       dev.dhespanol.org
     127.0.0.1       dev.store.ourdailybread.org
     127.0.0.1       dev.store.christianuniversity.org
-    127.0.0.1       dev.donations.ourdailybread.org</pre>
+    127.0.0.1       dev.donations.ourdailybread.org
+    127.0.0.1       dev.moto.ourdailybreadpublishing.org</pre>
 * start hacking away.<br /><br />
 If you can't log in to the admin at https://dev.ourdailybreadpublishing.org/odbmadmin<br />
 Create an account:<br />
