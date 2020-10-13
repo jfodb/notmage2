@@ -32,6 +32,7 @@
                     <dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
                     <beta.dhp.org>INTDHP</beta.dhp.org>
                     <beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
+                    <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
 
@@ -44,7 +45,7 @@
                     <dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
                     <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
-                    <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
+                    <dev.moto.ourdailybreadpublishing.org>MOTOSTORE</dev.moto.ourdailybreadpublishing.org>
                 </motivation_code>
                 <company>
                     <!-- example:
@@ -70,10 +71,13 @@
                     <betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
                     <dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
                     <beta.dhp.org>DHPU</beta.dhp.org>
+                    <moto.ourdailybreadpublishing.org>DHPU</moto.ourdailybreadpublishing.org>
+
                     <!--Add beta sites: -->
                     <beta.ourdailybreadpublishing.org>DHPU</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>DHPU</beta.dhespanol.org>
                     <beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
+                    <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
                     <!--add dev sites for MPX source control -->
@@ -84,8 +88,7 @@
                     <dev.store.christianuniversity.org>RBCU</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>RBCU</dev.donations.ourdailybread.org>
-                    <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
-                    <moto.ourdailybreadpublishing.org>DHPU</moto.ourdailybreadpublishing.org>
+                    <dev.moto.ourdailybreadpublishing.org>DHPU</dev.moto.ourdailybreadpublishing.org>
                 </company>
                 <jobtype>
                     <!-- example:
@@ -114,10 +117,13 @@
                     <beta.store.ourdailybread.org>ODBStore</beta.store.ourdailybread.org>
                     <dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
                     <beta.dhp.org>DhpStore</beta.dhp.org>
+                    <moto.ourdailybreadpublishing.org>MotoStore</moto.ourdailybreadpublishing.org>
+
                     <!--Add beta sites: -->
                     <beta.ourdailybreadpublishing.org>DhpStore</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>SpnStore</beta.dhespanol.org>
                     <beta.store.christianuniversity.org>CcStore</beta.store.christianuniversity.org>
+                    <beta.moto.ourdailybreadpublishing.org>MotoStore</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
                     <!--add dev sites for MPX source control -->
@@ -128,8 +134,7 @@
                     <dev.store.christianuniversity.org>DevStore</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>DevStore</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>DevStore</dev.donations.ourdailybread.org>
-                    <beta.moto.ourdailybreadpublishing.org>MotoStore</beta.moto.ourdailybreadpublishing.org>
-                    <moto.ourdailybreadpublishing.org>MotoStore</moto.ourdailybreadpublishing.org>
+                    <dev.moto.ourdailybreadpublishing.org>MotoStore</dev.moto.ourdailybreadpublishing.org>
                 </jobtype>
                 <store_id>
                     <!-- example>
@@ -155,10 +160,12 @@
                     <store.ourdailybread.org>8</store.ourdailybread.org>
                     <beta.store.ourdailybread.org>8</beta.store.ourdailybread.org>
                     <dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
+                    <moto.ourdailybreadpublishing.org>14</moto.ourdailybreadpublishing.org>
                     <!--Add beta sites: -->
                     <beta.ourdailybreadpublishing.org>4</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>9</beta.dhespanol.org>
                     <beta.store.christianuniversity.org>6</beta.store.christianuniversity.org>
+                    <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
 
@@ -170,8 +177,7 @@
                     <dev.store.christianuniversity.org>6</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
-                    <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
-                    <moto.ourdailybreadpublishing.org>14</moto.ourdailybreadpublishing.org>
+                    <dev.moto.ourdailybreadpublishing.org>14</dev.moto.ourdailybreadpublishing.org>
                 </store_id>
                 <!-- Use order_type to identify if a store accepts donations or not -->
                 <!-- Examples: gift, order, both -->
@@ -182,6 +188,7 @@
                     <store.christianuniversity.org>order</store.christianuniversity.org>
                     <store.ourdailybread.org>gift</store.ourdailybread.org>
                     <donations.ourdailybread.org>gift</donations.ourdailybread.org>
+                    <moto.ourdailybreadpublishing.org>order</moto.ourdailybreadpublishing.org>
 
                     <!-- beta sites -->
                     <beta.ourdailybreadpublishing.org>order</beta.ourdailybreadpublishing.org>
@@ -189,6 +196,7 @@
                     <beta.store.christianuniversity.org>order</beta.store.christianuniversity.org>
                     <beta.store.ourdailybread.org>gift</beta.store.ourdailybread.org>
                     <beta.donations.ourdailybread.org>gift</beta.donations.ourdailybread.org>
+                    <beta.moto.ourdailybreadpublishing.org>order</beta.moto.ourdailybreadpublishing.org>
 
                     <!-- dev sites -->
                     <dev.ourdailybreadpublishing.org>order</dev.ourdailybreadpublishing.org>
@@ -196,8 +204,7 @@
                     <dev.store.christianuniversity.org>order</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>gift</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>gift</dev.donations.ourdailybread.org>
-                    <beta.moto.ourdailybreadpublishing.org>order</beta.moto.ourdailybreadpublishing.org>
-                    <moto.ourdailybreadpublishing.org>order</moto.ourdailybreadpublishing.org>
+                    <dev.moto.ourdailybreadpublishing.org>order</dev.moto.ourdailybreadpublishing.org>
                 </order_type>
                 <domain>
                     <dhpstore>
@@ -276,6 +283,7 @@
                     </odbpstore>
                     <motostore>
                         <dhpu>beta.moto.ourdailybreadpublishing.org</dhpu>
+                        <dhpu>dev.moto.ourdailybreadpublishing.org</dhpu>
                     </motostore>
                     <!-- END: ODBP Migration Transfer-->
                 </beta>
