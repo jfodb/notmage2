@@ -662,7 +662,7 @@ class PaymentIntentData extends PaymentIntent
             $confirmParams = [];
             $motostore = (int)$this->_storeManager->getStore()->getId() ?? 0;
 
-            if (($this->helper->isAdmin() && $this->config->isMOTOExemptionsEnabled()) || $motostore === 14)
+            if (($this->helper->isAdmin() || $motostore === 14) && $this->config->isMOTOExemptionsEnabled())
                 $confirmParams = ["payment_method_options" => ["card" => ["moto" => "true"]]];
 
             try
