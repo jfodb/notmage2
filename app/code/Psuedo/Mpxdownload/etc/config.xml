@@ -43,6 +43,8 @@
                     <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
+                    <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
+                    <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
                 </motivation_code>
                 <company>
                     <!-- example:
@@ -82,6 +84,8 @@
                     <dev.store.christianuniversity.org>RBCU</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>RBCU</dev.donations.ourdailybread.org>
+                    <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
+                    <moto.ourdailybreadpublishing.org>DHPU</moto.ourdailybreadpublishing.org>
                 </company>
                 <jobtype>
                     <!-- example:
@@ -124,6 +128,8 @@
                     <dev.store.christianuniversity.org>DevStore</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>DevStore</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>DevStore</dev.donations.ourdailybread.org>
+                    <beta.moto.ourdailybreadpublishing.org>MotoStore</beta.moto.ourdailybreadpublishing.org>
+                    <moto.ourdailybreadpublishing.org>MotoStore</moto.ourdailybreadpublishing.org>
                 </jobtype>
                 <store_id>
                     <!-- example>
@@ -164,6 +170,8 @@
                     <dev.store.christianuniversity.org>6</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
+                    <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
+                    <moto.ourdailybreadpublishing.org>14</moto.ourdailybreadpublishing.org>
                 </store_id>
                 <!-- Use order_type to identify if a store accepts donations or not -->
                 <!-- Examples: gift, order, both -->
@@ -188,6 +196,8 @@
                     <dev.store.christianuniversity.org>order</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>gift</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>gift</dev.donations.ourdailybread.org>
+                    <beta.moto.ourdailybreadpublishing.org>order</beta.moto.ourdailybreadpublishing.org>
+                    <moto.ourdailybreadpublishing.org>order</moto.ourdailybreadpublishing.org>
                 </order_type>
                 <domain>
                     <dhpstore>
@@ -226,6 +236,9 @@
                         <rbcu>ourdailybreadpublishing.org</rbcu>
                         <odbp>ourdailybreadpublishing.org</odbp>
                     </odbpstore>
+                    <motostore>
+                        <dhpu>moto.ourdailybreadpublishing.org</dhpu>
+                    </motostore>
                     <!-- END: ODBP Migration Transfer-->
                 </domain>
                 <beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
@@ -261,6 +274,9 @@
                         <dhpu>beta.ourdailybreadpublishing.org</dhpu>
                         <odbp>beta.ourdailybreadpublishing.org</odbp>
                     </odbpstore>
+                    <motostore>
+                        <dhpu>beta.moto.ourdailybreadpublishing.org</dhpu>
+                    </motostore>
                     <!-- END: ODBP Migration Transfer-->
                 </beta>
             </runtime>
