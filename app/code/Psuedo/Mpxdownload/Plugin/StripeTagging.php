@@ -41,7 +41,10 @@ class StripeTagging
             $params['metadata']['JobType'] = $jobid;
         }
         //automation type
-        if (!empty($auto_type)) {
+        if (!empty($orderType)) {
+            $params['metadata']['OrderType'] = $orderType;
+        }
+        if (!empty($company)) {
             $params['metadata']['Company'] = $company;
         }
         // domain
