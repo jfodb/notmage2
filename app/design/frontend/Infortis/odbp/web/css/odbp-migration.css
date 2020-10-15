@@ -1398,3 +1398,11 @@ button[type="submit"], button.action {border-radius:4px;}
   line-height: 10px;
   width: 232px;
 }
+
+/* Adjust the styling of the quantity error message on ODBP */
+.field.qty {
+  padding-bottom: 10px;
+}
+#product_addtocart_form  #qty-error {
+  position: absolute !important;
+}
