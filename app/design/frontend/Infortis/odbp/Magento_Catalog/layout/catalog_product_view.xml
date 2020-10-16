@@ -155,6 +155,11 @@
             </block>
         </referenceBlock>
 
+<!--        Move Qty Error Message-->
+        <referenceContainer name="product.info.addtocart">
+            <block name="product.info.qtyerror" template="Magento_Catalog::product/view/qty-error.phtml"/>
+        </referenceContainer>
+
         <referenceBlock name="catalog.product.related">
             <action method="setTemplate">
                 <argument name="template" xsi:type="helper"
