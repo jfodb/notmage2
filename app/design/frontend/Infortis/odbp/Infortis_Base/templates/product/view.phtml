@@ -4,6 +4,7 @@
  */
 ?>
 <?php
+    $_product = $block->getProduct();
     $theme = $block->getHelperTheme();
     $helperProductView = $block->getHelperProductView();
     $helperLabels = $this->helper('Infortis\Base\Helper\Labels');
@@ -93,7 +94,9 @@
             <div class="inner">
 
                 <?php // Container at the top ?>
-                <?php echo $block->getChildHtml('container_product_secondary_1'); ?>
+                <?php if($_product->isSaleable() && !$_product->getData('nonsaleable')): ?>
+                    <?php echo $block->getChildHtml('container_product_secondary_1'); ?>
+                <?php endif; ?>
 
                 <?php if (isset($p['secCol_1'])) echo $p['secCol_1']; ?>
                 <?php echo $block->getChildHtml('block_product_secondary_bottom'); ?>
