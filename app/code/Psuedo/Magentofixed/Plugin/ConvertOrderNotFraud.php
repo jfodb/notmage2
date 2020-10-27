@@ -17,6 +17,8 @@ class ConvertOrderNotFraud
     {
 
     	/* if we need to change this status sooner, check sibling shipOrderNotFraud */
+
+	    //Before creating shipment, detect order fraud/hold status and switch to progressing/forward
         if ($order && ($order->getStatus() === self::$FRAUD || $order->getStatus() === self::$HOLD)) {
             $order->setState(self::$STATE);
             $order->setStatus(self::$STATUS);
