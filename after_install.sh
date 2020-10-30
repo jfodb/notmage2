@@ -30,8 +30,6 @@ php /usr/share/nginx/html/magento/bin/magento cron:install
 
 #building makes bad cache
 php /usr/share/nginx/html/magento/bin/magento cache:clean
-#a few more
-rm -rf /usr/share/nginx/html/magento/var/composer_home/* /usr/share/nginx/html/magento/var/tmp/* /usr/share/nginx/html/magento/var/log/system.log
 
 chown -R apache:nginx /usr/share/nginx/html/magento
 
