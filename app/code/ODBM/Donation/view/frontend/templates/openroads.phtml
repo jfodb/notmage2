@@ -6,5 +6,5 @@
  * Also update the CMS Page layout to not be cacheable: <referenceContainer name="content"><block class="Magento\Cms\Block\Page" name="cms_page" cacheable="false"/></referenceContainer>
  */
 $sku = $block->getData('sku');
-$donations = (int)$block->getTotalDonationsBySku($sku);
-echo ($donations >= 0) ? $donations : '';
+$donations = $block->getTotalDonationsBySku($sku);
+echo ($donations >= 0) ? number_format($donations, 2, '.', '') : '';
