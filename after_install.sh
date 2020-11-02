@@ -30,8 +30,3 @@ php $MAGENTO/bin/magento cron:install
 
 #building makes bad cache
 php $MAGENTO/bin/magento cache:clean
-
-chmod -R 775 $MAGENTO/var $MAGENTO/pub
-chown -R apache:nginx $MAGENTO/*
-
-nginx -t
