@@ -1,6 +1,6 @@
 #!/bin/bash
+MAGENTO=/usr/share/nginx/html/magento
 
-$MAGENTO=/usr/share/nginx/html/magento
 if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
     echo "Mounted"
 else
