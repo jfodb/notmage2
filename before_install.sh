@@ -1,12 +1,12 @@
 #!/bin/bash
-exec 2> /tmp/install.log
+MAGENTO=/usr/share/nginx/html/magento
 
-if [ ! -d /usr/share/nginx/html/magento ]; then
-    mkdir /usr/share/nginx/html/magento;
+if [ ! -d $MAGENTO ]; then
+    mkdir $MAGENTO;
 fi
-if [[ $(findmnt -m /usr/share/nginx/html/magento/pub/media) ]]; then
-    umount /usr/share/nginx/html/magento/pub/media
+if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
+    umount $MAGENTO/pub/media
 fi
 
 # Remove existing code for auto-scaling purposes
-# rm -rf /usr/share/nginx/html/magento
+# rm -rf $MAGENTO
