@@ -33,7 +33,7 @@ usermod -a -G nginx,apache ec2-user
 
 # Pull from S3 based on deployment group
 cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_host)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-dbhost | jq -r '.SecretString' | jq -r '.Host')/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
 perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
 perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
 
