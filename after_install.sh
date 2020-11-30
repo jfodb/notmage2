@@ -51,8 +51,7 @@ php $MAGENTO/bin/magento setup:di:compile
 php $MAGENTO/bin/magento deploy:mode:set production
 php $MAGENTO/bin/magento setup:static-content:deploy en_US es_MX
 php $MAGENTO/bin/magento index:reindex
-php $MAGENTO/bin/ls
- cron:install
+php $MAGENTO/bin/magento cron:install
 
 #building makes bad cache
 php $MAGENTO/bin/magento cache:clean
