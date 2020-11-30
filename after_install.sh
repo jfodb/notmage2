@@ -33,9 +33,9 @@ usermod -a -G nginx,apache ec2-user
 
 # Pull from S3 based on deployment group
 cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_host)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-dbhost --region eu-west-2 | jq -r '.SecretString' | jq -r '.Host')/g $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials --region eu-west-2 | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials --region eu-west-2 | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
 
 $MAGENTO/bin/magento setup:config:set --cache-backend=redis --cache-backend-redis-server=$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --cache-backend-redis-db=0 -n
 $MAGENTO/bin/magento setup:config:set --session-save=redis --session-save-redis-host=$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --session-save-redis-log-level=3 --session-save-redis-db=1 -n
