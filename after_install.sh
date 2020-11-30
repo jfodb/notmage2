@@ -1,4 +1,6 @@
 #!/bin/bash
+exec 2> /tmp/after_install.log
+
 MAGENTO=/usr/share/nginx/html/magento
 
 # if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
@@ -33,12 +35,12 @@ usermod -a -G nginx,apache ec2-user
 
 # Pull from S3 based on deployment group
 cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
-perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
+perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
 
-$MAGENTO/bin/magento setup:config:set --cache-backend=redis --cache-backend-redis-server=$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --cache-backend-redis-db=0 -n
-$MAGENTO/bin/magento setup:config:set --session-save=redis --session-save-redis-host=$(aws ssm get-parameter --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --session-save-redis-log-level=3 --session-save-redis-db=1 -n
+$MAGENTO/bin/magento setup:config:set --cache-backend=redis --cache-backend-redis-server=$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --cache-backend-redis-db=0 -n
+$MAGENTO/bin/magento setup:config:set --session-save=redis --session-save-redis-host=$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --session-save-redis-log-level=3 --session-save-redis-db=1 -n
 
 # set magento permissions
 cd $MAGENTO && find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + && chown -R nginx:nginx . && chmod u+x bin/magento
