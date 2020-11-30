@@ -36,10 +36,9 @@ RUN apt-add-repository -y ppa:ondrej/php \
                     vim \
                     strace \
                     patch \
-                    wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && wget https://raw.githubusercontent.com/composer/getcomposer.org/faf828b1635a601ba364a7ee599250b2690a91ab/web/installer -O - -q | php -- --quiet \
+    && curl -sS https://getcomposer.org/installer | php -- --version="1.10.16" \
     && mv composer.phar /usr/local/bin/composer \
     && export PATH=$PATH:/magento/bin \
 	&& curl -sL https://deb.nodesource.com/setup_8.x | bash - \
