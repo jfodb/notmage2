@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:18.04-1.0.0
 
 EXPOSE 80
 EXPOSE 443
@@ -38,7 +38,7 @@ RUN apt-add-repository -y ppa:ondrej/php \
                     patch \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && curl -sS https://getcomposer.org/installer | php \
+    && curl -sS https://getcomposer.org/installer | php -- --version="1.10.16" \
     && mv composer.phar /usr/local/bin/composer \
     && export PATH=$PATH:/magento/bin \
 	&& curl -sL https://deb.nodesource.com/setup_8.x | bash - \
