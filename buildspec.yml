@@ -21,7 +21,7 @@ phases:
       # - command
   build:
     commands:
-       - /usr/bin/php7.2 composer install
+       - /usr/bin/php7.2 /usr/local/bin/composer install
 
   # post_build:
   #   commands:
