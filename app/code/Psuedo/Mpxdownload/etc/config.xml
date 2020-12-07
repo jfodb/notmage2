@@ -28,11 +28,12 @@
                     <store.christianuniversity.org>INTCCU</store.christianuniversity.org>
                     <dhespanol.org>INTSPN</dhespanol.org>
                     <store.ourdailybread.org>INTODB</store.ourdailybread.org>
-                    <betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
+                    <beta.store.ourdailybread.org>INTODB</beta.store.ourdailybread.org>
                     <dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
                     <beta.dhp.org>INTDHP</beta.dhp.org>
                     <beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
                     <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
+                    <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
 
@@ -44,7 +45,6 @@
                     <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
-                    <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
                     <dev.moto.ourdailybreadpublishing.org>MOTOSTORE</dev.moto.ourdailybreadpublishing.org>
                 </motivation_code>
                 <company>
