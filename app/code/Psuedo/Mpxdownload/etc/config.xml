@@ -36,8 +36,16 @@
                     <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>INTDHP</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>MOTOSTORE</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>INTSPN</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>INT</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>INTODB</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
-                    <!--add dev sites for MPX source control -->
+
+                   <!--add dev sites for MPX source control -->
                     <dev.mage2.org>INTDEV</dev.mage2.org>
                     <dev.dhespanol.org>INTDEV</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
@@ -79,6 +87,14 @@
                     <beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
                     <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
+
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>DHPU</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>DHPU</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>DHPU</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>RBCU</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>RBCU</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>RBCU</dev.mage2.org>
@@ -126,6 +142,14 @@
                     <beta.moto.ourdailybreadpublishing.org>MotoStore</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>DhpStore</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>MotoStore</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>SpnStore</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>ODBDonations</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>ODBStore</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
+
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>DevStore</dev.mage2.org>
                     <dev.dhespanol.org>DevStore</dev.dhespanol.org>
@@ -168,6 +192,13 @@
                     <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>4</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>14</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>9</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>13</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>8</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>13</dev.mage2.org>
@@ -197,6 +228,14 @@
                     <beta.store.ourdailybread.org>gift</beta.store.ourdailybread.org>
                     <beta.donations.ourdailybread.org>gift</beta.donations.ourdailybread.org>
                     <beta.moto.ourdailybreadpublishing.org>order</beta.moto.ourdailybreadpublishing.org>
+
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>order</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>order</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>order</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>gift</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>gift</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
                     <!-- dev sites -->
                     <dev.ourdailybreadpublishing.org>order</dev.ourdailybreadpublishing.org>
@@ -287,6 +326,28 @@
                     </motostore>
                     <!-- END: ODBP Migration Transfer-->
                 </beta>
+                <uat> <!-- like domain, but specifically for UAT sites: formatted <jobtype><company> -->
+                    <dhpstore>
+                        <dhpu>uat.ourdailybreadpublishing.org</dhpu>
+                    </dhpstore>
+                    <motostore>
+                        <dhpu>uat.moto.ourdailybreadpublishing.org</dhpu>
+                    </motostore>
+                    <spnstore>
+                        <dhpu>uat.dhespanol.org</dhpu>
+                    </spnstore>
+                    <odbdonations>
+                        <rbcu>uat.donations.ourdailybread.org</rbcu>
+                    </odbdonations>
+                    <odbstore>
+                        <rbcu>uat.store.ourdailybread.org</rbcu>
+                    </odbstore>
+                    <!-- I do not think the below values are being used, but it makes sense to have with the transition from DH to ODBP -->
+                    <odbpstore>
+                        <dhpu>uat.ourdailybreadpublishing.org</dhpu>
+                        <odbp>uat.ourdailybreadpublishing.org</odbp>
+                    </odbpstore>
+                </uat>
             </runtime>
         </psuedo_mpxdownload>
     </default>
