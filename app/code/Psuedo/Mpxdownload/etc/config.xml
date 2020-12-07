@@ -287,67 +287,6 @@
                     </motostore>
                     <!-- END: ODBP Migration Transfer-->
                 </domain>
-                <beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
-                    <dhpstore>
-                        <dhpt>dev.mage2.org</dhpt>
-                        <dhpu>beta.dhp.org</dhpu>
-                    </dhpstore>
-                    <odbdonations>
-                        <rbcu>dev.mage2.org</rbcu>
-                    </odbdonations>
-
-                    <!-- START: ODBP Migration Transfer-->
-                    <hfmlstore>
-                        <dhpu>beta.helpformylife.org</dhpu>
-                    </hfmlstore>
-                    <dodstore>
-                        <dhpu>beta.dod.org</dhpu>
-                    </dodstore>
-                    <ccstore>
-                        <dhpu>beta.store.christianuniversity.org</dhpu>
-                    </ccstore>
-                    <spnstore>
-                        <dhpu>dhespanol.org</dhpu>
-                    </spnstore>
-                    <pilotstore>
-                        <rbcu>betastore.ourdailybread.org</rbcu>
-                    </pilotstore>
-                    <odbstore>
-                        <rbcu>betastore.ourdailybread.org</rbcu>
-                    </odbstore>
-                    <odbpstore>
-                        <rbcu>beta.ourdailybreadpublishing.org</rbcu>
-                        <dhpu>beta.ourdailybreadpublishing.org</dhpu>
-                        <odbp>beta.ourdailybreadpublishing.org</odbp>
-                    </odbpstore>
-                    <motostore>
-                        <dhpu>beta.moto.ourdailybreadpublishing.org</dhpu>
-                        <dhpu>dev.moto.ourdailybreadpublishing.org</dhpu>
-                    </motostore>
-                    <!-- END: ODBP Migration Transfer-->
-                </beta>
-                <uat> <!-- like domain, but specifically for UAT sites: formatted <jobtype><company> -->
-                    <dhpstore>
-                        <dhpu>uat.ourdailybreadpublishing.org</dhpu>
-                    </dhpstore>
-                    <motostore>
-                        <dhpu>uat.moto.ourdailybreadpublishing.org</dhpu>
-                    </motostore>
-                    <spnstore>
-                        <dhpu>uat.dhespanol.org</dhpu>
-                    </spnstore>
-                    <odbdonations>
-                        <rbcu>uat.donations.ourdailybread.org</rbcu>
-                    </odbdonations>
-                    <odbstore>
-                        <rbcu>uat.store.ourdailybread.org</rbcu>
-                    </odbstore>
-                    <!-- I do not think the below values are being used, but it makes sense to have with the transition from DH to ODBP -->
-                    <odbpstore>
-                        <dhpu>uat.ourdailybreadpublishing.org</dhpu>
-                        <odbp>uat.ourdailybreadpublishing.org</odbp>
-                    </odbpstore>
-                </uat>
             </runtime>
         </psuedo_mpxdownload>
     </default>
