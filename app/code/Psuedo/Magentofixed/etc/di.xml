@@ -6,7 +6,7 @@
 	<preference for="Magento\Catalog\Controller\Product\Frontend\Action\Synchronize" type="Psuedo\Magentofixed\Controller\Product\Frontend\Action\Synchronize" />
 	<preference for="Magento\Ui\Controller\Adminhtml\Index\Render" type="Psuedo\Magentofixed\Controller\Adminhtml\Index\Render" />
 	<preference for="Magento\Webapi\Model\Rest\Generator" type="Psuedo\Magentofixed\Model\Webapi\Rest\Swagger\Generator" />
-	<preference for="Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
+<!--	<preference for="Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />-->
 	<preference for="Magento\Checkout\Model\GuestPaymentInformationManagement" type="Psuedo\Magentofixed\Model\Checkout\GuestPaymentInformationManagement" />
 	<preference for="\Magento\Quote\Model\Quote" type="Psuedo\Magentofixed\Model\Quote\InformativeQuote" />
 	<!-- 2.3.2 Downloadable products bug. Fixed in 2.3.3. Can be removed and tested after upgrade.
