@@ -28,15 +28,24 @@
                     <store.christianuniversity.org>INTCCU</store.christianuniversity.org>
                     <dhespanol.org>INTSPN</dhespanol.org>
                     <store.ourdailybread.org>INTODB</store.ourdailybread.org>
-                    <betastore.ourdailybread.org>INTODB</betastore.ourdailybread.org>
+                    <beta.store.ourdailybread.org>INTODB</beta.store.ourdailybread.org>
                     <dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
                     <beta.dhp.org>INTDHP</beta.dhp.org>
                     <beta.store.christianuniversity.org>INTCCU</beta.store.christianuniversity.org>
                     <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
+                    <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>INTDHP</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>MOTOSTORE</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>INTSPN</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>INT</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>INTODB</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
-                    <!--add dev sites for MPX source control -->
+
+                   <!--add dev sites for MPX source control -->
                     <dev.mage2.org>INTDEV</dev.mage2.org>
                     <dev.dhespanol.org>INTDEV</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
@@ -44,7 +53,6 @@
                     <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
                     <dev.store.ourdailybread.org>INTDEV</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>INTM</dev.donations.ourdailybread.org>
-                    <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
                     <dev.moto.ourdailybreadpublishing.org>MOTOSTORE</dev.moto.ourdailybreadpublishing.org>
                 </motivation_code>
                 <company>
@@ -68,7 +76,7 @@
                     <store.christianuniversity.org>DHPU</store.christianuniversity.org>
                     <dhespanol.org>DHPU</dhespanol.org>
                     <store.ourdailybread.org>RBCU</store.ourdailybread.org>
-                    <betastore.ourdailybread.org>RBCU</betastore.ourdailybread.org>
+                    <beta.store.ourdailybread.org>RBCU</beta.store.ourdailybread.org>
                     <dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
                     <beta.dhp.org>DHPU</beta.dhp.org>
                     <moto.ourdailybreadpublishing.org>DHPU</moto.ourdailybreadpublishing.org>
@@ -79,6 +87,14 @@
                     <beta.store.christianuniversity.org>DHPU</beta.store.christianuniversity.org>
                     <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
+
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>DHPU</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>DHPU</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>DHPU</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>RBCU</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>RBCU</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>RBCU</dev.mage2.org>
@@ -126,6 +142,14 @@
                     <beta.moto.ourdailybreadpublishing.org>MotoStore</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>DhpStore</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>MotoStore</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>SpnStore</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>ODBDonations</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>ODBStore</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
+
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>DevStore</dev.mage2.org>
                     <dev.dhespanol.org>DevStore</dev.dhespanol.org>
@@ -168,6 +192,13 @@
                     <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
                     <!-- END: ODBP Migration Transfer-->
 
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>4</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>14</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>9</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>13</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>8</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>13</dev.mage2.org>
@@ -197,6 +228,14 @@
                     <beta.store.ourdailybread.org>gift</beta.store.ourdailybread.org>
                     <beta.donations.ourdailybread.org>gift</beta.donations.ourdailybread.org>
                     <beta.moto.ourdailybreadpublishing.org>order</beta.moto.ourdailybreadpublishing.org>
+
+                    <!-- START: add UAT sites -->
+                    <uat.ourdailybreadpublishing.org>order</uat.ourdailybreadpublishing.org>
+                    <uat.moto.ourdailybreadpublishing.org>order</uat.moto.ourdailybreadpublishing.org>
+                    <uat.dhespanol.org>order</uat.dhespanol.org>
+                    <uat.donations.ourdailybread.org>gift</uat.donations.ourdailybread.org>
+                    <uat.store.ourdailybread.org>gift</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
 
                     <!-- dev sites -->
                     <dev.ourdailybreadpublishing.org>order</dev.ourdailybreadpublishing.org>
@@ -248,45 +287,6 @@
                     </motostore>
                     <!-- END: ODBP Migration Transfer-->
                 </domain>
-                <beta> <!-- like domain, but specifically for beta sites with domain/store mismatches-->
-                    <dhpstore>
-                        <dhpt>dev.mage2.org</dhpt>
-                        <dhpu>beta.dhp.org</dhpu>
-                    </dhpstore>
-                    <odbdonations>
-                        <rbcu>dev.mage2.org</rbcu>
-                    </odbdonations>
-
-                    <!-- START: ODBP Migration Transfer-->
-                    <hfmlstore>
-                        <dhpu>beta.helpformylife.org</dhpu>
-                    </hfmlstore>
-                    <dodstore>
-                        <dhpu>beta.dod.org</dhpu>
-                    </dodstore>
-                    <ccstore>
-                        <dhpu>beta.store.christianuniversity.org</dhpu>
-                    </ccstore>
-                    <spnstore>
-                        <dhpu>dhespanol.org</dhpu>
-                    </spnstore>
-                    <pilotstore>
-                        <rbcu>betastore.ourdailybread.org</rbcu>
-                    </pilotstore>
-                    <odbstore>
-                        <rbcu>betastore.ourdailybread.org</rbcu>
-                    </odbstore>
-                    <odbpstore>
-                        <rbcu>beta.ourdailybreadpublishing.org</rbcu>
-                        <dhpu>beta.ourdailybreadpublishing.org</dhpu>
-                        <odbp>beta.ourdailybreadpublishing.org</odbp>
-                    </odbpstore>
-                    <motostore>
-                        <dhpu>beta.moto.ourdailybreadpublishing.org</dhpu>
-                        <dhpu>dev.moto.ourdailybreadpublishing.org</dhpu>
-                    </motostore>
-                    <!-- END: ODBP Migration Transfer-->
-                </beta>
             </runtime>
         </psuedo_mpxdownload>
     </default>
