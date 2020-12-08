@@ -5,22 +5,19 @@
  */
 
 namespace Psuedo\StripeRecurring\Plugin;
-use StripeIntegration\Payments\Helper\SetupIntent as SetupIntent;
 
+use StripeIntegration\Payments\Helper\SetupIntent as SetupIntent;
 
 class RecurringDonations
 {
-
     public function afterShouldUseSetupIntents(SetupIntent $subject, $result)
     {
-        if ($this->helper->isAdmin())
-            return false;
+//        if ($this->helper->isAdmin())
+//            return false;
+//
+//        if ($this->helper->hasSubscriptions())
+//            return true;
 
-        if ($this->helper->hasSubscriptions())
-            return true;
-
-        return false;
+        return $result;
     }
-
-
 }
