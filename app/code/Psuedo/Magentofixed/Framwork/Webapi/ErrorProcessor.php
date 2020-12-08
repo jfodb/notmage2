@@ -144,7 +144,7 @@ class ErrorProcessor extends \Magento\Framework\Webapi\ErrorProcessor
 				$code = $httpCode;
 
 			//if not in Dev mode, make sure the message and code is masked for unanticipated exceptions
-			if (!$isDevMode && (!($exception instanceof \Stripe\Error\Card) || $code > 499)) {
+			if (!$isDevMode && (!($exception instanceof \Stripe\Error\Card || $exception instanceof \Stripe\Exception\CardException) || $code > 499)) {
 				/** Log information about actual exception */
 				$reportId = $this->_critical($exception);
 				$message = sprintf(self::INTERNAL_SERVER_ERROR_MSG, $reportId);
