@@ -1,0 +1,9 @@
+<?php
+$_product = $block->getProduct();
+?>
+
+<?php if (in_array(65, $_product->getCategoryIds()) || in_array(382, $_product->getCategoryIds())): ?>
+<p style="margin-bottom: 5px !important;"><strong
+            class="product-while-supplies-last"><?php echo __("This Item Available While Supplies Last.") ?></strong><p>
+    <?php endif; ?>
+
