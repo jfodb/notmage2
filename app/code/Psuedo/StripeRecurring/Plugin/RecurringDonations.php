@@ -10,7 +10,6 @@ use StripeIntegration\Payments\Helper\SetupIntent as SetupIntent;
 
 class RecurringDonations
 {
-
     protected $addlConfig;
 
     public function __construct(
@@ -19,15 +18,11 @@ class RecurringDonations
         $this->addlConfig = $config;
     }
 
-    public function afterShouldUseSetupIntents(SetupIntent $subject, $result)
+    public function afterShouldUseSetupIntents(SetupIntent $subject, $result): bool
     {
-//        if ($this->helper->isAdmin())
-//            return false;
-//
-//        if ($this->helper->hasSubscriptions())
-//            return true;
-        $recur = $this->addlConfig->isRecurring();
-
-        return true;
+        if ($result === false) {
+            $result = $this->addlConfig->isRecurring();
+        }
+        return $result;
     }
 }
