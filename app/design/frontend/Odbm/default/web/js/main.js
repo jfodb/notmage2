@@ -255,7 +255,7 @@ function sendCheckoutGA() {
 
 function switch_to_stripe(){
 	let checkr = jQuery('.paperless-pay-button');
-	let chck2 = jQuery('#activate_stripe');
+	let chck2 = jQuery('.activate_stripe');
 	if(checkr.length == 0 && chck2.length > 0) {
 		jQuery('div.pci-dss-info-block').parent().addClass('payment-method-notes');
 		jQuery('#submitDonationButton').parent().parent().addClass('paperless-pay-button');
