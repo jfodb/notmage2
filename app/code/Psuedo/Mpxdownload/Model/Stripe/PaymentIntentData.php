@@ -3,6 +3,7 @@
 namespace Psuedo\Mpxdownload\Model\Stripe;
 
 use Magento\Framework\Exception\LocalizedException;
+use Stripe\Exception\ApiErrorException;
 use StripeIntegration\Payments\Helper\Logger;
 use StripeIntegration\Payments\Model\PaymentIntent;
 
@@ -37,7 +38,8 @@ class PaymentIntentData extends PaymentIntent
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Session\Generic $session,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \StripeIntegration\Payments\Model\StripeCustomer $stripeCustomer
     )
     {
         $this->helper = $helper;
@@ -53,6 +55,7 @@ class PaymentIntentData extends PaymentIntent
         $this->session = $session;
         $this->checkoutHelper = $checkoutHelper;
         $this->_storeManager = $storeManager;
+        $this->stripeCustomer = $stripeCustomer;
     }
 
     // If we already created any payment intents for this quote, load them
@@ -607,45 +610,78 @@ class PaymentIntentData extends PaymentIntent
         // Save the quote so that we don't lose the reserved order ID in the case of a payment error
         $quote->save();
 
-        // Create subscriptions if any
-        $piSecrets = $this->createSubscriptionsFor($order);
 
-        $created = $this->create($quote, $payment); // Load or create the Payment Intent
+        $paymentMethodId = $payment->getAdditionalInformation('token');
+        $this->stripeCustomer->createStripeCustomerIfNotExists();
+        $customerId = $this->stripeCustomer->getStripeId();
+        $paymentMethod = \Stripe\PaymentMethod::retrieve($paymentMethodId);
+        $paymentMethod->attach([ 'customer' => $customerId ]);
 
-        if (!$created && $hasSubscriptions)
+        try
         {
-            if (count($piSecrets) > 0 && $this->helper->isMultiShipping())
-            {
-                reset($piSecrets);
-                $paymentIntentId = key($piSecrets); // count($piSecrets) should always be 1 here
-                return $this->redirectToMultiShippingAuthorizationPage($payment, $paymentIntentId);
-            }
+            $setupIntentId = $payment->getAdditionalInformation('setup_intent_id');
 
-            // This makes sure that if another quote observer is triggered, we do not update the PI
-            $this->stopUpdatesForThisSession = true;
-
-            // We may be buying a subscription which does not need a Payment Intent created manually
-            if ($this->paymentIntent)
+            if (!empty($setupIntentId))
             {
-                $object = clone $this->paymentIntent;
-                $this->destroy($order->getQuoteId());
+                $setupIntent = \Stripe\SetupIntent::retrieve($setupIntentId);
+
+                if ($setupIntent->payment_method != $paymentMethodId)
+                    throw new \Exception("The SetupIntent payment method has changed");
+
+                if ($setupIntent->customer != $customerId)
+                    throw new \Exception("The SetupIntent customer has changed");
             }
             else
-                $object = null;
-
-            $this->triggerAuthentication($piSecrets, $order, $payment);
-
-            // Let's save the Stripe customer ID on the order's payment in case the customer registers after placing the order
-            if (!empty($this->subscriptionData['stripeCustomerId']))
-                $payment->setAdditionalInformation("customer_stripe_id", $this->subscriptionData['stripeCustomerId']);
-
-            return $object;
+                $setupIntent = null;
         }
+        catch (\Exception $e)
+        {
+            $setupIntent = null;
+        }
+
+        if (empty($setupIntent))
+        {
+            try {
+                $setupIntent = \Stripe\SetupIntent::create([
+                    "payment_method_types" => ["card"],
+                    "customer" => $customerId,
+                    "payment_method" => $paymentMethodId,
+                    "description" => "Multishipping payment method setup"
+                ]);
+            } catch (ApiErrorException $e) {
+                $this->log($e);
+                throw $e;
+            }
+        }
+
+        $payment->setAdditionalInformation('setup_intent_id', $setupIntent->id);
+
+        // For existing SetupIntents
+        if ($setupIntent->status == "succeeded")
+            return;
+
+        $setupIntent->confirm(["payment_method" => $paymentMethodId]); // We pass payment_method again because in multishipping, it gets lost with every confirmation
+
+        // For new SetupIntents TODO: Remove or refactor
+//        if ($setupIntent->status == "succeeded")
+//            return;
+
+        if ($setupIntent->status == "requires_action")
+            $this->setAuthorizationData();
+//        else
+//            throw new \Exception("Unhandled SetupIntent status {$setupIntent->status}");
+
+
+        // Create subscriptions if any
+        $piSecrets = $this->createSubscriptionsFor($order);
+        $created = $this->create($quote, $payment); // Load
 
         if (!$this->paymentIntent)
             throw new LocalizedException(__("Unable to create payment intent"));
 
-        if (!$this->isSuccessfulStatus())
+
+
+        if (!$this->isSuccessfulStatus() && $setupIntent->status == "succeeded")
         {
             $this->order = $order;
             $save = ($this->helper->isMultiShipping() || $payment->getAdditionalInformation("save_card"));
@@ -683,7 +719,16 @@ class PaymentIntentData extends PaymentIntent
                 return $this->redirectToMultiShippingAuthorizationPage($payment, $this->paymentIntent->id);
         }
 
-        $this->triggerAuthentication($piSecrets, $order, $payment);
+
+
+
+
+
+        if (!$this->paymentIntent)
+            throw new LocalizedException(__("Unable to create payment intent"));
+
+
+
 
         $this->processAuthenticatedOrder($order, $this->paymentIntent);
 
