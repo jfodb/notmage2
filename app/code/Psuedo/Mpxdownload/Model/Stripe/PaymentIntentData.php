@@ -602,7 +602,7 @@ class PaymentIntentData extends PaymentIntent
         if ($payment->getAdditionalInformation("is_recurring_subscription"))
             return null;
 
-        // Rather than override vendor/stripe/module-payments/Model/PaymentMethod.php, use this function
+        // Rather than override vendor/stripe/module-payments/Model/PaymentMethod.php for recurring donations, use this function
         if($this->addlConfig->isRecurring()){
             return $this->confirmAndAssociateWithOrderRecurring($order, $payment);
         }
