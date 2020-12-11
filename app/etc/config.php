@@ -238,6 +238,7 @@ return [
         'Psuedo_Mpxdownload' => 1,
         'Psuedo_PaypalFixed' => 1,
         'Psuedo_Silverpop' => 1,
+        'Psuedo_StripeRecurring' => 1,
         'StripeIntegration_Payments' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1
