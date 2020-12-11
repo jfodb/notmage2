@@ -787,8 +787,11 @@ class PaymentIntentData extends PaymentIntent
             $save = ($this->helper->isMultiShipping() || $payment->getAdditionalInformation("save_card"));
             $this->setPaymentMethod($payment->getAdditionalInformation("token"), $save, false);
             $params = $this->config->getStripeParamsFrom($order);
+            // add Recurrence Metadata
+            $params['metadata']['Recurrence'] = "Monthly";
             $this->paymentIntent->description = $params['description'];
             $this->paymentIntent->metadata = $params['metadata'];
+
 
             if ($this->helper->isMultiShipping())
                 $this->paymentIntent->amount = $params['amount'];
