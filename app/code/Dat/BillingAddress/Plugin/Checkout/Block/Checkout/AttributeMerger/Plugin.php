@@ -6,6 +6,7 @@ use Magento\Ui\Component\Form\AttributeMapper;
 use Magento\Checkout\Block\Checkout\AttributeMerger;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Plugin
 {
@@ -35,6 +36,8 @@ class Plugin
   public $quote = null;
 
   protected $scopeConfig;
+
+  protected $_storeManager;
   
   /**
   * LayoutProcessor constructor.
@@ -49,13 +52,15 @@ class Plugin
     AttributeMapper $attributeMapper,
     AttributeMerger $merger,
     CheckoutSession $checkoutSession,
-    ScopeConfigInterface $scopeConfig
+    ScopeConfigInterface $scopeConfig,
+    StoreManagerInterface $storeManager
     ) {
       $this->attributeMetadataDataProvider = $attributeMetadataDataProvider;
       $this->attributeMapper = $attributeMapper;
       $this->merger = $merger;
       $this->checkoutSession = $checkoutSession;
       $this->scopeConfig = $scopeConfig;
+      $this->_storeManager = $storeManager;
     }
     
     /**
@@ -91,9 +96,14 @@ class Plugin
       \Closure $proceed,
       array $jsLayout
       ) {
-        
+
         $jsLayoutResult = $proceed($jsLayout);
 
+        // USLF-1796: Fix billing address bug on non-donation store views
+        $store = (int)$this->_storeManager->getStore()->getId() ?? 0;
+
+        // Only change billing address of Donations as this was the module's initial intention
+        if ($store === 13) {
             if (isset($jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['billingAddress']['children']['billing-address-fieldset'])) {
 
@@ -114,6 +124,7 @@ class Plugin
 
                 $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['postcode']['label'] = __('Zip');
             }
+        }
         
         return $jsLayoutResult;
       }
