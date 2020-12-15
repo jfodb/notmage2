@@ -783,12 +783,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$OrderRow["CardholderName"] = $order_grid['billing_name'];
 
-					if(!empty($payment['cc_status_description']))
-						$OrderRow['cardprofile'] = $payment['cc_status_description'];
-
-
-
-
 
 				}
 				else
@@ -1307,7 +1301,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								'MotivationCode' => $recurMotivationCode,
 								'SourcePaymentType' => $card_type,
 								'GiftAmount' => $OrderRow["GiftAmount"],
-								'ProfileNumber' => $OrderRow['cardprofile'],
+								'PaymentToken' => $payment['cc_status_description'],
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
 								'ExpirationDate' => $OrderRow['ExpirationDate'],
 								'CardholderName' => $OrderRow["CardholderName"],
