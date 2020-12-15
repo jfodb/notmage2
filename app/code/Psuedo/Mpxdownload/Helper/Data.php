@@ -1305,7 +1305,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
 								'ExpirationDate' => $OrderRow['ExpirationDate'],
 								'CardholderName' => $OrderRow["CardholderName"],
-								'RecurrenceType' => 'monthly'  //presently fixed at monthly
+								'RecurrenceType' => 'monthly',  //presently fixed at monthly,
+                                'CustomerToken' => 'TO DO'
 							];
 						}
 
