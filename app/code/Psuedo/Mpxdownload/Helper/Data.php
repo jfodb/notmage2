@@ -1278,14 +1278,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$card_type = ''; //don't let no-found exception take us down
 						else {
 							switch ($payment['cc_type']){
-								case 'MC' || 'MASTERCARD': $card_type = 'CARD_MASTER';
-								break;
-								case 'VI' || 'VISA': $card_type = 'CARD_VISA';
-								break;
-								case 'AE' || 'AMEX': $card_type = 'CARD_AMEX';
-								break;
-								case 'DI' || 'DISCOVER': $card_type = 'CARD_DISCOVER';
-								break;
+								case 'MC':
+                                case 'MASTERCARD':
+                                    $card_type = 'CARD_MASTER';
+								    break;
+                                case 'VI':
+                                case 'VISA':
+                                    $card_type = 'CARD_VISA';
+								    break;
+                                case 'AE':
+                                case 'AMEX':
+                                    $card_type = 'CARD_AMEX';
+								    break;
+                                case 'DI':
+                                case 'DISCOVER':
+                                    $card_type = 'CARD_DISCOVER';
+								    break;
 								default:
 									$card_type = 'CARD_UNKNOWN';
 							}
