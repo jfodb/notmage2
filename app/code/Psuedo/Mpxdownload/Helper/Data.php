@@ -1297,16 +1297,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						} else
 
 						if ($productisrecurring) {
+
+						    $additionalInfo = $this->get_additional_recurring_information($payment['additional_information'] ?? null, $payment['method'] ?? null);
+
 							$OrderRow['JobDetailRecurringGifts'] = [
 								'MotivationCode' => $recurMotivationCode,
 								'SourcePaymentType' => $card_type,
 								'GiftAmount' => $OrderRow["GiftAmount"],
-								'PaymentToken' => $payment['cc_status_description'],
+                                'PaymentToken' => $additionalInfo['payment_token'] ?? 'Unknown Payment Token',
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
 								'ExpirationDate' => $OrderRow['ExpirationDate'],
 								'CardholderName' => $OrderRow["CardholderName"],
 								'RecurrenceType' => 'monthly',  //presently fixed at monthly,
-                                'CustomerToken' => 'TO DO'
+                                'CustomerToken' => $additionalInfo['customer_token'] ?? 'Unknown Customer Token',
 							];
 						}
 
@@ -1593,4 +1596,40 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$outstr = ob_get_clean();
 		return $outstr;
 	}
+
+    /**
+     * @param $addlInfo
+     * @param $paymentMethod
+     * @return array|mixed
+     *
+     * Function should return an array with at least "payment_token" and "customer_token" for recurring transactions
+     *
+     */
+
+    private function get_additional_recurring_information($addlInfo, $paymentMethod)
+    {
+
+        if (is_string($addlInfo))
+            $neededInfo = json_decode($addlInfo, true);
+        else if (is_array($addlInfo))
+            $neededInfo = $addlInfo;
+
+        if ($neededInfo) {
+            // set payment & customer details by payment method
+            if ($paymentMethod) {
+                switch ($paymentMethod) {
+                    case 'stripe_payments':
+                        $neededInfo['payment_token'] = $neededInfo['token'];
+                        $neededInfo['customer_token'] = $neededInfo['customer_stripe_id'];
+                        break;
+                    default:
+                        $neededInfo['payment_token'] = 'Payment token unknown for ' . $paymentMethod . ' payment method';
+                        $neededInfo['customer_token'] = 'Customer token unknown for ' . $paymentMethod . ' payment method';
+                }
+            }
+        }
+
+        return $neededInfo ?? [];
+    }
+
 }
