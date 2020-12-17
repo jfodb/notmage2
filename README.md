@@ -8,9 +8,9 @@ codebase to build donations platform using Magento 2.
 * download database from: [here](https://drive.google.com/file/d/1MDQ_z5Jc4VNolwu7uzXLdIor-CGmdyI7/) and put it in the mage2donations/docker/sql folder
 * run `docker-compose up` to initialize containers
 * run `docker exec -i mage2donations_web_1 bash -c "cd /magento && composer install"`
+* copy contents of `docker/env.php` to `app/etc/env.php`
 * run `docker exec mage2donations_web_1 magento setup:upgrade` to install magento 2 and initialize the database
 * run `docker exec mage2donations_web_1 magento setup:di:compile`
-* copy contents of `docker/env.php` to `app/etc/env.php`
 * update local `sudo nano /etc/hosts` with:
 <pre>    127.0.0.1       dev.ourdailybreadpublishing.org
     127.0.0.1       dev.dhespanol.org
