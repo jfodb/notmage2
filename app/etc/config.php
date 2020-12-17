@@ -49,7 +49,6 @@ return [
         'Magento_Integration' => 1,
         'Magento_CustomerGraphQl' => 1,
         'Magento_CustomerImportExport' => 1,
-        'Magento_DataMigrationTool' => 1,
         'Magento_Deploy' => 1,
         'Magento_Developer' => 1,
         'Magento_Dhl' => 1,
@@ -204,9 +203,6 @@ return [
         'Magento_Wishlist' => 1,
         'Magento_WishlistAnalytics' => 1,
         'Magento_WishlistGraphQl' => 1,
-        'Amasty_Base' => 1,
-        'Amasty_Geoip' => 1,
-        'Amasty_Checkout' => 1,
         'Amazon_Core' => 1,
         'Amazon_Login' => 1,
         'Amazon_Payment' => 1,
@@ -216,6 +212,7 @@ return [
         'Dat_Thankyoupage' => 1,
         'Dotdigitalgroup_Email' => 1,
         'Experius_DonationProduct' => 1,
+        'Folio3_MaintenanceMode' => 1,
         'Infortis_Infortis' => 1,
         'Infortis_Brands' => 1,
         'Infortis_Cgen' => 1,
@@ -242,6 +239,7 @@ return [
         'Psuedo_PaypalFixed' => 1,
         'Psuedo_Silverpop' => 1,
         'Psuedo_StripeRecurring' => 1,
+        'StripeIntegration_Payments' => 1,
         'Temando_Shipping' => 1,
         'Vertex_Tax' => 1
     ]
