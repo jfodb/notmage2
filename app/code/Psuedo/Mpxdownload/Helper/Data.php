@@ -693,8 +693,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if(!empty($payment)) {
 					if(is_null($payment['method']))
 						$OrderRow["SourcePaymentType"] = "NONE";
-					else if($payment['method'] == 'backoffice')
-						$OrderRow["SourcePaymentType"] = 'Paperless';
 					else
 						$OrderRow["SourcePaymentType"] = $payment['method'];
 

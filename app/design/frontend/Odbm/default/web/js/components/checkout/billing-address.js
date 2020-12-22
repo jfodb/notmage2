@@ -60,7 +60,7 @@ function (
             template: 'Magento_Checkout/billing-address',
             exports: {
                 // TODO, make this more dynamic
-                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
+                isAddressDetailsVisible: false
             }
         },
         currentBillingAddress: quote.billingAddress,
@@ -72,8 +72,6 @@ function (
          */
         initialize: function () {
             this._super();
-
-       //     this.exports.isAddressFormVisible = 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
 
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();

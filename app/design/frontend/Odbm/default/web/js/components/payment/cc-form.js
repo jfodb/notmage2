@@ -107,7 +107,7 @@ define([
 			return window.checkoutConfig.isRecurring;
 		},
 
-		//load the injected paperless fields afterRender
+		//load the injected paper-less fields afterRender
 		afterFormRenders: function(){
 			// Initialize iframe if we are in the iframe
 			if ( this.isiFrame() ) {
