@@ -60,7 +60,7 @@ function (
             template: 'Magento_Checkout/billing-address',
             exports: {
                 // TODO, make this more dynamic
-                isAddressDetailsVisible: false
+                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.stripe_payments:isVisible'
             }
         },
         currentBillingAddress: quote.billingAddress,
