@@ -58,7 +58,7 @@
                 <company>
                     <!-- example:
                     <dhponline.ca>DHPC</dhponline.ca>
-                    This configures the company name sent to payment processors (paperless, stripe) for MPX to sort out on download (dhpu or rbcu)
+                    This configures the company name sent to payment processors (paypal, stripe) for MPX to sort out on download (dhpu or rbcu)
                     -->
 
                     <donations.ourdailybread.org>RBCU</donations.ourdailybread.org>
