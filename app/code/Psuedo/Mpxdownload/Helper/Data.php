@@ -1119,8 +1119,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$recurMotivationCode = $product_options['info_buyRequest']['_recurmotivation'];
 					}
 
-
-
+                    // hotfix for isReccuring
+                    if (!empty($lineitem['product_options']) && is_string($lineitem['product_options'])) {
+                        $recur_hotfix = json_decode($lineitem['product_options'], true);
+                        if (!empty($recur_hotfix['info_buyRequest']['_recurring']) && $recur_hotfix['info_buyRequest']['_recurring'] !== false) {
+                            $productisrecurring = true;
+                        }
+                    }
 
 					// check for various donation methods
 					//do the price/original price not match?
