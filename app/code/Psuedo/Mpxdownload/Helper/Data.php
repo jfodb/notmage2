@@ -1119,10 +1119,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$recurMotivationCode = $product_options['info_buyRequest']['_recurmotivation'];
 					}
 
-                    // hotfix for isReccuring
-                    if (!empty($lineitem['product_options']) && is_string($lineitem['product_options'])) {
-                        $recur_hotfix = json_decode($lineitem['product_options'], true);
-                        if (!empty($recur_hotfix['info_buyRequest']['_recurring']) && $recur_hotfix['info_buyRequest']['_recurring'] !== false) {
+                    // hotfix for isReccuring: get product options to check if recurring on every $lineitem
+                    if (!empty($lineitem['product_options'])) {
+                        $recur_hotfix = $lineitem['product_options'];
+
+                        if (is_string($recur_hotfix))
+                            $recur_hotfix = json_decode($recur_hotfix, true);
+
+                        if (!empty($recur_hotfix['info_buyRequest']['_recurring']) && ($recur_hotfix['info_buyRequest']['_recurring'] === "true" || $recur_hotfix['info_buyRequest']['_recurring'] === true)) {
                             $productisrecurring = true;
                         }
                     }
