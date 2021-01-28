@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e23b4b29bad11992fb02f296b8d8038c",
+    "content-hash": "ec63fffb75ffe54afbc63c05333a7381",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1223,16 +1223,16 @@
         },
         {
             "name": "experius/module-donationproduct",
-            "version": "1.0.6",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/experius/Magento-2-Module-Experius-DonationProduct.git",
-                "reference": "96d41132f1ca504c8b5707d17bc2a92419ff8000"
+                "reference": "e6b9007c2b08e63d5a429456a0d5992dc33e77c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/experius/Magento-2-Module-Experius-DonationProduct/zipball/96d41132f1ca504c8b5707d17bc2a92419ff8000",
-                "reference": "96d41132f1ca504c8b5707d17bc2a92419ff8000",
+                "url": "https://api.github.com/repos/experius/Magento-2-Module-Experius-DonationProduct/zipball/e6b9007c2b08e63d5a429456a0d5992dc33e77c8",
+                "reference": "e6b9007c2b08e63d5a429456a0d5992dc33e77c8",
                 "shasum": ""
             },
             "type": "magento2-module",
@@ -1254,7 +1254,7 @@
                     "email": "derrick@experius.nl"
                 }
             ],
-            "time": "2017-12-22T15:46:45+00:00"
+            "time": "2019-03-23T14:38:20+00:00"
         },
         {
             "name": "fasaro/magento2-es_mx-language-pack",
@@ -15763,8 +15763,8 @@
             "authors": [
                 {
                     "name": "Ivan Krutov",
-                    "role": "Developer",
-                    "email": "vania-pooh@yandex-team.ru"
+                    "email": "vania-pooh@yandex-team.ru",
+                    "role": "Developer"
                 }
             ],
             "description": "A Codeception adapter for Allure report.",
@@ -16989,6 +16989,7 @@
                 }
             ],
             "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "abandoned": "softcreatr/jsonpath",
             "time": "2019-07-15T17:23:22+00:00"
         },
         {
@@ -17130,6 +17131,7 @@
                 "faker",
                 "fixtures"
             ],
+            "abandoned": true,
             "time": "2019-12-12T13:22:17+00:00"
         },
         {
@@ -17448,9 +17450,9 @@
             "authors": [
                 {
                     "name": "Phil Bennett",
-                    "role": "Developer",
                     "email": "philipobenito@gmail.com",
-                    "homepage": "http://www.philipobenito.com"
+                    "homepage": "http://www.philipobenito.com",
+                    "role": "Developer"
                 }
             ],
             "description": "A fast and intuitive dependency injection container.",
@@ -20092,12 +20094,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
@@ -20148,5 +20150,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

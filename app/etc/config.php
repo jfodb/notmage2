@@ -208,6 +208,7 @@ return [
         'Amazon_Payment' => 1,
         'ClassyLlama_AvaTax' => 1,
         'Meetanshi_CustomPrice' => 1,
+        'Dat_DonationStep' => 1,
         'Dat_Thankyouemail' => 1,
         'Dat_Thankyoupage' => 1,
         'Dotdigitalgroup_Email' => 1,

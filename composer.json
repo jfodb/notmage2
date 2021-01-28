@@ -10,7 +10,7 @@
     "require": {
         "magento/product-community-edition": "2.3.2-p2",
         "composer/composer": "@alpha",
-        "experius/module-donationproduct": "~1.0.0",
+        "experius/module-donationproduct": "~1.2.2",
         "mageplaza/module-smtp": "^1.1",
         "stripe/stripe-php": "^7",
         "avalara/avatax-magento": "^1.5",
