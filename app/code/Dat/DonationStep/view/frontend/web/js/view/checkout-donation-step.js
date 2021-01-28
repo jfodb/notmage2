@@ -3,40 +3,41 @@ define(
         'ko',
         'uiComponent',
         'underscore',
-        'Magento_Checkout/js/model/step-navigator',
-        'Magento_Customer/js/model/customer',
-        'jquery',
+        'Magento_Checkout/js/model/step-navigator'
     ],
     function (
         ko,
         Component,
         _,
         stepNavigator,
-        customer,
-        $,
     ) {
         'use strict';
         /**
-         * check-login - is the name of the component's .html template
+         *  the name of the component's .html template
          */
         return Component.extend({
             defaults: {
-                template: 'Dat_DonationStep/check-login'
+                template: 'Dat_DonationStep/check-donation'
             },
 
-            // getDonationData: function () {
-            //     let customData = $.parseJSON(window.checkoutConfig.donationData);
-            //     return customData ? customData : 'text not set';
-            // },
+            getDonation: function () {
+                let donationBlock = window.checkoutConfig.checkout_donation_block;
+
+                const donationBlockReg = donationBlock.replace(/(\r\n|\n|\r)/gm,"");
+                console.log("donationBlock: ", donationBlockReg)
+                console.log("donationBlock equals?: ", donationBlock===donationBlockReg)
+                return donationBlockReg;
+            },
 
             //add here your logic to display step,
             isVisible: ko.observable(true),
 
-            // TODO: Already includes donation - very simialar to isLogedIn, but look at cart instead of customer
+            // TODO: Check cart for donation, and skip if it does
             // isDonating: ko.observable(false),
-            isLogedIn: customer.isLoggedIn(),
+
             //step code will be used as step content id in the component template
-            stepCode: 'isLogedCheck',
+            stepCode: 'hasDonatedCheck',
+
             //step title value
             stepTitle: 'Optional Donation',
 

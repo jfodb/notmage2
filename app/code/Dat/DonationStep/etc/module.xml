@@ -4,6 +4,7 @@
     <module name="Dat_DonationStep" setup_version="0.1.0">
         <sequence>
             <module name="Magento_Checkout"/>
+            <module name="Experius_DonationProduct"/>
         </sequence>
     </module>
 </config>

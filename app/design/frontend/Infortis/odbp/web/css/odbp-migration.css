@@ -1398,3 +1398,17 @@ button[type="submit"], button.action {border-radius:4px;}
   line-height: 10px;
   width: 232px;
 }
+
+/*Hide the optional donation form on the checkout page (since it was moved to it's own checkout step')*/
+#co-payment-form .experius-donation {
+  display: none;
+}
+
+#donation-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.experius-donation-form-actions {
+  width: 40%;
+}

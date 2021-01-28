@@ -4,7 +4,7 @@
     <div id="checkout-step-title"
          class="step-content"
          data-role="content">
-        <div data-bind="html: window.checkoutConfig.checkout_donation_block"></div>
+        <div data-bind="html: getDonation()"></div>
         <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
             <div class="actions-toolbar">
                 <div class="primary">
@@ -16,3 +16,4 @@
         </form>
     </div>
 </li>
+<script type="text/javascript">jQuery('body').trigger('contentUpdated');</script>

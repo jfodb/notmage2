@@ -38,7 +38,7 @@ $imageDetailId = 'category_page_grid';
                         <img src="<?php echo $block->getImage($item, $imageThumbnailId)->getImageUrl(); ?>" alt="<?php echo $item->getName(); ?>" class="experius-donation-product-image" />
                     </a>
                     <a class="experius-donation-product-tocart">
-                        <?php echo __('I want to donate'); ?>
+                        <?php echo $item->getName(); ?>
                     </a>
                 </article>
             <?php endforeach; ?>
@@ -74,8 +74,15 @@ $imageDetailId = 'category_page_grid';
                     <?php echo __('The selected amount will be added to your shopping cart.'); ?>
                 </p>
             </div>
-            <div class="experius-donation-form-actions">
-                <button type="submit" class="button charity-button action primary"><?php echo __('I want to donate this amount'); ?></button>
+            <div id="donation-modal-buttons">
+                <div class="experius-donation-form-actions">
+                    <button type="submit"
+                            class="button charity-button action primary"><?php echo __('One-Time'); ?></button>
+                </div>
+                <div class="experius-donation-form-actions">
+                    <button type="submit"
+                            class="button charity-button action primary"><?php echo __('Monthly'); ?></button>
+                </div>
             </div>
         </form>
     </div>

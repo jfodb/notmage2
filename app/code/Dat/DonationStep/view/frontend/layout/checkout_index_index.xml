@@ -9,8 +9,8 @@
                                 <item name="steps" xsi:type="array">
                                     <item name="children" xsi:type="array">
                                         <!-- new step -->
-                                        <item name="check-login-step" xsi:type="array">
-                                            <item name="component" xsi:type="string">Dat_DonationStep/js/view/checkout-login-step</item>
+                                        <item name="check-donation-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">Dat_DonationStep/js/view/checkout-donation-step</item>
                                             <!--To display step content before shipping step "sortOrder" value should be < 1-->
                                             <!--To display step content between shipping step and payment step  1 < "sortOrder" < 2 -->
                                             <!--To display step content after payment step "sortOrder" > 2 -->
