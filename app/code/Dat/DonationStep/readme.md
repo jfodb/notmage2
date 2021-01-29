@@ -1,5 +1,6 @@
 ##TODO:
 - move checkout_index_index to theme, so this checkout step doesn't take effect all stores
+- add recurring to "Monthly" option  
 - Investigate automation JSON (never looked at)
   
 ##BUG:
