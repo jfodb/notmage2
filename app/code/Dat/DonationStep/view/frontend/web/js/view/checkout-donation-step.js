@@ -9,31 +9,24 @@ define(
         ko,
         Component,
         _,
-        stepNavigator,
+        stepNavigator
     ) {
         'use strict';
         /**
          *  the name of the component's .html template
          */
+
+        let quoteItemData = window.checkoutConfig.quoteItemData;
+
         return Component.extend({
             defaults: {
                 template: 'Dat_DonationStep/check-donation'
             },
-
-            getDonation: function () {
-                let donationBlock = window.checkoutConfig.checkout_donation_block;
-
-                const donationBlockReg = donationBlock.replace(/(\r\n|\n|\r)/gm,"");
-                console.log("donationBlock: ", donationBlockReg)
-                console.log("donationBlock equals?: ", donationBlock===donationBlockReg)
-                return donationBlockReg;
-            },
+            quoteItemData: quoteItemData,
 
             //add here your logic to display step,
             isVisible: ko.observable(true),
 
-            // TODO: Check cart for donation, and skip if it does
-            // isDonating: ko.observable(false),
 
             //step code will be used as step content id in the component template
             stepCode: 'hasDonatedCheck',
@@ -85,7 +78,16 @@ define(
              */
             navigateToNextStep: function () {
                 stepNavigator.next();
-            }
+            },
+
+            checkDonation: function () {
+                _.each(quoteItemData, function(element) {
+                    console.log("Product Type: ", element.product_type);
+                    if (element.product_type === 'donation') {
+                        setTimeout(function(){ stepNavigator.next(); }, 1000);
+                    }
+                });
+            },
         });
     }
 );

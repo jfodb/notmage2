@@ -4,7 +4,10 @@
     <div id="checkout-step-title"
          class="step-content"
          data-role="content">
-        <div data-bind="html: getDonation()"></div>
+        <div data-bind="afterRender: checkDonation"></div>
+        <!-- ko with: getChild('donation-list-form') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
         <form data-bind="submit: navigateToNextStep" novalidate="novalidate">
             <div class="actions-toolbar">
                 <div class="primary">
