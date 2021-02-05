@@ -835,10 +835,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$addrline['AddressTypeCode'] = $type;
 
 
-					if (!(is_null($row['company']) || empty($row['company'])) || !is_null(@$row['tax_id']))
-						$addrline["OrgFlag"] = 'O';
-					else
-						$addrline["OrgFlag"] = 'I';
+                    if (!(is_null($row['company']) || empty($row['company'])) || !is_null(@$row['tax_id'])) {
+                        $addrline["OrgFlag"] = 'O';
+                        $addrline["OrganizationName"] = $row['company'];
+                    } else {
+                        $addrline["OrgFlag"] = 'I';
+                    }
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
