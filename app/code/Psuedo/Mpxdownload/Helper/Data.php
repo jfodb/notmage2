@@ -1319,7 +1319,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 								'MotivationCode' => $recurMotivationCode,
 								'SourcePaymentType' => $card_type,
 								'GiftAmount' => $OrderRow["GiftAmount"],
-                                'PaymentToken' => $additionalInfo['payment_token'] ?? 'Unknown Payment Token',
+                                'ProfileId' => $additionalInfo['payment_token'] ?? 'Unknown Payment Token',
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
 								'ExpirationDate' => $OrderRow['ExpirationDate'],
 								'CardholderName' => $OrderRow["CardholderName"],
