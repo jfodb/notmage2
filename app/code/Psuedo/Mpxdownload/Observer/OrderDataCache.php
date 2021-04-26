@@ -119,9 +119,21 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				continue;
 			}
 
+			// USLF-1813: Automation issue with configurable products in JSON
+            // $itm_data = ['parent_item_id'] was looking for getParentItemId(), but that wasn't working as expected
+            // The below hotfix does a more in-depth look-up of the parentId if it is a child
+            $parentId = $itm->getParentItemId();
+
+            if (!$parentId && $itm->getParentItem()) {
+                $parent = $itm->getParentItem();
+                if ($parent->getProductId() && $parent->getProductId() > 0) {
+                    $parentId = $parent->getProductId();
+                }
+            }
+
 			$itm_data = [
 				'item_id' => $itm->getItemId(),
-				'parent_item_id' => $itm->getParentItemId(),
+                'parent_item_id' => $parentId,
 				'product_id' => $itm->getProductId(),
 				'product_type' => $itm->getProductType(),
 				'sku' => $itm->getSku(),
