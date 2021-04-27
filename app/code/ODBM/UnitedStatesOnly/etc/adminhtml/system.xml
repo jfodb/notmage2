@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="general">
+            <group id="unitedstatesonly" translate="label" type="text" sortOrder="1001" showInDefault="0" showInWebsite="1"
+                   showInStore="1">
+                <label>Allow United States Only</label>
+                <field id="active" translate="label" type="select" sortOrder="0" showInDefault="0" showInWebsite="1"
+                       showInStore="1">
+                    <label>Redirect All Traffic Outside of the US</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="redirecturl" translate="label" type="text" sortOrder="10" showInDefault="0"
+                       showInWebsite="1" showInStore="1">
+                    <label>The URL to redirect to when traffic is NOT from the United States</label>
+                    <depends>
+                        <field id="active">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
