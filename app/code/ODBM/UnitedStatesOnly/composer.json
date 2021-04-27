@@ -1,0 +1,20 @@
+{
+  "name": "odbm/module-unitedstatesonly",
+  "description": "Adds a field to the Magento Store's General group and tab to redirect traffic if it not from the United States",
+  "require": {
+    "magento/framework": "101.0.*"
+  },
+  "type": "magento2-module",
+  "version": "0.1.0",
+  "license": [
+    "OSL-3.0"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "ODBM\\UnitedStatesOnly\\": ""
+    }
+  }
+}
