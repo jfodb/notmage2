@@ -693,8 +693,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if(!empty($payment)) {
 					if(is_null($payment['method']))
 						$OrderRow["SourcePaymentType"] = "NONE";
-					else if($payment['method'] == 'backoffice')
-						$OrderRow["SourcePaymentType"] = 'Paperless';
 					else
 						$OrderRow["SourcePaymentType"] = $payment['method'];
 
@@ -782,12 +780,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					}
 
 					$OrderRow["CardholderName"] = $order_grid['billing_name'];
-
-					if(!empty($payment['cc_status_description']))
-						$OrderRow['cardprofile'] = $payment['cc_status_description'];
-
-
-
 
 
 				}
@@ -1129,8 +1121,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$recurMotivationCode = $product_options['info_buyRequest']['_recurmotivation'];
 					}
 
+                    // hotfix for isReccuring: get product options to check if recurring on every $lineitem
+                    if (!empty($lineitem['product_options'])) {
+                        $recur_hotfix = $lineitem['product_options'];
 
+                        if (is_string($recur_hotfix))
+                            $recur_hotfix = json_decode($recur_hotfix, true);
 
+                        if (!empty($recur_hotfix['info_buyRequest']['_recurring']) && ($recur_hotfix['info_buyRequest']['_recurring'] === "true" || $recur_hotfix['info_buyRequest']['_recurring'] === true)) {
+                            $productisrecurring = true;
+                        }
+                    }
 
 					// check for various donation methods
 					//do the price/original price not match?
@@ -1286,14 +1287,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$card_type = ''; //don't let no-found exception take us down
 						else {
 							switch ($payment['cc_type']){
-								case 'MC': $card_type = 'CARD_MASTER';
-								break;
-								case 'VI': $card_type = 'CARD_VISA';
-								break;
-								case 'AE': $card_type = 'CARD_AMEX';
-								break;
-								case 'DI': $card_type = 'CARD_DISCOVER';
-								break;
+								case 'MC':
+                                case 'MASTERCARD':
+                                    $card_type = 'CARD_MASTER';
+								    break;
+                                case 'VI':
+                                case 'VISA':
+                                    $card_type = 'CARD_VISA';
+								    break;
+                                case 'AE':
+                                case 'AMEX':
+                                    $card_type = 'CARD_AMEX';
+								    break;
+                                case 'DI':
+                                case 'DISCOVER':
+                                    $card_type = 'CARD_DISCOVER';
+								    break;
 								default:
 									$card_type = 'CARD_UNKNOWN';
 							}
@@ -1305,15 +1314,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						} else
 
 						if ($productisrecurring) {
+
+						    $additionalInfo = $this->get_additional_recurring_information($payment['additional_information'] ?? null, $payment['method'] ?? null);
+
 							$OrderRow['JobDetailRecurringGifts'] = [
 								'MotivationCode' => $recurMotivationCode,
 								'SourcePaymentType' => $card_type,
 								'GiftAmount' => $OrderRow["GiftAmount"],
-								'ProfileNumber' => $OrderRow['cardprofile'],
+                                'ProfileId' => $additionalInfo['payment_token'] ?? 'Unknown Payment Token',
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
 								'ExpirationDate' => $OrderRow['ExpirationDate'],
 								'CardholderName' => $OrderRow["CardholderName"],
-								'RecurrenceType' => 'monthly'  //presently fixed at monthly
+								'RecurrenceType' => 'monthly',  //presently fixed at monthly,
+                                'CustomerToken' => $additionalInfo['customer_token'] ?? 'Unknown Customer Token',
 							];
 						}
 
@@ -1600,4 +1613,40 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$outstr = ob_get_clean();
 		return $outstr;
 	}
+
+    /**
+     * @param $addlInfo
+     * @param $paymentMethod
+     * @return array|mixed
+     *
+     * Function should return an array with at least "payment_token" and "customer_token" for recurring transactions
+     *
+     */
+
+    private function get_additional_recurring_information($addlInfo, $paymentMethod)
+    {
+
+        if (is_string($addlInfo))
+            $neededInfo = json_decode($addlInfo, true);
+        else if (is_array($addlInfo))
+            $neededInfo = $addlInfo;
+
+        if ($neededInfo) {
+            // set payment & customer details by payment method
+            if ($paymentMethod) {
+                switch ($paymentMethod) {
+                    case 'stripe_payments':
+                        $neededInfo['payment_token'] = $neededInfo['token'];
+                        $neededInfo['customer_token'] = $neededInfo['customer_stripe_id'];
+                        break;
+                    default:
+                        $neededInfo['payment_token'] = 'Payment token unknown for ' . $paymentMethod . ' payment method';
+                        $neededInfo['customer_token'] = 'Customer token unknown for ' . $paymentMethod . ' payment method';
+                }
+            }
+        }
+
+        return $neededInfo ?? [];
+    }
+
 }
