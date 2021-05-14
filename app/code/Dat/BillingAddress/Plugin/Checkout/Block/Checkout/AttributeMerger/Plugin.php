@@ -14,22 +14,22 @@ class Plugin
   * @var AttributeMetadataDataProvider
   */
   public $attributeMetadataDataProvider;
-  
+
   /**
   * @var AttributeMapper
   */
   public $attributeMapper;
-  
+
   /**
   * @var AttributeMerger
   */
   public $merger;
-  
+
   /**
   * @var CheckoutSession
   */
   public $checkoutSession;
-  
+
   /**
   * @var null
   */
@@ -38,7 +38,7 @@ class Plugin
   protected $scopeConfig;
 
   protected $_storeManager;
-  
+
   /**
   * LayoutProcessor constructor.
   *
@@ -62,7 +62,7 @@ class Plugin
       $this->scopeConfig = $scopeConfig;
       $this->_storeManager = $storeManager;
     }
-    
+
     /**
     * Get Quote
     *
@@ -82,10 +82,10 @@ class Plugin
 	    if($this->quote->getCustomerEmail() === null && $this->quote->getBillingAddress()->getEmail() !== null)
 		    $this->quote->setCustomerEmail( $this->quote->getBillingAddress()->getEmail() );
 
-	    
+
       return $this->quote;
     }
-    
+
     /**
     * @param \Magento\Checkout\Block\Checkout\LayoutProcessor $subject
     * @param array $jsLayout
@@ -119,10 +119,10 @@ class Plugin
                 $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']
                 ['children']['billingAddress']['children']['billing-address'] = $this->getCustomBillingAddressComponent($elements);
             } else {
-                $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['street']['children'][0]['label'] = __('Address');
-                $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['street']['children'][1]['label'] = __('Address 2');
+                $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['stripe_payments-form']['children']['form-fields']['children']['street']['children'][0]['label'] = __('Address');
+                $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['stripe_payments-form']['children']['form-fields']['children']['street']['children'][1]['label'] = __('Address 2');
 
-                $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['odbm_paperless-form']['children']['form-fields']['children']['postcode']['label'] = __('Zip');
+                $jsLayoutResult['components']['checkout']['children']['steps']['children']['billing-step']['children']['payment']['children']['payments-list']['children']['stripe_payments-form']['children']['form-fields']['children']['postcode']['label'] = __('Zip');
             }
         }
         
