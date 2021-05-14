@@ -100,7 +100,7 @@
 			if($hideMonthly!=1){
 				?>
 
-			<div class="radio--button">
+			<div id="monthly-btn" class="radio--button">
 
 				<input type="radio" class="radio admin__control-radio"
 				name="_recurring"
@@ -109,15 +109,16 @@
 				>
 				<label class="label admin__field-label" for="_recurring-yes" tabindex="4"><span data-cy="givemonthly"><?= __("Give Monthly") ?></span></label>
 			</div>
-			<div class="radio--button">
-				<input type="radio" class="radio admin__control-radio"
-				name="_recurring"
-				id="_recurring-no"
-				value="false"
-				>
-				<label class="label admin__field-label" for="_recurring-no" tabindex="5"><span data-cy="giveonce"><?= __("Give Once") ?></span></label>
-			</div>
 			<?php  } ?>
+
+            <div id="onetime-btn" class="radio--button">
+                <input type="radio" class="radio admin__control-radio"
+                       name="_recurring"
+                       id="_recurring-no"
+                       value="false"
+                >
+                <label class="label admin__field-label" for="_recurring-no" tabindex="5"><span data-cy="giveonce"><?= __("Give Once") ?></span></label>
+            </div>
 
 			<script type="text/javascript">
 				// Temporary redirect to MOS for recurring
