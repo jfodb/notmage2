@@ -3,7 +3,6 @@
 namespace Psuedo\Mpxdownload\Model\Stripe;
 
 use Magento\Framework\Exception\LocalizedException;
-use Stripe\Exception\ApiErrorException;
 use StripeIntegration\Payments\Helper\Logger;
 use StripeIntegration\Payments\Model\PaymentIntent;
 
@@ -17,7 +16,6 @@ class PaymentIntentData extends PaymentIntent
     public $order = null;
     public $capture = null; // Overwrites default capture method
     protected $_storeManager;
-    protected $stripeCustomer;
 
     const CAPTURED = "succeeded";
     const AUTHORIZED = "requires_capture";
@@ -39,9 +37,7 @@ class PaymentIntentData extends PaymentIntent
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\Session\Generic $session,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \StripeIntegration\Payments\Model\StripeCustomer $stripeCustomer,
-        \ODBM\Donation\Model\AdditionalConfigProvider $addlConfig
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     )
     {
         $this->helper = $helper;
@@ -57,8 +53,6 @@ class PaymentIntentData extends PaymentIntent
         $this->session = $session;
         $this->checkoutHelper = $checkoutHelper;
         $this->_storeManager = $storeManager;
-        $this->stripeCustomer = $stripeCustomer;
-        $this->addlConfig = $addlConfig;
     }
 
     // If we already created any payment intents for this quote, load them
@@ -602,11 +596,6 @@ class PaymentIntentData extends PaymentIntent
         if ($payment->getAdditionalInformation("is_recurring_subscription"))
             return null;
 
-        // Rather than override vendor/stripe/module-payments/Model/PaymentMethod.php for recurring donations, use this function
-        if($this->addlConfig->isRecurring()){
-            return $this->confirmAndAssociateWithOrderRecurring($order, $payment);
-        }
-
         $hasSubscriptions = $this->helper->hasSubscriptionsIn($order->getAllItems());
 
         $quote = $order->getQuote();
@@ -718,128 +707,6 @@ class PaymentIntentData extends PaymentIntent
             $payment->setCcApproval($chargedata->id);
 
             if(!empty($chargedata->payment_method_details) && !empty($chargedata->payment_method_details->card)) {
-                $card = $chargedata->payment_method_details->card;
-                $payment->setCcType(strtoupper($card->brand));
-                $payment->setCcLast4($card->last4);
-                $payment->setCcExpMonth($card->exp_month);
-                $payment->setCcExpYear($card->exp_year);
-                $payment->setCcNumberEnc($card->fingerprint);
-            }
-        }
-
-        return $retval;
-    }
-
-    public function confirmAndAssociateWithOrderRecurring($order, $payment)
-    {
-
-        $quote = $order->getQuote();
-        if (empty($quote) || !is_numeric($quote->getGrandTotal()))
-            $this->quote = $quote = $this->quoteRepository->get($order->getQuoteId());
-        if (empty($quote) || !is_numeric($quote->getGrandTotal()))
-            throw new \Exception("Invalid quote used for Payment Intent");
-
-        // Save the quote so that we don't lose the reserved order ID in the case of a payment error
-        $quote->save();
-
-        // new code for recurring donations
-        // get payment token
-        $paymentMethodId = $payment->getAdditionalInformation('token');
-        // create Stripe customer
-        $this->stripeCustomer->createStripeCustomerIfNotExists();
-        $customerId = $this->stripeCustomer->getStripeId();
-        $paymentMethod = \Stripe\PaymentMethod::retrieve($paymentMethodId);
-        // attach customer to Payment Method
-        $paymentMethod->attach(['customer' => $customerId]);
-
-            try {
-                $setupIntent = \Stripe\SetupIntent::create([
-                    "payment_method_types" => ["card"],
-                    "customer" => $customerId,
-                    "payment_method" => $paymentMethodId,
-                    "description" => "Recurring ODBM Donation"
-                ]);
-            } catch (ApiErrorException $e) {
-                $this->log($e);
-                throw $e;
-            }
-
-        $payment->setAdditionalInformation('setup_intent_id', $setupIntent->id);
-
-        // For existing SetupIntents
-        if ($setupIntent->status == "succeeded")
-            return;
-
-        // confirm setup intent
-        $setupIntent->confirm(["payment_method" => $paymentMethodId]); // We pass payment_method again because in multishipping, it gets lost with every confirmation
-
-        // if 3D secure or needs additional authorization
-        if ($setupIntent->status == "requires_action")
-            $this->setAuthorizationData();
-
-        $this->create($quote, $payment); // Load quote/order
-
-        if (!$this->paymentIntent)
-            throw new LocalizedException(__("Unable to create payment intent"));
-
-        if (!$this->isSuccessfulStatus() && $setupIntent->status == "succeeded") {
-            $this->order = $order;
-            $save = ($this->helper->isMultiShipping() || $payment->getAdditionalInformation("save_card"));
-            $this->setPaymentMethod($payment->getAdditionalInformation("token"), $save, false);
-            $params = $this->config->getStripeParamsFrom($order);
-            // add Recurrence Metadata
-            $params['metadata']['Recurrence'] = "Monthly";
-            $this->paymentIntent->description = $params['description'];
-            $this->paymentIntent->metadata = $params['metadata'];
-
-
-            if ($this->helper->isMultiShipping())
-                $this->paymentIntent->amount = $params['amount'];
-
-            $this->updatePaymentIntent($quote);
-
-            $confirmParams = [];
-            $motostore = (int)$this->_storeManager->getStore()->getId() ?? 0;
-
-            if (($this->helper->isAdmin() || $motostore === 14) && $this->config->isMOTOExemptionsEnabled())
-                $confirmParams = ["payment_method_options" => ["card" => ["moto" => "true"]]];
-
-            try {
-                $this->paymentIntent->confirm($confirmParams);
-                $this->prepareRollback();
-            } catch (\Exception $e) {
-                $this->prepareRollback();
-                $this->helper->maskException($e);
-            }
-
-        }
-
-
-        if (!$this->paymentIntent)
-            throw new LocalizedException(__("Unable to create payment intent"));
-
-        $this->processAuthenticatedOrder($order, $this->paymentIntent);
-
-        // If this method is called, we should also clear the PI from cache because it cannot be reused
-        $object = clone $this->paymentIntent;
-        $this->destroy($quote->getId());
-
-        // This makes sure that if another quote observer is triggered, we do not update the PI
-        $this->stopUpdatesForThisSession = true;
-
-        $retval = $object;
-
-        if (!empty($this->paymentIntent))
-            $pi = $this->paymentIntent;
-        else
-            $pi = $retval;
-
-        if (!empty($pi->charges) && !empty($pi->charges->data)) {
-
-            $chargedata = $pi->charges->data[0];
-            $payment->setCcApproval($chargedata->id);
-
-            if (!empty($chargedata->payment_method_details) && !empty($chargedata->payment_method_details->card)) {
                 $card = $chargedata->payment_method_details->card;
                 $payment->setCcType(strtoupper($card->brand));
                 $payment->setCcLast4($card->last4);

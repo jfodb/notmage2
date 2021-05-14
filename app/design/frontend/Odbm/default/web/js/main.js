@@ -254,9 +254,11 @@ function sendCheckoutGA() {
 }
 
 function switch_to_stripe(){
+	let checkr = jQuery('.paperless-pay-button');
 	let chck2 = jQuery('#activate_stripe');
-	if(chck2.length > 0) {
+	if(checkr.length == 0 && chck2.length > 0) {
 		jQuery('div.pci-dss-info-block').parent().addClass('payment-method-notes');
+		jQuery('#submitDonationButton').parent().parent().addClass('paperless-pay-button');
 		jQuery('div.stripe-payments .ccard').parent().addClass('payment-data');
 		jQuery('div#stripe-payments-card-expiry').parent().addClass('multi-item');
 		jQuery('div#stripe-payments-card-number').parent().addClass('card-line');
