@@ -32,7 +32,7 @@ class AdditionalConfigProvider implements \Magento\Checkout\Model\ConfigProvider
 
 	        //root out the product to get the details
 	        $product = $mitem->getProduct();
-	        if(!empty($product) && strpos($product->getData('type_id'), 'donation') !== false) {
+	        if(!empty($product)) {
 		        //get product options
 		        $options_deep = $product->getCustomOptions();
 		        if (isset($options_deep['info_buyRequest'])) {

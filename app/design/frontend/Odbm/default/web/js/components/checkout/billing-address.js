@@ -59,7 +59,8 @@ function (
         defaults: {
             template: 'Magento_Checkout/billing-address',
             exports: {
-                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.stripe_payments:isVisible'
+                // TODO, make this more dynamic
+                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
             }
         },
         currentBillingAddress: quote.billingAddress,
@@ -71,6 +72,8 @@ function (
          */
         initialize: function () {
             this._super();
+
+       //     this.exports.isAddressFormVisible = 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
 
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();

@@ -458,11 +458,12 @@ a.description-toggle {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	padding: 0 0 15px;
+	-ms-flex: wrap;
+	padding: 15px 0;
+	padding-top: 0;
 	box-sizing: border-box;
 	justify-content: center;
 }
-
 .box-tocart > .fieldset > p {
 	text-align: center;
 	padding-top: 25px;
@@ -553,8 +554,8 @@ h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
 	color: #4A4A4A;
 	letter-spacing: 0;
 	line-height: 32px;
+	margin-bottom:-5px;
 	font-size:16px !important;
-	padding-top: 30px;
 }
 
 .termsDisclaimer {
@@ -592,7 +593,7 @@ Hide all payment methods execpt the active one (cc-form)
 	padding: 8px 20px;
 }
 .checkout-payment-method .payment-method-content {
-	padding-bottom: 0;
+	padding-bottom: 5px;
 }
 .cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
 	padding: 0!important;
@@ -660,6 +661,7 @@ Hide all payment methods execpt the active one (cc-form)
 	bottom: 5px;
 }
 .checkout-index-index .payment-method-billing-address .fieldset label.label,
+.checkout-index-index #payment_form_odbm_paperless label,
 .checkout-index-index .payment-method-content .fieldset legend.label {
 	display: none;
 }
@@ -699,7 +701,9 @@ Hide all payment methods execpt the active one (cc-form)
 .checkout-index-index .payment-method-billing-address .field._required > input,
 .checkout-index-index .payment-method-billing-address .field._required > select,
 .checkout-index-index .payment-method-billing-address .field input,
-.checkout-index-index .payment-method-billing-address .field select {
+.checkout-index-index .payment-method-billing-address .field select,
+.checkout-index-index #payment_form_odbm_paperless .field input,
+.checkout-index-index #payment_form_odbm_paperless .field select {
 	border-bottom: solid 1px @odb-gray-secondary;
 	height: 40px;
 	font-size: 20px;
@@ -710,8 +714,18 @@ Hide all payment methods execpt the active one (cc-form)
 .checkout-payment-method .ccard .number .input-text {
 	width: 100%;
 }
+.checkout-index-index #payment_form_odbm_paperless .field.number {
+	width: 100%!important;
+}
+.checkout-index-index #payment_form_odbm_paperless .field {
+	float: left;
+	width: 50%;
+}
 .checkout-index-index .payment-method-billing-address .field._required:nth-child(2) input {
 	border-left: solid 1px @odb-gray-secondary;
+}
+.checkout-index-index #payment_form_odbm_paperless .field.number {
+	position: relative;
 }
 div.mage-error[generated] {
 	color: @error-red;
@@ -726,6 +740,7 @@ input.mage-error, select.mage-error {
 	border: 0!important;
 }
 .checkout-index-index .payment-method-billing-address .street .field,
+.checkout-index-index #payment_form_odbm_paperless .field.number,
 .checkout-index-index #customer-email-fieldset .field
 {
 	width: 100%;
@@ -748,10 +763,19 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	color: @odb-gray-secondary;
 	opacity: 1;
 }
+.checkout-index-index #payment_form_odbm_paperless .field.date {
+	width: 50%;
+	max-width: 100%;
+}
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field {
 	width: 50%!important;
 }
-
+.checkout-payment-method .actions-toolbar div.primary {
+	padding-top: 50px;
+}
+.checkout-index-index #payment_form_odbm_paperless .field.month, .checkout-index-index #payment_form_odbm_paperless .field.year {
+	border-bottom: none;
+}
 .payment-method-billing-address {
 	position: relative;
 }
@@ -800,6 +824,9 @@ button.action {
 input.cvv, input.ccno {
 	border: none;  background-color: transparent;
 }
+.checkout-index-index #payment_form_odbm_paperless .field.cvv {
+	width: 50%;
+}
 .checkout-payment-method .ccard > .field.cvv > .control {
 	position: relative;
 }
@@ -812,6 +839,7 @@ input.cvv, input.ccno {
 	border-bottom: 1px solid @odb-gray-secondary;
 }
 .checkout-index-index .payment-method-billing-address .field input::placeholder,
+.checkout-index-index #payment_form_odbm_paperless .field input::placeholder,
 .checkout-index-index .payment-method-billing-address .field input:-ms-input-placeholder,
 .checkout-index-index .payment-method-billing-address .field input::-ms-input-placeholder {
 	color: @odb-gray-secondary !important;
@@ -881,41 +909,20 @@ div.stripe-payments div.billing-address-details {display: none;}
 div.stripe-payments-elements.multi-item {position: relative; z-index: 4;  /*stipe injects space between elements*/}
 div.stripe-elements-field {box-sizing: border-box; height: 40px; font-size: 20px; margin:0; border-bottom: 1px solid rgb(85,85,85); border-radius: 0; box-shadow: none; width:50%;}
 div.stripe-elements-field .__PrivateStripeElement {height:100%;}
-.pci-dss-info-block {
-	margin: 8px 15px -34px 30px;
-	width: 100%;
-}
-.pci-dss-info-block .pci-dss-info-text {
-	top: 1px;
-	left: -25px;
-	font-size: 16px;
-	font-style: italic;
-	color: #4A4A4A;
-	text-align: center;
-	display: inline;
-}
+div.payment-method-notes .pci-dss-info-block{width:100%; margin:8px 15px 8px 0;}
+div.payment-method-notes .pci-dss-info-block #pci-svg {left:6px; top:0;}
+div.payment-method-notes .pci-dss-info-block .pci-dss-info-text {top:-5px; left: 6px; font-size: 16px; font-style: italic; color: #4A4A4A; text-align: center; display: inline;}
 #stripe-payments-card-number {width: 100%; padding-bottom:0;}
 #stripe-payments-card-expiry {border-right: 1px solid rgb(85,85,85); width: 50%; /*position: absolute; left: 0;*/}
 #stripe-payments-card-cvc{width: 50%; position: absolute; left: 50%; /*stripe injects space, force browser to disregard*/}
 
 .stripe-payments-elements label { margin-left: 9px; }
+.stripe-payments-elements .currencyDisclaimer {line-height: 20px;}
 .stripe-elements-field {padding: 8px 8px 2px;}
 div.stripe-payments-elements.card-line {margin: 0 0 -6px; position: relative; z-index: 6;}
+.stripe-payments-elements .stripe-payments-brand {position: absolute; top:8px; right:14px;}
 #card-details-label {display: none;}
 
-.payment-method > .payment-method-title {
-	display: none;
-}
-
-.stripe-payments-elements .stripe-payments-brand {
-	position: absolute;
-	top: .5em;
-	left: 100%;
-}
-
-.billing-address-form {
-	padding-bottom: 20px;
-}
 
 @media (max-width: 767px) {
 	/*make room for header*/
@@ -982,6 +989,8 @@ div.stripe-payments-elements.card-line {margin: 0 0 -6px; position: relative; z-
 	.checkout-index-index .payment-method-billing-address .field._required > select,
 	.checkout-index-index .payment-method-billing-address .field input,
 	.checkout-index-index .payment-method-billing-address .field select,
+	.checkout-index-index #payment_form_odbm_paperless .field input,
+	.checkout-index-index #payment_form_odbm_paperless .field select,
 	.checkout-index-index .payment-method-content select.select {
 		font-size: 16px;
 	}
@@ -1183,10 +1192,6 @@ div.stripe-payments-elements.card-line {margin: 0 0 -6px; position: relative; z-
 		width: 50%;
 		right: -50%;
 	}
-}
-
-#checkout-step-payment {
-	position: relative;
 }
 
 @media (max-width: 320px) {
