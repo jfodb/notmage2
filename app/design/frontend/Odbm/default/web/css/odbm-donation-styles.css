@@ -6,6 +6,13 @@
     padding: 10px;
 }
 
+@media only screen and (max-width: 480px) {
+    .label.admin__field-label {
+        width: 123px;
+        padding: 10px;
+    }
+}
+
 @media only screen and (max-width: 1150px) {
     .field-tooltip .field-tooltip-content {
         left: auto;
