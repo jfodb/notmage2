@@ -3,14 +3,8 @@
 }
 
 .label.admin__field-label {
+    width: 89%;
     padding: 10px;
-}
-
-@media only screen and (max-width: 480px) {
-    .label.admin__field-label {
-        width: 123px;
-        padding: 10px;
-    }
 }
 
 @media only screen and (max-width: 1150px) {
