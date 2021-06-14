@@ -4,6 +4,7 @@
 
 .label.admin__field-label {
     padding: 10px 0px;
+    width: 100%;
 }
 
 @media only screen and (max-width: 1150px) {
