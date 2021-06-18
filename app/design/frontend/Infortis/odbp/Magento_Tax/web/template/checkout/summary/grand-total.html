@@ -13,6 +13,12 @@
         <strong><span class="price">USD </span><span class="price" data-bind="text: getValue()"></span></strong>
     </td>
 </tr>
+<!-- Tax included disclaimer-->
+<tr>
+    <th scope="row" class="mark odbp-tax-incl" colspan="2">
+    <span class="value" data-bind="i18n: 'Prices include sales tax where applicable.'"></span>
+</th>
+</tr>
 <tr class="grand totals excl"  style="display: none;">
     <th class="mark" scope="row">
         <strong data-bind="i18n: exclTaxLabel"></strong>
