@@ -118,7 +118,7 @@ hooks:
   ApplicationStart:
     - location: /application_start.sh
       timeout: 3600
-      runas: apache
+      runas: ec2-user
 # During the ValidateService deployment lifecycle event, run the commands
 #   in the script specified in "location".
 #  ValidateService:
