@@ -6,7 +6,7 @@ sed -i s'/group = apache/group = nginx/' /etc/php-fpm.d/www.conf
 service php-fpm restart
 
 # chmod -R 775 $MAGENTO/var $MAGENTO/pub $MAGENTO/app/etc
-chown -R apache:nginx $MAGENTO/*
+# chown -R apache:nginx $MAGENTO/*
 
 # Removed because it was blocking deployments: 'Script at specified location: /application_start.sh failed to complete in 3600 seconds'
 # Permissions fix for Admin Export tool

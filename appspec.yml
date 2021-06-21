@@ -106,13 +106,13 @@ hooks:
   BeforeInstall:
     - location: /before_install.sh
       timeout: 3600
-      runas: root
+      runas: apache
 # During the AfterInstall deployment lifecycle event, run the commands
 #   in the script specified in "location".
   AfterInstall:
     - location: /after_install.sh
       timeout: 3600
-      runas: root
+      runas: apache
 # During the ApplicationStart deployment lifecycle event, run the commands
 #   in the script specified in "location".
   ApplicationStart:
