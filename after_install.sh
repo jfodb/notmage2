@@ -1,17 +1,6 @@
 #!/bin/bash
 MAGENTO=/usr/share/nginx/html/magento
 
-if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
-    echo "Mounted"
-else
-    if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
-    then
-        mount -t efs fs-1e74a656:/ $MAGENTO/pub/media/
-    else
-        mount -t efs fs-e12571ab:/ $MAGENTO/pub/media/
-    fi
-fi
-
 #grant ec2 access to code and logs
 usermod -a -G nginx,apache ec2-user
 
@@ -30,3 +19,17 @@ php $MAGENTO/bin/magento cron:install
 
 #building makes bad cache
 php $MAGENTO/bin/magento cache:clean
+
+# Fix permissions/owners
+chown -R apache:nginx $MAGENTO/*
+
+if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
+    echo "Mounted"
+else
+    if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
+    then
+        mount -t efs fs-1e74a656:/ $MAGENTO/pub/media/
+    else
+        mount -t efs fs-e12571ab:/ $MAGENTO/pub/media/
+    fi
+fi
