@@ -10,21 +10,21 @@
         <strong data-bind="i18n: inclTaxLabel"></strong>
     </th>
     <td data-bind="attr: {'data-th': inclTaxLabel}" class="amount">
-        <strong><span class="price">USD </span><span class="price" data-bind="text: getValue()"></span></strong>
+        <strong><span class="price" data-bind="text: getValue()"></span></strong>
     </td>
 </tr>
 <!-- Tax included disclaimer-->
 <tr>
     <th scope="row" class="mark odbp-tax-incl" colspan="2">
-    <span class="value" data-bind="i18n: 'Prices include sales tax where applicable.'"></span>
-</th>
+        <span class="value" data-bind="i18n: 'Prices include sales tax where applicable.'"></span>
+    </th>
 </tr>
-<tr class="grand totals excl"  style="display: none;">
+<tr class="grand totals excl" style="display: none;">
     <th class="mark" scope="row">
         <strong data-bind="i18n: exclTaxLabel"></strong>
     </th>
     <td data-bind="attr: {'data-th': exclTaxLabel}" class="amount">
-        <strong><span class="price">USD </span><span class="price" data-bind="text: getGrandTotalExclTax()"></span></strong>
+        <strong><span class="price" data-bind="text: getGrandTotalExclTax()"></span></strong>
     </td>
 </tr>
 <!-- /ko -->
