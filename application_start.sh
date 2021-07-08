@@ -5,8 +5,8 @@ MAGENTO=/usr/share/nginx/html/magento
 sed -i s'/group = apache/group = nginx/' /etc/php-fpm.d/www.conf
 service php-fpm restart
 
-# chmod -R 775 $MAGENTO/var $MAGENTO/pub $MAGENTO/app/etc
-chown -R apache:nginx $MAGENTO/*
+# Moved to after_install.sh because it seemed to be blocking deployments: 'Script at specified location: /application_start.sh failed to complete in 3600 seconds'
+# chown -R apache:nginx $MAGENTO/*
 
 # Permissions fix for Admin Export tool
 # For future permissions changes, consider this resource first:
