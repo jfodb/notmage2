@@ -27,6 +27,8 @@ files:
     destination: /usr/share/nginx/html/magento/app
   - source: /magento.conf
     destination: /usr/share/nginx/html/magento/
+  - source: /health.php
+    destination: /usr/share/nginx/html
   - source: /bin
     destination: /usr/share/nginx/html/magento/bin
   - source: /generated
