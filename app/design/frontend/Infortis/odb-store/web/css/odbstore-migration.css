@@ -84,11 +84,6 @@
     width: 96% !important;
 }
 
- /* Hide edit cart link on mini-cart until cart is fixed or USLF-1009 is completed*/
-.mini-cart .viewcart {
-    display: none !important;
-}
-
 #checkout div.checkout-payment-method div.discount-code { display: none; }
 
 /* Increase Stripe Credit Card Form Size */
