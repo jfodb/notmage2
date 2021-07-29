@@ -1,0 +1,281 @@
+/**
+ *
+ * Magento 1 Migration(ODBCU)
+ *
+ */
+.product-view .product-addto-links .tocompare {
+    display: none !important;
+}
+
+/* Place order button had a large padding */
+.checkout-payment-method .payment-method-content .fieldset > .field {
+    margin: 0 !important;
+}
+
+/* set image width in mini-cart to auto to avoid stretching image */
+.minicart-items img.product-image-photo[style] {
+    width: auto !important;
+}
+
+/* give padding between items in minicart */
+.minicart-items span.product-image-container[style]{
+    height: auto !important;
+}
+
+/*remove overlapping caption on mobile view*/
+. category-description .caption .permanent {
+    display: none !important;
+}
+
+/*fix the nav menu from dissapearing on long list of lecturers*/
+ul.nav-submenu {
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.syllabus-btn {
+    font: 75%/150% Arial, Helvetica, sans-serif;
+    font-family: "PT Sans", "Helvetica", sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    margin: 0;
+    border: 0;
+    overflow: visible;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: center;
+    color: #FFF;
+    box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+    transition: background-color, ease-in-out, 400ms;
+    margin-bottom: 5px;
+    background-color: #1E375F;
+    padding: 0 15px;
+    line-height: 30px;
+}
+
+.syllabus-btn:hover {
+    color: white;
+    background-color: #0d264e !important;
+}
+
+button#product-addtocart-button {
+    background-color: #fab432 !important;
+    padding: 15px 17px;
+    font-size: 1.8rem;
+    min-width: 190px;
+}
+button#product-addtocart-button:hover {
+    background-color: #0d264e !important;
+}
+
+button#top-cart-btn-checkout:hover {
+    background-color: #0d264e !important;
+}
+
+button#top-cart-btn-checkout {
+    background-color: #fab432 !important;
+}
+
+
+
+/*Add style for format-options data table */
+/* Data Table
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+*/
+.product-view .data-table {
+    width: 100%;
+}
+
+.product-view .data-table th,
+.product-view .data-table td {
+    padding: 10px;
+}
+
+.product-view .data-table thead {
+    background: none;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.product-view .data-table thead th {
+    font-weight: bold;
+    vertical-align: bottom;
+    border-right: none;
+}
+
+.product-view .data-table thead th.wrap {
+    white-space: normal;
+}
+
+.product-view .data-table tr.odd td,
+.product-view .data-table tr.odd th {
+    border-right: 1px solid #f5f5f5;
+}
+
+.product-view .data-table tr.odd td.last {
+    border-right: none;
+}
+
+.product-view .data-table tr.odd {
+}
+
+.product-view .data-table tr.odd.last {
+    border-bottom: #eee solid 1px;
+}
+
+.product-view .data-table tr.even td,
+.product-view .data-table tr.even th {
+    border-right: 1px solid #f5f5f5;
+}
+
+.product-view .data-table tr.even td.last {
+    border-right: none;
+}
+
+.product-view .data-table tr.even {
+    background-color: #fbfbfb;
+}
+
+.product-view .data-table tbody tr:hover {
+}
+
+.product-view .data-table tbody tr.product-shop-row:hover {
+    background-color: #fff;
+}
+
+.product-view .data-table tbody.odd {
+}
+
+.product-view .data-table tbody.odd td {
+    border-width: 0 1px;
+}
+
+.product-view .data-table tbody.odd tr.last {
+    border-bottom: #e5e5e5 solid 1px;
+}
+
+.product-view .data-table tbody.even {
+    background-color: #f5f5f5;
+}
+
+.product-view .data-table tbody.even td {
+    border-width: 0 1px;
+}
+
+.product-view .data-table tbody.odd tr.border td,
+.product-view .data-table tbody.even tr.border td {
+}
+
+.product-view .data-table th .tax-flag { /*white-space:nowrap;*/
+    font-weight: normal;
+}
+
+/* Additional classes for mobile devices
+-------------------------------------------------------------- */
+/* Cell title */
+
+#shopping-cart-table tbody tr, .cart-table-wrapper .product-view .data-table thead, .cart-table thead tr {
+    border-bottom: #e5e5e5 dashed 1px;
+}
+
+.cart .product-view .data-table tr {
+    display: block;
+    height: 200px;
+}
+
+.product-view .data-table .cell-label {
+    display: none;
+}
+
+.product-view .data-table tr.even {
+    background-color: #C8E2FB;
+}
+
+
+.product-view .data-table td,
+.product-view .data-table th {
+    font-size: 12px;
+}
+
+/*Don't change links on hover*/
+.product-view .data-table a:hover {
+    color: #333333;
+}
+.fotorama__caption {
+        display: none;
+}
+
+/*qty changes*/
+
+/* product pages */
+.add-to-cart.left-side .button {
+    float: none;
+    display: block;
+}
+
+.add-to-cart.left-side .qty-wrapper label {
+    display: block;
+}
+
+.add-to-cart.left-side .qty-wrapper {
+    line-height: 18px;
+    height: 60px;
+}
+
+button.plus, button.minus {
+    border-width: 1px;
+    border-radius: 0 4px 4px 0;
+    border-left: 1px solid #ddd;
+    cursor: pointer;
+    display: block;
+    margin: 0 !important;
+    border: 1px solid #ddd;
+    background: #fff;
+    height: 50px;
+    width: 50px;
+    float: left;
+    font-size: 20px;
+    color: #888;
+}
+
+button.plus:active, button.minus:active {
+    background-color: #ccc;
+    color: #FFF;
+}
+
+button.minus {
+    border-radius: 4px 0px 0px 4px;
+    border-right: 1px solid #ddd;
+}
+
+#qty {
+    height: 50px;
+    width: 50px !important;
+    text-align: center;
+}
+
+.add-to-cart .qty-wrapper .qty {
+    float: left;
+    margin-right: 0;
+    padding-top: 10px;
+}
+
+.product-view .qty {
+    padding-top: 10px;
+}
+
+.add-to-cart .qty-wrapper {
+    margin-bottom: 30px;
+}
+
+/*Don't float the "add to cart" button*/
+.page-product-downloadable .product-options-bottom {
+    float: none !important;
+}
+
+/* Increase Stripe Credit Card Form Size */
+#stripe-payments-card-number {
+    width: 225px !important;
+    display: inline-block;
+}

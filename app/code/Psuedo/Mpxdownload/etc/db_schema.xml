@@ -1,0 +1,7 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order" resource="default" engine="innodb">
+        <column xsi:type="varchar" name="mpx_status" default="unprocessed" length="100" nullable="false"
+                comment="MPX Automation Status"/>
+    </table>
+</schema>

@@ -1,6 +1,7 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:18.04-1.0.0
 
 EXPOSE 80
+EXPOSE 443
 
 CMD ["/magento/docker/serve.sh"]
 
@@ -31,9 +32,13 @@ RUN apt-add-repository -y ppa:ondrej/php \
                     php7.2-redis \
                     php7.2-soap \
                     nginx \
+                    php-xdebug \
+                    vim \
+                    strace \
+                    patch \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && curl -sS https://getcomposer.org/installer | php \
+    && curl -sS https://getcomposer.org/installer | php -- --version="1.10.16" \
     && mv composer.phar /usr/local/bin/composer \
     && export PATH=$PATH:/magento/bin \
 	&& curl -sL https://deb.nodesource.com/setup_8.x | bash - \
@@ -45,5 +50,17 @@ COPY ./docker/nginx.conf /etc/nginx/sites-available/default
 COPY ./docker/php.ini /etc/php/7.2/fpm/php.ini
 
 COPY ./docker/env.php /magento/app/env.php
+
+COPY ./docker/xdebug.ini /etc/php/7.2/mods-available/xdebug.ini
+
+COPY ./docker/nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key
+
+COPY ./docker/nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt
+
+COPY ./docker/dhparam.pem /etc/ssl/certs/dhparam.pem
+
+COPY ./docker/mage-signed.conf /etc/nginx/snippets/mage-signed.conf
+
+COPY ./docker/ssl-params.conf /etc/nginx/snippets/ssl-params.conf
 
 ADD . /magento

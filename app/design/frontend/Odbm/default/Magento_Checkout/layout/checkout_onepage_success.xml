@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Thank you</title>
+        <css src="Dat_Thankyoupage::css/thankyoupage.css" />
+    </head>
+    <body>
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceContainer name="content">
+            <block class="Dat\Thankyoupage\Block\Onepage\Success" name="checkout.success" template="Dat_Thankyoupage::success.phtml" cacheable="false"/>
+        </referenceContainer>
+
+        <container name="order.success.additional.info" label="Order Success Additional Info"/>
+        <referenceBlock name="checkout.registration" remove="true" />
+
+    </body>
+</page>

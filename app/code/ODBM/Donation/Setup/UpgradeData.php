@@ -80,10 +80,10 @@ class UpgradeData implements UpgradeDataInterface
 					]
 				);
 
-			//Add one-time-donation option to product
+			//Add one_time_donation option to product
 			$eavSetup->addAttribute(
 				\Magento\Catalog\Model\Product::ENTITY,
-				'one-time-donation',
+				'one_time_donation',
 				[
 					'type' => 'int',
 					'backend' => '',
@@ -143,5 +143,98 @@ class UpgradeData implements UpgradeDataInterface
 					]
 				);
 			}
+
+		if (version_compare($context->getVersion(), '1.0.7', '<')) {
+			$eavSetup->addAttribute(
+				\Magento\Catalog\Model\Product::ENTITY,
+				'use_custom_template',
+				[
+					'type' => 'int',
+					'backend' => '',
+					'frontend' => '',
+					'label' => 'Use Custom Template',
+					'input' => 'boolean',
+					'note'  => 'Are you overriding the template with a CMS Block?',
+					'class' => '',
+					'source' => '',
+					'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+					'visible' => true,
+					'required' => false,
+					'user_defined' => false,
+					'default' => '',
+					'searchable' => false,
+					'filterable' => false,
+					'comparable' => false,
+					'visible_on_front' => false,
+					'used_in_product_listing' => true,
+					'unique' => false,
+					'apply_to' => 'donation'
+				]	
+			);
 		}
+
+		if (version_compare($context->getVersion(), '1.0.8', '<')) {
+			$eavSetup->addAttribute(
+				\Magento\Catalog\Model\Product::ENTITY,
+				'promo_text',
+				[
+					'type' => 'text',
+					'backend' => '',
+					'frontend' => '',
+					'label' => 'Promo Text',
+					'input' => 'text',
+					'class' => '',
+					'note' => 'Use this value to override the title on the template',
+					'source' => '',
+					'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+					'visible' => true,
+					'required' => false,
+					'user_defined' => false,
+					'default' => '',
+					'searchable' => true,
+					'filterable' => false,
+					'comparable' => false,
+					'visible_on_front' => false,
+					'used_in_product_listing' => true,
+					'unique' => false,
+					'apply_to' => 'donation'
+				]
+			);
+		}
+        if (version_compare($context->getVersion(), '1.0.9', '<')) {
+            $eavSetup->addAttribute(
+                \Magento\Catalog\Model\Product::ENTITY,
+                'thank_you_page_block',
+                [
+                    'backend' => '',
+                    'type' => 'int',
+                    'frontend' => '',
+                    'input' => 'select',
+                    'label' => 'Choose a custom "Thank You" page',
+                    'class' => '',
+                    'source' => 'Magento\Catalog\Model\Category\Attribute\Source\Page',
+                    'required' => false,
+                    'user_defined' => true,
+                    'unique' => false,
+                    'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                    'input_renderer' => '',
+                    'searchable' => true,
+                    'filterable' => false,
+                    'comparable' => false,
+                    'visible_on_front' => false,
+                    'visible' => true,
+                    'is_html_allowed_on_front' => false,
+                    'visible_in_advanced_search' => false,
+                    'used_in_product_listing' => true,
+                    'used_for_sort_by' => false,
+                    'apply_to' => 'donation',
+                    'used_for_promo_rules' => false,
+                    'is_used_in_grid' => false,
+                    'is_visible_in_grid' => false,
+                    'is_filterable_in_grid' => false,
+                    'group' => 'Content'
+                ]
+            );
+        }
 	}
+}

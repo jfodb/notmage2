@@ -1,0 +1,10 @@
+<?php
+/**
+ * This openroads template can be used by a CMS Page to show the amount donated to a particular product by SKU
+ * Code to add to CMS block: {{block class="ODBM\Donation\Block\OpenRoads" name="openroads" template="ODBM_Donation::openroads.phtml" sku="REPLACE_ME" cacheable="false"}}
+ * Code to add to CMS Page: {{widget type="Magento\Cms\Block\Widget\Block" template="widget/static_block/default.phtml" block_id="REPLACE_ME"}}
+ * Also update the CMS Page layout to not be cacheable: <referenceContainer name="content"><block class="Magento\Cms\Block\Page" name="cms_page" cacheable="false"/></referenceContainer>
+ */
+$sku = $block->getData('sku');
+$donations = $block->getTotalDonationsBySku($sku);
+echo ($donations >= 0) ? number_format($donations, 2, '.', '') : '';

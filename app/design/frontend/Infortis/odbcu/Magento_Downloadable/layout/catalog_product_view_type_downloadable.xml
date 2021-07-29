@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product-view-wrapper">
+            <container name="moved.downloadable.product-info" />
+        </referenceContainer>
+        <move element="product.info" destination="moved.downloadable.product-info" before="-" />
+        <!-- This is the original layout which we need to neutralize here:  -->
+        <!-- <move element="product.info" destination="content" after="product.info.media" /> -->
+
+        <!-- ODBP Migration: Shift cart to right column -->
+        <move element="product.info.price" destination="container_product_secondary_1" before="-"/>
+        <move element="product.info" destination="container_product_secondary_1" after="product.info.price"/>
+        <move element="product.info.social" destination="container_product_secondary_1" after="product.info.addtocart"/>
+    </body>
+</page>

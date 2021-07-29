@@ -32,7 +32,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 			return;
 		}
 
-		$this->logger->alert("Capture flag set, caching");
+		//$this->logger->alert("Capture flag set, caching");
 
 		$order = $observer->getData('order');
 		
@@ -108,11 +108,36 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 		//}
 		
 		foreach ($items as $itm) {
+			//IDE hack
+			//if(empty($itm))
+				//$itm = new \Magento\Sales\Model\Order\Item();
+
+			$sku  = $itm->getSku();
+			//if item SKU is in child hash, has a title'-x' indicating fabricated item, and it matches the current item
+			if(!empty($itm_hash[$sku]) && preg_match('/-[0-9]+$/', $itm_hash[$sku]->getName()) && $itm_hash[$sku]->getName() === $itm->getName()) {
+				//child variable product
+				continue;
+			}
+
+			// USLF-1813: Automation issue with configurable products in JSON
+            // $itm_data = ['parent_item_id'] was looking for getParentItemId(), but that wasn't working as expected
+            // The below hotfix does a more in-depth look-up of the parentId if it is a child
+            $parentId = $itm->getParentItemId();
+
+            if (!$parentId && $itm->getParentItem()) {
+                $parent = $itm->getParentItem();
+                if ($parent->getProductId() && $parent->getProductId() > 0) {
+                    $parentId = $parent->getProductId();
+                }
+            }
 
 			$itm_data = [
-				'parent_item_id' => $itm->getParentItemId(),
+				'item_id' => $itm->getItemId(),
+                'parent_item_id' => $parentId,
 				'product_id' => $itm->getProductId(),
+				'product_type' => $itm->getProductType(),
 				'sku' => $itm->getSku(),
+				'name' => $itm->getName(),
 				'base_original_price' => $itm->getBaseOriginalPrice(),
 				'qty_ordered' => $itm->getQtyOrdered(),
 				'base_tax_amount' => $itm->getBaseTaxAmount(),
@@ -120,7 +145,8 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				'price' => $itm->getPrice(),
 				'original_price' => $itm->getOriginalPrice(),
 				'attr' => $itm->getProductType(),
-				'info' => $itm->getProductOptionByCode('info_buyRequest')
+				'info' => $itm->getProductOptionByCode('info_buyRequest'),
+				'row_total' => $itm->getRowTotal()
 			];
 			
 			if(empty($itm_data['attr']) && $itm->getResource()->getAttribute('productoffertype'))
@@ -132,6 +158,14 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				$item_data['recurmotivation'] = $itm_data['info']['_recurmotivation'];
 			
 			$item_data[] = $itm_data;
+
+			$child = $itm->getChildrenItems();
+			//if this product has child items (customization) cache the children to detect and eliminate empty/duplicate products.
+			if(count($child) === 1)
+			{
+				$productchild = $child[0];
+				$itm_hash[$productchild->getSku()] = $productchild;
+			}
 		}
 		
 		$item_json = json_encode($item_data);
@@ -156,7 +190,7 @@ class OrderDataCache implements \Magento\Framework\Event\ObserverInterface
 				    'order_grid' => $grid_json,
 				    'items' => $item_json
 				]);
-			$this->logger->alert("Order data was cached");
+			//$this->logger->alert("Order data was cached");
 
 		}catch (\Magento\Framework\Exception\AlreadyExistsException $duplicate) {
 			$connection->update (

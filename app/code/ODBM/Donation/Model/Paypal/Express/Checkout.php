@@ -12,10 +12,8 @@ use Magento\Paypal\Model\Express;
 
 class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 
-
-	
 	//always save the address. Do not just discard what we recieved
-	public function returnFromPaypal($token)
+	public function returnFromPaypal($token, string $payerIdentifier = null)
 	{
 		$this->_getApi()
 			->setToken($token)
@@ -26,7 +24,7 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 
 		// import shipping address
 		$exportedShippingAddress = $this->_getApi()->getExportedShippingAddress();
-		
+
 
 		$shippingAddress = $quote->getShippingAddress();
 		if ($shippingAddress) {
@@ -34,7 +32,7 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 				&& $quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_BUTTON) == 1
 			) {
 				$this->_setExportedAddressData($shippingAddress, $exportedShippingAddress);
-				
+
 				$shippingAddress->setCollectShippingRates(true);
 				//$shippingAddress->setSameAsBilling(0);
 			}
@@ -53,7 +51,7 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 				$code
 			);
 		}
-		
+
 
 		// import billing address
 		$portBillingFromShipping = $quote->getPayment()->getAdditionalInformation(self::PAYMENT_INFO_BUTTON) == 1
@@ -61,7 +59,7 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 				'requireBillingAddress'
 			) != \Magento\Paypal\Model\Config::REQUIRE_BILLING_ADDRESS_ALL
 			&& !empty($shippingAddress) && !empty($shippingAddress->getCountryId());
-		
+
 		if ($portBillingFromShipping) {
 			$billingAddress = clone $shippingAddress;
 			$billingAddress->unsAddressId()->unsAddressType()->setCustomerAddressId(null);
@@ -88,20 +86,19 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout {
 		$quote->collectTotals();
 		$this->quoteRepository->save($quote);
 	}
-	
-	
+
 	//thanks for making this private
 	protected function ignoreAddressValidation()
 	{
 		$this->_quote->getBillingAddress()->setShouldIgnoreValidation(true);
-		
+
 		$this->_quote->getShippingAddress()->setShouldIgnoreValidation(true);
-		
+
 		if (!$this->_config->getValue('requireBillingAddress')
 			&& !$this->_quote->getBillingAddress()->getEmail()
 		) {
 			$this->_quote->getShippingAddress()->setSameAsBilling(1);
 		}
-		
+
 	}
 }

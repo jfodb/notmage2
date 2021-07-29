@@ -51,6 +51,8 @@ files:
     destination: /usr/share/nginx/html/magento/
   - source: /auth.json
     destination: /usr/share/nginx/html/magento/
+  - source: /magentorotate
+    destination: /etc/logrotate.d/
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files
@@ -66,7 +68,7 @@ permissions:
     pattern: "**"
     owner: apache
     group: nginx
-    mode: 774
+    mode: 775
 # If you are not running any commands on the Amazon EC2 instance, then remove
 #   the "hooks" section altogether. A blank or incomplete "hooks" section
 #   may cause associated deployments to fail.
@@ -104,7 +106,7 @@ hooks:
 # During the BeforeInstall deployment lifecycle event, run the commands
 #   in the script specified in "location".
   BeforeInstall:
-    - location: /install.sh
+    - location: /before_install.sh
       timeout: 3600
       runas: root
 # During the AfterInstall deployment lifecycle event, run the commands
@@ -116,8 +118,8 @@ hooks:
 # During the ApplicationStart deployment lifecycle event, run the commands
 #   in the script specified in "location".
   ApplicationStart:
-    - location: /applicationStart.sh
-      timeout: 30
+    - location: /application_start.sh
+      timeout: 3600
       runas: root
 # During the ValidateService deployment lifecycle event, run the commands
 #   in the script specified in "location".

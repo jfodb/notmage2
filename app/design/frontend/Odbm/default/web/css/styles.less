@@ -1,5 +1,5 @@
 // Color theme
-@odb-blue: #2279CB; 
+@odb-blue: #2279CB;
 @odb-dark-blue: #1E375F;
 @odb-yellow: #fab432;
 @odb-gray: #878787;
@@ -216,6 +216,7 @@ input#amount {
 }
 input#amount::placeholder {
 	color: @placeholder-gray;
+	opacity: 1;
 }
 .radio--button input[type="radio"] {
 	-webkit-appearance: none;
@@ -223,6 +224,9 @@ input#amount::placeholder {
 	appearance: none;
 	display: none;
 	margin: 0;
+}
+.columns .column.main {
+	max-width: 100%
 }
 .radio--button {
 	border: 1px solid @odb-blue;
@@ -266,23 +270,24 @@ h4 {
 	background-color: @odb-blue;
 	color: #fff;
 }
-.checkout-index-index input[type="text"]::-webkit-input-placeholder, 
-.checkout-index-index input[type="password"]::-webkit-input-placeholder, 
-.checkout-index-index input[type="url"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="text"]::-webkit-input-placeholder,
+.checkout-index-index input[type="password"]::-webkit-input-placeholder,
+.checkout-index-index input[type="url"]::-webkit-input-placeholder,
 .checkout-index-index input[type="tel"]::-webkit-input-placeholder,
-.checkout-index-index input[type="search"]::-webkit-input-placeholder, 
-.checkout-index-index input[type="number"]::-webkit-input-placeholder, 
-.checkout-index-index input[type="datetime"]::-webkit-input-placeholder, 
+.checkout-index-index input[type="search"]::-webkit-input-placeholder,
+.checkout-index-index input[type="number"]::-webkit-input-placeholder,
+.checkout-index-index input[type="datetime"]::-webkit-input-placeholder,
 .checkout-index-index input[type="email"]::-webkit-input-placeholder,
-.checkout-index-index input[type="text"]::placeholder, 
-.checkout-index-index input[type="password"]::placeholder, 
-.checkout-index-index input[type="url"]::placeholder, 
+.checkout-index-index input[type="text"]::placeholder,
+.checkout-index-index input[type="password"]::placeholder,
+.checkout-index-index input[type="url"]::placeholder,
 .checkout-index-index input[type="tel"]::placeholder,
-.checkout-index-index input[type="search"]::placeholder, 
-.checkout-index-index input[type="number"]::placeholder, 
-.checkout-index-index input[type="datetime"]::placeholder, 
+.checkout-index-index input[type="search"]::placeholder,
+.checkout-index-index input[type="number"]::placeholder,
+.checkout-index-index input[type="datetime"]::placeholder,
 .checkout-index-index input[type="email"]::placeholder {
 	color: @odb-gray-secondary;
+	opacity: 1;
 }
 .checkout-index-index .opc-wrapper form div.actions-toolbar {
 	margin: auto;
@@ -294,9 +299,9 @@ h4 {
 	width: 271px;
 	height: 50px;
 	font-size: 28px!important;
-    background-color: @odb-blue;
-    color: #fff;
-    border: none;
+	background-color: @odb-blue;
+	color: #fff;
+	border: none;
 	padding: 1px;
 	display: block;
 	margin: auto;
@@ -318,12 +323,17 @@ h4 {
 	display: none !important;
 }
 #product-addtocart-button span {
-    vertical-align: middle;
-    position: relative;
-    top: -1px;
+	vertical-align: middle;
+}
+
+#product-addtocart-button span i {
+	font-size: 18px;
+	vertical-align: middle;
+	position: relative;
+	top: -1px;
 }
 .dntpmtoptbx {
-	padding: 0px 61px 50px 61px; 
+	padding: 0px 61px 50px 61px;
 	background-color: #fff;
 	color: #222;
 }
@@ -347,20 +357,20 @@ Donation Product Page Styles
 	margin: 8px auto;
 }
 .title-box h1 {
-    font-weight: bold;
-    font-size: 48px;
-    color: #fff;
-    letter-spacing: 0.78px;
-    text-align: center;
-    max-width: 767px;
-    line-height: 1.2;
-    margin: 8px auto;
+	font-weight: bold;
+	font-size: 48px;
+	color: #fff;
+	letter-spacing: 0.78px;
+	text-align: center;
+	max-width: 767px;
+	line-height: 1.2;
+	margin: 8px auto;
 }
 button, .radio--button, .action.primary {
 	transition: background 0.8s;
 }
-.action.primary:hover, 
-button:hover, 
+.action.primary:hover,
+button:hover,
 .radio--button:hover,
 .paypal.checkout.before.paypal-logo:hover {
 	background: #f0f0f0 radial-gradient(circle, transparent 1%, #f0f0f0 1%) center/15000%;
@@ -369,32 +379,32 @@ button:hover,
 	background: #2a90f1 radial-gradient(circle, transparent 1%, #2a90f1 1%) center/15000%;
 	border-color: #2a90f1;
 }
-.action.primary:active, 
-button:active, 
+.action.primary:active,
+button:active,
 .radio--button:active,
 .paypal.checkout.before.paypal-logo:active {
 	background-color: #6eb9f7;
 	background-size: 100%;
 	transition: background 0s;
-  }
+}
 .description-inner {
 	background-color: #fff;
-    margin: 15px auto;
-    overflow: hidden;
-    max-height: 1000px;
-    transition: max-height 0.2s ease-in-out;
-    box-sizing: content-box;
-    max-width: 348px;
-    padding: 0;
-    border-radius: 4px;
+	margin: 15px auto;
+	overflow: hidden;
+	max-height: 1000px;
+	transition: max-height 0.2s ease-in-out;
+	box-sizing: content-box;
+	max-width: 348px;
+	padding: 0;
+	border-radius: 4px;
 	width: 100%;
 	position: relative;
 }
 .description-inner .icon-close.description-toggle {
 	position: absolute;
-    font-size: 20px;
-    right: 4px;
-    top: 4px;
+	font-size: 20px;
+	right: 4px;
+	top: 4px;
 }
 .description-inner-content {
 	padding: 15px;
@@ -419,16 +429,19 @@ button:active,
 	padding: 45px;
 	background-size: cover;
 }
+.page-layout-1column.page-product-donation .product-info-main .donation-product.custom {
+	min-height: 0;
+}
 a.description-toggle {
-    font-size: 16px;
-    color: #fff;
+	font-size: 16px;
+	color: #fff;
 	font-weight: bold;
 	text-decoration: underline;
 }
 .page-product-donation .page-main {
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;	
+	max-width: 100%;
+	padding-left: 0;
+	padding-right: 0;
 }
 .page-product-donation .box-tocart {
 	background: #FFFFFF;
@@ -445,32 +458,31 @@ a.description-toggle {
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;
-	-ms-flex: wrap;
-	padding: 15px 0;
-	padding-top: 0;
+	padding: 0 0 15px;
 	box-sizing: border-box;
 	justify-content: center;
 }
+
 .box-tocart > .fieldset > p {
-    text-align: center;
-    padding-top: 25px;
-    color: @odb-dark-blue;
-    font-size: 18px;
+	text-align: center;
+	padding-top: 25px;
+	color: @odb-dark-blue;
+	font-size: 18px;
 }
 .paypal.checkout.before.paypal-logo {
-    border: solid 1px #d5d5d5;
-    padding: 0;
-    box-sizing: border-box;
-    margin: 10px;
-    background-color: #fff;
-    color: #1e375f;
-    border: solid 1px #1e375f;
-    text-transform: uppercase;
-    border-radius: 22.5px 22.5px 22.5px 22.5px;
-    width: 170px;
-    font-weight: bold;
-    letter-spacing: 3px;
-    height: 38px;
+	border: solid 1px #d5d5d5;
+	padding: 0;
+	box-sizing: border-box;
+	margin: 10px;
+	background-color: #fff;
+	color: #1e375f;
+	border: solid 1px #1e375f;
+	text-transform: uppercase;
+	border-radius: 22.5px 22.5px 22.5px 22.5px;
+	width: 170px;
+	font-weight: bold;
+	letter-spacing: 3px;
+	height: 38px;
 	padding-top: 7px;
 	line-height: 1;
 }
@@ -497,15 +509,15 @@ a.description-toggle {
 	margin-bottom: 1rem;
 }
 .tocart img.btnicon {
-    vertical-align: middle;
+	vertical-align: middle;
 	height: 12px;
 	padding-bottom: 2px;
-    padding-right: 4px;
+	padding-right: 4px;
 }
-.action.primary:focus, 
-.action.primary:active, 
-.action.primary:hover, 
-.paypal.checkout.before.paypal-logo:hover, 
+.action.primary:focus,
+.action.primary:active,
+.action.primary:hover,
+.paypal.checkout.before.paypal-logo:hover,
 .paypal.checkout.before.paypal-logo:active {
 	background-color: #fff;
 	color: @odb-dark-blue;
@@ -513,8 +525,8 @@ a.description-toggle {
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
 }
 .paypal.before:before {
-    content: '';
-    display: none;
+	content: '';
+	display: none;
 	margin: 0;
 }
 .payment-option._collapsible.opc-payment-additional.discount-code {
@@ -525,10 +537,10 @@ h2.paymentdetails.billing-details {
 }
 h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
 	color: #004A97;
-    font-weight: normal;
-    text-align: center;
-    font-size: 24px;
-    margin-top: 10px;
+	font-weight: normal;
+	text-align: center;
+	font-size: 24px;
+	margin-top: 10px;
 }
 
 .currencyDisclaimer, .termsDisclaimer {
@@ -541,7 +553,8 @@ h2.paymentdetails, .opc-wrapper .checkout-payment-method div.step-title {
 	color: #4A4A4A;
 	letter-spacing: 0;
 	line-height: 32px;
-	margin-bottom:-5px;
+	font-size:16px !important;
+	padding-top: 30px;
 }
 
 .termsDisclaimer {
@@ -566,24 +579,24 @@ h2.paymentdetails {
 Hide all payment methods execpt the active one (cc-form)
 */
 .payment-method._active {
-    display: block;
+	display: block;
 }
 .payment-method {
-    display: none;
+	display: none;
 }
 .opc-wrapper .step-content {
 	margin-bottom: 0;
 }
 .opc-block-summary {
-    background: #fff;
-    padding: 8px 20px;
+	background: #fff;
+	padding: 8px 20px;
 }
 .checkout-payment-method .payment-method-content {
-	padding-bottom: 5px;
+	padding-bottom: 0;
 }
 .cart-totals .grand .amount, .opc-block-summary .table-totals .grand .amount {
 	padding: 0!important;
-    width: 66.6%;
+	width: 66.6%;
 }
 .checkout-payment-method .ccard .month .select {
 	width: 100%;
@@ -591,11 +604,11 @@ Hide all payment methods execpt the active one (cc-form)
 .opc-block-summary td.amount .price {
 	color: @odb-dark-blue;
 	font-size: 26px;
-    font-weight: bold;
+	font-weight: bold;
 }
 .opc-block-summary td.amount .price .sign{
 	color: @odb-blue;
-    font-weight: normal;
+	font-weight: normal;
 }
 .opc-block-summary,
 #payment {
@@ -603,15 +616,15 @@ Hide all payment methods execpt the active one (cc-form)
 }
 .opc-block-summary td.description {
 	padding: 0;
-    font-size: 20px;
-    text-align: right;
-    color: @odb-dark-blue;
-    font-weight: bold;
-    padding-top: 4px;
+	font-size: 20px;
+	text-align: right;
+	color: @odb-dark-blue;
+	font-weight: bold;
+	padding-top: 4px;
 }
 .opc-block-summary td.description>div {
 	width: 100%;
-    border-left: 1px solid @odb-dark-blue !important;
+	border-left: 1px solid @odb-dark-blue !important;
 }
 .checkout-index-index .opc-wrapper {
 	float: none;
@@ -647,7 +660,6 @@ Hide all payment methods execpt the active one (cc-form)
 	bottom: 5px;
 }
 .checkout-index-index .payment-method-billing-address .fieldset label.label,
-.checkout-index-index #payment_form_odbm_paperless label,
 .checkout-index-index .payment-method-content .fieldset legend.label {
 	display: none;
 }
@@ -679,17 +691,15 @@ Hide all payment methods execpt the active one (cc-form)
 	border-right: 0;
 }
 .checkout-payment-method .ccard .year .select {
-    width: calc(100% + 5px);
-    margin-left: -5px;
-    padding-left: 10px;
-    padding-right: 10px;
+	width: calc(100% + 5px);
+	margin-left: -5px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .checkout-index-index .payment-method-billing-address .field._required > input,
 .checkout-index-index .payment-method-billing-address .field._required > select,
 .checkout-index-index .payment-method-billing-address .field input,
-.checkout-index-index .payment-method-billing-address .field select,
-.checkout-index-index #payment_form_odbm_paperless .field input,
-.checkout-index-index #payment_form_odbm_paperless .field select {
+.checkout-index-index .payment-method-billing-address .field select {
 	border-bottom: solid 1px @odb-gray-secondary;
 	height: 40px;
 	font-size: 20px;
@@ -700,33 +710,22 @@ Hide all payment methods execpt the active one (cc-form)
 .checkout-payment-method .ccard .number .input-text {
 	width: 100%;
 }
-.checkout-index-index #payment_form_odbm_paperless .field.number {
-	width: 100%!important;
-}
-.checkout-index-index #payment_form_odbm_paperless .field {
-	float: left;
-	width: 50%;
-}
 .checkout-index-index .payment-method-billing-address .field._required:nth-child(2) input {
 	border-left: solid 1px @odb-gray-secondary;
 }
-.checkout-index-index #payment_form_odbm_paperless .field.number {
-	position: relative;
-}
 div.mage-error[generated] {
-    color: @error-red;
-    font-size: 1.2rem;
-    font-size: 14px;
-    padding-bottom: 7px;
+	color: @error-red;
+	font-size: 1.2rem;
+	font-size: 14px;
+	padding-bottom: 7px;
 }
 ._error input, ._error select
 input.mage-error, select.mage-error {
-    -webkit-box-shadow: 0 0 6px @error-red !important;
-    box-shadow: 0 0 6px @error-red !important;
-    border: 0!important;
+	-webkit-box-shadow: 0 0 6px @error-red !important;
+	box-shadow: 0 0 6px @error-red !important;
+	border: 0!important;
 }
 .checkout-index-index .payment-method-billing-address .street .field,
-.checkout-index-index #payment_form_odbm_paperless .field.number,
 .checkout-index-index #customer-email-fieldset .field
 {
 	width: 100%;
@@ -747,20 +746,12 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 }
 .checkout-index-index #customer-email-fieldset .field input::placeholder {
 	color: @odb-gray-secondary;
-}
-.checkout-index-index #payment_form_odbm_paperless .field.date {
-	width: 50%;
-	max-width: 100%;
+	opacity: 1;
 }
 .checkout-payment-method .ccard.fieldset > .field .fields.group.group-2 .field {
 	width: 50%!important;
 }
-.checkout-payment-method .actions-toolbar div.primary {
-	padding-top: 50px;
-}
-.checkout-index-index #payment_form_odbm_paperless .field.month, .checkout-index-index #payment_form_odbm_paperless .field.year {
-	border-bottom: none;
-}
+
 .payment-method-billing-address {
 	position: relative;
 }
@@ -772,10 +763,10 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	font-size: 18px;
 }
 .checkout-index-index .payment-method-content select.select {
-    content: '444';
-    background-image: url(../images/arrow-down.svg);
-    background-position: 96% 50%;
-    background-size: 18px 12px;
+	content: '444';
+	background-image: url(../images/arrow-down.svg);
+	background-position: 96% 50%;
+	background-size: 18px 12px;
 	background-repeat: no-repeat;
 	-moz-appearance: none;
 	-webkit-appearance: none;
@@ -784,33 +775,30 @@ fieldset#customer-email-fieldset > .field:not(.choice) > .control {
 	text-align: left;
 }
 .payment-method-billing-address button.action.action-edit-address::after {
-    content: '\e801';
-    font-family: 'odb_icons';
-    font-size: 12px;
-    vertical-align: top;
+	content: '\e801';
+	font-family: 'odb_icons';
+	font-size: 12px;
+	vertical-align: top;
 }
 .checkout-payment-method .checkout-billing-address .billing-address-details {
 	font-size: 20px;
-    font-family: @odb-font;
-    padding: 0;
+	font-family: @odb-font;
+	padding: 0;
 	line-height: 26px;
 	margin-top: 15px;
 	bottom: 33px;
 }
 button.action {
-    background: none;
-    color: @odb-blue;
-    text-transform: uppercase;
-    border: 0;
+	background: none;
+	color: @odb-blue;
+	text-transform: uppercase;
+	border: 0;
 }
 .opc-progress-bar {
 	display: none;
 }
 input.cvv, input.ccno {
 	border: none;  background-color: transparent;
-}
-.checkout-index-index #payment_form_odbm_paperless .field.cvv {
-	width: 50%;
 }
 .checkout-payment-method .ccard > .field.cvv > .control {
 	position: relative;
@@ -824,11 +812,10 @@ input.cvv, input.ccno {
 	border-bottom: 1px solid @odb-gray-secondary;
 }
 .checkout-index-index .payment-method-billing-address .field input::placeholder,
-.checkout-index-index #payment_form_odbm_paperless .field input::placeholder,
 .checkout-index-index .payment-method-billing-address .field input:-ms-input-placeholder,
 .checkout-index-index .payment-method-billing-address .field input::-ms-input-placeholder {
-    color: @odb-gray-secondary !important;
-    opacity: 1;
+	color: @odb-gray-secondary !important;
+	opacity: 1;
 }
 .checkout-index-index .payment-method-content select.select {
 	background-color: transparent;
@@ -877,8 +864,65 @@ input.cvv, input.ccno {
 #product-options-wrapper .fieldset > .field { margin-bottom: 16px;}
 #product-options-wrapper .fieldset > .radio--button {margin-top:0;}
 
+/*make room for header*/
+.modal-popup .modal-inner-wrap {
+	margin: 8rem auto;
+}
+
+@media (max-width: 320px) {
+	.page-layout-1column.page-product-donation .product-info-main .donation-product {
+		padding: 0;
+	}
+}
+
+/* Stripe additions */
+div.force .payment-method-content.payment-data { margin-top: -10px; /*collapse phantom space above credit card section*/ }
+div.stripe-payments div.billing-address-details {display: none;}
+div.stripe-payments-elements.multi-item {position: relative; z-index: 4;  /*stipe injects space between elements*/}
+div.stripe-elements-field {box-sizing: border-box; height: 40px; font-size: 20px; margin:0; border-bottom: 1px solid rgb(85,85,85); border-radius: 0; box-shadow: none; width:50%;}
+div.stripe-elements-field .__PrivateStripeElement {height:100%;}
+.pci-dss-info-block {
+	margin: 8px 15px -34px 30px;
+	width: 100%;
+}
+.pci-dss-info-block .pci-dss-info-text {
+	top: 1px;
+	left: -25px;
+	font-size: 16px;
+	font-style: italic;
+	color: #4A4A4A;
+	text-align: center;
+	display: inline;
+}
+#stripe-payments-card-number {width: 100%; padding-bottom:0;}
+#stripe-payments-card-expiry {border-right: 1px solid rgb(85,85,85); width: 50%; /*position: absolute; left: 0;*/}
+#stripe-payments-card-cvc{width: 50%; position: absolute; left: 50%; /*stripe injects space, force browser to disregard*/}
+
+.stripe-payments-elements label { margin-left: 9px; }
+.stripe-elements-field {padding: 8px 8px 2px;}
+div.stripe-payments-elements.card-line {margin: 0 0 -6px; position: relative; z-index: 6;}
+#card-details-label {display: none;}
+
+.payment-method > .payment-method-title {
+	display: none;
+}
+
+.stripe-payments-elements .stripe-payments-brand {
+	position: absolute;
+	top: .5em;
+	left: 100%;
+}
+
+.billing-address-form {
+	padding-bottom: 20px;
+}
+
 @media (max-width: 767px) {
-	.title-box h1 { 
+	/*make room for header*/
+	.modal-popup .modal-inner-wrap {
+		margin: 10rem auto;
+	}
+	.title-box h1 {
 		font-size: 24px;
 	}
 	.title-box h2 {
@@ -892,24 +936,36 @@ input.cvv, input.ccno {
 		align-items: center;
 		line-height: 1;
 	}
+	#product-addtocart-button span i {
+		font-size: 18px;
+		vertical-align: middle;
+		position: relative;
+		top: 6px;
+		padding-left: 15px;
+		float: left;
+	}
 	.page-layout-1column.page-product-donation .product-info-main .donation-product {
-		padding: 45px ~"calc( (100vw - 295px) / 2 )";
+		padding: 45px 0;
 	}
 	.page-layout-1column.page-product-donation .product-info-main .donation-product .description-inner {
-		margin-left: ~"calc( 0px - (100vw - 295px) / 2 )";
-		width: 100vw;
-		max-width: 100vw;
+		width: 100%;
+		max-width: 100%;
 	}
+	#product-options-wrapper.donation-product .fieldset, #product-options-wrapper.donation-product .title-box{
+		max-width: 295px;
+		margin: auto;
+	}
+
 	.radio--button {
 		width: 141px;
 	}
-	.product-info-main .box-tocart .actions .action.tocart> img.btnicon{ 
+	.product-info-main .box-tocart .actions .action.tocart> img.btnicon{
 		width: 20px;
 		height: auto;
 		padding-bottom: 0!important;
 		padding-left: 15px;
 		padding-right: 4px;
-		
+
 	}
 	.paypal.checkout.before.paypal-logo {
 		width: 135px;
@@ -922,12 +978,10 @@ input.cvv, input.ccno {
 		font-size: 18px!important;
 	}
 	.checkout-index-index #customer-email-fieldset .field input,
-	.checkout-index-index .payment-method-billing-address .field._required > input, 
-	.checkout-index-index .payment-method-billing-address .field._required > select, 
-	.checkout-index-index .payment-method-billing-address .field input, 
-	.checkout-index-index .payment-method-billing-address .field select, 
-	.checkout-index-index #payment_form_odbm_paperless .field input, 
-	.checkout-index-index #payment_form_odbm_paperless .field select,
+	.checkout-index-index .payment-method-billing-address .field._required > input,
+	.checkout-index-index .payment-method-billing-address .field._required > select,
+	.checkout-index-index .payment-method-billing-address .field input,
+	.checkout-index-index .payment-method-billing-address .field select,
 	.checkout-index-index .payment-method-content select.select {
 		font-size: 16px;
 	}
@@ -971,7 +1025,7 @@ input.cvv, input.ccno {
 	.checkout-index-index #checkoutSteps {
 		padding: 0;
 	}
-	.checkout-index-index .payment-method-billing-address .field._required[name*=".city"], 
+	.checkout-index-index .payment-method-billing-address .field._required[name*=".city"],
 	.checkout-index-index .payment-method-billing-address .field._required[name*=".country_id"] {
 		height: auto
 	}
@@ -1026,6 +1080,7 @@ input.cvv, input.ccno {
 	}
 	.header-logo .logo img {
 		height: 25px;
+		width: auto;
 	}
 	.header-tagline {
 		font-size: 16px;
@@ -1067,7 +1122,7 @@ input.cvv, input.ccno {
 	main {
 		padding-top: @odb-desktop-header-height;
 	}
-	.header-logo .logo {
+	.header-logo.has-tagline > .logo {
 		border-right: 1px solid @odb-gray;
 	}
 	.page-header .nav-toggle {
@@ -1130,40 +1185,26 @@ input.cvv, input.ccno {
 	}
 }
 
-	@media all and (min-width: 864px) {
-		.currencyDisclaimer {
-		font-size:16px !important;
-		}
-			
-		.termsDisclaimer {
-		font-size:14px !important;
-		}
-    }
+#checkout-step-payment {
+	position: relative;
+}
 
-    @media all and (min-width: 768px) and (max-width: 863px){
-		.currencyDisclaimer {
+@media (max-width: 320px) {
+	.page-layout-1column.page-product-donation .product-info-main .donation-product {
+		padding: 0;
+	}
+}
+
+@media all and (min-width: 864px) {
+
+	.termsDisclaimer {
 		font-size:14px !important;
-		}
-			
-		.termsDisclaimer {
+	}
+}
+
+@media all and (max-width: 863px){
+
+	.termsDisclaimer {
 		font-size:12px !important;
-		}
-    }
-    @media all and (min-width: 466px) and (max-width: 767px){
-		.currencyDisclaimer {
-		font-size:16px !important;
-		}
-			
-		.termsDisclaimer {
-		font-size:14px !important;
-		}
-    }
-   @media all and (max-width: 465px) {
-		div.currencyDisclaimer {
-		font-size:14px !important;
-		}
-			
-		div.termsDisclaimer {
-		font-size:12px !important;
-		}
-    }
+	}
+}

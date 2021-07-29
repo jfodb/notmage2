@@ -1,9 +1,37 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
+	<!-- class over rides -->
 	<preference for="Magento\Customer\Controller\Section\Load" type="Psuedo\Magentofixed\Controller\Customer\Section\Load" />
 	<preference for="Magento\Catalog\Controller\Product\Frontend\Action\Synchronize" type="Psuedo\Magentofixed\Controller\Product\Frontend\Action\Synchronize" />
 	<preference for="Magento\Ui\Controller\Adminhtml\Index\Render" type="Psuedo\Magentofixed\Controller\Adminhtml\Index\Render" />
 	<preference for="Magento\Webapi\Model\Rest\Generator" type="Psuedo\Magentofixed\Model\Webapi\Rest\Swagger\Generator" />
-	<preference for="\Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
+	<preference for="Magento\Framework\Webapi\ErrorProcessor" type="Psuedo\Magentofixed\Framwork\Webapi\ErrorProcessor" />
+	<preference for="Magento\Checkout\Model\GuestPaymentInformationManagement" type="Psuedo\Magentofixed\Model\Checkout\GuestPaymentInformationManagement" />
+	<preference for="\Magento\Quote\Model\Quote" type="Psuedo\Magentofixed\Model\Quote\InformativeQuote" />
+	<!-- 2.3.2 Downloadable products bug. Fixed in 2.3.3. Can be removed and tested after upgrade.
+	Visible in 2.3.3 release notes: https://devdocs.magento.com/guides/v2.3/release-notes/release-notes-2-3-3-open-source.html-->
+	<preference for="Magento\Downloadable\Observer\SaveDownloadableOrderItemObserver" type="Psuedo\Magentofixed\Observer\SaveDownloadableOrderItemObserver" />
+	<preference for="Magento\Sales\Model\Order" type="Psuedo\Magentofixed\Model\Sales\Bporder" />
+
+	<!-- plugins -->
+	<type name="Magento\Customer\Controller\Section\Load">
+		<plugin name="user_message_modal_std" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
+	</type>
+	<type name="Psuedo\Magentofixed\Controller\Customer\Section\Load">
+		<plugin name="user_message_modal_mfixed" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
+	</type>
+
+	<!--  first possible point to flip the state/status for shipping. Its earlier on, and would require more work to load the object, but would be there before the handlers look the order up
+	<type name="Magento\Sales\Model\ShipOrder">
+		<plugin name="ship_fraud_order_possibly" type="Psuedo\Magentofixed\Plugin\ShipOrderNotFraud" sortOrder="1" disabled="false" />
+	</type> -->
+	<!-- flip fraud orders to processing when shipping -->
+	<type name="Magento\Sales\Model\Convert\Order">
+		<plugin name="ship_fraud_order_anyway" type="Psuedo\Magentofixed\Plugin\ConvertOrderNotFraud" sortOrder="1" disabled="false" />
+	</type>
+
+
+	<!-- other -->
+
 </config>

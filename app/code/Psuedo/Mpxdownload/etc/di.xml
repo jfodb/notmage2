@@ -1,6 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 	<preference for="Psuedo\Mpxdownload\Api\MpxDownloadManagementInterface" type="Psuedo\Mpxdownload\Model\MpxDownloadManagement"/>
+	<preference for="StripeIntegration\Payments\Model\PaymentIntent" type="Psuedo\Mpxdownload\Model\Stripe\PaymentIntentData" />
 	<type name="Psuedo\Mpxdownload\Model\MpxDownloadManagement">
 		<arguments>
 			<argument name="mpxdata" xsi:type="object">Psuedo\Mpxdownload\Helper\Data</argument>
@@ -8,4 +9,7 @@
 		</arguments>
 	</type>
 
+	<type name="StripeIntegration\Payments\Model\Config">
+		<plugin name="stripeordertag" type="Psuedo\Mpxdownload\Plugin\StripeTagging" sortOrder="1" />
+	</type>
 </config>

@@ -1,10 +1,10 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <css src="css/styles.css" type="text/css" />
-        <css src="css/fontello-502964e4/css/odb_icons.css" type="text/css" />
+        <css src="css/fontello-2a83f505/css/odb_icons.css" type="text/css" />
+        <css src="css/odbm-donation-styles.css" type="text/css"/>
         <link src="js/main.js"/>
 
-        <script src="https://injector.paperlesstrans.com/v1.1.min.js" src_type="url"/>
 
         <!-- <css src="css/styles-l.css" media="screen and (min-width: 768px)"/> -->
 

@@ -18,7 +18,11 @@
 						<argument name="label" translate="true" xsi:type="string">Skip to Content</argument>
 					</arguments>
 				</block>
-				<block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="Magento_Store::switch/languages.phtml"/>
+				<block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="Magento_Store::switch/languages.phtml">
+					<arguments>
+						<argument name="view_model" xsi:type="object">Magento\Store\ViewModel\SwitcherUrlProvider</argument>
+					</arguments>
+				</block>
 				<block class="Magento\Customer\Block\Account\Navigation" name="top.links">
 					<arguments>
 						<argument name="css_class" xsi:type="string">header links</argument>
@@ -80,10 +84,19 @@
 			</container>
 		</referenceContainer>
 
+		<!-- Add block to footer -->
+		<referenceContainer name="before.body.end">
+			<block name="odbp-country-footer" template="Magento_Theme::odbp-country-footer.phtml">
+				<arguments>
+					<argument name="view_model" xsi:type="object">ODBM\ODBP\ViewModel\CountryHelper</argument>
+				</arguments>
+			</block>
+		</referenceContainer>
+
 		<!-- Override default navigation sections -->
-		<referenceBlock name="navigation.sections" remove="true"/>
-		<referenceBlock name="minicart" remove="true"/>
-		<referenceBlock name="top.search" remove="true"/>
+		<referenceBlock name="navigation.sections" remove="true" />
+		<referenceBlock name="minicart" remove="true" />
+		<referenceBlock name="top.search" remove="true" />
 		<referenceBlock name="breadcrumbs" remove="true" />
 	</body>
 </page>
