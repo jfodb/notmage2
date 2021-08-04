@@ -51,6 +51,8 @@ files:
     destination: /usr/share/nginx/html/magento/
   - source: /auth.json
     destination: /usr/share/nginx/html/magento/
+  - source: /magentorotate
+    destination: /etc/logrotate.d/
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files
@@ -67,6 +69,7 @@ permissions:
     owner: apache
     group: nginx
     mode: 775
+
 # If you are not running any commands on the Amazon EC2 instance, then remove
 #   the "hooks" section altogether. A blank or incomplete "hooks" section
 #   may cause associated deployments to fail.
