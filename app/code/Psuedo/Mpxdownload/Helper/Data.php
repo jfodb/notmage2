@@ -1251,6 +1251,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$li['SourceProductType'] = 'Sale';
 
 
+					//double check this!!
+					if(!empty($lineitem['sku']) && preg_match_('/INTM[0-9]?', $lineitem['sku']) && !empty($li['SourceProductType']) && $li['SourceProductType'] === 'Sale'){
+						//we have a mis-assignment here!
+						$li['SourceProductType'] = 'Donation';
+					}
+					//also
+					else if(strpos($this->domain, 'donations.ourdailybread') !== false && $li['SourceProductType'] === 'Sale') {
+						//yeah, we don't have 'Sales' on this website
+						$li['SourceProductType'] = 'Donation';
+					}
 
 					//are these donations? let me count the ways...
 					if($li['SourceProductType'] === 'Donation'){
