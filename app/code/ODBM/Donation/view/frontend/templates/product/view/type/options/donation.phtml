@@ -121,33 +121,20 @@
             </div>
 
 			<script type="text/javascript">
-				// Temporary redirect to MOS for recurring
-				// Remove once recurring is ready to be handled through Magento
-				var checkRedirectToMOS = function(e) {
 
-					let amount = document.getElementById('amount').value;
+                // disable "Credit Card" button and change text
+                const disableCartButton = function (e) {
+                    document.getElementById("product-addtocart-button").innerHTML = 'Adding...';
+                    document.getElementById('product-addtocart-button').classList.add('disabled');
+                };
 
-					if ( !amount ) {
-						// Check radio buttons
-						var radios = document.getElementsByName('amount_fixed');
-
-						for (var i = 0, length = radios.length; i < length; i++) {
-							if (radios[i].checked) {
-								amount = radios[i].value;
-								break;
-							}
-						}
-					}
-
-					var sku = document.getElementsByName('_motivation_code')[0].value;
-
-					/*if ( document.getElementById('_recurring-yes').checked ) {
-						window.location.href = 'https://secure.ourdailybread.org/donation/?factor=' + sku + '&amount=' + amount +'&donation-options=monthly';
-
-						e.preventDefault();
-						return false;
-					}*/
-				};
+                // hides the PayPal logo and adds text
+                const disablePayPalButton = function (e) {
+                    document.querySelector("[data-action='checkout-form-submit']").style.display = 'none';
+                    document.querySelector(".paypal.checkout").classList.add('disabled');
+                    const addText = document.createTextNode("Adding...");
+                    document.querySelector(".paypal.checkout").appendChild(addText);
+                };
 
 				document.addEventListener('DOMContentLoaded', function() {
 					var sku = document.getElementById('product_addtocart_form').dataset.productSku;
@@ -156,8 +143,8 @@
 						document.getElementsByName('_motivation_code')[0].value = sku;
 					}
 
-					document.getElementById('product-addtocart-button').addEventListener( 'click', checkRedirectToMOS, {once : true} );
-					document.getElementById('product_addtocart_form').addEventListener( 'submit', checkRedirectToMOS, {once : true});
+					document.getElementById('product-addtocart-button').addEventListener( 'click', disableCartButton, {once : true} );
+                    document.querySelector("[data-action='checkout-form-submit']").addEventListener( 'click', disablePayPalButton, {once : true});
 				}, false);
 			</script>
 
