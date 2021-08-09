@@ -1252,7 +1252,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 					//double check this!!
-					if(!empty($lineitem['sku']) && preg_match_('/INTM[0-9]?', $lineitem['sku']) && !empty($li['SourceProductType']) && $li['SourceProductType'] === 'Sale'){
+					if(!empty($lineitem['sku']) && preg_match('/INTM[0-9]?/', $lineitem['sku']) && !empty($li['SourceProductType']) && $li['SourceProductType'] === 'Sale'){
 						//we have a mis-assignment here!
 						$li['SourceProductType'] = 'Donation';
 					}
