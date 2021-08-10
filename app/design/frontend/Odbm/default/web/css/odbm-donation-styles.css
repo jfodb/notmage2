@@ -32,3 +32,17 @@
         top: 1px;
     }
 }
+
+.donation-product .paypal.checkout.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    z-index: 1;
+    background-color: #fff;
+    letter-spacing: 2px !important;
+    padding-top: 0 !important;
+}
