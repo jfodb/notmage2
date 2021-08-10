@@ -14,6 +14,9 @@ service php-fpm restart
 find $MAGENTO/var -type f -exec chmod g+w {} +
 find $MAGENTO/var -type d -exec chmod g+ws {} +
 
+chown root:root /etc/logrotate.d/magentorotate
+chmod 440 /etc/logrotate.d/magentorotate
+
 nginx -t
 
 service nginx restart

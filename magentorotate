@@ -1,0 +1,23 @@
+/usr/share/nginx/html/*.log {
+    create 0664 nginx root
+    daily
+    rotate 30
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    postrotate
+        /bin/kill -USR1 `cat /run/nginx.pid 2>/dev/null` 2>/dev/null || true
+    endscript
+}
+
+/usr/share/nginx/html/magento/var/log/*.log {
+    create 0664 apache nginx
+    daily
+    rotate 10
+    missingok
+    notifempty
+    compress
+    sharedscripts
+    su apache nginx
+}
