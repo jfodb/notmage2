@@ -124,8 +124,10 @@
 
                 // disable "Credit Card" button and change text
                 const disableCartButton = function (e) {
-                    document.getElementById("product-addtocart-button").innerHTML = 'Adding...';
+                    document.querySelector("#product-addtocart-button > span").style.display = 'none';
                     document.getElementById('product-addtocart-button').classList.add('disabled');
+                    const addText = document.createTextNode("Adding...");
+                    document.getElementById("product-addtocart-button").appendChild(addText);
                 };
 
                 // hides the PayPal logo and adds text
