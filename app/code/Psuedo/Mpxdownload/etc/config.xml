@@ -49,7 +49,6 @@
 
                    <!--add dev sites for MPX source control -->
                     <dev.mage2.org>INTDEV</dev.mage2.org>
-                    <demostore.ourdailybread.org>INTODB</demostore.ourdailybread.org>
                     <dev.dhespanol.org>INTDEV</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
                     <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
@@ -98,7 +97,6 @@
 
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>RBCU</dev.mage2.org>
-                    <demostore.ourdailybread.org>RBCU</demostore.ourdailybread.org>
                     <dev.dhespanol.org>DHPU</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
                     <dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
@@ -144,7 +142,6 @@
                     <!-- END: add QA sites -->
 
                     <!--add dev sites for MPX source control -->
-                    <demostore.ourdailybread.org>PilotStore</demostore.ourdailybread.org>
                     <dev.mage2.org>DevStore</dev.mage2.org>
                     <dev.dhespanol.org>SpnStore</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>DhpStore</dev.ourdailybreadpublishing.org>
@@ -192,7 +189,6 @@
                     <!-- END: add UAT sites -->
 
                     <!--add dev sites for MPX source control -->
-                    <demostore.ourdailybread.org>8</demostore.ourdailybread.org>
                     <dev.mage2.org>13</dev.mage2.org>
                     <dev.dhespanol.org>9</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
