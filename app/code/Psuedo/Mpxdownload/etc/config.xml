@@ -17,12 +17,10 @@
                     <ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
                     <dhespanol.org>INTSPN</dhespanol.org>
                     <store.ourdailybread.org>INTODB</store.ourdailybread.org>
-                    <!-- <beta.dhp.org>INTDHP</beta.dhp.org> -->
                     <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
 
                     <!--  START: add beta sites -->
                     <beta.donations.ourdailybread.org>INTM</beta.donations.ourdailybread.org>
-                    <beta.discoveryhousepublishers.org>INTDHP</beta.discoveryhousepublishers.org>
                     <beta.ourdailybreadpublishing.org>INTDHP</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>INTSPN</beta.dhespanol.org>
                     <beta.store.ourdailybread.org>INTODB</beta.store.ourdailybread.org>
@@ -31,7 +29,6 @@
 
                     <!--  START: add qa sites -->
                     <qa.donations.ourdailybread.org>INTM</qa.donations.ourdailybread.org>
-                    <qa.discoveryhousepublishers.org>INTDHP</qa.discoveryhousepublishers.org>
                     <qa.ourdailybreadpublishing.org>INTDHP</qa.ourdailybreadpublishing.org>
                     <qa.dhespanol.org>INTSPN</qa.dhespanol.org>
                     <qa.store.ourdailybread.org>INTODB</qa.store.ourdailybread.org>
@@ -49,7 +46,6 @@
 
                    <!--add dev sites for MPX source control -->
                     <dev.mage2.org>INTDEV</dev.mage2.org>
-                    <demostore.ourdailybread.org>INTODB</demostore.ourdailybread.org>
                     <dev.dhespanol.org>INTDEV</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
                     <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
@@ -75,7 +71,6 @@
                     <beta.ourdailybreadpublishing.org>DHPU</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>DHPU</beta.dhespanol.org>
                     <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
-                    <beta.discoveryhousepublishers.org>DHPU</beta.discoveryhousepublishers.org>
                     <beta.store.ourdailybread.org>RBCU</beta.store.ourdailybread.org>
 
                     <!-- END: ODBP Migration Transfer-->
@@ -98,7 +93,6 @@
 
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>RBCU</dev.mage2.org>
-                    <demostore.ourdailybread.org>RBCU</demostore.ourdailybread.org>
                     <dev.dhespanol.org>DHPU</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
                     <dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
@@ -120,7 +114,6 @@
 
                     <!--Add beta sites: -->
                     <beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
-                    <beta.discoveryhousepublishers.org>DhpStore</beta.discoveryhousepublishers.org>
                     <beta.ourdailybreadpublishing.org>DhpStore</beta.ourdailybreadpublishing.org>
                     <beta.store.ourdailybread.org>ODBStore</beta.store.ourdailybread.org>
                     <beta.dhespanol.org>SpnStore</beta.dhespanol.org>
@@ -144,7 +137,6 @@
                     <!-- END: add QA sites -->
 
                     <!--add dev sites for MPX source control -->
-                    <demostore.ourdailybread.org>PilotStore</demostore.ourdailybread.org>
                     <dev.mage2.org>DevStore</dev.mage2.org>
                     <dev.dhespanol.org>SpnStore</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>DhpStore</dev.ourdailybreadpublishing.org>
@@ -169,7 +161,6 @@
                     <!--Add beta sites: -->
                     <beta.donations.ourdailybread.org>13</beta.donations.ourdailybread.org>
                     <beta.ourdailybreadpublishing.org>4</beta.ourdailybreadpublishing.org>
-                    <beta.discoveryhousepublishers.org>1</beta.discoveryhousepublishers.org>
                     <beta.dhespanol.org>9</beta.dhespanol.org>
                     <beta.store.ourdailybread.org>8</beta.store.ourdailybread.org>
                     <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
@@ -192,11 +183,9 @@
                     <!-- END: add UAT sites -->
 
                     <!--add dev sites for MPX source control -->
-                    <demostore.ourdailybread.org>8</demostore.ourdailybread.org>
                     <dev.mage2.org>13</dev.mage2.org>
                     <dev.dhespanol.org>9</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
-                    <!-- <dev.dhp.org>4</dev.dhp.org> -->
                     <dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
                     <dev.moto.ourdailybreadpublishing.org>14</dev.moto.ourdailybreadpublishing.org>
