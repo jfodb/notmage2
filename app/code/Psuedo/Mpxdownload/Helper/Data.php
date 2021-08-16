@@ -45,7 +45,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->err = true;
 			$this->err_message = 'Company or Jobtype not set to valid value';
 		} else {
-			$xml_key = "psuedo_mpxdownload/runtime/domain/{$this->jobtype}/{$this->company}";
+
+			if( strpos('dev.', $_SERVER['HTTP_HOST']) !== false) {
+				$xml_key = "psuedo_mpxdownload/runtime/domain/dev/{$this->jobtype}/{$this->company}";
+			}
+			else if(strpos('beta.', $_SERVER['HTTP_HOST']) !== false ) {
+				$xml_key = "psuedo_mpxdownload/runtime/domain/beta/{$this->jobtype}/{$this->company}";
+			}
+			else if(strpos('uat.', $_SERVER['HTTP_HOST']) !== false ) {
+				$xml_key = "psuedo_mpxdownload/runtime/domain/uat/{$this->jobtype}/{$this->company}";
+			} else if(strpos('qa.', $_SERVER['HTTP_HOST']) !== false &&  strpos('qa.', $_SERVER['HTTP_HOST']) < 10) {
+				//short prefix, avoid accidentally detecting spanish domains.
+				$xml_key = "psuedo_mpxdownload/runtime/domain/uat/{$this->jobtype}/{$this->company}";
+			} else
+				$xml_key = "psuedo_mpxdownload/runtime/domain/{$this->jobtype}/{$this->company}";
+
 			$this->domain = $this->scopeConfig->getValue($xml_key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 			if(empty($this->domain)){
@@ -239,7 +253,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	function api_check_connection()
 	{
- 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' ||( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )  || !empty($_SERVER['HTTPS'])) ){
+ 		if( !(( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )  || !empty($_SERVER['HTTPS'])) ){
 			$this->api_return_error(412, 'Must be done through a secure socket.');
 			return false;
 		}
@@ -1239,6 +1253,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					else
 						$li['SourceProductType'] = 'Sale';
 
+
+					//double check this!!
+					if(!empty($lineitem['sku']) && preg_match('/INTM[0-9]?/', $lineitem['sku']) && !empty($li['SourceProductType']) && $li['SourceProductType'] === 'Sale'){
+						//we have a mis-assignment here!
+						$li['SourceProductType'] = 'Donation';
+					}
+					//also
+					else if(strpos($this->domain, 'donations.ourdailybread') !== false && $li['SourceProductType'] === 'Sale') {
+						//yeah, we don't have 'Sales' on this website
+						$li['SourceProductType'] = 'Donation';
+					}
 
 					//are these donations? let me count the ways...
 					if($li['SourceProductType'] === 'Donation'){
