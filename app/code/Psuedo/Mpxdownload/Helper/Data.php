@@ -54,6 +54,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			}
 			else if(strpos('uat.', $_SERVER['HTTP_HOST']) !== false ) {
 				$xml_key = "psuedo_mpxdownload/runtime/domain/uat/{$this->jobtype}/{$this->company}";
+			} else if(strpos('qa.', $_SERVER['HTTP_HOST']) !== false &&  strpos('qa.', $_SERVER['HTTP_HOST']) < 10) {
+				//short prefix, avoid accidentally detecting spanish domains.
+				$xml_key = "psuedo_mpxdownload/runtime/domain/uat/{$this->jobtype}/{$this->company}";
 			} else
 				$xml_key = "psuedo_mpxdownload/runtime/domain/{$this->jobtype}/{$this->company}";
 

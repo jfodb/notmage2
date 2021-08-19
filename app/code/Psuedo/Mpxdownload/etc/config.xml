@@ -17,16 +17,22 @@
                     <ourdailybreadpublishing.org>INTDHP</ourdailybreadpublishing.org>
                     <dhespanol.org>INTSPN</dhespanol.org>
                     <store.ourdailybread.org>INTODB</store.ourdailybread.org>
-                    <!-- <beta.dhp.org>INTDHP</beta.dhp.org> -->
                     <moto.ourdailybreadpublishing.org>MOTOSTORE</moto.ourdailybreadpublishing.org>
 
                     <!--  START: add beta sites -->
                     <beta.donations.ourdailybread.org>INTM</beta.donations.ourdailybread.org>
-                    <beta.discoveryhousepublishers.org>INTDHP</beta.discoveryhousepublishers.org>
                     <beta.ourdailybreadpublishing.org>INTDHP</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>INTSPN</beta.dhespanol.org>
                     <beta.store.ourdailybread.org>INTODB</beta.store.ourdailybread.org>
                     <beta.moto.ourdailybreadpublishing.org>MOTOSTORE</beta.moto.ourdailybreadpublishing.org>
+                    <!-- END: add beta sites -->
+
+                    <!--  START: add qa sites -->
+                    <qa.donations.ourdailybread.org>INTM</qa.donations.ourdailybread.org>
+                    <qa.ourdailybreadpublishing.org>INTDHP</qa.ourdailybreadpublishing.org>
+                    <qa.dhespanol.org>INTSPN</qa.dhespanol.org>
+                    <qa.store.ourdailybread.org>INTODB</qa.store.ourdailybread.org>
+                    <qa.moto.ourdailybreadpublishing.org>MOTOSTORE</qa.moto.ourdailybreadpublishing.org>
                     <!-- END: add beta sites -->
 
                     <!-- START: add UAT sites -->
@@ -40,7 +46,6 @@
 
                    <!--add dev sites for MPX source control -->
                     <dev.mage2.org>INTDEV</dev.mage2.org>
-                    <dev.demostore.ourdailybread.org>INTODB</dev.demostore.ourdailybread.org>
                     <dev.dhespanol.org>INTDEV</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>INTDEV</dev.ourdailybreadpublishing.org>
                     <dev.store.christianuniversity.org>INTDEV</dev.store.christianuniversity.org>
@@ -66,7 +71,6 @@
                     <beta.ourdailybreadpublishing.org>DHPU</beta.ourdailybreadpublishing.org>
                     <beta.dhespanol.org>DHPU</beta.dhespanol.org>
                     <beta.moto.ourdailybreadpublishing.org>DHPU</beta.moto.ourdailybreadpublishing.org>
-                    <beta.discoveryhousepublishers.org>DHPU</beta.discoveryhousepublishers.org>
                     <beta.store.ourdailybread.org>RBCU</beta.store.ourdailybread.org>
 
                     <!-- END: ODBP Migration Transfer-->
@@ -79,9 +83,16 @@
                     <uat.store.ourdailybread.org>RBCU</uat.store.ourdailybread.org>
                     <!-- END: add UAT sites -->
 
+                    <!-- START: add QA sites -->
+                    <qa.ourdailybreadpublishing.org>DHPU</qa.ourdailybreadpublishing.org>
+                    <qa.moto.ourdailybreadpublishing.org>DHPU</qa.moto.ourdailybreadpublishing.org>
+                    <qa.dhespanol.org>DHPU</qa.dhespanol.org>
+                    <qa.donations.ourdailybread.org>RBCU</qa.donations.ourdailybread.org>
+                    <qa.store.ourdailybread.org>RBCU</qa.store.ourdailybread.org>
+                    <!-- END: add QA sites -->
+
                     <!--add dev sites for MPX source control -->
                     <dev.mage2.org>RBCU</dev.mage2.org>
-                    <dev.demostore.ourdailybread.org>RBCU</dev.demostore.ourdailybread.org>
                     <dev.dhespanol.org>DHPU</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>RBCU</dev.ourdailybreadpublishing.org>
                     <dev.store.ourdailybread.org>RBCU</dev.store.ourdailybread.org>
@@ -103,7 +114,6 @@
 
                     <!--Add beta sites: -->
                     <beta.donations.ourdailybread.org>ODBDonations</beta.donations.ourdailybread.org>
-                    <beta.discoveryhousepublishers.org>DhpStore</beta.discoveryhousepublishers.org>
                     <beta.ourdailybreadpublishing.org>DhpStore</beta.ourdailybreadpublishing.org>
                     <beta.store.ourdailybread.org>ODBStore</beta.store.ourdailybread.org>
                     <beta.dhespanol.org>SpnStore</beta.dhespanol.org>
@@ -118,8 +128,15 @@
                     <uat.store.ourdailybread.org>ODBStore</uat.store.ourdailybread.org>
                     <!-- END: add UAT sites -->
 
+                    <!-- START: add QA sites -->
+                    <qa.ourdailybreadpublishing.org>DhpStore</qa.ourdailybreadpublishing.org>
+                    <qa.moto.ourdailybreadpublishing.org>MotoStore</qa.moto.ourdailybreadpublishing.org>
+                    <qa.dhespanol.org>SpnStore</qa.dhespanol.org>
+                    <qa.donations.ourdailybread.org>ODBDonations</qa.donations.ourdailybread.org>
+                    <qa.store.ourdailybread.org>ODBStore</qa.store.ourdailybread.org>
+                    <!-- END: add QA sites -->
+
                     <!--add dev sites for MPX source control -->
-                    <dev.demostore.ourdailybread.org>PilotStore</dev.demostore.ourdailybread.org>
                     <dev.mage2.org>DevStore</dev.mage2.org>
                     <dev.dhespanol.org>SpnStore</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>DhpStore</dev.ourdailybreadpublishing.org>
@@ -144,7 +161,6 @@
                     <!--Add beta sites: -->
                     <beta.donations.ourdailybread.org>13</beta.donations.ourdailybread.org>
                     <beta.ourdailybreadpublishing.org>4</beta.ourdailybreadpublishing.org>
-                    <beta.discoveryhousepublishers.org>1</beta.discoveryhousepublishers.org>
                     <beta.dhespanol.org>9</beta.dhespanol.org>
                     <beta.store.ourdailybread.org>8</beta.store.ourdailybread.org>
                     <beta.moto.ourdailybreadpublishing.org>14</beta.moto.ourdailybreadpublishing.org>
@@ -158,12 +174,18 @@
                     <uat.store.ourdailybread.org>8</uat.store.ourdailybread.org>
                     <!-- END: add UAT sites -->
 
+                    <!-- START: add QA sites -->
+                    <qa.ourdailybreadpublishing.org>4</qa.ourdailybreadpublishing.org>
+                    <qa.moto.ourdailybreadpublishing.org>14</qa.moto.ourdailybreadpublishing.org>
+                    <qa.dhespanol.org>9</qa.dhespanol.org>
+                    <qa.donations.ourdailybread.org>13</qa.donations.ourdailybread.org>
+                    <qa.store.ourdailybread.org>8</qa.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
+
                     <!--add dev sites for MPX source control -->
-                    <dev.demostore.ourdailybread.org>8</dev.demostore.ourdailybread.org>
                     <dev.mage2.org>13</dev.mage2.org>
                     <dev.dhespanol.org>9</dev.dhespanol.org>
                     <dev.ourdailybreadpublishing.org>4</dev.ourdailybreadpublishing.org>
-                    <!-- <dev.dhp.org>4</dev.dhp.org> -->
                     <dev.store.ourdailybread.org>8</dev.store.ourdailybread.org>
                     <dev.donations.ourdailybread.org>13</dev.donations.ourdailybread.org>
                     <dev.moto.ourdailybreadpublishing.org>14</dev.moto.ourdailybreadpublishing.org>
@@ -191,6 +213,14 @@
                     <uat.dhespanol.org>order</uat.dhespanol.org>
                     <uat.donations.ourdailybread.org>gift</uat.donations.ourdailybread.org>
                     <uat.store.ourdailybread.org>gift</uat.store.ourdailybread.org>
+                    <!-- END: add UAT sites -->
+
+                    <!-- START: add UAT sites -->
+                    <qa.ourdailybreadpublishing.org>order</qa.ourdailybreadpublishing.org>
+                    <qa.moto.ourdailybreadpublishing.org>order</qa.moto.ourdailybreadpublishing.org>
+                    <qa.dhespanol.org>order</qa.dhespanol.org>
+                    <qa.donations.ourdailybread.org>gift</qa.donations.ourdailybread.org>
+                    <qa.store.ourdailybread.org>gift</qa.store.ourdailybread.org>
                     <!-- END: add UAT sites -->
 
                     <!-- dev sites -->
@@ -281,6 +311,31 @@
                             <dhpu>uat.moto.ourdailybreadpublishing.org</dhpu>
                         </motostore>
                     </uat>
+                    <qa>
+                        <dhpstore>
+                            <dhpu>qa.donations.ourdailybread.org</dhpu>
+                        </dhpstore>
+                        <odbdonations>
+                            <rbcu>qa.donations.ourdailybread.org</rbcu>
+                        </odbdonations>
+                        <spnstore>
+                            <dhpu>qa.dhespanol.org</dhpu>
+                        </spnstore>
+                        <pilotstore>
+                            <rbcu>qa.store.ourdailybread.org</rbcu>
+                        </pilotstore>
+                        <odbstore>
+                            <rbcu>qa.store.ourdailybread.org</rbcu>
+                        </odbstore>
+                        <odbpstore>
+                            <dhpu>qa.ourdailybreadpublishing.org</dhpu>
+                            <rbcu>qa.ourdailybreadpublishing.org</rbcu>
+                            <odbp>qa.ourdailybreadpublishing.org</odbp>
+                        </odbpstore>
+                        <motostore>
+                            <dhpu>qa.moto.ourdailybreadpublishing.org</dhpu>
+                        </motostore>
+                    </qa>
                     <dhpstore>
                         <dhpt>dev.mage2.org</dhpt>
                         <dhpu>ourdailybreadpublishing.org</dhpu>
