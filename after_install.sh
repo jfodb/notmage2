@@ -9,7 +9,7 @@ aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/env.php $MAGENTO/app/etc
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
 # deploy cloudwatch file
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/ssm-donations /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm-donations
-# delete now redundant beta or donations file
+# delete now redundant beta or production file
 rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_donations-production
 rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_beta-donations
 
