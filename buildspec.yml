@@ -18,6 +18,7 @@ phases:
        - curl -sS https://getcomposer.org/installer | php -- --version="1.10.16"
        - mv composer.phar /usr/local/bin/composer
        - apt-get install envsubst -y
+       - envsubst '$STAGE' < ./virtual.conf.sample > ./virtual.conf 
   #pre_build:
     #commands:
       # - command
@@ -25,7 +26,6 @@ phases:
   build:
     commands:
        - /usr/bin/php7.2 /usr/local/bin/composer install
-       - envsubst '$STAGE' < ./virtual.conf.sample > ./virtual.conf 
 
   # post_build:
   #   commands:
