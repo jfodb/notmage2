@@ -1,0 +1,35 @@
+upstream fastcgi_backend {
+    server  unix:/var/run/php-fpm/www.sock;
+}
+
+map $http_host $MAGE_RUN_CODE {
+    default base;
+    $STAGE.ourdailybreadpublishing.org dhp_us;
+    $STAGE.dhespanol.org dh_sp;
+    $STAGE.store.ourdailybread.org odb_store_view;
+    $STAGE.store.christianuniversity.org storecc_org;
+    $STAGE.donations.ourdailybread.org odb_donations;
+    $STAGE.moto.ourdailybreadpublishing.org moto;
+}
+map $http_host $type {
+    hostnames;
+    default                  website;
+    pmo.ourdailybread.org    store;
+    $STAGE.store.ourdailybread.org  store;
+    $STAGE.moto.ourdailybreadpublishing.org  store;
+}
+
+server {
+    listen 80;
+    server_name $STAGE.donations.ourdailybread.org $STAGE.ourdailybreadpublishing.org $STAGE.dhespanol.org $STAGE.store.ourdailybread.org $STAGE.store.christianuniversity.org $STAGE.moto.ourdailybreadpublishing.org;
+    set $MAGE_ROOT /usr/share/nginx/html/magento;
+    set $MAGE_RUN_TYPE $type; #or set $MAGE_RUN_TYPE store;
+    # set $MAGE_MODE production;
+    access_log   /usr/share/nginx/html/magento-access.log;
+    error_log    /usr/share/nginx/html/magento-error.log;
+    include /usr/share/nginx/html/magento/magento.conf;
+}
+server {
+    server_name www.discoveryhouse.org.uk discoveryhouse.org.uk www.ourdailybreadpublishing.org.uk;
+    return 301 $scheme://ourdailybreadpublishing.org.uk$request_uri;
+}
