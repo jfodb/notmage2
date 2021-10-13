@@ -6,7 +6,7 @@ usermod -a -G nginx,apache ec2-user
 
 # Pull from S3 based on deployment group
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/env.php $MAGENTO/app/etc/env.php
-aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
+# aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
 # deploy cloudwatch file
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/ssm-donations /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm-donations
 # delete now redundant beta or production file
