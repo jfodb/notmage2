@@ -4,24 +4,24 @@ upstream fastcgi_backend {
 
 map $http_host $MAGE_RUN_CODE {
     default base;
-    $STAGE.sso.ourdailybreadpublishing.org dhp_us;
-    $STAGE.sso.dhespanol.org dh_sp;
-    $STAGE.sso.store.ourdailybread.org odb_store_view;
-    $STAGE.sso.store.christianuniversity.org storecc_org;
-    $STAGE.sso.donations.ourdailybread.org odb_donations;
-    $STAGE.sso.moto.ourdailybreadpublishing.org moto;
+    beta.ourdailybreadpublishing.org dhp_us;
+    beta.dhespanol.org dh_sp;
+    beta.store.ourdailybread.org odb_store_view;
+    beta.store.christianuniversity.org storecc_org;
+    beta.donations.ourdailybread.org odb_donations;
+    beta.moto.ourdailybreadpublishing.org moto;
 }
 map $http_host $type {
     hostnames;
     default                  website;
     pmo.ourdailybread.org    store;
-    $STAGE.sso.store.ourdailybread.org  store;
-    $STAGE.sso.moto.ourdailybreadpublishing.org  store;
+    beta.store.ourdailybread.org  store;
+    beta.moto.ourdailybreadpublishing.org  store;
 }
 
 server {
     listen 80;
-    server_name $STAGE.sso.donations.ourdailybread.org $STAGE.ourdailybreadpublishing.org $STAGE.sso.dhespanol.org $STAGE.store.ourdailybread.org $STAGE.store.christianuniversity.org $STAGE.moto.ourdailybreadpublishing.org;
+    server_name beta.donations.ourdailybread.org beta.ourdailybreadpublishing.org beta.dhespanol.org beta.store.ourdailybread.org beta.store.christianuniversity.org beta.moto.ourdailybreadpublishing.org;
     set $MAGE_ROOT /usr/share/nginx/html/magento;
     set $MAGE_RUN_TYPE $type; #or set $MAGE_RUN_TYPE store;
     # set $MAGE_MODE production;
