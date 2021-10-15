@@ -29,6 +29,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->productModel = $productModel;
 
 
+
 		$this->connection_good = false;
 
 
@@ -72,8 +73,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		//read-configs
-		$ipstring = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/trustedips", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
+		/**** Disable white listing due to routing error
+		$ipstring = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/trustedips", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		****/
 
 		//pull the cut off time from admin configs
 		$tmpcutoff = $this->scopeConfig->getValue('mpxdownloads/general/cutoff_time', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -92,8 +95,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$this->motivation = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/motivation_code/{$this->domain}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-		$this->ips = preg_split('/[;,]\s*/', $ipstring);
+		/**** disable white listing due to routing error
+		$this->ips = preg_split('/[;,]\s* /', $ipstring);
 		//print_r($this->ips);
+		*****/
 
 		$this->START_STATUS = 'unprocessed';
 		
@@ -265,6 +270,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		$remote = $this->get_ip();
+
+		$found = true;
+		/***** disable whitelisting due to routing error
 		$found = false;
 		foreach ($this->ips  as $ip)
 		{
@@ -289,12 +297,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					break;
 				}
 		}
+		*****/
 		if (!$found)
 		{
 			$this->_logger->notice("Refused connection from: $remote\n");
 			$this->api_return_error(403, "Not Authorized");
 			return false;
 		}
+
 
 		//string service = System.Configuration.ConfigurationManager.AppSettings["MpxServiceRunning"];
 		//if (string.IsNullOrEmpty(service) || !service.ToLower().Equals("on"))
