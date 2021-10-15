@@ -21,7 +21,7 @@ map $http_host $type {
 
 server {
     listen 80;
-    server_name $STAGE.sso.donations.ourdailybread.org $STAGE.ourdailybreadpublishing.org $STAGE.sso.dhespanol.org $STAGE.store.ourdailybread.org $STAGE.store.christianuniversity.org $STAGE.moto.ourdailybreadpublishing.org;
+    server_name $STAGE.sso.donations.ourdailybread.org $STAGE.sso.ourdailybreadpublishing.org $STAGE.sso.dhespanol.org $STAGE.sso.store.ourdailybread.org $STAGE.sso.store.christianuniversity.org $STAGE.sso.moto.ourdailybreadpublishing.org;
     set $MAGE_ROOT /usr/share/nginx/html/magento;
     set $MAGE_RUN_TYPE $type; #or set $MAGE_RUN_TYPE store;
     # set $MAGE_MODE production;
