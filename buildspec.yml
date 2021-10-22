@@ -17,6 +17,7 @@ phases:
        - apt-get install -qqy --force-yes --no-install-recommends php7.2 libapache2-mod-php7.2 php7.2-common php7.2-gd php7.2-mysql php7.2-curl php7.2-intl php7.2-xsl php7.2-mbstring php7.2-zip php7.2-bcmath php7.2-iconv php7.2-soap php-xdebug vim strace patch
        - curl -sS https://getcomposer.org/installer | php -- --version="1.10.16"
        - mv composer.phar /usr/local/bin/composer
+       - apt-get install gettext-base -y
   #pre_build:
     #commands:
       # - command
@@ -24,6 +25,9 @@ phases:
   build:
     commands:
        - /usr/bin/php7.2 /usr/local/bin/composer install
+       - ls
+       - envsubst '$STAGE' < ./virtual.conf.sample > ./virtual.conf; cat virtual.conf 
+       - echo $STAGE || echo "No env available."
 
   # post_build:
   #   commands:
