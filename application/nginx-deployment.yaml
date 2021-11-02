@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  selector:
+    matchLabels:
+      app: mage-web
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: mage-web
+    spec:
+      containers:
+      - name: mage-web
+        image: nginx:mainline
+        ports:
+        - containerPort: 8080
