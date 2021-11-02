@@ -53,6 +53,8 @@ files:
     destination: /usr/share/nginx/html/magento/
   - source: /magentorotate
     destination: /etc/logrotate.d/
+  - source: /virtual.conf
+    destination: /etc/nginx/conf.d/
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files
