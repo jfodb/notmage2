@@ -26,7 +26,7 @@ phases:
     commands:
        - /usr/bin/php7.2 /usr/local/bin/composer install
        - ls
-       - envsubst '$STAGE' < ./virtual.conf.sample > ./virtual.conf; cat virtual.conf 
+       - envsubst '$STAGE' < ./virtual.conf.sample > etc/nginx/conf.d/virtual.conf; cat virtual.conf 
        - echo $STAGE || echo "No env available."
 
   # post_build:

@@ -13,7 +13,37 @@ spec:
         app: mage-web
     spec:
       containers:
-      - name: mage-web
-        image: nginx:mainline
-        ports:
-        - containerPort: 8080
+        - name: mage-web
+          image: nginx:mainline
+          envFrom:
+            - configMapRef:
+                name: local-configmap
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: workdir
+              mountPath: /usr/share/nginx/html/magento
+            - mountPath: /etc/nginx/templates # mount nginx-conf volumn to /etc/nginx
+              readOnly: true
+              name: nginx-conf
+      # These containers are run during pod initialization
+      initContainers:
+        - name: install
+          image: busybox
+          command:
+            - wget
+            - "-O"
+            - "/work-dir/index.html"
+            - http://info.cern.ch
+          volumeMounts:
+            - name: workdir
+              mountPath: "/work-dir"
+      volumes:
+        - name: workdir
+          emptyDir: {}
+        - name: nginx-conf
+          configMap:
+            name: nginx-conf # place ConfigMap `nginx-conf` on /etc/nginx
+            items:
+              - key: virtual.conf
+                path: virtual.conf.template
