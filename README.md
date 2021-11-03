@@ -40,3 +40,4 @@ Create an account:<br />
 * Export results to a file `vendor/bin/phpcbf --standard=Magento2 app/code/Vendor/Module --report-file="code-report.txt"
 `<br />
 See [Github Repo](https://github.com/magento/magento-coding-standard) for more details 
+  
