@@ -1,5 +1,4 @@
-require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Customer/js/section-config'], function($) {
-	$(document).ready( function() {
+require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Customer/js/section-config','domReady!'], function($) {
 
 		$('.overlay').appendTo('body');
 
@@ -149,7 +148,6 @@ require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Cu
 
 		//wait for the user session to get written and then ask for messages
 		setTimeout(fetchmessages, 2000);
-	});
 });
 
 function fetchmessages() {
