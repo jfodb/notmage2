@@ -32,8 +32,12 @@ php $MAGENTO/bin/magento cron:install
 php $MAGENTO/bin/magento cache:clean
 
 # Fix permissions/owners
-chown -R apache:nginx $MAGENTO/*
+# chown -R nginx:nginx $MAGENTO/*
+cd $MAGENTO && find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + && chown -R nginx:nginx . && chmod u+x bin/magento
 
+# Check to see if we need
+# to re-create symlink to EFS
+# mount
 media_link=$MAGENTO/pub/media
 if [ -L ${media_link} ] ; then
     if [ -e ${media_link} ] ; then
