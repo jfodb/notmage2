@@ -5,7 +5,7 @@ MAGENTO=/usr/share/nginx/html/magento
 usermod -a -G nginx,apache ec2-user
 
 # copy generated env.php file
-cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php
+cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php 
 
 # set db host
 perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
@@ -14,13 +14,11 @@ perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --re
 # set db user
 perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
 
-# aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
 # deploy cloudwatch file
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/ssm-donations /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm-donations
 # delete now redundant beta or production file
 rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_donations-production
 rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_beta-donations
-
 
 #build and deploy
 php $MAGENTO/bin/magento setup:upgrade
@@ -34,22 +32,19 @@ php $MAGENTO/bin/magento cron:install
 php $MAGENTO/bin/magento cache:clean
 
 # Fix permissions/owners
-chown -R apache:nginx $MAGENTO/*
+# chown -R nginx:nginx $MAGENTO/*
+cd $MAGENTO && find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + && chown -R nginx:nginx . && chmod u+x bin/magento
 
-media_link=$MAGENTO/pub/media
-if [ -L ${media_link} ] ; then
-    if [ -e ${media_link} ] ; then
-        echo "Symlink already exists"
-    else
-        echo "Broken symlink for media folder"
-    fi
-    elif [ -e ${media_link} ] ; then
-    echo "Not a link, removing existing media"
-    rm -rf $MAGENTO/pub/media
-    ln -s /mnt/efs/fs1/media $MAGENTO/pub/
+
+if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
+    echo "Mounted"
 else
-    echo "Creating symlink"
-    ln -s /mnt/efs/fs1/media $MAGENTO/pub/
+    if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
+    then
+        mount -t efs fs-1e74a656:/ $MAGENTO/pub/media/
+    else
+        mount -t efs fs-e12571ab:/ $MAGENTO/pub/media/
+    fi
 fi
 
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
