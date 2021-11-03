@@ -5,7 +5,7 @@ MAGENTO=/usr/share/nginx/html/magento
 usermod -a -G nginx,apache ec2-user
 
 # copy generated env.php file
-cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php 
+cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php
 
 # set db host
 perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
@@ -34,15 +34,20 @@ php $MAGENTO/bin/magento cache:clean
 # Fix permissions/owners
 chown -R apache:nginx $MAGENTO/*
 
-if [[ $(findmnt -m $MAGENTO/pub/media) ]]; then
-    echo "Mounted"
-else
-    if [ "$DEPLOYMENT_GROUP_NAME" == "donations-production" ]
-    then
-        mount -t efs fs-1e74a656:/ $MAGENTO/pub/media/
+media_link=$MAGENTO/pub/media
+if [ -L ${media_link} ] ; then
+    if [ -e ${media_link} ] ; then
+        echo "Symlink already exists"
     else
-        mount -t efs fs-e12571ab:/ $MAGENTO/pub/media/
+        echo "Broken symlink for media folder"
     fi
+    elif [ -e ${media_link} ] ; then
+    echo "Not a link, removing existing media"
+    rm -rf $MAGENTO/pub/media
+    ln -s /mnt/efs/fs1/media $MAGENTO/pub/
+else
+    echo "Creating symlink"
+    ln -s /mnt/efs/fs1/media $MAGENTO/pub/
 fi
 
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
