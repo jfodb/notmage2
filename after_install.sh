@@ -4,21 +4,21 @@ MAGENTO=/usr/share/nginx/html/magento
 #grant ec2 access to code and logs
 usermod -a -G nginx,apache ec2-user
 
-# Pull from S3 based on deployment group
-aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/env.php $MAGENTO/app/etc/env.php
+# copy generated env.php file
+cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php 
 
-# cp $MAGENTO/app/etc/env.php.sample $MAGENTO/app/etc/env.php
-# perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
-# perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
-# perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
-..
-# aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/virtual.conf /etc/nginx/conf.d/virtual.conf
+# set db host
+perl -pi -e s/$(echo odb_db_host)/$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-host" | jq -r ".Parameter.Value")/g $MAGENTO/app/etc/env.php
+# set db pass
+perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.password')/g $MAGENTO/app/etc/env.php
+# set db user
+perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
+
 # deploy cloudwatch file
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/ssm-donations /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm-donations
 # delete now redundant beta or production file
 rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_donations-production
 rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_beta-donations
-
 
 #build and deploy
 php $MAGENTO/bin/magento setup:upgrade
