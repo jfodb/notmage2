@@ -100,7 +100,7 @@
 			if($hideMonthly!=1){
 				?>
 
-			<div id="monthly-btn" class="radio--button">
+			<div class="radio--button">
 
 				<input type="radio" class="radio admin__control-radio"
 				name="_recurring"
@@ -109,18 +109,19 @@
 				>
 				<label class="label admin__field-label" for="_recurring-yes" tabindex="4"><span data-cy="givemonthly"><?= __("Give Monthly") ?></span></label>
 			</div>
+			<div class="radio--button">
+				<input type="radio" class="radio admin__control-radio"
+				name="_recurring"
+				id="_recurring-no"
+				value="false"
+				>
+				<label class="label admin__field-label" for="_recurring-no" tabindex="5"><span data-cy="giveonce"><?= __("Give Once") ?></span></label>
+			</div>
 			<?php  } ?>
 
-            <div id="onetime-btn" class="radio--button">
-                <input type="radio" class="radio admin__control-radio"
-                       name="_recurring"
-                       id="_recurring-no"
-                       value="false"
-                >
-                <label class="label admin__field-label" for="_recurring-no" tabindex="5"><span data-cy="giveonce"><?= __("Give Once") ?></span></label>
-            </div>
-
-			<script type="text/javascript">
+        <script>
+            require(['jquery', 'domReady!'], function ($) {
+                'use strict';
 
                 // disable "Credit Card" button and change text
                 const disableCartButton = function (e) {
@@ -138,17 +139,17 @@
                     document.querySelector(".paypal.checkout").appendChild(addText);
                 };
 
-				document.addEventListener('DOMContentLoaded', function() {
-					var sku = document.getElementById('product_addtocart_form').dataset.productSku;
+                const skuElement = document.getElementById('product_addtocart_form');
+                const jsProduckSku = skuElement.dataset ? skuElement.dataset.productSku : 'unknown_sku';
 
-					if ( document.getElementsByName('_motivation_code')[0].value === '' ) {
-						document.getElementsByName('_motivation_code')[0].value = sku;
-					}
+                if (document.getElementsByName('_motivation_code')[0].value === '') {
+                    document.getElementsByName('_motivation_code')[0].value = jsProduckSku;
+                }
 
-					document.getElementById('product-addtocart-button').addEventListener( 'click', disableCartButton, {once : true} );
-                    document.querySelector("[data-action='checkout-form-submit']").addEventListener( 'click', disablePayPalButton, {once : true});
-				}, false);
-			</script>
+                document.getElementById('product-addtocart-button').addEventListener('click', disableCartButton, {once: true});
+                document.querySelector("[data-action='checkout-form-submit']").addEventListener('click', disablePayPalButton, {once: true});
+            });
+        </script>
 
 			<?php $block->getChildHtml(); ?>
 	</div>
