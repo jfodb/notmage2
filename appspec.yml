@@ -33,7 +33,21 @@ files:
     destination: /usr/share/nginx/html/magento/generated
   - source: /lib
     destination: /usr/share/nginx/html/magento/lib
-  - source: /pub
+  - source: /pub/cron.php
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/errors
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/get.php
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/health_check.php
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/index.php
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/opt
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/static
+    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/static.php
     destination: /usr/share/nginx/html/magento/pub
   - source: /setup
     destination: /usr/share/nginx/html/magento/setup
