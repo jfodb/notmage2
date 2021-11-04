@@ -14,6 +14,12 @@ perl -pi -e s/$(echo odb_db_password)/$(aws secretsmanager get-secret-value --re
 # set db user
 perl -pi -e s/$(echo odb_db_user)/$(aws secretsmanager get-secret-value --region us-east-1 --secret-id $DEPLOYMENT_GROUP_NAME-credentials | jq -r '.SecretString' | jq -r '.username')/g $MAGENTO/app/etc/env.php
 
+## add redis configuration for cache
+$MAGENTO/bin/magento setup:config:set --cache-backend=redis --cache-backend-redis-server=$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --cache-backend-redis-db=0 -n
+
+# add redis configuration to store session data in redis instead of the database
+$MAGENTO/bin/magento setup:config:set --session-save=redis --session-save-redis-host=$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --session-save-redis-log-level=3 --session-save-redis-db=1 -n
+
 # deploy cloudwatch file
 aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/ssm-donations /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm-donations
 # delete now redundant beta or production file
@@ -33,6 +39,7 @@ php $MAGENTO/bin/magento cache:clean
 
 # Fix permissions/owners
 # chown -R nginx:nginx $MAGENTO/*
+# TODO: test removing media from this list
 cd $MAGENTO && find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + && chown -R nginx:nginx . && chmod u+x bin/magento
 
 # Check to see if we need
