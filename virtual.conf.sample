@@ -10,6 +10,12 @@ map $http_host $MAGE_RUN_CODE {
     $STAGE.store.christianuniversity.org storecc_org;
     $STAGE.donations.ourdailybread.org odb_donations;
     $STAGE.moto.ourdailybreadpublishing.org moto;
+    ourdailybreadpublishing.org dhp_us;
+    dhespanol.org dh_sp;
+    store.ourdailybread.org odb_store_view;
+    store.christianuniversity.org storecc_org;
+    donations.ourdailybread.org odb_donations;
+    moto.ourdailybreadpublishing.org moto;
 }
 map $http_host $type {
     hostnames;
@@ -17,11 +23,13 @@ map $http_host $type {
     pmo.ourdailybread.org    store;
     $STAGE.store.ourdailybread.org  store;
     $STAGE.moto.ourdailybreadpublishing.org  store;
+    store.ourdailybread.org  store;
+    moto.ourdailybreadpublishing.org  store;
 }
 
 server {
     listen 80;
-    server_name $STAGE.donations.ourdailybread.org $STAGE.ourdailybreadpublishing.org $STAGE.dhespanol.org $STAGE.store.ourdailybread.org $STAGE.store.christianuniversity.org $STAGE.moto.ourdailybreadpublishing.org;
+    server_name .donations.ourdailybread.org .ourdailybreadpublishing.org .dhespanol.org .store.ourdailybread.org .store.christianuniversity.org .moto.ourdailybreadpublishing.org;
     set $MAGE_ROOT /usr/share/nginx/html/magento;
     set $MAGE_RUN_TYPE $type; #or set $MAGE_RUN_TYPE store;
     # set $MAGE_MODE production;
@@ -30,6 +38,6 @@ server {
     include /usr/share/nginx/html/magento/magento.conf;
 }
 server {
-    server_name www.discoveryhouse.org.uk discoveryhouse.org.uk www.ourdailybreadpublishing.org.uk;
+    server_name .discoveryhouse.org.uk .ourdailybreadpublishing.org.uk;
     return 301 $scheme://ourdailybreadpublishing.org.uk$request_uri;
 }
