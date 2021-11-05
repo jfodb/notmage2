@@ -233,6 +233,7 @@ return [
         'Dat_BillingAddress' => 1,
         'ODBM_GoogleTagManager' => 1,
         'ODBM_ODBP' => 1,
+        'ODBM_Security' => 1,
         'ODBM_UnitedStatesOnly' => 1,
         'Psuedo_Magentofixed' => 1,
         'Psuedo_Mpxdownload' => 1,
