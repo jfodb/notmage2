@@ -77,7 +77,7 @@ class Data extends AbstractHelper
         // get error message
         $message = $this->getRestrictionData('error_message');
         if (!isset($message)) {
-            $message = __("Unable to register ") . $email;
+            $message = __("Unable to register") . " " . $email;
         }
         throw new LocalizedException($message instanceof \Magento\Framework\Phrase ? $message : __($message));
     }
