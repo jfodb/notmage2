@@ -33,8 +33,22 @@ files:
     destination: /usr/share/nginx/html/magento/generated
   - source: /lib
     destination: /usr/share/nginx/html/magento/lib
-  - source: /pub
-    destination: /usr/share/nginx/html/magento/pub
+  - source: /pub/cron.php
+    destination: /usr/share/nginx/html/magento/pub/
+  - source: /pub/errors
+    destination: /usr/share/nginx/html/magento/pub/errors
+  - source: /pub/get.php
+    destination: /usr/share/nginx/html/magento/pub/
+  - source: /pub/health_check.php
+    destination: /usr/share/nginx/html/magento/pub/
+  - source: /pub/index.php
+    destination: /usr/share/nginx/html/magento/pub/
+  - source: /pub/opt
+    destination: /usr/share/nginx/html/magento/pub/opt
+  - source: /pub/static
+    destination: /usr/share/nginx/html/magento/pub/static
+  - source: /pub/static.php
+    destination: /usr/share/nginx/html/magento/pub/
   - source: /setup
     destination: /usr/share/nginx/html/magento/setup
   - source: /update
@@ -53,6 +67,8 @@ files:
     destination: /usr/share/nginx/html/magento/
   - source: /magentorotate
     destination: /etc/logrotate.d/
+  - source: /virtual.conf
+    destination: /etc/nginx/conf.d/
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions"
 #   section here that describes special permissions to apply to the files
