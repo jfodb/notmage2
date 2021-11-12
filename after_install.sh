@@ -1,4 +1,5 @@
 #!/bin/bash
+exec 2> /tmp/after_install.log
 MAGENTO=/usr/share/nginx/html/magento
 
 #grant ec2 access to code and logs
