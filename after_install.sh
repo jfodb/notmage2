@@ -40,12 +40,6 @@ $MAGENTO/bin/magento setup:config:set --cache-backend=redis --cache-backend-redi
 # add redis configuration to store session data in redis instead of the database
 $MAGENTO/bin/magento setup:config:set --session-save=redis --session-save-redis-host=$(aws ssm get-parameter --region us-east-1 --name "$DEPLOYMENT_GROUP_NAME-redis-endpoint" | jq -r ".Parameter.Value") --session-save-redis-log-level=3 --session-save-redis-db=1 -n
 
-# deploy cloudwatch file
-aws s3 cp s3://wp.shared-files/"$DEPLOYMENT_GROUP_NAME"/cloudwatch/ssm-donations /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm-donations
-# delete now redundant beta or production file
-rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_donations-production
-rm /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d/ssm_beta-donations
-
 #build and deploy
 php $MAGENTO/bin/magento setup:upgrade
 php $MAGENTO/bin/magento setup:di:compile
