@@ -1,5 +1,4 @@
-require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Customer/js/section-config'], function($) {
-	$(document).ready( function() {
+require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Customer/js/section-config','domReady!'], function($) {
 
 		$('.overlay').appendTo('body');
 
@@ -149,7 +148,6 @@ require(['jquery', 'jquery/ui', 'Magento_Customer/js/customer-data', 'Magento_Cu
 
 		//wait for the user session to get written and then ask for messages
 		setTimeout(fetchmessages, 2000);
-	});
 });
 
 function fetchmessages() {
@@ -254,19 +252,17 @@ function sendCheckoutGA() {
 }
 
 function switch_to_stripe(){
-	let checkr = jQuery('.paperless-pay-button');
 	let chck2 = jQuery('#activate_stripe');
-	if(checkr.length == 0 && chck2.length > 0) {
+	if(chck2.length > 0) {
 		jQuery('div.pci-dss-info-block').parent().addClass('payment-method-notes');
-		jQuery('#submitDonationButton').parent().parent().addClass('paperless-pay-button');
-		jQuery('div.cryozonic-stripe .ccard').parent().addClass('payment-data');
-		jQuery('div#cryozonic-stripe-card-expiry').parent().addClass('multi-item');
-		jQuery('div#cryozonic-stripe-card-number').parent().addClass('card-line');
+		jQuery('div.stripe-payments .ccard').parent().addClass('payment-data');
+		jQuery('div#stripe-payments-card-expiry').parent().addClass('multi-item');
+		jQuery('div#stripe-payments-card-number').parent().addClass('card-line');
 
-		jQuery('div.currencyDisclaimer').appendTo('.cryozonic-stripe .ccard .payment-method-notes');
-		jQuery('div.termsDisclaimer').appendTo('div.cryozonic-stripe .payment-data');
+		jQuery('div.currencyDisclaimer').appendTo('.stripe-payments .ccard .payment-method-notes');
+		jQuery('div.termsDisclaimer').appendTo('div.stripe-payments .payment-data');
 
-		//initStripe(window.checkoutConfig.payment.cryozonic_stripe.stripeJsKey, window.checkoutConfig.payment.cryozonic_stripe.securityMethod);
+		//initStripe(window.checkoutConfig.payment.stripe_payments.stripeJsKey, window.checkoutConfig.payment.stripe_payments.securityMethod);
 
 
 	}

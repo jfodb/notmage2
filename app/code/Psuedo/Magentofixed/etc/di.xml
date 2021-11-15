@@ -12,6 +12,7 @@
 	<!-- 2.3.2 Downloadable products bug. Fixed in 2.3.3. Can be removed and tested after upgrade.
 	Visible in 2.3.3 release notes: https://devdocs.magento.com/guides/v2.3/release-notes/release-notes-2-3-3-open-source.html-->
 	<preference for="Magento\Downloadable\Observer\SaveDownloadableOrderItemObserver" type="Psuedo\Magentofixed\Observer\SaveDownloadableOrderItemObserver" />
+	<preference for="Magento\Sales\Model\Order" type="Psuedo\Magentofixed\Model\Sales\Bporder" />
 
 	<!-- plugins -->
 	<type name="Magento\Customer\Controller\Section\Load">
@@ -20,6 +21,16 @@
 	<type name="Psuedo\Magentofixed\Controller\Customer\Section\Load">
 		<plugin name="user_message_modal_mfixed" type="Psuedo\Magentofixed\Plugin\UserMessageModal" sortOrder="1" disabled="false" />
 	</type>
+
+	<!--  first possible point to flip the state/status for shipping. Its earlier on, and would require more work to load the object, but would be there before the handlers look the order up
+	<type name="Magento\Sales\Model\ShipOrder">
+		<plugin name="ship_fraud_order_possibly" type="Psuedo\Magentofixed\Plugin\ShipOrderNotFraud" sortOrder="1" disabled="false" />
+	</type> -->
+	<!-- flip fraud orders to processing when shipping -->
+	<type name="Magento\Sales\Model\Convert\Order">
+		<plugin name="ship_fraud_order_anyway" type="Psuedo\Magentofixed\Plugin\ConvertOrderNotFraud" sortOrder="1" disabled="false" />
+	</type>
+
 
 	<!-- other -->
 

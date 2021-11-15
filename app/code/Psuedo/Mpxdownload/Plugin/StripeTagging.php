@@ -2,6 +2,8 @@
 
 namespace Psuedo\Mpxdownload\Plugin;
 
+use StripeIntegration\Payments\Model\Config;
+
 class StripeTagging
 {
     protected $objectManager;
@@ -17,7 +19,7 @@ class StripeTagging
         $this->logger = $logger;
     }
 
-    public function afterGetStripeParamsFrom(\Cryozonic\StripePayments\Model\Config $subject, $params)
+    public function afterGetStripeParamsFrom(Config $subject, $params)
     {
         //would be nice if we got $order too... $order->getStoreId, $order->getCustomerId...
         $d = $_SERVER['HTTP_HOST'];
@@ -39,7 +41,10 @@ class StripeTagging
             $params['metadata']['JobType'] = $jobid;
         }
         //automation type
-        if (!empty($auto_type)) {
+        if (!empty($orderType)) {
+            $params['metadata']['OrderType'] = $orderType;
+        }
+        if (!empty($company)) {
             $params['metadata']['Company'] = $company;
         }
         // domain

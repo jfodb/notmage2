@@ -29,6 +29,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$this->productModel = $productModel;
 
 
+
 		$this->connection_good = false;
 
 
@@ -45,7 +46,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 			$this->err = true;
 			$this->err_message = 'Company or Jobtype not set to valid value';
 		} else {
-			$xml_key = "psuedo_mpxdownload/runtime/domain/{$this->jobtype}/{$this->company}";
+
+			if( strpos('dev.', $_SERVER['HTTP_HOST']) !== false) {
+				$xml_key = "psuedo_mpxdownload/runtime/domain/dev/{$this->jobtype}/{$this->company}";
+			}
+			else if(strpos('beta.', $_SERVER['HTTP_HOST']) !== false ) {
+				$xml_key = "psuedo_mpxdownload/runtime/domain/beta/{$this->jobtype}/{$this->company}";
+			}
+			else if(strpos('uat.', $_SERVER['HTTP_HOST']) !== false ) {
+				$xml_key = "psuedo_mpxdownload/runtime/domain/uat/{$this->jobtype}/{$this->company}";
+			} else if(strpos('qa.', $_SERVER['HTTP_HOST']) !== false &&  strpos('qa.', $_SERVER['HTTP_HOST']) < 10) {
+				//short prefix, avoid accidentally detecting spanish domains.
+				$xml_key = "psuedo_mpxdownload/runtime/domain/uat/{$this->jobtype}/{$this->company}";
+			} else
+				$xml_key = "psuedo_mpxdownload/runtime/domain/{$this->jobtype}/{$this->company}";
+
 			$this->domain = $this->scopeConfig->getValue($xml_key, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
 			if(empty($this->domain)){
@@ -58,8 +73,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		//read-configs
-		$ipstring = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/trustedips", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
+		/**** Disable white listing due to routing error
+		$ipstring = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/trustedips", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+		****/
 
 		//pull the cut off time from admin configs
 		$tmpcutoff = $this->scopeConfig->getValue('mpxdownloads/general/cutoff_time', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -78,8 +95,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 		$this->motivation = $this->scopeConfig->getValue("psuedo_mpxdownload/runtime/motivation_code/{$this->domain}", \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-		$this->ips = preg_split('/[;,]\s*/', $ipstring);
+		/**** disable white listing due to routing error
+		$this->ips = preg_split('/[;,]\s* /', $ipstring);
 		//print_r($this->ips);
+		*****/
 
 		$this->START_STATUS = 'unprocessed';
 		
@@ -239,7 +258,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 	function api_check_connection()
 	{
- 		if( !($_SERVER['SERVER_NAME'] == 'dev.mage2.org' ||( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )  || !empty($_SERVER['HTTPS'])) ){
+ 		if( !(( !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )  || !empty($_SERVER['HTTPS'])) ){
 			$this->api_return_error(412, 'Must be done through a secure socket.');
 			return false;
 		}
@@ -251,6 +270,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 
 		$remote = $this->get_ip();
+
+		$found = true;
+		/***** disable whitelisting due to routing error
 		$found = false;
 		foreach ($this->ips  as $ip)
 		{
@@ -275,12 +297,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					break;
 				}
 		}
+		*****/
 		if (!$found)
 		{
 			$this->_logger->notice("Refused connection from: $remote\n");
 			$this->api_return_error(403, "Not Authorized");
 			return false;
 		}
+
 
 		//string service = System.Configuration.ConfigurationManager.AppSettings["MpxServiceRunning"];
 		//if (string.IsNullOrEmpty(service) || !service.ToLower().Equals("on"))
@@ -693,8 +717,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 				if(!empty($payment)) {
 					if(is_null($payment['method']))
 						$OrderRow["SourcePaymentType"] = "NONE";
-					else if($payment['method'] == 'backoffice')
-						$OrderRow["SourcePaymentType"] = 'Paperless';
 					else
 						$OrderRow["SourcePaymentType"] = $payment['method'];
 
@@ -783,12 +805,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
 					$OrderRow["CardholderName"] = $order_grid['billing_name'];
 
-					if(!empty($payment['cc_status_description']))
-						$OrderRow['cardprofile'] = $payment['cc_status_description'];
-
-
-
-
 
 				}
 				else
@@ -835,10 +851,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 					$addrline['AddressTypeCode'] = $type;
 
 
-					if (!(is_null($row['company']) || empty($row['company'])) || !is_null(@$row['tax_id']))
-						$addrline["OrgFlag"] = 'O';
-					else
-						$addrline["OrgFlag"] = 'I';
+                    if (!(is_null($row['company']) || empty($row['company'])) || !is_null(@$row['tax_id'])) {
+                        $addrline["OrgFlag"] = 'O';
+                        $addrline["OrganizationName"] = $row['company'];
+                    } else {
+                        $addrline["OrgFlag"] = 'I';
+                    }
 
 					$addrline["FirstName"] = trim($row['firstname'] . ' ' . $row['middlename']);
 					$addrline["LastName"] = trim($row['lastname']);
@@ -1127,8 +1145,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$recurMotivationCode = $product_options['info_buyRequest']['_recurmotivation'];
 					}
 
+                    // hotfix for isReccuring: get product options to check if recurring on every $lineitem
+                    if (!empty($lineitem['product_options'])) {
+                        $recur_hotfix = $lineitem['product_options'];
 
+                        if (is_string($recur_hotfix))
+                            $recur_hotfix = json_decode($recur_hotfix, true);
 
+                        if (!empty($recur_hotfix['info_buyRequest']['_recurring']) && ($recur_hotfix['info_buyRequest']['_recurring'] === "true" || $recur_hotfix['info_buyRequest']['_recurring'] === true)) {
+                            $productisrecurring = true;
+                        }
+                    }
 
 					// check for various donation methods
 					//do the price/original price not match?
@@ -1237,6 +1264,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						$li['SourceProductType'] = 'Sale';
 
 
+					//double check this!!
+					if(!empty($lineitem['sku']) && preg_match('/INTM[0-9]?/', $lineitem['sku']) && !empty($li['SourceProductType']) && $li['SourceProductType'] === 'Sale'){
+						//we have a mis-assignment here!
+						$li['SourceProductType'] = 'Donation';
+					}
+					//also
+					else if(strpos($this->domain, 'donations.ourdailybread') !== false && $li['SourceProductType'] === 'Sale') {
+						//yeah, we don't have 'Sales' on this website
+						$li['SourceProductType'] = 'Donation';
+					}
+
 					//are these donations? let me count the ways...
 					if($li['SourceProductType'] === 'Donation'){
 						//this is purely a donation, the item amount is $0 and the products motivation over rides the order motivation
@@ -1284,14 +1322,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 							$card_type = ''; //don't let no-found exception take us down
 						else {
 							switch ($payment['cc_type']){
-								case 'MC': $card_type = 'CARD_MASTER';
-								break;
-								case 'VI': $card_type = 'CARD_VISA';
-								break;
-								case 'AE': $card_type = 'CARD_AMEX';
-								break;
-								case 'DI': $card_type = 'CARD_DISCOVER';
-								break;
+								case 'MC':
+                                case 'MASTERCARD':
+                                    $card_type = 'CARD_MASTER';
+								    break;
+                                case 'VI':
+                                case 'VISA':
+                                    $card_type = 'CARD_VISA';
+								    break;
+                                case 'AE':
+                                case 'AMEX':
+                                    $card_type = 'CARD_AMEX';
+								    break;
+                                case 'DI':
+                                case 'DISCOVER':
+                                    $card_type = 'CARD_DISCOVER';
+								    break;
 								default:
 									$card_type = 'CARD_UNKNOWN';
 							}
@@ -1303,15 +1349,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 						} else
 
 						if ($productisrecurring) {
+
+						    $additionalInfo = $this->get_additional_recurring_information($payment['additional_information'] ?? null, $payment['method'] ?? null);
+
 							$OrderRow['JobDetailRecurringGifts'] = [
 								'MotivationCode' => $recurMotivationCode,
 								'SourcePaymentType' => $card_type,
 								'GiftAmount' => $OrderRow["GiftAmount"],
-								'ProfileNumber' => $OrderRow['cardprofile'],
+                                'ProfileId' => $additionalInfo['payment_token'] ?? 'Unknown Payment Token',
 								'CreditCardLastFour' => $OrderRow["CreditCardLastFour"],
 								'ExpirationDate' => $OrderRow['ExpirationDate'],
 								'CardholderName' => $OrderRow["CardholderName"],
-								'RecurrenceType' => 'monthly'  //presently fixed at monthly
+								'RecurrenceType' => 'monthly',  //presently fixed at monthly,
+                                'CustomerToken' => $additionalInfo['customer_token'] ?? 'Unknown Customer Token',
 							];
 						}
 
@@ -1598,4 +1648,40 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 		$outstr = ob_get_clean();
 		return $outstr;
 	}
+
+    /**
+     * @param $addlInfo
+     * @param $paymentMethod
+     * @return array|mixed
+     *
+     * Function should return an array with at least "payment_token" and "customer_token" for recurring transactions
+     *
+     */
+
+    private function get_additional_recurring_information($addlInfo, $paymentMethod)
+    {
+
+        if (is_string($addlInfo))
+            $neededInfo = json_decode($addlInfo, true);
+        else if (is_array($addlInfo))
+            $neededInfo = $addlInfo;
+
+        if ($neededInfo) {
+            // set payment & customer details by payment method
+            if ($paymentMethod) {
+                switch ($paymentMethod) {
+                    case 'stripe_payments':
+                        $neededInfo['payment_token'] = $neededInfo['token'];
+                        $neededInfo['customer_token'] = $neededInfo['customer_stripe_id'];
+                        break;
+                    default:
+                        $neededInfo['payment_token'] = 'Payment token unknown for ' . $paymentMethod . ' payment method';
+                        $neededInfo['customer_token'] = 'Customer token unknown for ' . $paymentMethod . ' payment method';
+                }
+            }
+        }
+
+        return $neededInfo ?? [];
+    }
+
 }

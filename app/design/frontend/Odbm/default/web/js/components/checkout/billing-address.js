@@ -59,8 +59,7 @@ function (
         defaults: {
             template: 'Magento_Checkout/billing-address',
             exports: {
-                // TODO, make this more dynamic
-                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
+                isAddressDetailsVisible: 'checkout.steps.billing-step.payment.payments-list.stripe_payments:isVisible'
             }
         },
         currentBillingAddress: quote.billingAddress,
@@ -72,8 +71,6 @@ function (
          */
         initialize: function () {
             this._super();
-
-       //     this.exports.isAddressFormVisible = 'checkout.steps.billing-step.payment.payments-list.odbm_paperless:isVisible'
 
             quote.paymentMethod.subscribe(function () {
                 checkoutDataResolver.resolveBillingAddress();
@@ -191,7 +188,7 @@ function (
             //manage switch to stripe
             let checkr = jQuery('#activate_stripe');
             if(checkr.length > 0) {
-                jQuery('div.cryozonic-stripe').addClass('force');
+                jQuery('div.stripe-payments').addClass('force');
                 switch_to_stripe();
             }
         },

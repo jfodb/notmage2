@@ -75,6 +75,7 @@ composer.lock.*
 composer.json.*
 app/etc/config.php.*
 
+docker/access.log
 docker/error.log
 /docker/sql/*
 

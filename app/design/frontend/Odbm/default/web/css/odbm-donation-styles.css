@@ -1,3 +1,48 @@
 .fieldset.address>.field {
     display: block;
 }
+
+.label.admin__field-label {
+    padding: 11px 0px;
+    width: 102%;
+    place-self: center;
+}
+
+@media only screen and (max-width: 1150px) {
+    .field-tooltip .field-tooltip-content {
+        left: auto;
+        right: -10px;
+        top: 40px;
+    }
+    .field-tooltip .field-tooltip-content::before,
+    .field-tooltip .field-tooltip-content::after {
+        border: 10px solid transparent;
+        height: 0;
+        left: auto;
+        margin-top: -21px;
+        right: 10px;
+        top: 0;
+        width: 0;
+    }
+    .field-tooltip .field-tooltip-content::before {
+        border-bottom-color: #999999;
+    }
+    .field-tooltip .field-tooltip-content::after {
+        border-bottom-color: #f4f4f4;
+        top: 1px;
+    }
+}
+
+.donation-product .paypal.checkout.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    z-index: 1;
+    background-color: #fff;
+    letter-spacing: 2px !important;
+    padding-top: 0 !important;
+}

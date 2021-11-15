@@ -1,0 +1,8 @@
+<?php
+$_product = $block->getProduct();
+?>
+<?php if ($_product->getData("haspdfsample")): ?>
+    <!-- Sample Chapter PDF -->
+    <a href="//s3.amazonaws.com/cdn.dhp.org/files/<?php echo $this->escapeHtml($_product->getSku()) ?>_sample.pdf"
+       target="blank" class="sample-chapter button btn-inline"><i class="fa fa-book"></i><?php echo __("Read Sample Chapter!")?></a>
+<?php endif; ?>
