@@ -1,5 +1,5 @@
 # mage2donations
-codebase to build donations platform using Magento 2.
+codebase to build donations and e-commerce platform using Magento 2.
 
 ## Local development with docker
 * ~ Already have a local Magento Dev? Skip to the /etc/hosts step ~
