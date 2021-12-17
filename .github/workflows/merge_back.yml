@@ -1,8 +1,8 @@
 name: PRs to master
 on: 
-  pull_request:
-    branches: [qa-dummy]
-    types: [closed]
+  push:
+    branches: 
+      - qa-dummy
 jobs:
   merge-master-back-to-dev:
     if: github.event.pull_request.merged == true
